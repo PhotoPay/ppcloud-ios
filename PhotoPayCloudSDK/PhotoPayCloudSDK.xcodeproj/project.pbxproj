@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		188AAEC617D75B5B009531FA /* PhotoPayCloudFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 188AAEC717D75B5B009531FA /* Build configuration list for PBXAggregateTarget "PhotoPayCloudFramework" */;
+			buildPhases = (
+				188AAECA17D75B65009531FA /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = PhotoPayCloudFramework;
+			productName = PhotoPayCloudFramework;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		188AAEB417D75ABC009531FA /* PhotoPayCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAEB317D75ABC009531FA /* PhotoPayCloud.m */; };
+		188AAECE17D86D5C009531FA /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAEB217D75ABC009531FA /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		188AAF1617D887BB009531FA /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */; };
+		188AAF3B17D89BAD009531FA /* PPDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAF3917D89BAD009531FA /* PPDocument.h */; };
+		188AAF3C17D89BAD009531FA /* PPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF3A17D89BAD009531FA /* PPDocument.m */; };
+		188AAF3F17D89BBC009531FA /* PPLocalDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAF3D17D89BBC009531FA /* PPLocalDocument.h */; };
+		188AAF4017D89BBC009531FA /* PPLocalDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF3E17D89BBC009531FA /* PPLocalDocument.m */; };
+		188AAF4617D89E56009531FA /* pp_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 188AAF4517D89E56009531FA /* pp_background.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		188AAEA017D75A65009531FA /* libPhotoPayCloudSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPhotoPayCloudSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		188AAEA317D75A65009531FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		188AAEB217D75ABC009531FA /* PhotoPayCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPayCloud.h; sourceTree = "<group>"; };
+		188AAEB317D75ABC009531FA /* PhotoPayCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPayCloud.m; sourceTree = "<group>"; };
+		188AAEB917D75ADB009531FA /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPayCloudResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		188AAEBA17D75ADB009531FA /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
+		188AAF3917D89BAD009531FA /* PPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocument.h; sourceTree = "<group>"; };
+		188AAF3A17D89BAD009531FA /* PPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocument.m; sourceTree = "<group>"; };
+		188AAF3D17D89BBC009531FA /* PPLocalDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalDocument.h; sourceTree = "<group>"; };
+		188AAF3E17D89BBC009531FA /* PPLocalDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalDocument.m; sourceTree = "<group>"; };
+		188AAF4517D89E56009531FA /* pp_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pp_background.jpg; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		188AAE9D17D75A65009531FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		188AAEB617D75ADB009531FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		188AAE9717D75A65009531FA = {
+			isa = PBXGroup;
+			children = (
+				188AAEA517D75A65009531FA /* PhotoPayCloudSDK */,
+				188AAED317D87485009531FA /* Resources */,
+				188AAF1417D887BB009531FA /* Support */,
+				188AAEA217D75A65009531FA /* Frameworks */,
+				188AAEA117D75A65009531FA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		188AAEA117D75A65009531FA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				188AAEA017D75A65009531FA /* libPhotoPayCloudSDK.a */,
+				188AAEB917D75ADB009531FA /* PhotoPayCloudResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		188AAEA217D75A65009531FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				188AAEA317D75A65009531FA /* Foundation.framework */,
+				188AAEBA17D75ADB009531FA /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		188AAEA517D75A65009531FA /* PhotoPayCloudSDK */ = {
+			isa = PBXGroup;
+			children = (
+				188AAEB117D75AA8009531FA /* Classes */,
+			);
+			path = PhotoPayCloudSDK;
+			sourceTree = "<group>";
+		};
+		188AAEB117D75AA8009531FA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				188AAEB217D75ABC009531FA /* PhotoPayCloud.h */,
+				188AAEB317D75ABC009531FA /* PhotoPayCloud.m */,
+				188AAF3517D89B92009531FA /* Model */,
+				188AAF3617D89B92009531FA /* Network */,
+				188AAF3717D89B92009531FA /* Utils */,
+				188AAF3817D89B92009531FA /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		188AAED317D87485009531FA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				188AAF4517D89E56009531FA /* pp_background.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		188AAF1417D887BB009531FA /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		188AAF3517D89B92009531FA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				188AAF3917D89BAD009531FA /* PPDocument.h */,
+				188AAF3A17D89BAD009531FA /* PPDocument.m */,
+				188AAF3D17D89BBC009531FA /* PPLocalDocument.h */,
+				188AAF3E17D89BBC009531FA /* PPLocalDocument.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		188AAF3617D89B92009531FA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		188AAF3717D89B92009531FA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		188AAF3817D89B92009531FA /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		188AAECD17D86D52009531FA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				188AAECE17D86D5C009531FA /* PhotoPayCloud.h in Headers */,
+				188AAF3B17D89BAD009531FA /* PPDocument.h in Headers */,
+				188AAF3F17D89BBC009531FA /* PPLocalDocument.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		188AAE9F17D75A65009531FA /* PhotoPayCloudSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 188AAEAE17D75A65009531FA /* Build configuration list for PBXNativeTarget "PhotoPayCloudSDK" */;
+			buildPhases = (
+				188AAE9C17D75A65009531FA /* Sources */,
+				188AAE9D17D75A65009531FA /* Frameworks */,
+				188AAECD17D86D52009531FA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoPayCloudSDK;
+			productName = PhotoPayCloudSDK;
+			productReference = 188AAEA017D75A65009531FA /* libPhotoPayCloudSDK.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		188AAEB817D75ADB009531FA /* PhotoPayCloudResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 188AAEC317D75ADB009531FA /* Build configuration list for PBXNativeTarget "PhotoPayCloudResources" */;
+			buildPhases = (
+				188AAEB517D75ADB009531FA /* Sources */,
+				188AAEB617D75ADB009531FA /* Frameworks */,
+				188AAEB717D75ADB009531FA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoPayCloudResources;
+			productName = PhotoPayCloudResources;
+			productReference = 188AAEB917D75ADB009531FA /* PhotoPayCloudResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		188AAE9817D75A65009531FA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = PhotoPay;
+			};
+			buildConfigurationList = 188AAE9B17D75A65009531FA /* Build configuration list for PBXProject "PhotoPayCloudSDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 188AAE9717D75A65009531FA;
+			productRefGroup = 188AAEA117D75A65009531FA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				188AAE9F17D75A65009531FA /* PhotoPayCloudSDK */,
+				188AAEB817D75ADB009531FA /* PhotoPayCloudResources */,
+				188AAEC617D75B5B009531FA /* PhotoPayCloudFramework */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		188AAEB717D75ADB009531FA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				188AAF1617D887BB009531FA /* PhotoPayCloud.xcconfig in Resources */,
+				188AAF4617D89E56009531FA /* pp_background.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		188AAECA17D75B65009531FA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "## 1. DEFINE SETTINGS\n\n# Sets the target folders and the final framework product.\nFMK_NAME=PhotoPayCloud  \nFMK_VERSION=A\n\n# Project name\nPROJ_NAME=PhotoPayCloudSDK\n\n# Target names\nSDK_TARGET=PhotoPayCloudSDK\nRES_TARGET=PhotoPayCloudResources\nRES_BUNDLE=PhotoPayCloudResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/..\nTEMP_DIR=${PRODUCTS_DIR}/Temp\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/\n\n## 2. BUILD ALLL\n\n# Building both architectures.\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${SDK_TARGET}\" -sdk iphoneos\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${SDK_TARGET}\" -sdk iphonesimulator\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${RES_TARGET}\" -sdk iphoneos\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${RES_TARGET}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n## 3. CREATE FRAMEWORK\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/Resources\" \"${INSTALL_DIR}/Resources\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${DEVICE_DIR}/usr/local/include/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\ncp -R \"${DEVICE_DIR}/${RES_BUNDLE}.bundle\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\ncp -f \"${SRCROOT}/Support/${FMK_NAME}.xcconfig\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${SDK_TARGET}.a\" \"${SIMULATOR_DIR}/lib${SDK_TARGET}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n## 4. CREATE EMBEDDED FRAMEWORK\n\n# build embeddedframework folder and move framework into it\nmkdir \"${INSTALL_DIR}/../${FMK_NAME}.embeddedframework\"\nmv \"${INSTALL_DIR}\" \"${INSTALL_DIR}/../${FMK_NAME}.embeddedframework/${FMK_NAME}.framework\"\n\n# link Resources\nNEW_INSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.embeddedframework\nmkdir \"${NEW_INSTALL_DIR}/Resources\"\nln -s \"../${FMK_NAME}.framework/Resources/${RES_BUNDLE}.bundle\" \"${NEW_INSTALL_DIR}/Resources/${RES_BUNDLE}.bundle\"\nln -s \"../${FMK_NAME}.framework/Resources/${FMK_NAME}.xcconfig\" \"${NEW_INSTALL_DIR}/Resources/${FMK_NAME}.xcconfig\"\n\n## 5. PACKAGE AND INSTALL\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\nrm -rf \"${PRODUCTS_DIR}/${FMK_NAME}.embeddedframework\"\nmv \"${NEW_INSTALL_DIR}\" \"${PRODUCTS_DIR}\"\n\n## 6. CLEAN\n\n# clean behind\nrm -r \"${WRK_DIR}\"\nrm -r \"${TEMP_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		188AAE9C17D75A65009531FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				188AAEB417D75ABC009531FA /* PhotoPayCloud.m in Sources */,
+				188AAF3C17D89BAD009531FA /* PPDocument.m in Sources */,
+				188AAF4017D89BBC009531FA /* PPLocalDocument.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		188AAEB517D75ADB009531FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		188AAEAC17D75A65009531FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		188AAEAD17D75A65009531FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		188AAEAF17D75A65009531FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/PhotoPayCloudSDK.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		188AAEB017D75A65009531FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/PhotoPayCloudSDK.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		188AAEC417D75ADB009531FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		188AAEC517D75ADB009531FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		188AAEC817D75B5B009531FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		188AAEC917D75B5B009531FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		188AAE9B17D75A65009531FA /* Build configuration list for PBXProject "PhotoPayCloudSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				188AAEAC17D75A65009531FA /* Debug */,
+				188AAEAD17D75A65009531FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		188AAEAE17D75A65009531FA /* Build configuration list for PBXNativeTarget "PhotoPayCloudSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				188AAEAF17D75A65009531FA /* Debug */,
+				188AAEB017D75A65009531FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		188AAEC317D75ADB009531FA /* Build configuration list for PBXNativeTarget "PhotoPayCloudResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				188AAEC417D75ADB009531FA /* Debug */,
+				188AAEC517D75ADB009531FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		188AAEC717D75B5B009531FA /* Build configuration list for PBXAggregateTarget "PhotoPayCloudFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				188AAEC817D75B5B009531FA /* Debug */,
+				188AAEC917D75B5B009531FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 188AAE9817D75A65009531FA /* Project object */;
+}
