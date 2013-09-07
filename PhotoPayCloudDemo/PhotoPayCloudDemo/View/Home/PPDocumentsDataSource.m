@@ -42,6 +42,17 @@
     sections = [[NSArray alloc] initWithObjects:section1, nil];
 }
 
+- (PPDocument*)documentForIndexPath:(NSIndexPath*)indexPath {
+    
+    // Obtain section
+    PPDocumentTableSection *section = [[self sections] objectAtIndex:indexPath.section];
+    
+    // Obtain document in given section
+    PPDocument *document = [[section items] objectAtIndex:indexPath.row];
+    
+    return document;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView
@@ -61,8 +72,7 @@
     }
     
     // Obtain document object for given index path
-    PPDocumentTableSection *section = [[self sections] objectAtIndex:indexPath.section];
-    PPDocument *document = [[section items] objectAtIndex:indexPath.row];
+//    PPDocument *document = [self documentForIndexPath:indexPath];
     
     return cell;
 }

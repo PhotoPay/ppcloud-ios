@@ -10,6 +10,16 @@
 
 @protocol PPHomeViewControllerProtocol <NSObject>
 
+@required
+
+/**
+ Home view controller needs to have a method which opens camera view
+ */
 - (void)openCamera;
+
+/**
+ A method which opens details about a document
+ */
+- (void)openDocumentDetailsView:(PPDocument*)document;
 
 @end

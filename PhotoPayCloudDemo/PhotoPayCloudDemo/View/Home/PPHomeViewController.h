@@ -11,7 +11,7 @@
 /**
  When opening PhotoPay, user sees view controlled by this view controller
  */
-@interface PPHomeViewController : UIViewController
+@interface PPHomeViewController : UIViewController<PPHomeViewControllerProtocol>
 
 /**
  Loads the default XIB file for this view controller

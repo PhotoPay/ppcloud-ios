@@ -18,4 +18,9 @@
  */
 @property (nonatomic, strong, setter = setDocuments:) NSArray* documents;
 
+/**
+ Retrieves a document with indexoath from the data source 
+ */
+- (PPDocument*)documentForIndexPath:(NSIndexPath*)indexPath;
+
 @end

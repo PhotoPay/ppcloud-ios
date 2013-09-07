@@ -91,7 +91,17 @@
 }
 
 - (IBAction)cameraButtonPressed:(id)sender {
-    DDLogInfo(@"Camera pressed!");
+    [self openCamera];
+}
+
+#pragma mark - PPHomeViewControllerProtocol
+
+- (void)openCamera {
+    DDLogInfo(@"Opening camera!");
+}
+
+- (void)openDocumentDetailsView:(PPDocument*)document {
+    DDLogInfo(@"Opening document!");
 }
 
 #pragma mark - UITableViewDelegate
@@ -101,9 +111,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DDLogInfo(@"Selected cell %d", [indexPath row]);
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self openDocumentDetailsView:[[self documentsDataSource] documentForIndexPath:indexPath]];
+    [[self billsTable] deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
