@@ -44,3 +44,4 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (!IS_IPAD)
 
+

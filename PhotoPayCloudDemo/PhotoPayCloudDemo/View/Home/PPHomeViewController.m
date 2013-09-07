@@ -78,7 +78,7 @@
 }
 
 - (void)reloadTableWithDocuments:(NSArray*)documents {
-    [[self documentsDataSource] setDocuments:documents];
+    [[self documentsDataSource] setItems:documents];
     [[self billsTable] reloadData];
 }
 
@@ -111,7 +111,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self openDocumentDetailsView:[[self documentsDataSource] documentForIndexPath:indexPath]];
+    [self openDocumentDetailsView:(PPDocument*) [[self documentsDataSource] itemForIndexPath:indexPath]];
     [[self billsTable] deselectRowAtIndexPath:indexPath animated:YES];
 }
 

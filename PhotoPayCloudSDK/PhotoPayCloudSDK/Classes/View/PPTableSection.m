@@ -1,22 +1,22 @@
 //
-//  PPDocumentTableSection.m
-//  PhotoPayCloudDemo
+//  PPTableSection.m
+//  PhotoPayCloudSDK
 //
 //  Created by Jurica Cerovec on 9/7/13.
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
-#import "PPDocumentTableSection.h"
+#import "PPTableSection.h"
 
 static const int INITIAL_CAPACITY = 20;
 
-@interface PPDocumentTableSection ()
+@interface PPTableSection ()
 
 @property (nonatomic, strong) NSMutableArray* mutableItems;
 
 @end
 
-@implementation PPDocumentTableSection
+@implementation PPTableSection
 
 @synthesize sectionId;
 @synthesize name;
@@ -32,8 +32,8 @@ static const int INITIAL_CAPACITY = 20;
     return self;
 }
 
-- (void)addDocument:(PPDocument*)document {
-    [[self mutableItems] addObject:document];
+- (void)addItem:(id)item {
+    [[self mutableItems] addObject:item];
 }
 
 - (NSArray *)items {

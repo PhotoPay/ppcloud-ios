@@ -30,6 +30,14 @@
 		188AAF3F17D89BBC009531FA /* PPLocalDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAF3D17D89BBC009531FA /* PPLocalDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		188AAF4017D89BBC009531FA /* PPLocalDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF3E17D89BBC009531FA /* PPLocalDocument.m */; };
 		18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999B6517DBA585009FA90A /* PPTableSection.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B6317DBA585009FA90A /* PPTableSection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999B6617DBA585009FA90A /* PPTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B6417DBA585009FA90A /* PPTableSection.m */; };
+		18999B7117DBA828009FA90A /* PPTableViewDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B6F17DBA828009FA90A /* PPTableViewDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999B7217DBA828009FA90A /* PPTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B7017DBA828009FA90A /* PPTableViewDataSource.m */; };
+		18999B7B17DBAC51009FA90A /* PPTableSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B7917DBAC51009FA90A /* PPTableSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999B7C17DBAC51009FA90A /* PPTableSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B7A17DBAC51009FA90A /* PPTableSectionCreator.m */; };
+		18999B7F17DBAE71009FA90A /* PPTableLinearSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B7D17DBAE71009FA90A /* PPTableLinearSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999B8017DBAE71009FA90A /* PPTableLinearSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B7E17DBAE71009FA90A /* PPTableLinearSectionCreator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +54,14 @@
 		188AAF3D17D89BBC009531FA /* PPLocalDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalDocument.h; sourceTree = "<group>"; };
 		188AAF3E17D89BBC009531FA /* PPLocalDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalDocument.m; sourceTree = "<group>"; };
 		18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHomeViewControllerProtocol.h; sourceTree = "<group>"; };
+		18999B6317DBA585009FA90A /* PPTableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableSection.h; sourceTree = "<group>"; };
+		18999B6417DBA585009FA90A /* PPTableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableSection.m; sourceTree = "<group>"; };
+		18999B6F17DBA828009FA90A /* PPTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableViewDataSource.h; sourceTree = "<group>"; };
+		18999B7017DBA828009FA90A /* PPTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewDataSource.m; sourceTree = "<group>"; };
+		18999B7917DBAC51009FA90A /* PPTableSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableSectionCreator.h; sourceTree = "<group>"; };
+		18999B7A17DBAC51009FA90A /* PPTableSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableSectionCreator.m; sourceTree = "<group>"; };
+		18999B7D17DBAE71009FA90A /* PPTableLinearSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableLinearSectionCreator.h; sourceTree = "<group>"; };
+		18999B7E17DBAE71009FA90A /* PPTableLinearSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableLinearSectionCreator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,8 +177,24 @@
 			isa = PBXGroup;
 			children = (
 				18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */,
+				18999B6317DBA585009FA90A /* PPTableSection.h */,
+				18999B6417DBA585009FA90A /* PPTableSection.m */,
+				18999B6F17DBA828009FA90A /* PPTableViewDataSource.h */,
+				18999B7017DBA828009FA90A /* PPTableViewDataSource.m */,
+				18999B7817DBAC51009FA90A /* SectionCreator */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		18999B7817DBAC51009FA90A /* SectionCreator */ = {
+			isa = PBXGroup;
+			children = (
+				18999B7917DBAC51009FA90A /* PPTableSectionCreator.h */,
+				18999B7A17DBAC51009FA90A /* PPTableSectionCreator.m */,
+				18999B7D17DBAE71009FA90A /* PPTableLinearSectionCreator.h */,
+				18999B7E17DBAE71009FA90A /* PPTableLinearSectionCreator.m */,
+			);
+			path = SectionCreator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,9 +205,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				188AAECE17D86D5C009531FA /* PhotoPayCloud.h in Headers */,
+				18999B7B17DBAC51009FA90A /* PPTableSectionCreator.h in Headers */,
+				18999B7117DBA828009FA90A /* PPTableViewDataSource.h in Headers */,
+				18999B7F17DBAE71009FA90A /* PPTableLinearSectionCreator.h in Headers */,
 				188AAF3B17D89BAD009531FA /* PPDocument.h in Headers */,
 				18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */,
 				188AAF3F17D89BBC009531FA /* PPLocalDocument.h in Headers */,
+				18999B6517DBA585009FA90A /* PPTableSection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,9 +313,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18999B6617DBA585009FA90A /* PPTableSection.m in Sources */,
 				188AAEB417D75ABC009531FA /* PhotoPayCloud.m in Sources */,
+				18999B8017DBAE71009FA90A /* PPTableLinearSectionCreator.m in Sources */,
 				188AAF3C17D89BAD009531FA /* PPDocument.m in Sources */,
+				18999B7217DBA828009FA90A /* PPTableViewDataSource.m in Sources */,
 				188AAF4017D89BBC009531FA /* PPLocalDocument.m in Sources */,
+				18999B7C17DBAC51009FA90A /* PPTableSectionCreator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
