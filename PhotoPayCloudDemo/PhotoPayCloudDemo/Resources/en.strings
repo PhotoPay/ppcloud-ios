@@ -1,0 +1,26 @@
+/* 
+  English Localization file
+*/
+
+/* SIGN UP SCREEN */
+
+/* Title of the sign up screen */
+"PhotoPaySignUpTitle" = "Register";
+
+/* Title of the Done button */
+"PhotoPaySignUpButtonDone" = "Done";
+
+/* Description of the e-mail label */
+"PhotoPaySignUpDescriptionLabel" = "Please enter your e-mail address. We will use it to identify your bills.";
+
+/* Error label e-mail invalid */
+"PhotoPaySignUpErrorInvalid" = "E-mail address invalid.";
+
+/* Error label e-mail already taken */
+"PhotoPaySignUpErrorTaken" = "E-mail address already in use.";
+
+
+/* HOME SCREEN */
+
+/* Title of the home screen */
+"PhotoPayHomeTitle" = "My Bills";

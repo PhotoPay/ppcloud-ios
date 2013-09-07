@@ -7,21 +7,38 @@
 //
 
 #import "PPAppDelegate.h"
-#import "PPSignUpViewController.h"
+#import "PPHomeViewController.h"
+
+@interface PPAppDelegate ()
+
+- (void)configureLogger;
+
+@end
 
 @implementation PPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // This will be the root view controller of the app
-    PPSignUpViewController *rootViewController = [[PPSignUpViewController alloc] initWithNibName:@"PPSignUpViewController"
-                                                                                          bundle:nil];
-    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    [self configureLogger];
+    
+    [[PPApp sharedApp] setLanguage:@"hr"];
+    
+    PPHomeViewController *homeViewController = [[PPHomeViewController alloc] initWithNibName:@"PPHomeViewController"
+                                                                                  bundle:nil];
+    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window setRootViewController:navigationController];
     [self.window makeKeyAndVisible];
+    
     return YES;
+}
+
+- (void)configureLogger {
+    
+    // we're using cocoa lumberjack
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
