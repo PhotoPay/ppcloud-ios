@@ -10,8 +10,4 @@
 
 @implementation PhotoPayCloud
 
-+ (float)multiplyA:(float)A withC:(float)C {
-    return A*C;
-}
-
 @end

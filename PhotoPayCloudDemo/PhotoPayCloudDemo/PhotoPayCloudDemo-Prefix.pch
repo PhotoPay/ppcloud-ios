@@ -12,6 +12,9 @@
 #import <DDTTYLogger.h>
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
+// PhotoPayCloudSDK stupp
+#import <PhotoPayCloud/PhotoPayCloud.h>
+
 #ifndef __IPHONE_4_0
 #warning "This project uses features only available in iOS SDK 4.0 and later."
 #endif
@@ -20,6 +23,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+// Log Shortcut
+#define LOGF DDLogInfo(@"%s", __FUNCTION__)
 
 // iOS Version checking macros
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)

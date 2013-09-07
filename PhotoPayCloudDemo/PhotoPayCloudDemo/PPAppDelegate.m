@@ -23,7 +23,7 @@
     
     [[PPApp sharedApp] setLanguage:@"hr"];
     
-    PPHomeViewController *homeViewController = [[PPHomeViewController alloc] initWithNibName:@"PPHomeViewController"
+    PPHomeViewController *homeViewController = [[PPHomeViewController alloc] initWithNibName:[PPHomeViewController defaultXibName]
                                                                                   bundle:nil];
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     

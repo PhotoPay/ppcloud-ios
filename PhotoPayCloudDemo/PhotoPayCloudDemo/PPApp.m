@@ -50,7 +50,7 @@ NSString* const keyUserId = @"keyUserID";
         return nil;
     }
     
-    return nil;
+//    return nil;
     return userId;
 }
 

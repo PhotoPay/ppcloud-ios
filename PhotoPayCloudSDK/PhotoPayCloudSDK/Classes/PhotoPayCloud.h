@@ -6,10 +6,11 @@
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "PPDocument.h"
+#import "PPLocalDocument.h"
+#import "PPHomeViewControllerProtocol.h"
 
 @interface PhotoPayCloud : NSObject
 
-+ (float)multiplyA:(float)A withC:(float)C;
 
 @end

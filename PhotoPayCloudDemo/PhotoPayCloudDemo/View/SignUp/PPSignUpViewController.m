@@ -11,6 +11,7 @@
 #import "NSString+Formatting.h"
 
 #ifdef IS_IOS7_SDK
+// Special case for iOS 7 status bar is needed
 @interface PPSignUpViewController () <UIBarPositioningDelegate, UITextFieldDelegate>
 #else
 @interface PPSignUpViewController () <UITextFieldDelegate>
