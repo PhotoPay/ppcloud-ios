@@ -22,13 +22,14 @@
 
 /* Begin PBXBuildFile section */
 		181139A617D8CC0F0065AC3A /* PP_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 181139A517D8CC0F0065AC3A /* PP_background.jpg */; };
-		188AAEB417D75ABC009531FA /* PhotoPayCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAEB317D75ABC009531FA /* PhotoPayCloud.m */; };
-		188AAECE17D86D5C009531FA /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAEB217D75ABC009531FA /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249217DEFD8A00EDE12B /* NSString+Factory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883249317DEFD8A00EDE12B /* NSString+Factory.m */; };
+		1883249817DF039000EDE12B /* PPDocumentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249617DF039000EDE12B /* PPDocumentManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1883249917DF039000EDE12B /* PPDocumentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883249717DF039000EDE12B /* PPDocumentManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249B17DF162200EDE12B /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		188324A317DF6FB300EDE12B /* PPUploadParametersQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 188324A117DF6FB300EDE12B /* PPUploadParametersQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		188324A417DF6FB300EDE12B /* PPUploadParametersQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 188324A217DF6FB300EDE12B /* PPUploadParametersQueue.m */; };
 		188AAF1617D887BB009531FA /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */; };
-		188AAF3B17D89BAD009531FA /* PPDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAF3917D89BAD009531FA /* PPDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		188AAF3C17D89BAD009531FA /* PPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF3A17D89BAD009531FA /* PPDocument.m */; };
-		188AAF3F17D89BBC009531FA /* PPLocalDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AAF3D17D89BBC009531FA /* PPLocalDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		188AAF4017D89BBC009531FA /* PPLocalDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF3E17D89BBC009531FA /* PPLocalDocument.m */; };
 		18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18999B6517DBA585009FA90A /* PPTableSection.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B6317DBA585009FA90A /* PPTableSection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18999B6617DBA585009FA90A /* PPTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B6417DBA585009FA90A /* PPTableSection.m */; };
@@ -38,25 +39,43 @@
 		18999B7C17DBAC51009FA90A /* PPTableSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B7A17DBAC51009FA90A /* PPTableSectionCreator.m */; };
 		18999B7F17DBAE71009FA90A /* PPTableLinearSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B7D17DBAE71009FA90A /* PPTableLinearSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18999B8017DBAE71009FA90A /* PPTableLinearSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B7E17DBAE71009FA90A /* PPTableLinearSectionCreator.m */; };
-		18999B9E17DBC2F5009FA90A /* PPBaseCameraViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B9A17DBC2F5009FA90A /* PPBaseCameraViewController.h */; };
-		18999B9F17DBC2F5009FA90A /* PPBaseCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B9B17DBC2F5009FA90A /* PPBaseCameraViewController.m */; };
-		18999BA017DBC2F5009FA90A /* PPCameraManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B9C17DBC2F5009FA90A /* PPCameraManager.h */; };
-		18999BA117DBC2F5009FA90A /* PPCameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B9D17DBC2F5009FA90A /* PPCameraManager.m */; };
+		18999BA717DC762F009FA90A /* PPPhotoPayCloudService.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BA517DC762F009FA90A /* PPPhotoPayCloudService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999BA817DC762F009FA90A /* PPPhotoPayCloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BBA17DC7A40009FA90A /* PPDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999BBF17DC7A40009FA90A /* PPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BBB17DC7A40009FA90A /* PPDocument.m */; };
+		18999BC017DC7A40009FA90A /* PPLocalDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BBC17DC7A40009FA90A /* PPLocalDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999BC117DC7A40009FA90A /* PPLocalDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BBD17DC7A40009FA90A /* PPLocalDocument.m */; };
+		18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BC217DC7B94009FA90A /* PPLocalImageDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999BC517DC7B95009FA90A /* PPLocalImageDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BC317DC7B95009FA90A /* PPLocalImageDocument.m */; };
+		18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BC617DD0F45009FA90A /* UIImage+Processing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18999BC917DD0F45009FA90A /* UIImage+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BC717DD0F45009FA90A /* UIImage+Processing.m */; };
+		18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */; };
+		18BA04E917E09A0300FF3CD3 /* PPUploadRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18BA04F417E1B36300FF3CD3 /* PPModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04F217E1B36300FF3CD3 /* PPModelObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18BA04F517E1B36300FF3CD3 /* PPModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04F317E1B36300FF3CD3 /* PPModelObject.m */; };
+		18FE943C17DDF0490083F148 /* PPUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE943A17DDF0490083F148 /* PPUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18FE943D17DDF0490083F148 /* PPUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE943B17DDF0490083F148 /* PPUser.m */; };
+		18FE944817DE04100083F148 /* PPUploadParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944617DE04100083F148 /* PPUploadParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18FE944917DE04100083F148 /* PPUploadParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE944717DE04100083F148 /* PPUploadParameters.m */; };
+		18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944E17DE545E0083F148 /* UIApplication+Documents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE944F17DE545E0083F148 /* UIApplication+Documents.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		181139A517D8CC0F0065AC3A /* PP_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PP_background.jpg; sourceTree = "<group>"; };
+		1883249217DEFD8A00EDE12B /* NSString+Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Factory.h"; sourceTree = "<group>"; };
+		1883249317DEFD8A00EDE12B /* NSString+Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Factory.m"; sourceTree = "<group>"; };
+		1883249617DF039000EDE12B /* PPDocumentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentManager.h; sourceTree = "<group>"; };
+		1883249717DF039000EDE12B /* PPDocumentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentManager.m; sourceTree = "<group>"; };
+		1883249B17DF162200EDE12B /* PhotoPayCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPayCloud.h; sourceTree = "<group>"; };
+		188324A117DF6FB300EDE12B /* PPUploadParametersQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUploadParametersQueue.h; sourceTree = "<group>"; };
+		188324A217DF6FB300EDE12B /* PPUploadParametersQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUploadParametersQueue.m; sourceTree = "<group>"; };
 		188AAEA017D75A65009531FA /* libPhotoPayCloudSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPhotoPayCloudSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		188AAEA317D75A65009531FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		188AAEB217D75ABC009531FA /* PhotoPayCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPayCloud.h; sourceTree = "<group>"; };
-		188AAEB317D75ABC009531FA /* PhotoPayCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPayCloud.m; sourceTree = "<group>"; };
 		188AAEB917D75ADB009531FA /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPayCloudResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		188AAEBA17D75ADB009531FA /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
-		188AAF3917D89BAD009531FA /* PPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocument.h; sourceTree = "<group>"; };
-		188AAF3A17D89BAD009531FA /* PPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocument.m; sourceTree = "<group>"; };
-		188AAF3D17D89BBC009531FA /* PPLocalDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalDocument.h; sourceTree = "<group>"; };
-		188AAF3E17D89BBC009531FA /* PPLocalDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalDocument.m; sourceTree = "<group>"; };
 		18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHomeViewControllerProtocol.h; sourceTree = "<group>"; };
 		18999B6317DBA585009FA90A /* PPTableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableSection.h; sourceTree = "<group>"; };
 		18999B6417DBA585009FA90A /* PPTableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableSection.m; sourceTree = "<group>"; };
@@ -66,11 +85,27 @@
 		18999B7A17DBAC51009FA90A /* PPTableSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableSectionCreator.m; sourceTree = "<group>"; };
 		18999B7D17DBAE71009FA90A /* PPTableLinearSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTableLinearSectionCreator.h; sourceTree = "<group>"; };
 		18999B7E17DBAE71009FA90A /* PPTableLinearSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableLinearSectionCreator.m; sourceTree = "<group>"; };
-		18999B9217DBBE5A009FA90A /* MathUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathUtils.h; sourceTree = "<group>"; };
-		18999B9A17DBC2F5009FA90A /* PPBaseCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBaseCameraViewController.h; sourceTree = "<group>"; };
-		18999B9B17DBC2F5009FA90A /* PPBaseCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPBaseCameraViewController.m; sourceTree = "<group>"; };
-		18999B9C17DBC2F5009FA90A /* PPCameraManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPCameraManager.h; sourceTree = "<group>"; };
-		18999B9D17DBC2F5009FA90A /* PPCameraManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPCameraManager.m; sourceTree = "<group>"; };
+		18999BA517DC762F009FA90A /* PPPhotoPayCloudService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPPhotoPayCloudService.h; sourceTree = "<group>"; };
+		18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPPhotoPayCloudService.m; sourceTree = "<group>"; };
+		18999BBA17DC7A40009FA90A /* PPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocument.h; sourceTree = "<group>"; };
+		18999BBB17DC7A40009FA90A /* PPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocument.m; sourceTree = "<group>"; };
+		18999BBC17DC7A40009FA90A /* PPLocalDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalDocument.h; sourceTree = "<group>"; };
+		18999BBD17DC7A40009FA90A /* PPLocalDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalDocument.m; sourceTree = "<group>"; };
+		18999BC217DC7B94009FA90A /* PPLocalImageDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalImageDocument.h; sourceTree = "<group>"; };
+		18999BC317DC7B95009FA90A /* PPLocalImageDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalImageDocument.m; sourceTree = "<group>"; };
+		18999BC617DD0F45009FA90A /* UIImage+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Processing.h"; sourceTree = "<group>"; };
+		18999BC717DD0F45009FA90A /* UIImage+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Processing.m"; sourceTree = "<group>"; };
+		18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNetworkManager.h; sourceTree = "<group>"; };
+		18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPNetworkManager.m; sourceTree = "<group>"; };
+		18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUploadRequestOperation.h; sourceTree = "<group>"; };
+		18BA04F217E1B36300FF3CD3 /* PPModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPModelObject.h; sourceTree = "<group>"; };
+		18BA04F317E1B36300FF3CD3 /* PPModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPModelObject.m; sourceTree = "<group>"; };
+		18FE943A17DDF0490083F148 /* PPUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUser.h; sourceTree = "<group>"; };
+		18FE943B17DDF0490083F148 /* PPUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUser.m; sourceTree = "<group>"; };
+		18FE944617DE04100083F148 /* PPUploadParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUploadParameters.h; sourceTree = "<group>"; };
+		18FE944717DE04100083F148 /* PPUploadParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUploadParameters.m; sourceTree = "<group>"; };
+		18FE944E17DE545E0083F148 /* UIApplication+Documents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Documents.h"; sourceTree = "<group>"; };
+		18FE944F17DE545E0083F148 /* UIApplication+Documents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Documents.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,13 +166,13 @@
 		188AAEB117D75AA8009531FA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				188AAEB217D75ABC009531FA /* PhotoPayCloud.h */,
-				188AAEB317D75ABC009531FA /* PhotoPayCloud.m */,
-				18999B9917DBC2F5009FA90A /* Camera */,
-				188AAF3517D89B92009531FA /* Model */,
-				188AAF3617D89B92009531FA /* Network */,
-				188AAF3717D89B92009531FA /* Utils */,
+				18999BA517DC762F009FA90A /* PPPhotoPayCloudService.h */,
+				18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */,
+				1883249B17DF162200EDE12B /* PhotoPayCloud.h */,
+				18999BB917DC7A40009FA90A /* Model */,
 				188AAF3817D89B92009531FA /* View */,
+				188AAF3717D89B92009531FA /* Utils */,
+				188AAF3617D89B92009531FA /* Network */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -158,20 +193,12 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		188AAF3517D89B92009531FA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				188AAF3917D89BAD009531FA /* PPDocument.h */,
-				188AAF3A17D89BAD009531FA /* PPDocument.m */,
-				188AAF3D17D89BBC009531FA /* PPLocalDocument.h */,
-				188AAF3E17D89BBC009531FA /* PPLocalDocument.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		188AAF3617D89B92009531FA /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */,
+				18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */,
+				18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -179,7 +206,12 @@
 		188AAF3717D89B92009531FA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				18999B9217DBBE5A009FA90A /* MathUtils.h */,
+				18999BC617DD0F45009FA90A /* UIImage+Processing.h */,
+				18999BC717DD0F45009FA90A /* UIImage+Processing.m */,
+				18FE944E17DE545E0083F148 /* UIApplication+Documents.h */,
+				18FE944F17DE545E0083F148 /* UIApplication+Documents.m */,
+				1883249217DEFD8A00EDE12B /* NSString+Factory.h */,
+				1883249317DEFD8A00EDE12B /* NSString+Factory.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -208,15 +240,27 @@
 			path = SectionCreator;
 			sourceTree = "<group>";
 		};
-		18999B9917DBC2F5009FA90A /* Camera */ = {
+		18999BB917DC7A40009FA90A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				18999B9A17DBC2F5009FA90A /* PPBaseCameraViewController.h */,
-				18999B9B17DBC2F5009FA90A /* PPBaseCameraViewController.m */,
-				18999B9C17DBC2F5009FA90A /* PPCameraManager.h */,
-				18999B9D17DBC2F5009FA90A /* PPCameraManager.m */,
+				18BA04F217E1B36300FF3CD3 /* PPModelObject.h */,
+				18BA04F317E1B36300FF3CD3 /* PPModelObject.m */,
+				18999BBA17DC7A40009FA90A /* PPDocument.h */,
+				18999BBB17DC7A40009FA90A /* PPDocument.m */,
+				18999BBC17DC7A40009FA90A /* PPLocalDocument.h */,
+				18999BBD17DC7A40009FA90A /* PPLocalDocument.m */,
+				18999BC217DC7B94009FA90A /* PPLocalImageDocument.h */,
+				18999BC317DC7B95009FA90A /* PPLocalImageDocument.m */,
+				18FE943A17DDF0490083F148 /* PPUser.h */,
+				18FE943B17DDF0490083F148 /* PPUser.m */,
+				1883249617DF039000EDE12B /* PPDocumentManager.h */,
+				1883249717DF039000EDE12B /* PPDocumentManager.m */,
+				18FE944617DE04100083F148 /* PPUploadParameters.h */,
+				18FE944717DE04100083F148 /* PPUploadParameters.m */,
+				188324A117DF6FB300EDE12B /* PPUploadParametersQueue.h */,
+				188324A217DF6FB300EDE12B /* PPUploadParametersQueue.m */,
 			);
-			path = Camera;
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,16 +270,26 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				188AAECE17D86D5C009531FA /* PhotoPayCloud.h in Headers */,
+				1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */,
+				18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */,
+				188324A317DF6FB300EDE12B /* PPUploadParametersQueue.h in Headers */,
 				18999B7B17DBAC51009FA90A /* PPTableSectionCreator.h in Headers */,
+				18BA04E917E09A0300FF3CD3 /* PPUploadRequestOperation.h in Headers */,
+				1883249817DF039000EDE12B /* PPDocumentManager.h in Headers */,
+				1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */,
+				18999BC017DC7A40009FA90A /* PPLocalDocument.h in Headers */,
+				18FE944817DE04100083F148 /* PPUploadParameters.h in Headers */,
+				18BA04F417E1B36300FF3CD3 /* PPModelObject.h in Headers */,
 				18999B7117DBA828009FA90A /* PPTableViewDataSource.h in Headers */,
-				18999B9E17DBC2F5009FA90A /* PPBaseCameraViewController.h in Headers */,
+				18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */,
+				18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */,
+				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
 				18999B7F17DBAE71009FA90A /* PPTableLinearSectionCreator.h in Headers */,
-				188AAF3B17D89BAD009531FA /* PPDocument.h in Headers */,
+				18FE943C17DDF0490083F148 /* PPUser.h in Headers */,
 				18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */,
-				188AAF3F17D89BBC009531FA /* PPLocalDocument.h in Headers */,
+				18999BA717DC762F009FA90A /* PPPhotoPayCloudService.h in Headers */,
 				18999B6517DBA585009FA90A /* PPTableSection.h in Headers */,
-				18999BA017DBC2F5009FA90A /* PPCameraManager.h in Headers */,
+				18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "## 1. DEFINE SETTINGS\n\n# Sets the target folders and the final framework product.\nFMK_NAME=PhotoPayCloud  \nFMK_VERSION=A\n\n# Project name\nPROJ_NAME=PhotoPayCloudSDK\n\n# Target names\nSDK_TARGET=PhotoPayCloudSDK\nRES_TARGET=PhotoPayCloudResources\nRES_BUNDLE=PhotoPayCloudResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/..\nTEMP_DIR=${PRODUCTS_DIR}/Temp\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/\n\n## 2. BUILD ALLL\n\n# Building both architectures.\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${SDK_TARGET}\" -sdk iphoneos CODE_SIGN_IDENTITY=\"iPhone Developer\"\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${SDK_TARGET}\" -sdk iphonesimulator CODE_SIGN_IDENTITY=\"iPhone Developer\"\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${RES_TARGET}\" -sdk iphoneos CODE_SIGN_IDENTITY=\"iPhone Developer\"\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"Release\" -target \"${RES_TARGET}\" -sdk iphonesimulator CODE_SIGN_IDENTITY=\"iPhone Developer\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n## 3. CREATE FRAMEWORK\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/Resources\" \"${INSTALL_DIR}/Resources\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${DEVICE_DIR}/usr/local/include/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\ncp -R \"${DEVICE_DIR}/${RES_BUNDLE}.bundle\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\ncp -f \"${SRCROOT}/Support/${FMK_NAME}.xcconfig\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${SDK_TARGET}.a\" \"${SIMULATOR_DIR}/lib${SDK_TARGET}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n## 4. CREATE EMBEDDED FRAMEWORK\n\n# build embeddedframework folder and move framework into it\nmkdir \"${INSTALL_DIR}/../${FMK_NAME}.embeddedframework\"\nmv \"${INSTALL_DIR}\" \"${INSTALL_DIR}/../${FMK_NAME}.embeddedframework/${FMK_NAME}.framework\"\n\n# link Resources\nNEW_INSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.embeddedframework\nmkdir \"${NEW_INSTALL_DIR}/Resources\"\nln -s \"../${FMK_NAME}.framework/Resources/${FMK_NAME}.xcconfig\" \"${NEW_INSTALL_DIR}/Resources/${FMK_NAME}.xcconfig\"\nln -s \"../${FMK_NAME}.framework/Resources/${RES_BUNDLE}.bundle\" \"${NEW_INSTALL_DIR}/Resources/${RES_BUNDLE}.bundle\"\n\n## 5. PACKAGE AND INSTALL\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\nrm -rf \"${PRODUCTS_DIR}/${FMK_NAME}.embeddedframework\"\nmv \"${NEW_INSTALL_DIR}\" \"${PRODUCTS_DIR}\"\n\n## 6. CLEAN\n\n# clean behind\nrm -r \"${WRK_DIR}\"\nrm -r \"${TEMP_DIR}\"";
+			shellScript = "## 1. DEFINE SETTINGS\n\n# Sets the target folders and the final framework product.\nFMK_NAME=PhotoPayCloud  \nFMK_VERSION=A\n\n# Project name\nPROJ_NAME=PhotoPayCloudSDK\n\n# Target names\nSDK_TARGET=PhotoPayCloudSDK\nRES_TARGET=PhotoPayCloudResources\nRES_BUNDLE=PhotoPayCloudResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/..\nTEMP_DIR=${PRODUCTS_DIR}/Temp\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/${CONFIGURATION}-iphoneos/\nSIMULATOR_DIR=${WRK_DIR}/${CONFIGURATION}-iphonesimulator/\n\n## 2. BUILD ALL\n\n# Building both architectures.\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"${CONFIGURATION}\" -target \"${SDK_TARGET}\" -sdk iphoneos CODE_SIGN_IDENTITY=\"iPhone Developer\"\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"${CONFIGURATION}\" -target \"${SDK_TARGET}\" -sdk iphonesimulator CODE_SIGN_IDENTITY=\"iPhone Developer\"\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"${CONFIGURATION}\" -target \"${RES_TARGET}\" -sdk iphoneos CODE_SIGN_IDENTITY=\"iPhone Developer\"\nxcodebuild -project \"${PROJ_NAME}.xcodeproj\" -configuration \"${CONFIGURATION}\" -target \"${RES_TARGET}\" -sdk iphonesimulator CODE_SIGN_IDENTITY=\"iPhone Developer\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n## 3. CREATE FRAMEWORK\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/Resources\" \"${INSTALL_DIR}/Resources\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${DEVICE_DIR}/usr/local/include/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\ncp -R \"${DEVICE_DIR}/${RES_BUNDLE}.bundle\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\ncp -f \"${SRCROOT}/Support/${FMK_NAME}.xcconfig\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Resources/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${SDK_TARGET}.a\" \"${SIMULATOR_DIR}/lib${SDK_TARGET}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n## 4. CREATE EMBEDDED FRAMEWORK\n\n# build embeddedframework folder and move framework into it\nmkdir \"${INSTALL_DIR}/../${FMK_NAME}.embeddedframework\"\nmv \"${INSTALL_DIR}\" \"${INSTALL_DIR}/../${FMK_NAME}.embeddedframework/${FMK_NAME}.framework\"\n\n# link Resources\nNEW_INSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.embeddedframework\nmkdir \"${NEW_INSTALL_DIR}/Resources\"\nln -s \"../${FMK_NAME}.framework/Resources/${FMK_NAME}.xcconfig\" \"${NEW_INSTALL_DIR}/Resources/${FMK_NAME}.xcconfig\"\nln -s \"../${FMK_NAME}.framework/Resources/${RES_BUNDLE}.bundle\" \"${NEW_INSTALL_DIR}/Resources/${RES_BUNDLE}.bundle\"\n\n## 5. PACKAGE AND INSTALL\n\nrm -rf \"${PRODUCTS_DIR}/${FMK_NAME}.embeddedframework\"\nmv \"${NEW_INSTALL_DIR}\" \"${PRODUCTS_DIR}\"\n\n## 6. CLEAN\n\n# clean behind\nrm -r \"${WRK_DIR}\"\nrm -r \"${TEMP_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -337,15 +391,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18999B9F17DBC2F5009FA90A /* PPBaseCameraViewController.m in Sources */,
+				18FE944917DE04100083F148 /* PPUploadParameters.m in Sources */,
+				18999BC117DC7A40009FA90A /* PPLocalDocument.m in Sources */,
+				18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */,
+				1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */,
 				18999B6617DBA585009FA90A /* PPTableSection.m in Sources */,
-				188AAEB417D75ABC009531FA /* PhotoPayCloud.m in Sources */,
 				18999B8017DBAE71009FA90A /* PPTableLinearSectionCreator.m in Sources */,
-				18999BA117DBC2F5009FA90A /* PPCameraManager.m in Sources */,
-				188AAF3C17D89BAD009531FA /* PPDocument.m in Sources */,
+				18999BC917DD0F45009FA90A /* UIImage+Processing.m in Sources */,
 				18999B7217DBA828009FA90A /* PPTableViewDataSource.m in Sources */,
-				188AAF4017D89BBC009531FA /* PPLocalDocument.m in Sources */,
 				18999B7C17DBAC51009FA90A /* PPTableSectionCreator.m in Sources */,
+				18999BBF17DC7A40009FA90A /* PPDocument.m in Sources */,
+				18999BC517DC7B95009FA90A /* PPLocalImageDocument.m in Sources */,
+				18BA04F517E1B36300FF3CD3 /* PPModelObject.m in Sources */,
+				1883249917DF039000EDE12B /* PPDocumentManager.m in Sources */,
+				18FE943D17DDF0490083F148 /* PPUser.m in Sources */,
+				188324A417DF6FB300EDE12B /* PPUploadParametersQueue.m in Sources */,
+				18999BA817DC762F009FA90A /* PPPhotoPayCloudService.m in Sources */,
+				18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +480,7 @@
 				DSTROOT = /tmp/PhotoPayCloudSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -484,6 +547,7 @@
 		188AAEC817D75B5B009531FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;

@@ -2,14 +2,24 @@
 //  PhotoPayCloud.h
 //  PhotoPayCloudSDK
 //
-//  Created by Jurica Cerovec on 9/4/13.
+//  Created by Jurica Cerovec on 9/10/13.
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
+#ifndef _PHOTOPAY_CLOUD_
+#define _PHOTOPAY_CLOUD_
+
+#import <Foundation/Foundation.h>
 
 /** model headers */
+#import "PPModelObject.h"
 #import "PPDocument.h"
 #import "PPLocalDocument.h"
+#import "PPLocalImageDocument.h"
+#import "PPUser.h"
+#import "PPDocumentManager.h"
+#import "PPUploadParameters.h"
+#import "PPUploadParametersQueue.h"
 
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"
@@ -20,7 +30,11 @@
 #import "PPTableSectionCreator.h"
 #import "PPTableLinearSectionCreator.h"
 
-@interface PhotoPayCloud : NSObject
+/** Network */
+#import "PPNetworkManager.h"
+#import "PPUploadRequestOperation.h"
 
+/** PhotoPayCloudService */
+#import "PPPhotoPayCloudService.h"
 
-@end
+#endif /* _PHOTOPAY_CLOUD_ */
