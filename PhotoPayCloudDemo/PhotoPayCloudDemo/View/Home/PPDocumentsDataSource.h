@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <PhotoPayCloud/PhotoPayCloud.h>
 
 /** 
  Data source for UITableView with list of scanned documents

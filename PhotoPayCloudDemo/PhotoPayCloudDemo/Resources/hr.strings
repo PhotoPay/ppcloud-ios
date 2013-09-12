@@ -24,3 +24,13 @@
 
 /* Title of the home screen */
 "PhotoPayHomeTitle" = "Moji računi";
+
+
+// Library todo:
+
+/** Error code 1001. Cannot access application documents directory */
+"PhotoPayErrorDocumentsUnavailable" = "PhotoPayErrorDocumentsUnavailable";
+/** Error code 2001. Cannot upload document because user ID is not set */
+"PhotoPayErrorUploadUserIdNotSet" = "PhotoPayErrorUploadUserIdNotSet";
+/** Error code 2002. Cannot create request for upload */
+"PhotoPayErrorUploadCannotCreateRequest" = "PhotoPayErrorUploadCannotCreateRequest";

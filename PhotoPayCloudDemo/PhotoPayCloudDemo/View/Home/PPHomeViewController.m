@@ -8,8 +8,10 @@
 
 #import "PPHomeViewController.h"
 #import "PPDocumentsDataSource.h"
+#import "UIViewController+Modal.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
-@interface PPHomeViewController () <UITableViewDelegate>
+@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPUploadRequestOperationDelegate>
 
 @property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
 
@@ -40,6 +42,10 @@
     
     [[self billsTable] setDataSource:[self documentsDataSource]];
     [[self billsTable] setDelegate:self];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
+        [[self cameraButton] setEnabled:NO];
+    }
 }
 
 - (void)viewDidUnload {
@@ -48,6 +54,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    // this view controller will receive all news about the upload status
+    [[[PPPhotoPayCloudService sharedService] networkManager] setUploadDelegate:self];
     
     //To clear any selection in the table view before it’s displayed,
     // implement the viewWillAppear: method to clear the selected row
@@ -69,6 +78,20 @@
     
     // flash the scroll view’s scroll indicators
     [[self billsTable] flashScrollIndicators];
+    
+    // check if PhotoPayCloudService was paused
+    if ([[PPPhotoPayCloudService sharedService] state] == PPPhotoPayCloudServiceStatePaused) {
+        // if true, ask user to continue or abort paused requests
+        
+//        [[PPPhotoPayCloudService sharedService] resumeUploadRequests];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    // this view controller will receive all news about the upload status
+    [[[PPPhotoPayCloudService sharedService] networkManager] setUploadDelegate:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,11 +120,85 @@
 #pragma mark - PPHomeViewControllerProtocol
 
 - (void)openCamera {
-    DDLogInfo(@"Opening camera!");
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    
+    // Use rear camera
+    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+    
+    // Displays a control that allows the user to choose only photos
+    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, nil];
+    
+    // Hides the controls for moving & scaling pictures, or for trimming movies.
+    cameraUI.allowsEditing = NO;
+    
+    // Shows default camera control overlay over camera preview.
+    // TODO: set this to NO and provide custom overlay
+    cameraUI.showsCameraControls = YES;
+    
+    // set delegate
+    cameraUI.delegate = self;
+    
+    // Show view
+    // in iOS7 (as of DP6) this shows a bugged status bar (see https://devforums.apple.com/message/861462#861462)
+    // TODO: iOS 6 should be tested
+    // iOS5 works OK, just like Facebook app
+    [self presentModalViewController:cameraUI animated:YES completion:nil];
 }
 
 - (void)openDocumentDetailsView:(PPDocument*)document {
     DDLogInfo(@"Opening document!");
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    
+    // Handle a still image capture
+    if (CFStringCompare((CFStringRef) mediaType, kUTTypeImage, 0) == kCFCompareEqualTo) {
+        UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
+        
+        // create a local document for this user
+        PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:originalImage];
+        
+        // send document to processing server
+        [[PPPhotoPayCloudService sharedService] uploadDocument:document
+                                                processingType:PPDocumentProcessingTypeSerbianPhotoInvoice
+                                                    pushNotify:NO
+                                                       success:nil
+                                                       failure:nil
+                                                      canceled:nil];
+        
+        DDLogInfo(@"Dismissing UIImagePickerController");
+    }
+    
+    [self dismissModalViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - PPUploadRequestOperationDelegate
+
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation didCompleteWithDocument:(PPDocument *)document {
+    DDLogInfo(@"Document is successfully uploaded!");
+}
+
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation didCompleteWithError:(NSError *)error {
+    DDLogError(@"Document has failed to upload!");
+    DDLogError(@"Error message is %@", [error localizedDescription]);
+}
+
+- (void)uploadRequestOperationDidUpdateProgress:(id<PPUploadRequestOperation>)operation
+                              totalBytesWritten:(long long)totalBytesWritten
+                              totalBytesToWrite:(long long)totalBytesToWrite {
+    DDLogInfo(@"Document is uploading. Progress is %.2f!", 100 * totalBytesWritten / (double)totalBytesToWrite);
+}
+
+- (void)uploadRequestOperationDidCancel:(id<PPUploadRequestOperation>)operation {
+    DDLogInfo(@"Document upload is canceled!");
 }
 
 #pragma mark - UITableViewDelegate

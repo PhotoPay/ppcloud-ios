@@ -37,12 +37,15 @@
 		18999B5317DB5720009FA90A /* PPDocumentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18999B5217DB5720009FA90A /* PPDocumentTableViewCell.xib */; };
 		18999B5617DB5B3C009FA90A /* PPDocumentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B5517DB5B3C009FA90A /* PPDocumentTableViewCell.m */; };
 		18999B5A17DB866D009FA90A /* thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18999B5917DB866D009FA90A /* thumb.jpg */; };
-		18999B6C17DBA7D4009FA90A /* PhotoPayCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18999B6817DBA7D4009FA90A /* PhotoPayCloud.framework */; };
-		18999B6D17DBA7D4009FA90A /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18999B6A17DBA7D4009FA90A /* PhotoPayCloud.xcconfig */; };
-		18999B6E17DBA7D4009FA90A /* PhotoPayCloudResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18999B6B17DBA7D4009FA90A /* PhotoPayCloudResources.bundle */; };
+		18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18999BA217DBCC24009FA90A /* MobileCoreServices.framework */; };
+		18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */; };
+		18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */; };
 		18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44A17DA7B5C00DCEC17 /* hr.strings */; };
 		18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44C17DA7B6700DCEC17 /* en.strings */; };
 		18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */; };
+		18FE944317DDF4960083F148 /* PhotoPayCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FE943F17DDF4960083F148 /* PhotoPayCloud.framework */; };
+		18FE944417DDF4960083F148 /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18FE944117DDF4960083F148 /* PhotoPayCloud.xcconfig */; };
+		18FE944517DDF4960083F148 /* PhotoPayCloudResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18FE944217DDF4960083F148 /* PhotoPayCloudResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,13 +88,18 @@
 		18999B5417DB5B3C009FA90A /* PPDocumentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentTableViewCell.h; sourceTree = "<group>"; };
 		18999B5517DB5B3C009FA90A /* PPDocumentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentTableViewCell.m; sourceTree = "<group>"; };
 		18999B5917DB866D009FA90A /* thumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thumb.jpg; sourceTree = "<group>"; };
-		18999B6817DBA7D4009FA90A /* PhotoPayCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhotoPayCloud.framework; sourceTree = "<group>"; };
-		18999B6A17DBA7D4009FA90A /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
-		18999B6B17DBA7D4009FA90A /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhotoPayCloudResources.bundle; sourceTree = "<group>"; };
+		18999BA217DBCC24009FA90A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		18BA04EC17E103CA00FF3CD3 /* PPAFNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFNetworkManager.h; sourceTree = "<group>"; };
+		18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAFNetworkManager.m; sourceTree = "<group>"; };
+		18BA04EF17E1058500FF3CD3 /* PPAFUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFUploadRequestOperation.h; sourceTree = "<group>"; };
+		18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAFUploadRequestOperation.m; sourceTree = "<group>"; };
 		18DEA44A17DA7B5C00DCEC17 /* hr.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = hr.strings; sourceTree = "<group>"; };
 		18DEA44C17DA7B6700DCEC17 /* en.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en.strings; sourceTree = "<group>"; };
 		18DEA44E17DA8DE400DCEC17 /* NSString+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Formatting.h"; sourceTree = "<group>"; };
 		18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Formatting.m"; sourceTree = "<group>"; };
+		18FE943F17DDF4960083F148 /* PhotoPayCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhotoPayCloud.framework; sourceTree = "<group>"; };
+		18FE944117DDF4960083F148 /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
+		18FE944217DDF4960083F148 /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhotoPayCloudResources.bundle; sourceTree = "<group>"; };
 		3B64EDE8E0894EA68DCAFF88 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		EE8E8A97E55D4F8188890B7F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -101,10 +109,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */,
 				188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */,
 				188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */,
 				188AAEE717D876E9009531FA /* CoreGraphics.framework in Frameworks */,
-				18999B6C17DBA7D4009FA90A /* PhotoPayCloud.framework in Frameworks */,
+				18FE944317DDF4960083F148 /* PhotoPayCloud.framework in Frameworks */,
 				0FA954F2DE8A46DFA82D6F0D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,7 +160,8 @@
 		188AAEE117D876E9009531FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				18999B6717DBA7D4009FA90A /* PhotoPayCloud.embeddedframework */,
+				18FE943E17DDF4960083F148 /* PhotoPayCloud.embeddedframework */,
+				18999BA217DBCC24009FA90A /* MobileCoreServices.framework */,
 				188AAEE217D876E9009531FA /* UIKit.framework */,
 				188AAEE417D876E9009531FA /* Foundation.framework */,
 				188AAEE617D876E9009531FA /* CoreGraphics.framework */,
@@ -169,6 +179,7 @@
 				188AAF4E17D89F69009531FA /* PPApp.m */,
 				188AAF6817D8C0DD009531FA /* Utils */,
 				188AAF4717D89F0A009531FA /* View */,
+				18BA04EB17E0A5E300FF3CD3 /* Network */,
 				1811399C17D8CB690065AC3A /* Resources */,
 				188AAEE917D876E9009531FA /* Supporting Files */,
 			);
@@ -244,21 +255,32 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		18999B6717DBA7D4009FA90A /* PhotoPayCloud.embeddedframework */ = {
+		18BA04EB17E0A5E300FF3CD3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				18999B6817DBA7D4009FA90A /* PhotoPayCloud.framework */,
-				18999B6917DBA7D4009FA90A /* Resources */,
+				18BA04EC17E103CA00FF3CD3 /* PPAFNetworkManager.h */,
+				18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */,
+				18BA04EF17E1058500FF3CD3 /* PPAFUploadRequestOperation.h */,
+				18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		18FE943E17DDF4960083F148 /* PhotoPayCloud.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				18FE943F17DDF4960083F148 /* PhotoPayCloud.framework */,
+				18FE944017DDF4960083F148 /* Resources */,
 			);
 			name = PhotoPayCloud.embeddedframework;
 			path = ../PhotoPayCloud.embeddedframework;
 			sourceTree = "<group>";
 		};
-		18999B6917DBA7D4009FA90A /* Resources */ = {
+		18FE944017DDF4960083F148 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				18999B6A17DBA7D4009FA90A /* PhotoPayCloud.xcconfig */,
-				18999B6B17DBA7D4009FA90A /* PhotoPayCloudResources.bundle */,
+				18FE944117DDF4960083F148 /* PhotoPayCloud.xcconfig */,
+				18FE944217DDF4960083F148 /* PhotoPayCloudResources.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -318,7 +340,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				18999B3D17DB4057009FA90A /* camera@2x~iphone.png in Resources */,
-				18999B6E17DBA7D4009FA90A /* PhotoPayCloudResources.bundle in Resources */,
 				18999B5A17DB866D009FA90A /* thumb.jpg in Resources */,
 				18999B2217DB136A009FA90A /* PPSignUpViewController_iPad.xib in Resources */,
 				18999B3F17DB4057009FA90A /* camera~iphone.png in Resources */,
@@ -327,6 +348,8 @@
 				188AAEF717D876E9009531FA /* Default@2x.png in Resources */,
 				18999B3E17DB4057009FA90A /* camera~ipad.png in Resources */,
 				188AAEF917D876E9009531FA /* Default-568h@2x.png in Resources */,
+				18FE944417DDF4960083F148 /* PhotoPayCloud.xcconfig in Resources */,
+				18FE944517DDF4960083F148 /* PhotoPayCloudResources.bundle in Resources */,
 				18999B4117DB40D6009FA90A /* PPHomeViewController_iPad.xib in Resources */,
 				18999B2317DB136A009FA90A /* PPSignUpViewController_iPhone.xib in Resources */,
 				181139A117D8CB690065AC3A /* background.jpg in Resources */,
@@ -338,7 +361,6 @@
 				18999B5317DB5720009FA90A /* PPDocumentTableViewCell.xib in Resources */,
 				181139A417D8CB690065AC3A /* background~ipad.jpg in Resources */,
 				18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */,
-				18999B6D17DBA7D4009FA90A /* PhotoPayCloud.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +411,8 @@
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
 				188AAF6E17D8C176009531FA /* UIViewController+Modal.m in Sources */,
+				18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */,
+				18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */,
 				18999B2117DB136A009FA90A /* PPSignUpViewController.m in Sources */,
 				18999B4B17DB4DC2009FA90A /* PPDocumentsDataSource.m in Sources */,
 			);
@@ -473,6 +497,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../../PhotoPayCloud/PhotoPayCloud.embeddedframework,
+					"/Users/cerovec/Documents/PhotoPay/PhotoPay/core-photopay/PhotoPayIos/PhotoPayCloud/PhotoPayCloud.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoPayCloudDemo/PhotoPayCloudDemo-Prefix.pch";
@@ -491,6 +516,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../../PhotoPayCloud/PhotoPayCloud.embeddedframework,
+					"/Users/cerovec/Documents/PhotoPay/PhotoPay/core-photopay/PhotoPayIos/PhotoPayCloud/PhotoPayCloud.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoPayCloudDemo/PhotoPayCloudDemo-Prefix.pch";

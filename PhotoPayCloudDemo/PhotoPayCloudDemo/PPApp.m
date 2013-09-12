@@ -9,10 +9,13 @@
 #import "PPApp.h"
 
 NSString* const keyUserId = @"keyUserID";
+NSString* const keyLanguage = @"keyLanguage";
 
 @interface PPApp ()
 
 @property (nonatomic, retain) NSSet* supportedLanguages;
+
+@property (nonatomic, retain) NSMutableArray* statusBarStack;
 
 @end
 
@@ -20,6 +23,7 @@ NSString* const keyUserId = @"keyUserID";
 
 @synthesize language;
 @synthesize supportedLanguages;
+@synthesize statusBarStack;
 
 + (PPApp*)sharedApp {
     static PPApp* sharedInstance = nil;
@@ -35,6 +39,7 @@ NSString* const keyUserId = @"keyUserID";
 - (id)init {
     self = [super init];
     if (self) {
+        statusBarStack = [[NSMutableArray alloc] init];
         supportedLanguages = [[NSSet alloc] initWithObjects:@"en", @"hr", nil];
         [self setDefaultLanguage];
     }
@@ -50,7 +55,6 @@ NSString* const keyUserId = @"keyUserID";
         return nil;
     }
     
-//    return nil;
     return userId;
 }
 
@@ -72,22 +76,50 @@ NSString* const keyUserId = @"keyUserID";
 }
 
 - (void)setLanguage:(NSString *)inLanguage {
-    if ([supportedLanguages containsObject:inLanguage]) {
-        language = inLanguage;
-    } else {
-        DDLogWarn(@"Unsupported language %@, setting phone default language", inLanguage);
-        [self setDefaultLanguage];
+    if (inLanguage == nil || [inLanguage length] == 0) {
+        DDLogError(@"Invalid language %@, previously specified language will be used", inLanguage);
+        return;
+    }
+
+    if ([[self supportedLanguages] containsObject:inLanguage]) {
+        language = inLanguage; // replace cached value
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:inLanguage forKey:keyLanguage];
+        [defaults synchronize];
     }
 }
 
 - (void)setDefaultLanguage {
-    NSString *defaultLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
-    if ([supportedLanguages containsObject:defaultLanguage]) {
-        [self setLanguage:defaultLanguage];
-    } else {
-        DDLogWarn(@"Phone default language unsupported, setting English");
-        [self setLanguage:@"en"];
+    // if not return value from NSUserDefaults
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString* storedLanguage = [defaults stringForKey:keyLanguage];
+    
+    if (storedLanguage != nil) {
+        language = storedLanguage;
+        return;
     }
+    
+    NSString *defaultLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
+    if (![supportedLanguages containsObject:defaultLanguage]) {
+        defaultLanguage = @"en"; // if phone's default language is not supported, use english localization
+    }
+    
+    [defaults setObject:defaultLanguage forKey:keyLanguage];
+    [defaults synchronize];
+    
+    language = defaultLanguage;
+}
+
+- (void)pushStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
+    [statusBarStack addObject:[NSNumber numberWithBool:[[UIApplication sharedApplication] statusBarStyle]]];
+    [[UIApplication sharedApplication] setStatusBarStyle:statusBarStyle animated:YES];
+}
+
+- (void)popStatusBarStyle {
+    UIStatusBarStyle style = [[statusBarStack lastObject] intValue];
+    [[UIApplication sharedApplication] setStatusBarStyle:style animated:YES];
+    [statusBarStack removeLastObject];
 }
 
 @end

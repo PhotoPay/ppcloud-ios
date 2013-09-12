@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PhotoPayCloud/PhotoPayCloud.h>
 
 /**
  When opening PhotoPay, user sees view controlled by this view controller

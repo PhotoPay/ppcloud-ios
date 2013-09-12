@@ -8,10 +8,17 @@
 
 #import "PPAppDelegate.h"
 #import "PPHomeViewController.h"
+#import "PPAFNetworkManager.h"
+#import <PhotoPayCloud/PhotoPayCloud.h>
+#import <AFNetworking/AFNetworking.h>
 
 @interface PPAppDelegate ()
 
+- (void)configureApp;
 - (void)configureLogger;
+- (void)configurePhotoPayCloud;
+
++ (AFHTTPClient*)httpclient;
 
 @end
 
@@ -19,9 +26,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self configureLogger];
-    
-    [[PPApp sharedApp] setLanguage:@"hr"];
+    [self configureApp];
     
     PPHomeViewController *homeViewController = [[PPHomeViewController alloc] initWithNibName:[PPHomeViewController defaultXibName]
                                                                                   bundle:nil];
@@ -31,14 +36,33 @@
     [self.window setRootViewController:navigationController];
     [self.window makeKeyAndVisible];
     
+    // This is where registration for push notifications will be done.
+    // For now, this is only a demonstration, push notifications still don't work in demo app
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
+    
     return YES;
 }
 
+- (void)configureApp {
+    [self configureLogger];
+
+    [[PPApp sharedApp] setLanguage:@"hr"];
+}
+
 - (void)configureLogger {
-    
     // we're using cocoa lumberjack
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+}
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    DDLogInfo(@"Registered for push notify");
+    [[PPPhotoPayCloudService sharedService] setDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    DDLogError(@"Failed to register for push notify");
+    [[PPPhotoPayCloudService sharedService] setDeviceToken:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -61,6 +85,22 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [self configurePhotoPayCloud];
+}
+
++ (AFHTTPClient*)httpclient {
+    static AFHTTPClient* httpclient = nil;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/cloud"]];
+    });
+    return httpclient;
+}
+
+- (void)configurePhotoPayCloud {
+    [[PPPhotoPayCloudService sharedService] setUser:[[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]]];
+    [[PPPhotoPayCloudService sharedService] setNetworkManager:[[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]]];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

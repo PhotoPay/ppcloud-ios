@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 // Accessing localization files
 #ifndef _
@@ -59,5 +60,16 @@
  Sets the system language (specified by the user in iOS Settings) to be the language of the App
  */
 - (void)setDefaultLanguage;
+
+/**
+ Sets the status bar style to specified value. Also saves the last value on internal stack
+ so it can be easily restored later
+ */
+- (void)pushStatusBarStyle:(UIStatusBarStyle)statusBarStyle;
+
+/**
+ Restores the last value of status bar style
+ */
+- (void)popStatusBarStyle;
 
 @end
