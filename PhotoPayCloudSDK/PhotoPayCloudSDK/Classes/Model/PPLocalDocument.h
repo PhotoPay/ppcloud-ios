@@ -14,23 +14,29 @@
 /**
  Encapsulates a local PhotoPay cloud document object 
  */
-@interface PPLocalDocument : PPDocument {
+@interface PPLocalDocument : PPDocument<NSCoding> {
     NSData *bytes_;
 }
 
+/**
+ Local document can have bytes stored in memory
+ */
 @property (nonatomic, strong, readonly) NSData *bytes;
 
-@property (nonatomic, readonly) PPDocumentType type;
-
+/**
+ Initializes the local document with concrete bytes
+ */
 - (id)initWithBytes:(NSData*)inBytes
-               type:(PPDocumentType)inType;
+       documentType:(PPDocumentType)inDocumentType
+     processingType:(PPDocumentProcessingType)inProcessingType;
 
+/**
+ Persists the local document
+ 
+ In callbacks we have access to NSURL under which the document is stored
+ */
 - (void)saveUsingDocumentManager:(PPDocumentManager*)documentManager
-                         success:(void(^)(NSURL* documentUrl))success
-                         failure:(void(^)(NSError* error))failure;
-
-+ (NSString*)extensionForDocumentType:(PPDocumentType)type;
-
-+ (NSString*)generateUniqueFilenameForType:(PPDocumentType)type;
+                         success:(void(^)(PPLocalDocument*localDocument, NSURL* documentUrl))success
+                         failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure;
 
 @end

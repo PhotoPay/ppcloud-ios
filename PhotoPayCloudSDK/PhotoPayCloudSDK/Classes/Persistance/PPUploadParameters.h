@@ -16,14 +16,8 @@
  */
 @interface PPUploadParameters : NSObject <NSCoding>
 
-/** URL to local document */
-@property (nonatomic, strong,) NSURL* localDocumentUrl;
-
-/** Type of the document which is to be uploaded */
-@property (nonatomic) PPDocumentType localDocumentType;
-
-/** Type of the request to be sent */
-@property (nonatomic) PPDocumentProcessingType processingType;
+/** Local document */
+@property (nonatomic, strong) PPLocalDocument* localDocument;
 
 /** Hashed value of user ID */
 @property (nonatomic, strong) NSString* userIdHash;

@@ -7,6 +7,7 @@
 //
 
 #import "PPNetworkManager.h"
+#import "PPRemoteDocument.h"
 
 @interface PPNetworkManager ()
 
@@ -38,12 +39,11 @@
                                  userInfo:nil];
 }
 
-
-- (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser*)user
-                                          uploadParameters:(PPUploadParameters*)uploadParameters
-                                                   success:(void (^)(id<PPUploadRequestOperation> request, PPDocument* document))success
-                                                   failure:(void (^)(id<PPUploadRequestOperation> request, NSError *error))failure
-                                                  canceled:(void (^)(id<PPUploadRequestOperation> request))canceled {
+- (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
+                                          uploadParameters:(PPUploadParameters *)uploadParameters
+                                                   success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
+                                                   failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
+                                                  canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled {
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
                                    reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]

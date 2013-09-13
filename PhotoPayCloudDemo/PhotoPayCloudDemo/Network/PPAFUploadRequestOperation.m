@@ -10,4 +10,19 @@
 
 @implementation PPAFUploadRequestOperation
 
+@synthesize uploadParameters;
+@synthesize delegate;
+@synthesize progress;
+
+- (id)initWithRequest:(NSURLRequest *)urlRequest
+     uploadParameters:(PPUploadParameters*)inUploadParameters {
+    self = [super initWithRequest:urlRequest];
+    if (self) {
+        uploadParameters = inUploadParameters;
+        delegate = nil;
+        progress = @(0.0);
+    }
+    return self;
+}
+
 @end

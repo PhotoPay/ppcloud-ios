@@ -10,12 +10,15 @@
 #import "PPDocumentsDataSource.h"
 #import "UIViewController+Modal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "PPAlertView.h"
 
 @interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPUploadRequestOperationDelegate>
 
 @property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
 
 - (void)reloadTableWithDocuments:(NSArray*)documents;
+- (void)uploadDocument:(PPLocalDocument*)document;
+- (void)refreshDocumentTable;
 
 @end
 
@@ -150,6 +153,25 @@
     DDLogInfo(@"Opening document!");
 }
 
+- (void)uploadDocument:(PPLocalDocument *)document {
+    // send document to processing server
+    [[PPPhotoPayCloudService sharedService] uploadDocument:document
+                                                pushNotify:NO
+                                                   success:^(PPLocalDocument *localDocument, PPRemoteDocument *remoteDocument) {
+                                                       NSLog(@"Success!");
+                                                   }
+                                                   failure:^(PPLocalDocument *localDocument, NSError *error) {
+                                                       NSLog(@"Failure!");
+                                                   }
+                                                  canceled:^(PPLocalDocument *localDocument) {
+                                                      NSLog(@"Canceled!");
+                                                  }];
+}
+
+- (void)refreshDocumentTable {
+    DDLogInfo(@"Refreshing UI");
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -160,19 +182,12 @@
         UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
         
         // create a local document for this user
-        PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:originalImage];
+        PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:originalImage
+                                                                 processingType:PPDocumentProcessingTypeSerbianPhotoInvoice];
         
-        // send document to processing server
-        [[PPPhotoPayCloudService sharedService] uploadDocument:document
-                                                processingType:PPDocumentProcessingTypeSerbianPhotoInvoice
-                                                    pushNotify:NO
-                                                       success:nil
-                                                       failure:nil
-                                                      canceled:nil];
-        
-        DDLogInfo(@"Dismissing UIImagePickerController");
+        [self uploadDocument:document];
+
     }
-    
     [self dismissModalViewControllerAnimated:YES completion:nil];
 }
 
@@ -182,23 +197,42 @@
 
 #pragma mark - PPUploadRequestOperationDelegate
 
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation didCompleteWithDocument:(PPDocument *)document {
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
+             didUploadDocument:(PPLocalDocument *)localDocument
+                    withResult:(PPRemoteDocument *)remoteDocument {
     DDLogInfo(@"Document is successfully uploaded!");
+
 }
 
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation didCompleteWithError:(NSError *)error {
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
+       didFailToUploadDocument:(PPLocalDocument *)localDocument
+                     withError:(NSError *)error {
     DDLogError(@"Document has failed to upload!");
     DDLogError(@"Error message is %@", [error localizedDescription]);
+    
+    PPAlertView *alertView = [[PPAlertView alloc] initWithTitle:@"Upload could not be completed"
+                                                        message:@"Would you like to try again?" completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                            if (buttonIndex == 1) { // retry button
+                                                                // enqueue this upload once more
+                                                                [self uploadDocument:localDocument];
+                                                            }
+                                                        }
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Try again", nil];
+    [alertView show];
 }
 
-- (void)uploadRequestOperationDidUpdateProgress:(id<PPUploadRequestOperation>)operation
-                              totalBytesWritten:(long long)totalBytesWritten
-                              totalBytesToWrite:(long long)totalBytesToWrite {
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
+  didUpdateProgressForDocument:(PPLocalDocument *)localDocument
+             totalBytesWritten:(long long)totalBytesWritten
+             totalBytesToWrite:(long long)totalBytesToWrite {
     DDLogInfo(@"Document is uploading. Progress is %.2f!", 100 * totalBytesWritten / (double)totalBytesToWrite);
 }
 
-- (void)uploadRequestOperationDidCancel:(id<PPUploadRequestOperation>)operation {
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
+    didCancelUploadingDocument:(PPLocalDocument *)localDocument {
     DDLogInfo(@"Document upload is canceled!");
+
 }
 
 #pragma mark - UITableViewDelegate

@@ -21,23 +21,57 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 
 @synthesize image;
 
-- (id)initWithImage:(UIImage*)inImage {
+- (id)initWithImage:(UIImage*)inImage
+     processingType:(PPDocumentProcessingType)inProcessingType {
+    
+    // processing type must correspond with JPG image format of this document
+    switch (inProcessingType) {
+        case PPDocumentProcessingTypeAustrianPDFInvoice:
+        case PPDocumentProcessingTypeSerbianPDFInvoice:
+            [NSException raise:@"Invalid processing type"
+                        format:@"Invalid processing type %@ for document type JPG", [PPDocument objectForDocumentProcessingType:inProcessingType]];
+            break;
+        default:
+            break;
+    }
+    
     self = [super initWithBytes:nil
-                           type:PPDocumentTypeJPG];
+                   documentType:PPDocumentTypeJPG
+                 processingType:inProcessingType];
+    
     if (self) {
         image = inImage;
     }
     return self;
 }
 
-/** Lazy loading of bytes property because of the UIImage downsampling */
+/** 
+ There are three states in which a local image document can be found.
+ From all of these states properties URL and BYTES must be reachable.
+ 
+ To ensure this, this custom getter is provided. We handle these cases:
+ 
+ 1. BYTES and URL properties are nil.
+        IMAGE property is decoded and downsampled so that the BYTES property can be set
+ 2. BYTES is still nil
+        Superclass implementation is called. @see [PPLocalDocument bytes]
+ 3. BYTES is available
+        simply returned that value
+ */
 - (NSData*)bytes {
-    if (self->bytes_ == nil) {
+    if (self->bytes_ == nil && self.url == nil) {
+        if ([self image] == nil) {
+            // throw exception, this should not happen
+        }
+        // we need to have UIImage object here
         self->bytes_ = [UIImage jpegDataWithImage:image
                                scaledToResolution:finalResolution
                                  compressionLevel:0.9];
         
         image = nil; // image is no longer needed
+    }
+    if (self->bytes_ == nil) {
+        return [super bytes];
     }
     return self->bytes_;
 }

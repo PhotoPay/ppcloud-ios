@@ -44,6 +44,13 @@
 - (BOOL)dequeue:(PPUploadParameters*)front;
 
 /**
+ Removes the object from the queue.
+ 
+ Sequentially searches the queue for this object.
+ */
+- (BOOL)remove:(PPUploadParameters*)parameters;
+
+/**
  Adds object to the end of the queue
  
  Return value is boolean which is YES of operation was successful, or no otherwise.

@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "PPDocument.h"
 
+@protocol PPUploadRequestOperation;
 @class PPLocalDocument;
+@class PPRemoteDocument;
 @class PPUser;
 @class PPUploadParametersQueue;
 @class PPDocumentManager;
@@ -52,17 +54,6 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
      Placeholder for any possible errorenous state.
      */
     PPPhotoPayCloudServiceStateError
-};
-
-/**
- Different documents require different processing methods. Application defines which processing type
- is needed for a document. Currently available methods will be listed in this enum.
- */
-typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
-    PPDocumentProcessingTypeSerbianPhotoInvoice,
-    PPDocumentProcessingTypeSerbianPDFInvoice,
-    PPDocumentProcessingTypeAustrianPhotoInvoice,
-    PPDocumentProcessingTypeAustrianPDFInvoice
 };
 
 /** 
@@ -130,20 +121,6 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 @property (nonatomic, strong) NSData* deviceToken;
 
 /**
- Returns object representation for the PPDocumentProcessingType enum 
- */
-+ (id)objectForDocumentProcessingType:(PPDocumentProcessingType)type;
-
-/** 
- Helper method for creating upload requests that don't require push notifications.
- */
-- (void)uploadDocument:(PPLocalDocument*)document
-        processingType:(PPDocumentProcessingType)processingType
-               success:(void (^)(PPDocument* document))success
-               failure:(void (^)(NSError* error))failure
-              canceled:(void (^)(void))canceled;
-
-/**
  Creating upload request for a specified document.
  
  User for which the request is created must be specified. (@see property user)
@@ -154,11 +131,10 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  the list of current documents (documents property).
  */
 - (void)uploadDocument:(PPLocalDocument*)document
-        processingType:(PPDocumentProcessingType)processingType
             pushNotify:(BOOL)pushNotify
-               success:(void (^)(PPDocument* document))success
-               failure:(void (^)(NSError* error))failure
-              canceled:(void (^)(void))canceled;
+               success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
+               failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
+              canceled:(void (^)(PPLocalDocument* localDocument))canceled;
 
 /**
  Retrieves documents with given statuses.

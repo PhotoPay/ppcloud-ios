@@ -12,6 +12,7 @@
 
 @interface PPLocalImageDocument : PPLocalDocument
 
-- (id)initWithImage:(UIImage*)image;
+- (id)initWithImage:(UIImage*)image
+     processingType:(PPDocumentProcessingType)inProcessingType;
 
 @end

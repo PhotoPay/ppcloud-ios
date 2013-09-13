@@ -48,7 +48,8 @@
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        table = @{@(PPUserTypePerson) : @"Person",
+        table = @{@(PPUserTypeDefault) : @"Default",
+                  @(PPUserTypePerson) : @"Person",
                   @(PPUserTypeBusiness) : @"Business",
                   @(PPUserTypeCraft) : @"Craft"};
     });

@@ -54,6 +54,16 @@
     return YES;
 }
 
+- (BOOL)remove:(PPUploadParameters*)parameters {
+    for (int i = 0; i < [elements count]; i++) {
+        if ([[elements objectAtIndex:i] isEqual:parameters]) {
+            [self.elements removeObjectAtIndex:i];
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (BOOL)dequeue:(PPUploadParameters*)front {
     if ([self.elements count] == 0) {
         front = nil;

@@ -8,82 +8,105 @@
 
 #import "PPLocalDocument.h"
 #import "PPDocumentManager.h"
-#import "NSString+Factory.h"
+
+@interface PPLocalDocument ()
+
+/**
+ URL pointing to the location of the document.
+ Can be url both local or remote
+ */
+@property (nonatomic, strong) NSURL* url;
+
+@end
 
 @implementation PPLocalDocument
 
 @synthesize bytes = bytes_;
-@synthesize type;
+@synthesize state;
+@synthesize url;
+@synthesize documentType;
+@synthesize processingType;
 
 - (id)initWithBytes:(NSData*)inBytes
-               type:(PPDocumentType)inType {
-    self = [super initWithUrl:nil documentState:PPDocumentStateCreated];
+       documentType:(PPDocumentType)inDocumentType
+     processingType:(PPDocumentProcessingType)inProcessingType {
+    self = [super initWithUrl:nil
+                documentState:PPDocumentStateCreated
+                 documentType:inDocumentType
+               processingType:inProcessingType];
     if (self) {
         bytes_ = inBytes;
-        type = inType;
     }
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    bytes_ = nil;
+    url_ = [decoder decodeObjectForKey:@"url"];
+    state = [decoder decodeIntegerForKey:@"state"];
+    documentType = [decoder decodeIntegerForKey:@"documentType"];
+    processingType = [decoder decodeIntegerForKey:@"processingType"];
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.url forKey:@"url"];
+    [encoder encodeInteger:self.state forKey:@"state"];
+    [encoder encodeInteger:self.documentType forKey:@"documentType"];
+    [encoder encodeInteger:self.processingType forKey:@"processingType"];
+}
+
+/**
+ There are two states in which a local document can be found.
+ From all of these states properties URL and BYTES must be reachable.
+ 
+ To ensure this, this custom getter is provided. We handle these cases:
+ 
+ 1. BYTES property is nil
+        BYTES is initialized from the file to which URL is pointing
+ 2. BYTES is available
+        simply return that value
+ 
+ There is one more case which is handled in different way. 
+ For every local document it's ensured that before requesting BYTES property URL property will be set.
+ This is ensured implicitly, by always calling [localDocument saveUsingDocumentManager:success:failure] before 
+ accessing BYTES property.
+ */
+- (NSData*)bytes {
+    if (bytes_ == nil) {
+        if ([self url] == nil) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                           reason:@"Local document should have either URL or BYTES property set. Save the document using saveUsingDocumentManager:success:failure and use the bytes property in callbacks only"
+                                         userInfo:nil];
+        }
+        NSError *__autoreleasing error = nil;
+        bytes_ = [[NSData alloc] initWithContentsOfURL:[self url] options:NSDataReadingMappedIfSafe error:&error];
+        if (error != nil) {
+            bytes_ = nil;
+        }
+    }
+    return bytes_;
+}
+
 - (void)saveUsingDocumentManager:(PPDocumentManager*)documentManager
-                         success:(void(^)(NSURL* documentUrl))success
-                         failure:(void(^)(NSError* error))failure {
+                         success:(void(^)(PPLocalDocument*localDocument, NSURL* documentUrl))success
+                         failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure {
     
     [documentManager saveDocument:self
                           success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
-                              self->url_ = documentUrl;
-                              success(documentUrl);
+                              localDocument.url = documentUrl;
+                              NSLog(@"Document is:\n%@", [localDocument toString]);
+                              success(localDocument, documentUrl);
                           }
                           failure:^(PPLocalDocument*localDocument, NSError* error) {
-                              failure(error);
+                              failure(localDocument, error);
                           }];
-}
-
-+ (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {
-    NSString* uuid = [NSString UUID];
-    NSString* extension = [PPLocalDocument extensionForDocumentType:type];
-    return [NSString stringWithFormat:@"%@.%@", uuid, extension];
-}
-
-+ (NSString*)extensionForDocumentType:(PPDocumentType)type {
-    switch (type) {
-        case PPDocumentTypePNG:
-            return @"png";
-            break;
-        case PPDocumentTypeJPG:
-            return @"jpg";
-            break;
-        case PPDocumentTypeGIF:
-            return @"gif";
-            break;
-        case PPDocumentTypeTIFF:
-            return @"tiff";
-            break;
-        case PPDocumentTypePDF:
-            return @"pdf";
-            break;
-        case PPDocumentTypeHTML:
-            return @"html";
-            break;
-        case PPDocumentTypeXLS:
-            return @"xls";
-            break;
-        case PPDocumentTypeDOC:
-            return @"doc";
-            break;
-        case PPDocumentTypeTXT:
-            return @"txt";
-            break;
-        case PPDocumentTypeXML:
-            return @"xml";
-            break;
-        case PPDocumentTypeJSON:
-            return @"json";
-            break;
-        default:
-            return @"invalidFilename";
-            break;
-    }
 }
 
 @end

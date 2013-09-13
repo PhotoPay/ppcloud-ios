@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @class PPUploadParameters;
-@class PPDocument;
+@class PPLocalDocument;
+@class PPRemoteDocument;
 @protocol PPUploadRequestOperationDelegate;
 
 /**
@@ -49,26 +50,30 @@
  Success handler is required. UI updates will be required on success 
  */
 - (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-       didCompleteWithDocument:(PPDocument*)document;
+             didUploadDocument:(PPLocalDocument*)localDocument
+                    withResult:(PPRemoteDocument*)remoteDocument;
 
 /**
  Failure handler is required. UI updates will be required on success
  */
 - (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-          didCompleteWithError:(NSError*)error;
+       didFailToUploadDocument:(PPLocalDocument*)localDocument
+                     withError:(NSError*)error;
 
 @optional
 
 /**
  Progress handler is optional. It's possible to update UI on progress.
  */
-- (void)uploadRequestOperationDidUpdateProgress:(id<PPUploadRequestOperation>)operation
-                              totalBytesWritten:(long long)totalBytesWritten
-                              totalBytesToWrite:(long long)totalBytesToWrite;
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
+  didUpdateProgressForDocument:(PPLocalDocument*)localDocument
+             totalBytesWritten:(long long)totalBytesWritten
+             totalBytesToWrite:(long long)totalBytesToWrite;
 
 /**
  Optional handler for cancellation event
  */
-- (void)uploadRequestOperationDidCancel:(id<PPUploadRequestOperation>)operation;
+- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
+    didCancelUploadingDocument:(PPLocalDocument*)localDocument;
 
 @end

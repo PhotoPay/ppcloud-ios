@@ -14,7 +14,7 @@
 /**
  Each upload request operation need to have exactly one upload parameters object
  */
-@property (nonatomic, strong, readonly) PPUploadParameters* uploadParameters;
+@property (nonatomic, strong) PPUploadParameters* uploadParameters;
 
 /**
  Delegate is also requred. Could be nil.
@@ -25,5 +25,8 @@
  Upload progess is stored in progress property
  */
 @property (nonatomic, strong) NSNumber* progress;
+
+- (id)initWithRequest:(NSURLRequest *)urlRequest
+     uploadParameters:(PPUploadParameters*)uploadParameters;
 
 @end

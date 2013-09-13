@@ -11,12 +11,10 @@
 
 @implementation PPUploadParameters
 
-@synthesize localDocumentUrl;
-@synthesize localDocumentType;
+@synthesize localDocument;
 @synthesize userIdHash;
 @synthesize organizationId;
 @synthesize userType;
-@synthesize processingType;
 @synthesize pushNotify;
 @synthesize deviceToken;
 @synthesize creationDate;
@@ -26,12 +24,10 @@
     if (!self) {
         return nil;
     }
-    localDocumentUrl = [decoder decodeObjectForKey:@"localDocumentUrl"];
-    localDocumentType = [decoder decodeIntegerForKey:@"localDocumentType"];
+    localDocument = [decoder decodeObjectForKey:@"localDocument"];
     userIdHash = [decoder decodeObjectForKey:@"userIdHash"];
     organizationId = [decoder decodeObjectForKey:@"organizationId"];
     userType = [decoder decodeIntegerForKey:@"userType"];
-    processingType = [decoder decodeIntegerForKey:@"processingType"];
     pushNotify = [decoder decodeBoolForKey:@"pushNotify"];
     deviceToken = [decoder decodeObjectForKey:@"deviceToken"];
     creationDate = [decoder decodeObjectForKey:@"creationDate"];
@@ -40,40 +36,33 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.localDocumentUrl forKey:@"localDocumentUrl"];
-    [encoder encodeInteger:self.localDocumentType forKey:@"localDocumentType"];
+    [encoder encodeObject:self.localDocument forKey:@"localDocument"];
     [encoder encodeObject:self.userIdHash forKey:@"userIdHash"];
     [encoder encodeObject:self.organizationId forKey:@"organizationId"];
     [encoder encodeInteger:self.userType forKey:@"userType"];
-    [encoder encodeInteger:self.processingType forKey:@"processingType"];
     [encoder encodeBool:self.pushNotify forKey:@"pushNotify"];
     [encoder encodeObject:self.deviceToken forKey:@"deviceToken"];
     [encoder encodeObject:self.creationDate forKey:@"creationDate"];
 }
 
+- (BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[self class]]) {
+        // isEqual is good enough for our purpose
+        return [[self localDocument] isEqualToDocument:[object localDocument]];
+    } else {
+        return false;
+    }
+}
+
+- (NSUInteger)hash {
+    return [[self localDocument] hash];
+}
+
 - (NSString*)toString {
     NSString *result = @"";
     
-    if (self.localDocumentUrl != nil) {
-        result = [result stringByAppendingFormat:@"Local document url: %@\n", [self localDocumentUrl]];
-    }
-    
-    result = [result stringByAppendingFormat:@"Local document type: %@\n", [PPLocalDocument extensionForDocumentType:[self localDocumentType]]];
-    
-    switch ([self processingType]) {
-        case PPDocumentProcessingTypeAustrianPDFInvoice:
-            result = [result stringByAppendingString:@"Processing type: Austrian PDF\n"];
-            break;
-        case PPDocumentProcessingTypeAustrianPhotoInvoice:
-            result = [result stringByAppendingString:@"Processing type: Austrian Photo Invoice\n"];
-            break;
-        case PPDocumentProcessingTypeSerbianPDFInvoice:
-            result = [result stringByAppendingString:@"Processing type: Serbian PDF\n"];
-            break;
-        case PPDocumentProcessingTypeSerbianPhotoInvoice:
-        default:
-            result = [result stringByAppendingString:@"Processing type: Serbian Photo Invoice\n"];
-            break;
+    if (self.localDocument != nil) {
+        result = [result stringByAppendingFormat:@"Local document url: %@\n", [[self localDocument] toString]];
     }
     
     if (self.userIdHash != nil) {
@@ -108,8 +97,6 @@
     if ([self deviceToken]) {
         result = [result stringByAppendingFormat:@"Device token: %@\n", [self deviceToken]];
     }
-    
-    
     
     if ([self creationDate]) {
         NSString *dateStr = [NSDateFormatter localizedStringFromDate:[self creationDate]

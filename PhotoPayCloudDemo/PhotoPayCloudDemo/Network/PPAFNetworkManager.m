@@ -51,9 +51,11 @@
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadUserIdNotSet";
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
-        *error = [NSError errorWithDomain:domain
-                                     code:2001
-                                 userInfo:userInfo];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:domain
+                                         code:2001
+                                     userInfo:userInfo];
+        }
     }
     
     // set user type if specified (if not specified, server default will be used
@@ -64,14 +66,23 @@
     // set organization id if specified (if not specified, server default will be used
     if ([user organizationId] != nil && [[user organizationId] length] != 0) {
         [uploadRequestParams setObject:[user organizationId] forKey:@"organizationId"];
+    } else {
+        NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+        NSString *desc = @"PhotoPayErrorUploadOrganisationIdNotSet";
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:domain
+                                         code:2004
+                                     userInfo:userInfo];
+        }
     }
     
     // set request type (this will always be specified)
-    [uploadRequestParams setObject:[PPPhotoPayCloudService objectForDocumentProcessingType:[uploadParameters processingType]]
+    [uploadRequestParams setObject:[PPDocument objectForDocumentProcessingType:[[uploadParameters localDocument] processingType]]
                             forKey:@"requestType"];
     
     // file type will also always be specified
-    [uploadRequestParams setObject:[PPDocument objectForDocumentType:[uploadParameters localDocumentType]]
+    [uploadRequestParams setObject:[PPDocument objectForDocumentType:[[uploadParameters localDocument] documentType]]
                             forKey:@"fileType"];
     
     // file type will also always be specified
@@ -83,18 +94,20 @@
     return uploadRequestParams;
 }
 
-- (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser*)user
-                                          uploadParameters:(PPUploadParameters*)uploadParameters
-                                                   success:(void (^)(id<PPUploadRequestOperation> request, PPDocument* document))success
-                                                   failure:(void (^)(id<PPUploadRequestOperation> request, NSError *error))failure
-                                                  canceled:(void (^)(id<PPUploadRequestOperation> request))canceled {
+- (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
+                                          uploadParameters:(PPUploadParameters *)uploadParameters
+                                                   success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
+                                                   failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
+                                                  canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled {
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
     NSDictionary *uploadRequestParameters = [self uploadRequestParametersForUser:user
                                                                 uploadParameters:uploadParameters
                                                                            error:&error];
+    
+    PPLocalDocument *localDocument = [uploadParameters localDocument];
     if (error != nil) {
-        failure(nil, error);
+        failure(nil, localDocument, error);
     }
     
     // 2. create multipart request
@@ -103,14 +116,17 @@
                                                      path:@"/upload/document"
                                                parameters:uploadRequestParameters
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
-                                    __autoreleasing NSError *error;
-                                    [formData appendPartWithFileURL:[NSURL fileURLWithPath:[[uploadParameters localDocumentUrl] path]]
-                                                               name:@"data"
-                                                              error:&error];
+                                    NSLog(@"Appending filename %@", [[[uploadParameters localDocument] url] lastPathComponent]);
+                                    
+                                    [formData appendPartWithFileData:[[uploadParameters localDocument] bytes]
+                                                                name:@"data"
+                                                            fileName:[[[uploadParameters localDocument] url] lastPathComponent]
+                                                            mimeType:[[uploadParameters localDocument] mimeType]];
                                 }];
     
-    // 3.create upload operation from multipart request
-    PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest];
+    // 3.create upload operation from multipart request and upload parameters object
+    PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest
+                                                                                            uploadParameters:uploadParameters];
     
     // 4. check for errors
     if (uploadRequestOperation == nil) {
@@ -120,7 +136,7 @@
         NSError *error = [NSError errorWithDomain:domain
                                              code:2002
                                          userInfo:userInfo];
-        failure(nil, error);
+        failure(nil, localDocument, error);
     }
     
     __weak PPAFUploadRequestOperation* _uploadRequestOperation = uploadRequestOperation;
@@ -129,45 +145,50 @@
     [uploadRequestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         _uploadRequestOperation.progress = [[NSNumber alloc] initWithDouble:totalBytesWritten / (double)totalBytesExpectedToWrite];
         
-        if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperationDidUpdateProgress:totalBytesWritten:totalBytesToWrite:)]) {
-            [[_uploadRequestOperation delegate] uploadRequestOperationDidUpdateProgress:_uploadRequestOperation
-                                                                      totalBytesWritten:totalBytesWritten
-                                                                      totalBytesToWrite:totalBytesExpectedToWrite];
+        if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperation:didUpdateProgressForDocument:totalBytesWritten:totalBytesToWrite:)]) {
+            [[_uploadRequestOperation delegate] uploadRequestOperation:_uploadRequestOperation
+                                          didUpdateProgressForDocument:localDocument
+                                                     totalBytesWritten:totalBytesWritten
+                                                     totalBytesToWrite:totalBytesExpectedToWrite];
         }
     }];
     
     // 6. add success, failure and cancellation blocks
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        PPDocument* document = [[PPDocument alloc] initWithDictionary:responseObject];
+        PPRemoteDocument* remoteDocument = [[PPRemoteDocument alloc] initWithDictionary:responseObject];
         
         if (success) {
-            success((id<PPUploadRequestOperation>)operation, document);
+            success((id<PPUploadRequestOperation>)operation, localDocument, remoteDocument);
         }
         
         [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                         didCompleteWithDocument:document];
+                                               didUploadDocument:localDocument
+                                                      withResult:remoteDocument];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"failed to execute upload %@", [error localizedDescription]);
         
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
             if (canceled) {
-                canceled((id<PPUploadRequestOperation>)operation);
+                canceled((id<PPUploadRequestOperation>)operation, localDocument);
             }
             
-            if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperationDidCancel:)]) {
-                [_uploadRequestOperation.delegate uploadRequestOperationDidCancel:_uploadRequestOperation];
+            if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperation:didCancelUploadingDocument:)]) {
+                [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
+                                              didCancelUploadingDocument:localDocument];
             }
             
             return;
         } else {
             
             if (failure) {
-                failure((id<PPUploadRequestOperation>)operation, error);
+                failure((id<PPUploadRequestOperation>)operation, localDocument, error);
             }
             
             [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                                didCompleteWithError:error];
+                                             didFailToUploadDocument:localDocument
+                                                           withError:error];
         }
     }];
     

@@ -54,33 +54,105 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
  Possible file types
  */
 typedef NS_ENUM(NSUInteger, PPDocumentType) {
-    PPDocumentTypePNG,
-    PPDocumentTypeJPG,
-    PPDocumentTypeGIF,
-    PPDocumentTypeTIFF,
-    PPDocumentTypePDF,
-    PPDocumentTypeHTML,
-    PPDocumentTypeXLS,
-    PPDocumentTypeDOC,
-    PPDocumentTypeTXT,
-    PPDocumentTypeXML,
-    PPDocumentTypeJSON
+    PPDocumentTypePNG, // png image
+    PPDocumentTypeJPG, // jpeg image
+    PPDocumentTypeGIF, // gif image
+    PPDocumentTypeTIFF, // tiff image
+    PPDocumentTypePDF, // pdf document
+    PPDocumentTypeHTML, // html document
+    PPDocumentTypeXLS, // excel document
+    PPDocumentTypeDOC, // word document
+    PPDocumentTypeTXT, // textual document
+    PPDocumentTypeXML, // xml document
+    PPDocumentTypeJSON // json document
 };
 
-@interface PPDocument : PPModelObject {
+/**
+ Different documents require different processing methods. Application defines which processing type
+ is needed for a document. Currently available methods will be listed in this enum.
+ */
+typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
+    // requires processing for photos of Serbian invoices
+    PPDocumentProcessingTypeSerbianPhotoInvoice,
+    // requires processing for serbian PDF invocies
+    PPDocumentProcessingTypeSerbianPDFInvoice,
+    // requires processing for photos of Austrian invoices
+    PPDocumentProcessingTypeAustrianPhotoInvoice,
+    // requires processing for Austrian PDF invoices
+    PPDocumentProcessingTypeAustrianPDFInvoice
+};
+
+/**
+ Abstract document class
+ */
+@interface PPDocument : PPModelObject <NSCoding> {
     NSURL* url_;
 }
 
-@property (nonatomic, readonly) NSURL* url;
+/** 
+ URL pointing to the location of the document.
+ Can be url both local or remote 
+ */
+@property (nonatomic, strong, readonly) NSURL* url;
 
+/**
+ State in which is the document.
+ 
+ @see PPDocumentState enum
+ */
 @property (nonatomic, readonly) PPDocumentState state;
 
+/**
+ Type of the document
+ 
+ @see PPDocumentType enum
+ */
+@property (nonatomic, readonly) PPDocumentType documentType;
+
+/**
+ Type of processing this document requires
+ 
+ @see PPDocumentProcessingType
+ */
+@property (nonatomic, readonly) PPDocumentProcessingType processingType;
+
+/**
+ Designated initializer
+ */
 - (id)initWithUrl:(NSURL*)url
-    documentState:(PPDocumentState)state;
+    documentState:(PPDocumentState)state
+     documentType:(PPDocumentType)documentType
+   processingType:(PPDocumentProcessingType)processingType;
+
+/**
+ Returns a mime type of a this document
+ 
+ Mime type is determined by documentType enum
+ */
+- (NSString*)mimeType;
+
+/**
+ Checks equality with other document.
+ 
+ Equality check is based on URL to document
+ */
+- (BOOL)isEqualToDocument:(id)other;
+
+/**
+ Returns string representation of this object
+ 
+ For debugging purposes only
+ */
+- (NSString*)toString;
 
 /**
  Returns object representation of document type enum value
  */
 + (id)objectForDocumentType:(PPDocumentType)documentType;
+
+/**
+ Returns object representation for the PPDocumentProcessingType enum
+ */
++ (id)objectForDocumentProcessingType:(PPDocumentProcessingType)type;
 
 @end

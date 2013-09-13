@@ -16,6 +16,7 @@
 #import "PPDocument.h"
 #import "PPLocalDocument.h"
 #import "PPLocalImageDocument.h"
+#import "PPRemoteDocument.h"
 #import "PPUser.h"
 #import "PPDocumentManager.h"
 #import "PPUploadParameters.h"
