@@ -40,6 +40,7 @@
 		18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18999BA217DBCC24009FA90A /* MobileCoreServices.framework */; };
 		18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */; };
 		18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */; };
+		18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA052C17E24DC200FF3CD3 /* PPAlertView.m */; };
 		18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44A17DA7B5C00DCEC17 /* hr.strings */; };
 		18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44C17DA7B6700DCEC17 /* en.strings */; };
 		18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */; };
@@ -93,6 +94,8 @@
 		18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAFNetworkManager.m; sourceTree = "<group>"; };
 		18BA04EF17E1058500FF3CD3 /* PPAFUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFUploadRequestOperation.h; sourceTree = "<group>"; };
 		18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAFUploadRequestOperation.m; sourceTree = "<group>"; };
+		18BA052B17E24DC200FF3CD3 /* PPAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAlertView.h; sourceTree = "<group>"; };
+		18BA052C17E24DC200FF3CD3 /* PPAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAlertView.m; sourceTree = "<group>"; };
 		18DEA44A17DA7B5C00DCEC17 /* hr.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = hr.strings; sourceTree = "<group>"; };
 		18DEA44C17DA7B6700DCEC17 /* en.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en.strings; sourceTree = "<group>"; };
 		18DEA44E17DA8DE400DCEC17 /* NSString+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Formatting.h"; sourceTree = "<group>"; };
@@ -203,7 +206,7 @@
 		188AAF4717D89F0A009531FA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				18999B2417DB149D009FA90A /* Components */,
+				18BA052A17E24DAB00FF3CD3 /* Components */,
 				18999B1A17DB136A009FA90A /* SignUp */,
 				18999B1617DB136A009FA90A /* Home */,
 			);
@@ -248,13 +251,6 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
-		18999B2417DB149D009FA90A /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		18BA04EB17E0A5E300FF3CD3 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,6 +260,15 @@
 				18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		18BA052A17E24DAB00FF3CD3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				18BA052B17E24DC200FF3CD3 /* PPAlertView.h */,
+				18BA052C17E24DC200FF3CD3 /* PPAlertView.m */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		18FE943E17DDF4960083F148 /* PhotoPayCloud.embeddedframework */ = {
@@ -407,6 +412,7 @@
 				18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */,
 				18999B2D17DB178E009FA90A /* PPHomeViewController.m in Sources */,
 				188AAEEF17D876E9009531FA /* main.m in Sources */,
+				18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */,
 				18999B5617DB5B3C009FA90A /* PPDocumentTableViewCell.m in Sources */,
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,

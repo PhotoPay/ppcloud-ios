@@ -37,6 +37,24 @@
 - (PPUploadParameters*)createUploadParameters:(PPLocalDocument*)document
                                    pushNotify:(BOOL)pushNotify;
 
+/**
+ Method which sends a local document which is already saved to documents directory
+ 
+ This method creates and dispatches the actual upload request
+ */
+- (void)uploadStoredDocument:(PPLocalDocument*)localDocument
+                  pushNotify:(BOOL)pushNotify
+                     success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
+                     failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
+                    canceled:(void (^)(PPLocalDocument* localDocument))canceled;
+
+/**
+ Method which reports storing local document to documents directory has failed
+ */
+- (void)storingFailed:(PPLocalDocument*)localDocument
+                error:(NSError*)error
+              failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure;
+
 @end
 
 @implementation PPPhotoPayCloudService
@@ -188,6 +206,78 @@
     }
 }
 
+- (void)uploadStoredDocument:(PPLocalDocument*)localDocument
+                  pushNotify:(BOOL)pushNotify
+                     success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
+                     failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
+                    canceled:(void (^)(PPLocalDocument* localDocument))canceled {
+    
+    // success block is done again in upload dispatch queue
+    // @see init
+    // main queue is still free
+    PPUploadParameters *uploadParameters = [self createUploadParameters:localDocument
+                                                             pushNotify:pushNotify];
+    
+    // create the upload request
+    id<PPUploadRequestOperation> uploadRequest =
+        [[self networkManager] createUploadRequestForUser:[self user]
+                                         uploadParameters:uploadParameters
+                                                  success:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument) {
+                                                      [[self uploadParametersQueue] remove:uploadParameters];
+                                                      if (success) {
+                                                          dispatch_async(self.successDispatchQueue ?: dispatch_get_main_queue(), ^{
+                                                              success(localDocument, remoteDocument);
+                                                          });
+                                                      }
+                                                  }
+                                                  failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
+                                                      [[self uploadParametersQueue] remove:uploadParameters];
+                                                      if (failure) {
+                                                          dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
+                                                              failure(localDocument, error);
+                                                          });
+                                                      }
+                                                  }
+                                                 canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
+                                                     [[self uploadParametersQueue] remove:uploadParameters];
+                                                     if (canceled) {
+                                                         dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
+                                                             canceled(localDocument);
+                                                         });
+                                                     }
+                                                 }];
+    
+    // enqueue upload parameters queue;
+    // also serializes upload parameters object to documents directory
+    BOOL saveSuccessful = [[self uploadParametersQueue] enqueue:[uploadRequest uploadParameters]];
+    if (!saveSuccessful) {
+        NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+        NSString *desc = @"PhotoPayErrorUploadCannotStoreRequest";
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
+        NSError *error = [NSError errorWithDomain:domain
+                                             code:2003
+                                         userInfo:userInfo];
+        
+        if (failure) {
+            failure(localDocument, error);
+        }
+    }
+    
+    // add it to the operation queue
+    [[[self networkManager] uploadOperationQueue] addOperation:uploadRequest];
+    
+    // resets the upload delegate so it also receives events about the new request
+    [[self networkManager] setUploadDelegate:[[self networkManager] uploadDelegate]];
+}
+
+- (void)storingFailed:(PPLocalDocument*)localDocument
+                error:(NSError*)error
+              failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure {
+    dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
+        failure(localDocument, error);
+    });
+}
+
 - (void)uploadDocument:(PPLocalDocument*)document
             pushNotify:(BOOL)pushNotify
                success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
@@ -205,81 +295,37 @@
         return;
     }
     
-    // Save local document file do documents directory
-    // document saving is done in document manager's serial dispatch queue
-    // this will not block the calling queue
-    [document saveUsingDocumentManager:[self documentManager]
-                                 success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
-                                     
-                                     // success block is done again in upload dispatch queue
-                                     // @see init
-                                     // main queue is still free
-                                     PPUploadParameters *uploadParameters = [self createUploadParameters:document
-                                                                                              pushNotify:pushNotify];
-                                     
-                                     NSLog(@"Document is:\n%@", [localDocument toString]);
-                                
-                                     
-                                     // create the upload request
-                                     id<PPUploadRequestOperation> uploadRequest =
-                                        [[self networkManager] createUploadRequestForUser:[self user]
-                                                                         uploadParameters:uploadParameters
-                                                                                  success:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument) {
-                                                                                      [[self uploadParametersQueue] remove:uploadParameters];
-                                                                                      if (success) {
-                                                                                          success(document, remoteDocument);
-                                                                                      }
-                                                                                  }
-                                                                                  failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
-                                                                                      [[self uploadParametersQueue] remove:uploadParameters];
-                                                                                      if (failure) {
-                                                                                          failure(document, error);
-                                                                                      }
-                                                                                  }
-                                                                                 canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
-                                                                                     [[self uploadParametersQueue] remove:uploadParameters];
-                                                                                     if (canceled) {
-                                                                                         canceled(document);
-                                                                                     }
-                                                                                 }];
-                                     
-                                     // enqueue upload parameters queue;
-                                     // also serializes upload parameters object to documents directory
-                                     BOOL ok = [[self uploadParametersQueue] enqueue:[uploadRequest uploadParameters]];
-                                     if (!ok) {
-                                         NSLog(@"Failed save!");
-                                         
-                                         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
-                                         NSString *desc = @"PhotoPayErrorUploadCannotStoreRequest";
-                                         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
-                                         NSError *error = [NSError errorWithDomain:domain
-                                                                              code:2003
-                                                                          userInfo:userInfo];
-                                         
-                                         if (failure) {
-                                             failure(document, error);
-                                         }
-                                     }
-                                     
-                                     // add it to the operation queue
-                                     [[[self networkManager] uploadOperationQueue] addOperation:uploadRequest];
-                                     
-                                     // resets the upload delegate so it also receives events about the new request
-                                     [[self networkManager] setUploadDelegate:[[self networkManager] uploadDelegate]];
-                                     
-                                 } failure:^(PPLocalDocument*localDocument, NSError*error) {
-                                     // success block is done again in upload dispatch queue
-                                     // @see init
-                                     // main queue is still free
-                                     
-                                     dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
-                                         failure(document, error);
-                                     });
-                                     
-                                     NSLog(@"Error while saving document!");
-                                 }];
-
-    NSLog(@"Uploading document");
+    
+    if ([document url] != nil) {
+        // local document is already stored
+        // repeate request for stored document
+        [self uploadStoredDocument:document
+                        pushNotify:pushNotify
+                           success:success
+                           failure:failure
+                          canceled:canceled];
+        
+    } else {
+        // Save local document file do documents directory
+        // document saving is done in document manager's serial dispatch queue
+        // this will not block the calling queue
+        [document saveUsingDocumentManager:[self documentManager]
+                                   success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
+                                       
+                                       // local document is already stored
+                                       // repeate request for stored document
+                                       [self uploadStoredDocument:document
+                                                       pushNotify:pushNotify
+                                                          success:success
+                                                          failure:failure
+                                                         canceled:canceled];
+                                   }
+                                   failure:^(PPLocalDocument*localDocument, NSError*error) {
+                                       [self storingFailed:localDocument
+                                                     error:error
+                                                   failure:failure];
+                                   }];
+    }
 }
 
 - (PPUploadParameters*)createUploadParameters:(PPLocalDocument*)document
