@@ -61,7 +61,9 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 - (NSData*)bytes {
     if (self->bytes_ == nil && self.url == nil) {
         if ([self image] == nil) {
-            // throw exception, this should not happen
+            @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                           reason:@"Local document should have either URL, BYTES or IMAGE property set. Save the document using saveUsingDocumentManager:success:failure and use the bytes property in callbacks only"
+                                         userInfo:nil];
         }
         // we need to have UIImage object here
         self->bytes_ = [UIImage jpegDataWithImage:image

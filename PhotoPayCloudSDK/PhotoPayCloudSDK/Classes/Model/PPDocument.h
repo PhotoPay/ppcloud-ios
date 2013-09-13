@@ -14,40 +14,34 @@
  */
 typedef NS_ENUM(NSUInteger, PPDocumentState) {
     
-    /** 1. States in which the document is stil stored only locally */
+    /** 1. States of LocalDocument objects */
     
-    /** when document is first created, but upload still hasn't started */
+    /** when document is first created in memory */
     PPDocumentStateCreated          = (0x1 << 0),
+    /** before the upload starts, document first has to be stored on persistent storage (usually filesystem) */
+    PPDocumentStateStored           = (0x1 << 1),
     /** when document upload starts and is still in progress */
-    PPDocumentStateUploading        = (0x1 << 1),
+    PPDocumentStateUploading        = (0x1 << 2),
     
-    /** 2. States in which server has the document, but document processing is still not over */
+    /** 2. States of RemoteDocument objects */
     
     /** when the server acknowledges that document was successfully uploaded */
-    PPDocumentStateReceived         = (0x1 << 2),
+    PPDocumentStateReceived         = (0x1 << 3),
     /** when the document is uploaded, but processing still hasn't started */
-    PPDocumentStatePending          = (0x1 << 3),
+    PPDocumentStatePending          = (0x1 << 4),
     /** when document processing starts and is still in progress */
-    PPDocumentStateProcessing       = (0x1 << 4),
+    PPDocumentStateProcessing       = (0x1 << 5),
     /** when document processing finishes with error. This means processing will be repeated */
-    PPDocumentStateProcessingError  = (0x1 << 5),
-    
-    /** 3. States in which the processing is over */
-    
+    PPDocumentStateProcessingError  = (0x1 << 6),
     /** when document processing finishes with success */
-    PPDocumentStateDone             = (0x1 << 6),
-    /** 
-     when document processing finishes with error several times. Documents in this state will 
-     no longer be processed and an error message should be presented to the user 
-     */
-    PPDocumentStateDoneWithError    = (0x1 << 7),
-    
-    /** 4. States in which the user has dismissed the processed document */
-    
+    PPDocumentStateDone             = (0x1 << 7),
+    /**  when document processing finishes with error several times. Documents in this state will
+     no longer be processed and an error message should be presented to the user */
+    PPDocumentStateDoneWithError    = (0x1 << 8),
     /** when the user uses the processed results for making the actual payment. */
-    PPDocumentStateConfirmed        = (0x1 << 8),
+    PPDocumentStateConfirmed        = (0x1 << 9),
     /** when the user deletes the uploaded document without making the actual payment. */
-    PPDocumentStateDeleted          = (0x1 << 9)
+    PPDocumentStateDeleted          = (0x1 << 10)
 };
 
 /**
@@ -100,21 +94,21 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  
  @see PPDocumentState enum
  */
-@property (nonatomic, readonly) PPDocumentState state;
+@property (nonatomic, assign) PPDocumentState state;
 
 /**
  Type of the document
  
  @see PPDocumentType enum
  */
-@property (nonatomic, readonly) PPDocumentType documentType;
+@property (nonatomic, assign, readonly) PPDocumentType documentType;
 
 /**
  Type of processing this document requires
  
  @see PPDocumentProcessingType
  */
-@property (nonatomic, readonly) PPDocumentProcessingType processingType;
+@property (nonatomic, assign, readonly) PPDocumentProcessingType processingType;
 
 /**
  Designated initializer

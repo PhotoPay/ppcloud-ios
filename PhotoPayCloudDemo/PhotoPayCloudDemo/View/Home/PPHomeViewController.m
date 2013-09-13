@@ -211,7 +211,8 @@
     DDLogError(@"Error message is %@", [error localizedDescription]);
     
     PPAlertView *alertView = [[PPAlertView alloc] initWithTitle:@"Upload could not be completed"
-                                                        message:@"Would you like to try again?" completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                        message:@"Would you like to try again?"
+                                                     completion:^(BOOL cancelled, NSInteger buttonIndex) {
                                                             if (buttonIndex == 1) { // retry button
                                                                 // enqueue this upload once more
                                                                 [self uploadDocument:localDocument];

@@ -235,6 +235,7 @@
                                                   }
                                                   failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
                                                       [[self uploadParametersQueue] remove:uploadParameters];
+                                                      localDocument.state = PPDocumentStateStored;
                                                       
                                                       if ([[self uploadParametersQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
@@ -248,6 +249,7 @@
                                                   }
                                                  canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
                                                      [[self uploadParametersQueue] remove:uploadParameters];
+                                                     localDocument.state = PPDocumentStateStored;
                                                      
                                                      if ([[self uploadParametersQueue] count] == 0) {
                                                          state = PPPhotoPayCloudServiceStateReady;
@@ -277,6 +279,8 @@
         
         return;
     }
+    
+    localDocument.state = PPDocumentStateUploading;
     
     state = PPPhotoPayCloudServiceStateUploading;
     
@@ -315,20 +319,7 @@
     }
     
     
-    if ([document url] != nil) {
-        
-        // uploads are always performed on upload dispatch queue
-        dispatch_async(uploadDispatchQueue, ^(){
-            // local document is already stored
-            // repeate request for stored document
-            [self uploadStoredDocument:document
-                            pushNotify:pushNotify
-                               success:success
-                               failure:failure
-                              canceled:canceled];
-        });
-        
-    } else {
+    if ([document state] == PPDocumentStateCreated) {
         // Save local document file do documents directory
         // document saving is done in document manager's serial dispatch queue
         // this will not block the calling queue
@@ -348,6 +339,17 @@
                                                      error:error
                                                    failure:failure];
                                    }];
+    } else {
+        // uploads are always performed on upload dispatch queue
+        dispatch_async(uploadDispatchQueue, ^(){
+            // local document is already stored
+            // repeate request for stored document
+            [self uploadStoredDocument:document
+                            pushNotify:pushNotify
+                               success:success
+                               failure:failure
+                              canceled:canceled];
+        });
     }
 }
 

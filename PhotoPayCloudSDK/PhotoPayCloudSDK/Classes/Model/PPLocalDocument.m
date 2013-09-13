@@ -22,7 +22,6 @@
 @implementation PPLocalDocument
 
 @synthesize bytes = bytes_;
-@synthesize state;
 @synthesize url;
 @synthesize documentType;
 @synthesize processingType;
@@ -41,17 +40,11 @@
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    self = [super init];
+    self = [super initWithCoder:decoder];
     if (!self) {
         return nil;
     }
-    
     bytes_ = nil;
-    url_ = [decoder decodeObjectForKey:@"url"];
-    state = [decoder decodeIntegerForKey:@"state"];
-    documentType = [decoder decodeIntegerForKey:@"documentType"];
-    processingType = [decoder decodeIntegerForKey:@"processingType"];
-    
     return self;
 }
 
@@ -101,7 +94,9 @@
     [documentManager saveDocument:self
                           success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
                               localDocument.url = documentUrl;
+                              localDocument.state = PPDocumentStateStored;
                               NSLog(@"Document is:\n%@", [localDocument toString]);
+                              NSLog(@"State %d", [localDocument state]);
                               success(localDocument, documentUrl);
                           }
                           failure:^(PPLocalDocument*localDocument, NSError* error) {
