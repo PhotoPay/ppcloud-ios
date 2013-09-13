@@ -108,6 +108,8 @@
     PPLocalDocument *localDocument = [uploadParameters localDocument];
     if (error != nil) {
         failure(nil, localDocument, error);
+    
+        return nil;
     }
     
     // 2. create multipart request
@@ -137,6 +139,8 @@
                                              code:2002
                                          userInfo:userInfo];
         failure(nil, localDocument, error);
+        
+        return nil;
     }
     
     __weak PPAFUploadRequestOperation* _uploadRequestOperation = uploadRequestOperation;

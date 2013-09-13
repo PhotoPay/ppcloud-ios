@@ -211,10 +211,8 @@
                      success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                      failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
                     canceled:(void (^)(PPLocalDocument* localDocument))canceled {
+    // called in upload dispatch queue which makes main free for UI
     
-    // success block is done again in upload dispatch queue
-    // @see init
-    // main queue is still free
     PPUploadParameters *uploadParameters = [self createUploadParameters:localDocument
                                                              pushNotify:pushNotify];
     
@@ -224,6 +222,11 @@
                                          uploadParameters:uploadParameters
                                                   success:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument) {
                                                       [[self uploadParametersQueue] remove:uploadParameters];
+                                                      
+                                                      if ([[self uploadParametersQueue] count] == 0) {
+                                                          state = PPPhotoPayCloudServiceStateReady;
+                                                      }
+                                                      
                                                       if (success) {
                                                           dispatch_async(self.successDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                               success(localDocument, remoteDocument);
@@ -232,6 +235,11 @@
                                                   }
                                                   failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
                                                       [[self uploadParametersQueue] remove:uploadParameters];
+                                                      
+                                                      if ([[self uploadParametersQueue] count] == 0) {
+                                                          state = PPPhotoPayCloudServiceStateReady;
+                                                      }
+                                                      
                                                       if (failure) {
                                                           dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                               failure(localDocument, error);
@@ -240,6 +248,11 @@
                                                   }
                                                  canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
                                                      [[self uploadParametersQueue] remove:uploadParameters];
+                                                     
+                                                     if ([[self uploadParametersQueue] count] == 0) {
+                                                         state = PPPhotoPayCloudServiceStateReady;
+                                                     }
+                                                     
                                                      if (canceled) {
                                                          dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                              canceled(localDocument);
@@ -261,7 +274,11 @@
         if (failure) {
             failure(localDocument, error);
         }
+        
+        return;
     }
+    
+    state = PPPhotoPayCloudServiceStateUploading;
     
     // add it to the operation queue
     [[[self networkManager] uploadOperationQueue] addOperation:uploadRequest];
@@ -273,6 +290,8 @@
 - (void)storingFailed:(PPLocalDocument*)localDocument
                 error:(NSError*)error
               failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure {
+    
+    // simply report failure on failure dispatch queue
     dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
         failure(localDocument, error);
     });
@@ -297,13 +316,17 @@
     
     
     if ([document url] != nil) {
-        // local document is already stored
-        // repeate request for stored document
-        [self uploadStoredDocument:document
-                        pushNotify:pushNotify
-                           success:success
-                           failure:failure
-                          canceled:canceled];
+        
+        // uploads are always performed on upload dispatch queue
+        dispatch_async(uploadDispatchQueue, ^(){
+            // local document is already stored
+            // repeate request for stored document
+            [self uploadStoredDocument:document
+                            pushNotify:pushNotify
+                               success:success
+                               failure:failure
+                              canceled:canceled];
+        });
         
     } else {
         // Save local document file do documents directory
