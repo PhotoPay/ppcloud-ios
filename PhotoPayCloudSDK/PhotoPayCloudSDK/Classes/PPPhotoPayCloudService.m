@@ -13,6 +13,7 @@
 #import "PPDocumentManager.h"
 #import "PPLocalDocumentUploadQueue.h"
 #import "PPNetworkManager.h"
+#import "PPDocumentList.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
@@ -29,6 +30,9 @@
 /** Override of the state property. Inside of the class it's changeable */
 @property (nonatomic) PPPhotoPayCloudServiceState state;
 
+/** Object responsible for managing a list of documents */
+@property (nonatomic, strong) PPDocumentList* documentList;
+
 /**
  Checks if any existing upload queues wait for continuation
  */
@@ -40,6 +44,7 @@
  This method creates and dispatches the actual upload request
  */
 - (void)uploadStoredDocument:(PPLocalDocument*)localDocument
+                    delegate:(id<PPDocumentUploadDelegate>)delegate
                      success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                      failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
                     canceled:(void (^)(PPLocalDocument* localDocument))canceled;
@@ -63,6 +68,7 @@
 @synthesize successDispatchQueue;
 @synthesize failureDispatchQueue;
 @synthesize documentUploadQueue;
+@synthesize documentList;
 
 + (PPPhotoPayCloudService*)sharedService {
     static PPPhotoPayCloudService* sharedService = nil;
@@ -82,6 +88,9 @@
         
         // network manager is not set in the beginning
         networkManager = nil;
+        
+        // document list is nil until user and network manager are determined
+        documentList = nil;
         
         // dispatch queue for upload requests
         self.uploadDispatchQueue = dispatch_queue_create("net.photopay.cloud.sdk.upload", NULL);
@@ -191,6 +200,7 @@
     
     if (self.networkManager != nil && self.user != nil) {
         [self checkExistingUploadQueue];
+        self.documentList = [[PPDocumentList alloc] initWithUser:self.user networkManager:self.networkManager];
     } else {
         self.state = PPPhotoPayCloudServiceStateUninitialized;
     }
@@ -201,6 +211,7 @@
     
     if (self.networkManager != nil && self.user != nil) {
         [self checkExistingUploadQueue];
+        self.documentList = [[PPDocumentList alloc] initWithUser:self.user networkManager:self.networkManager];
     } else {
         self.state = PPPhotoPayCloudServiceStateUninitialized;
     }
@@ -220,7 +231,16 @@
     }
 }
 
+- (void)setUploadDelegate:(id<PPDocumentUploadDelegate>)uploadDelegate {
+    [[self networkManager] setUploadDelegate:uploadDelegate];
+}
+
+- (id<PPDocumentUploadDelegate>)uploadDelegate {
+    return [[self networkManager] uploadDelegate];
+}
+
 - (void)uploadStoredDocument:(PPLocalDocument*)localDocument
+                    delegate:(id<PPDocumentUploadDelegate>)delegate
                      success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                      failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
                     canceled:(void (^)(PPLocalDocument* localDocument))canceled {
@@ -242,6 +262,9 @@
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
+                                                      [[self documentList] swapLocalDocument:localDocument withRemoteDocument:remoteDocument];
+                                                      [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
+                                                      
                                                       if (success) {
                                                           dispatch_async(self.successDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                               success(localDocument, remoteDocument);
@@ -253,11 +276,12 @@
                                                   }
                                                   failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
                                                       
-                                                      [[self documentUploadQueue] remove:localDocument];
                                                       localDocument.state = PPDocumentStateStored;
                                                       if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
+                                                      
+                                                      [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
                                                       
                                                       if (failure) {
                                                           dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
@@ -270,11 +294,12 @@
                                                   }
                                                  canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
                                                      
-                                                     [[self documentUploadQueue] remove:localDocument];
                                                      localDocument.state = PPDocumentStateStored;
                                                      if ([[self documentUploadQueue] count] == 0) {
                                                          state = PPPhotoPayCloudServiceStateReady;
                                                      }
+                                                     
+                                                     [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
                                                      
                                                      if (canceled) {
                                                          dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
@@ -285,6 +310,8 @@
                                                          [localDocument setUploadRequest:nil];
                                                      }
                                                  }];
+    
+    [uploadRequest setDelegate:delegate];
     
     [localDocument setUploadRequest:uploadRequest];
     
@@ -306,15 +333,14 @@
         return;
     }
     
+    [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
+    
     localDocument.state = PPDocumentStateUploading;
     
     state = PPPhotoPayCloudServiceStateUploading;
     
     // add it to the operation queue
     [[[self networkManager] uploadOperationQueue] addOperation:uploadRequest];
-    
-    // resets the upload delegate so it also receives events about the new request
-    [[self networkManager] setUploadDelegate:[[self networkManager] uploadDelegate]];
 }
 
 - (void)storingFailed:(PPLocalDocument*)localDocument
@@ -328,6 +354,7 @@
 }
 
 - (void)uploadDocument:(PPLocalDocument*)document
+              delegate:(id<PPDocumentUploadDelegate>)delegate
                success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
               canceled:(void (^)(PPLocalDocument* localDocument))canceled {
@@ -362,6 +389,7 @@
                                        // local document is already stored
                                        // repeate request for stored document
                                        [self uploadStoredDocument:document
+                                                         delegate:delegate
                                                           success:success
                                                           failure:failure
                                                          canceled:canceled];
@@ -377,6 +405,7 @@
             // local document is already stored
             // repeate request for stored document
             [self uploadStoredDocument:document
+                              delegate:delegate
                                success:success
                                failure:failure
                               canceled:canceled];
@@ -384,11 +413,18 @@
     }
 }
 
-- (void)getDocuments:(PPDocumentState)documentStates
-             success:(void (^)(NSArray *))success
-             failure:(void (^)(NSError *))failure
-            canceled:(void (^)(void))canceled {
-    
+- (void)setDocumentListDelegate:(id<PPDocumentListDelegate>)documentListDelegate {
+    [[self documentList] setDelegate:documentListDelegate];
+}
+
+- (id<PPDocumentListDelegate>)documentListDelegate {
+    return [[self documentList] delegate];
+}
+
+- (void)requestDocuments:(PPDocumentState)documentStates {
+    [[self documentList] setDocumentStateList:documentStates];
+    [[self documentList] requestRemoteDocuments];
+    [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
 }
 
 @end

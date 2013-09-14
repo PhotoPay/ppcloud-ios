@@ -14,7 +14,7 @@
 /**
  Delegate is also requred. Could be nil.
  */
-@property (nonatomic, weak) id<PPUploadRequestOperationDelegate> delegate;
+@property (nonatomic, weak) id<PPDocumentUploadDelegate> delegate;
 
 /**
  Upload progess is stored in progress property

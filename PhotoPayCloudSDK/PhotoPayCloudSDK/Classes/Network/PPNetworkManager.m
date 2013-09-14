@@ -52,7 +52,7 @@
                                  userInfo:nil];
 }
 
-- (void)setUploadDelegate:(id<PPUploadRequestOperationDelegate>)inUploadDelegate {
+- (void)setUploadDelegate:(id<PPDocumentUploadDelegate>)inUploadDelegate {
     uploadDelegate = inUploadDelegate;
     for (id<PPUploadRequestOperation> operation in self.uploadOperationQueue.operations) {
         operation.delegate = uploadDelegate;

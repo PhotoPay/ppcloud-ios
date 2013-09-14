@@ -12,13 +12,11 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PPAlertView.h"
 
-@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPUploadRequestOperationDelegate>
+@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPDocumentListDelegate>
 
 @property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
 
-- (void)reloadTableWithDocuments:(NSArray*)documents;
 - (void)uploadDocument:(PPLocalDocument*)document;
-- (void)refreshDocumentTable;
 
 @end
 
@@ -59,25 +57,18 @@
     [super viewWillAppear:animated];
     
     // this view controller will receive all news about the upload status
-    [[[PPPhotoPayCloudService sharedService] networkManager] setUploadDelegate:self];
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+    [[PPPhotoPayCloudService sharedService] setDocumentListDelegate:self];
     
     //To clear any selection in the table view before it’s displayed,
     // implement the viewWillAppear: method to clear the selected row
     // (if any) by calling deselectRowAtIndexPath:animated:.
+    
+    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal|PPDocumentStateRemoteUnconfirmed];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    PPDocument *doc1 = [[PPDocument alloc] init];
-    PPDocument *doc2 = [[PPDocument alloc] init];
-    PPDocument *doc3 = [[PPDocument alloc] init];
-    PPDocument *doc4 = [[PPDocument alloc] init];
-    PPDocument *doc5 = [[PPDocument alloc] init];
-    
-    NSArray* documents = [[NSArray alloc] initWithObjects:doc1, doc2, doc3, doc4, doc5, nil];
-    
-    [self reloadTableWithDocuments:documents];
     
     // flash the scroll view’s scroll indicators
     [[self billsTable] flashScrollIndicators];
@@ -94,18 +85,14 @@
     [super viewWillDisappear:animated];
     
     // this view controller will receive all news about the upload status
-    [[[PPPhotoPayCloudService sharedService] networkManager] setUploadDelegate:nil];
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+    [[PPPhotoPayCloudService sharedService] setDocumentListDelegate:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)reloadTableWithDocuments:(NSArray*)documents {
-    [[self documentsDataSource] setItems:documents];
-    [[self billsTable] reloadData];
 }
 
 + (NSString*)defaultXibName {
@@ -156,6 +143,7 @@
 - (void)uploadDocument:(PPLocalDocument *)document {
     // send document to processing server
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
+                                                  delegate:self
                                                    success:^(PPLocalDocument *localDocument, PPRemoteDocument *remoteDocument) {
                                                        NSLog(@"Success!");
                                                    }
@@ -167,8 +155,12 @@
                                                   }];
 }
 
-- (void)refreshDocumentTable {
-    DDLogInfo(@"Refreshing UI");
+#pragma mark - PPDocumentListDelegate
+
+- (void)documentListDidUpdate:(NSArray *)documents {
+    DDLogInfo(@"Updated list!");
+    [[self documentsDataSource] setItems:documents];
+    [[self billsTable] reloadData];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -196,16 +188,14 @@
 
 #pragma mark - PPUploadRequestOperationDelegate
 
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-             didUploadDocument:(PPLocalDocument *)localDocument
-                    withResult:(PPRemoteDocument *)remoteDocument {
+- (void)localDocument:(PPLocalDocument *)localDocument
+didFinishUploadWithResult:(PPRemoteDocument *)remoteDocument {
     DDLogInfo(@"Document is successfully uploaded!");
 
 }
 
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-       didFailToUploadDocument:(PPLocalDocument *)localDocument
-                     withError:(NSError *)error {
+- (void)localDocument:(PPLocalDocument *)localDocument
+didFailToUploadWithError:(NSError *)error {
     DDLogError(@"Document has failed to upload!");
     DDLogError(@"Error message is %@", [error localizedDescription]);
     
@@ -222,17 +212,15 @@
     [alertView show];
 }
 
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-  didUpdateProgressForDocument:(PPLocalDocument *)localDocument
-             totalBytesWritten:(long long)totalBytesWritten
-             totalBytesToWrite:(long long)totalBytesToWrite {
+- (void)localDocument:(PPLocalDocument *)localDocument
+didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
+    totalBytesToWrite:(long long)totalBytesToWrite {
+    
     DDLogInfo(@"Document %@ is uploading. Progress is %.2f!", [localDocument url],  100 * totalBytesWritten / (double)totalBytesToWrite);
 }
 
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-    didCancelUploadingDocument:(PPLocalDocument *)localDocument {
+- (void)localDocumentDidCancelUpload:(PPLocalDocument *)localDocument {
     DDLogInfo(@"Document upload is canceled!");
-
 }
 
 #pragma mark - UITableViewDelegate

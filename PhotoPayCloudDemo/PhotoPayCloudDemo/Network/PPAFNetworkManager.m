@@ -143,11 +143,10 @@
     [uploadRequestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         _uploadRequestOperation.progress = [[NSNumber alloc] initWithDouble:totalBytesWritten / (double)totalBytesExpectedToWrite];
         
-        if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperation:didUpdateProgressForDocument:totalBytesWritten:totalBytesToWrite:)]) {
-            [[_uploadRequestOperation delegate] uploadRequestOperation:_uploadRequestOperation
-                                          didUpdateProgressForDocument:document
-                                                     totalBytesWritten:totalBytesWritten
-                                                     totalBytesToWrite:totalBytesExpectedToWrite];
+        if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didUpdateProgressWithBytesWritten:totalBytesToWrite:)]) {
+            [[_uploadRequestOperation delegate] localDocument:document
+                            didUpdateProgressWithBytesWritten:totalBytesWritten
+                                            totalBytesToWrite:totalBytesExpectedToWrite];
         }
     }];
     
@@ -159,9 +158,8 @@
             success(_uploadRequestOperation, document, remoteDocument);
         }
         
-        [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                               didUploadDocument:document
-                                                      withResult:remoteDocument];
+        [_uploadRequestOperation.delegate localDocument:document
+                              didFinishUploadWithResult:remoteDocument];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"failed to execute upload %@", [error localizedDescription]);
@@ -172,9 +170,8 @@
                 canceled(_uploadRequestOperation, document);
             }
             
-            if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperation:didCancelUploadingDocument:)]) {
-                [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                              didCancelUploadingDocument:document];
+            if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocumentDidCancelUpload:)]) {
+                [_uploadRequestOperation.delegate localDocumentDidCancelUpload:document];
             }
             
             return;
@@ -184,9 +181,8 @@
                 failure((id<PPUploadRequestOperation>)operation, document, error);
             }
             
-            [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                             didFailToUploadDocument:document
-                                                           withError:error];
+            [_uploadRequestOperation.delegate localDocument:document
+                                   didFailToUploadWithError:error];
         }
     }];
     

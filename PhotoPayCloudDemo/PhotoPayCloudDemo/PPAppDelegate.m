@@ -26,7 +26,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // These should be called before crearing view controllers, so that they have
+    // correct values set in their lifecycle methods
     [self configureApp];
+    [self configurePhotoPayCloud];
     
     PPHomeViewController *homeViewController = [[PPHomeViewController alloc] initWithNibName:[PPHomeViewController defaultXibName]
                                                                                   bundle:nil];
@@ -45,7 +48,6 @@
 
 - (void)configureApp {
     [self configureLogger];
-
     [[PPApp sharedApp] setLanguage:@"hr"];
 }
 
@@ -80,13 +82,15 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    // call configure photopaycloud because it's possible
+    // that PhotoPayCloudService was deallocated in the meantime
+    [self configurePhotoPayCloud];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
-    [self configurePhotoPayCloud];
 }
 
 + (AFHTTPClient*)httpclient {

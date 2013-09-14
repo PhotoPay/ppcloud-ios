@@ -21,7 +21,7 @@
 @property (nonatomic, strong, readonly) NSOperationQueue* uploadOperationQueue;
 
 /** Upload delegate for all upload requests currently in queue */
-@property (nonatomic, weak) id<PPUploadRequestOperationDelegate> uploadDelegate;
+@property (nonatomic, weak) id<PPDocumentUploadDelegate> uploadDelegate;
 
 /**
  Abstract

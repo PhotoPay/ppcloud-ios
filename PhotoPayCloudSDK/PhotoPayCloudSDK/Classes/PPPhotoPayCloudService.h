@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "PPDocument.h"
 
+@protocol PPDocumentUploadDelegate;
 @protocol PPUploadRequestOperation;
+@protocol PPDocumentListDelegate;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
@@ -128,6 +130,12 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  */
 @property (nonatomic, strong) NSData* deviceToken;
 
+/** Upload delegate for all upload requests currently in queue */
+@property (nonatomic, weak) id<PPDocumentUploadDelegate> uploadDelegate;
+
+/** Upload delegate for all upload requests currently in queue */
+@property (nonatomic, weak) id<PPDocumentListDelegate> documentListDelegate;
+
 /**
  Creating upload request for a specified document.
  
@@ -139,6 +147,7 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  the list of current documents (documents property).
  */
 - (void)uploadDocument:(PPLocalDocument*)document
+              delegate:(id<PPDocumentUploadDelegate>)delegate
                success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
               canceled:(void (^)(PPLocalDocument* localDocument))canceled;
@@ -150,9 +159,6 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
         to be retrieved. e.g. 
         documentStates = (PPDocumentStateCreated | PPDocumentStateUploading | PPDocumentStateReceived)
  */
-- (void)getDocuments:(PPDocumentState)documentStates
-             success:(void (^)(NSArray* documents))success
-             failure:(void (^)(NSError* error))failure
-            canceled:(void (^)(void))canceled;
+- (void)requestDocuments:(PPDocumentState)documentStateList;
 
 @end

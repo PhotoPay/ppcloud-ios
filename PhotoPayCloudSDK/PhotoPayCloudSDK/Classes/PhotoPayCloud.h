@@ -20,6 +20,7 @@
 #import "PPUser.h"
 #import "PPDocumentManager.h"
 #import "PPLocalDocumentUploadQueue.h"
+#import "PPDocumentList.h"
 
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"

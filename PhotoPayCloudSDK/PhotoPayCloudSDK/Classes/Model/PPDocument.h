@@ -23,6 +23,9 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
     /** when document upload starts and is still in progress */
     PPDocumentStateUploading        = (0x1 << 2),
     
+    /** Document is local if it's in one of these three states */
+    PPDocumentStateLocal            = PPDocumentStateCreated | PPDocumentStateStored | PPDocumentStateUploading,
+    
     /** 2. States of RemoteDocument objects */
     
     /** when the server acknowledges that document was successfully uploaded */
@@ -39,9 +42,12 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
      no longer be processed and an error message should be presented to the user */
     PPDocumentStateProcessedWithError    = (0x1 << 8),
     /** when the user uses the processed results for making the actual payment. */
-    PPDocumentStateConfirmed        = (0x1 << 9),
+    PPDocumentStatePaid             = (0x1 << 9),
     /** when the user deletes the uploaded document without making the actual payment. */
-    PPDocumentStateDeleted          = (0x1 << 10)
+    PPDocumentStateDeleted          = (0x1 << 10),
+    
+    /** Document is local if it's in one of these three states */
+    PPDocumentStateRemoteUnconfirmed  = PPDocumentStateReceived | PPDocumentStatePending | PPDocumentStateProcessing | PPDocumentStateProcessingError | PPDocumentStateProcessed | PPDocumentStateProcessedWithError,
 };
 
 /**

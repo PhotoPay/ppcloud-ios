@@ -10,7 +10,7 @@
 
 @class PPLocalDocument;
 @class PPRemoteDocument;
-@protocol PPUploadRequestOperationDelegate;
+@protocol PPDocumentUploadDelegate;
 
 /**
  Interface which any concrete upload request operation should implement
@@ -23,7 +23,7 @@
 /**
  Delegate is also requred. Could be nil.
  */
-@property (nonatomic, weak) id<PPUploadRequestOperationDelegate> delegate;
+@property (nonatomic, weak) id<PPDocumentUploadDelegate> delegate;
 
 /**
  Upload progess is stored in progress property
@@ -40,38 +40,34 @@
 /**
  Delegate for the upload request operation
  */
-@protocol PPUploadRequestOperationDelegate <NSObject>
+@protocol PPDocumentUploadDelegate <NSObject>
 
 @required
 
 /** 
  Success handler is required. UI updates will be required on success 
  */
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-             didUploadDocument:(PPLocalDocument*)localDocument
-                    withResult:(PPRemoteDocument*)remoteDocument;
+- (void)localDocument:(PPLocalDocument*)localDocument
+didFinishUploadWithResult:(PPRemoteDocument*)remoteDocument;
 
 /**
  Failure handler is required. UI updates will be required on success
  */
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-       didFailToUploadDocument:(PPLocalDocument*)localDocument
-                     withError:(NSError*)error;
+- (void)localDocument:(PPLocalDocument*)localDocument
+didFailToUploadWithError:(NSError*)error;
 
 @optional
 
 /**
- Progress handler is optional. It's possible to update UI on progress.
+ Progress handler is optional.
  */
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-  didUpdateProgressForDocument:(PPLocalDocument*)localDocument
-             totalBytesWritten:(long long)totalBytesWritten
-             totalBytesToWrite:(long long)totalBytesToWrite;
+- (void)localDocument:(PPLocalDocument*)localDocument
+didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
+    totalBytesToWrite:(long long)totalBytesToWrite;
 
 /**
  Optional handler for cancellation event
  */
-- (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
-    didCancelUploadingDocument:(PPLocalDocument*)localDocument;
+- (void)localDocumentDidCancelUpload:(PPLocalDocument*)localDocument;
 
 @end

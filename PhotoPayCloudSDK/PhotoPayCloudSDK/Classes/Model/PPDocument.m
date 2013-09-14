@@ -172,7 +172,7 @@
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        table = @{@(PPDocumentStateConfirmed)           : @"Confirmed",
+        table = @{@(PPDocumentStatePaid)                : @"Paid",
                   @(PPDocumentStateCreated)             : @"Created",
                   @(PPDocumentStateDeleted)             : @"Deleted",
                   @(PPDocumentStatePending)             : @"Pending",
