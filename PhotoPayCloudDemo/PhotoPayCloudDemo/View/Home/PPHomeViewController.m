@@ -156,7 +156,6 @@
 - (void)uploadDocument:(PPLocalDocument *)document {
     // send document to processing server
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
-                                                pushNotify:NO
                                                    success:^(PPLocalDocument *localDocument, PPRemoteDocument *remoteDocument) {
                                                        NSLog(@"Success!");
                                                    }

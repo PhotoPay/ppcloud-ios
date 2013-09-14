@@ -23,7 +23,14 @@
  
  This is primarily used in making network requests
  */
-+ (NSDictionary*)documentProcessingTypeObjectTable;
++ (NSDictionary *)documentProcessingTypeObjectTable;
+
+/**
+ Creates and returns an map enum value : object value for enum PPDocumentProcessingState
+ 
+ This is primarily used in debugging
+ */
++ (NSDictionary *)documentStateObjectTable;
 
 @end
 
@@ -33,6 +40,7 @@
 @synthesize state;
 @synthesize documentType;
 @synthesize processingType;
+@synthesize creationDate;
 
 - (id)initWithUrl:(NSURL*)inUrl
     documentState:(PPDocumentState)inState
@@ -44,6 +52,7 @@
         state = inState;
         documentType = inDocumentType;
         processingType = inProcessingType;
+        creationDate = [NSDate date];
     }
     return self;
 }
@@ -58,6 +67,7 @@
     state = [decoder decodeIntegerForKey:@"state"];
     documentType = [decoder decodeIntegerForKey:@"documentType"];
     processingType = [decoder decodeIntegerForKey:@"processingType"];
+    creationDate = [decoder decodeObjectForKey:@"creationDate"];
     
     return self;
 }
@@ -67,6 +77,7 @@
     [encoder encodeInteger:self.state forKey:@"state"];
     [encoder encodeInteger:self.documentType forKey:@"documentType"];
     [encoder encodeInteger:self.processingType forKey:@"processingType"];
+    [encoder encodeObject:self.creationDate forKey:@"creationDate"];
 }
 
 - (BOOL)isEqualToDocument:(id)other {
@@ -125,27 +136,11 @@
 
 - (NSString*)toString {
     NSString* result = @"";
-    
-    result = [result stringByAppendingFormat:@"Local document url: %@\n", [[self url] path]];
-
-    result = [result stringByAppendingFormat:@"Local document type: %@\n", [PPDocument objectForDocumentType:[self documentType]]];
-
-    switch ([self processingType]) {
-        case PPDocumentProcessingTypeAustrianPDFInvoice:
-            result = [result stringByAppendingString:@"Processing type: Austrian PDF\n"];
-            break;
-        case PPDocumentProcessingTypeAustrianPhotoInvoice:
-            result = [result stringByAppendingString:@"Processing type: Austrian Photo Invoice\n"];
-            break;
-        case PPDocumentProcessingTypeSerbianPDFInvoice:
-            result = [result stringByAppendingString:@"Processing type: Serbian PDF\n"];
-            break;
-        case PPDocumentProcessingTypeSerbianPhotoInvoice:
-        default:
-            result = [result stringByAppendingString:@"Processing type: Serbian Photo Invoice\n"];
-            break;
-    }
-    
+    result = [result stringByAppendingFormat:@"Document URL: %@\n", [[self url] path]];
+    result = [result stringByAppendingFormat:@"State: %@\n", [PPDocument objectForDocumentState:[self state]]];
+    result = [result stringByAppendingFormat:@"Type: %@\n", [PPDocument objectForDocumentType:[self documentType]]];
+    result = [result stringByAppendingFormat:@"Processing Type: %@\n", [PPDocument objectForDocumentProcessingType:[self processingType]]];
+    result = [result stringByAppendingFormat:@"Creation Date: %@\n", [[self creationDate] description]];
     return result;
 }
 
@@ -171,6 +166,29 @@
 
 + (id)objectForDocumentType:(PPDocumentType)documentType {
     return [PPDocument documentTypeObjectTable][@(documentType)];
+}
+
++ (NSDictionary *)documentStateObjectTable {
+    static NSDictionary *table = nil;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        table = @{@(PPDocumentStateConfirmed)           : @"Confirmed",
+                  @(PPDocumentStateCreated)             : @"Created",
+                  @(PPDocumentStateDeleted)             : @"Deleted",
+                  @(PPDocumentStatePending)             : @"Pending",
+                  @(PPDocumentStateProcessed)           : @"Processed",
+                  @(PPDocumentStateProcessedWithError)  : @"ProcessedWithError",
+                  @(PPDocumentStateProcessing)          : @"Processing",
+                  @(PPDocumentStateProcessingError)     : @"ProcessingError",
+                  @(PPDocumentStateReceived)            : @"Received",
+                  @(PPDocumentStateStored)              : @"Stored",
+                  @(PPDocumentStateUploading)           : @"Uploading"};
+    });
+    return table;
+}
+
++ (id)objectForDocumentState:(PPDocumentState)documentState {
+    return [PPDocument documentStateObjectTable][@(documentState)];
 }
 
 + (NSDictionary *)documentProcessingTypeObjectTable {

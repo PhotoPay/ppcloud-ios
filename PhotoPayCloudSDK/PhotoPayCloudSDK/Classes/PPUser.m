@@ -7,6 +7,7 @@
 //
 
 #import "PPUser.h"
+#import "NSString+Factory.h"
 
 @interface PPUser ()
 
@@ -42,6 +43,10 @@
         userType = inUserType;
     }
     return self;
+}
+
+- (NSString*)userIdHash {
+    return [[self userId] MD5];
 }
 
 + (NSDictionary *)userTypeObjectTable {

@@ -1,14 +1,16 @@
 //
-//  PPUploadParametersQueue.m
+//  PPLocalDocumentUploadQueue.m
 //  PhotoPayCloudSDK
 //
 //  Created by Jurica Cerovec on 9/10/13.
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
-#import "PPUploadParametersQueue.h"
+#import "PPLocalDocumentUploadQueue.h"
+#import "UIApplication+Documents.h"
+#import "PPLocalDocument.h"
 
-@implementation PPUploadParametersQueue
+@implementation PPLocalDocumentUploadQueue
 
 @synthesize elements;
 
@@ -35,10 +37,10 @@
 }
 
 + (instancetype)queueForUserIdHash:(NSString*)userIdHash {
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:[PPUploadParameters serializationPathForUserIdHash:userIdHash]];
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:userIdHash]];
 }
 
-- (BOOL)front:(PPUploadParameters*)front {
+- (BOOL)front:(PPLocalDocument*)front {
     if ([self.elements count] == 0) {
         return NO; // avoid raising exception
     }
@@ -46,7 +48,7 @@
     return YES;
 }
 
-- (BOOL)back:(PPUploadParameters*)back {
+- (BOOL)back:(PPLocalDocument*)back {
     if ([self.elements count] == 0) {
         return NO; // avoid raising exception
     }
@@ -54,9 +56,9 @@
     return YES;
 }
 
-- (BOOL)remove:(PPUploadParameters*)parameters {
+- (BOOL)remove:(PPLocalDocument*)document {
     for (int i = 0; i < [elements count]; i++) {
-        if ([[elements objectAtIndex:i] isEqual:parameters]) {
+        if ([[elements objectAtIndex:i] isEqualToDocument:document]) {
             [self.elements removeObjectAtIndex:i];
             return YES;
         }
@@ -64,31 +66,40 @@
     return NO;
 }
 
-- (BOOL)dequeue:(PPUploadParameters*)front {
+- (BOOL)dequeue:(PPLocalDocument*)document {
     if ([self.elements count] == 0) {
-        front = nil;
+        document = nil;
         return NO;
     }
     
-    front = [self.elements objectAtIndex:0];
+    document = [self.elements objectAtIndex:0];
     [self.elements removeObjectAtIndex:0];
     
     return [NSKeyedArchiver archiveRootObject:self
-                                       toFile:[PPUploadParameters serializationPathForUserIdHash:[front userIdHash]]];
+                                       toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
 }
 
-- (BOOL)enqueue:(PPUploadParameters*)parameters {
-    NSLog(@"Enqueueing");
-    [self.elements addObject:parameters];
-    NSLog(@"Saving");
+- (BOOL)enqueue:(PPLocalDocument*)document {
+    [self.elements addObject:document];
     return [NSKeyedArchiver archiveRootObject:self
-                                       toFile:[PPUploadParameters serializationPathForUserIdHash:[parameters userIdHash]]];
+                                       toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
     
     return NO;
 }
 
 - (NSUInteger)count {
     return [self.elements count];
+}
+
++ (NSString*)serializationPathForUserIdHash:(NSString*)userIdHash {
+    NSError * __autoreleasing error;
+    NSString* basePath = [[UIApplication applicationDocumentsDirectoryWithError:&error] path];
+    
+    if (basePath == nil) {
+        return nil;
+    }
+    
+    return [basePath stringByAppendingFormat:@"/%@.params", userIdHash];
 }
 
 @end

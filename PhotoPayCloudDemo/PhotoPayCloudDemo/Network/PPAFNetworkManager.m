@@ -18,7 +18,7 @@
  without the need for waiting rejection from the server
  */
 - (NSDictionary*)uploadRequestParametersForUser:(PPUser*)user
-                               uploadParameters:(PPUploadParameters*)uploadParameters
+                                  localDocument:(PPLocalDocument*)document
                                           error:(NSError**)error;
 @end
 
@@ -39,7 +39,7 @@
 }
 
 - (NSDictionary*)uploadRequestParametersForUser:(PPUser*)user
-                               uploadParameters:(PPUploadParameters*)uploadParameters
+                                  localDocument:(PPLocalDocument*)document
                                           error:(NSError**)error {
     
     NSMutableDictionary *uploadRequestParams = [[NSMutableDictionary alloc] init];
@@ -78,15 +78,15 @@
     }
     
     // set request type (this will always be specified)
-    [uploadRequestParams setObject:[PPDocument objectForDocumentProcessingType:[[uploadParameters localDocument] processingType]]
+    [uploadRequestParams setObject:[PPDocument objectForDocumentProcessingType:[document processingType]]
                             forKey:@"requestType"];
     
     // file type will also always be specified
-    [uploadRequestParams setObject:[PPDocument objectForDocumentType:[[uploadParameters localDocument] documentType]]
+    [uploadRequestParams setObject:[PPDocument objectForDocumentType:[document documentType]]
                             forKey:@"fileType"];
     
     // file type will also always be specified
-    [uploadRequestParams setObject:@([uploadParameters pushNotify])
+    [uploadRequestParams setObject:@(([[PPPhotoPayCloudService sharedService] deviceToken] != nil))
                             forKey:@"pushNotify"];
     
     // callback URL and device token are never sent
@@ -95,20 +95,17 @@
 }
 
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
-                                          uploadParameters:(PPUploadParameters *)uploadParameters
+                                             localDocument:(PPLocalDocument*)document
                                                    success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
                                                    failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
                                                   canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled {
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
     NSDictionary *uploadRequestParameters = [self uploadRequestParametersForUser:user
-                                                                uploadParameters:uploadParameters
+                                                                   localDocument:document
                                                                            error:&error];
-    
-    PPLocalDocument *localDocument = [uploadParameters localDocument];
     if (error != nil) {
-        failure(nil, localDocument, error);
-    
+        failure(nil, document, error);
         return nil;
     }
     
@@ -118,17 +115,14 @@
                                                      path:@"/upload/document"
                                                parameters:uploadRequestParameters
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
-                                    NSLog(@"Appending filename %@", [[[uploadParameters localDocument] url] lastPathComponent]);
-                                    
-                                    [formData appendPartWithFileData:[[uploadParameters localDocument] bytes]
+                                    [formData appendPartWithFileData:[document bytes]
                                                                 name:@"data"
-                                                            fileName:[[[uploadParameters localDocument] url] lastPathComponent]
-                                                            mimeType:[[uploadParameters localDocument] mimeType]];
+                                                            fileName:[[document url] lastPathComponent]
+                                                            mimeType:[document mimeType]];
                                 }];
     
     // 3.create upload operation from multipart request and upload parameters object
-    PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest
-                                                                                            uploadParameters:uploadParameters];
+    PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest];
     
     // 4. check for errors
     if (uploadRequestOperation == nil) {
@@ -138,7 +132,7 @@
         NSError *error = [NSError errorWithDomain:domain
                                              code:2002
                                          userInfo:userInfo];
-        failure(nil, localDocument, error);
+        failure(nil, document, error);
         
         return nil;
     }
@@ -151,7 +145,7 @@
         
         if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperation:didUpdateProgressForDocument:totalBytesWritten:totalBytesToWrite:)]) {
             [[_uploadRequestOperation delegate] uploadRequestOperation:_uploadRequestOperation
-                                          didUpdateProgressForDocument:localDocument
+                                          didUpdateProgressForDocument:document
                                                      totalBytesWritten:totalBytesWritten
                                                      totalBytesToWrite:totalBytesExpectedToWrite];
         }
@@ -162,11 +156,11 @@
         PPRemoteDocument* remoteDocument = [[PPRemoteDocument alloc] initWithDictionary:responseObject];
         
         if (success) {
-            success((id<PPUploadRequestOperation>)operation, localDocument, remoteDocument);
+            success(_uploadRequestOperation, document, remoteDocument);
         }
         
         [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                               didUploadDocument:localDocument
+                                               didUploadDocument:document
                                                       withResult:remoteDocument];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -175,25 +169,30 @@
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
             if (canceled) {
-                canceled((id<PPUploadRequestOperation>)operation, localDocument);
+                canceled(_uploadRequestOperation, document);
             }
             
             if ([_uploadRequestOperation.delegate respondsToSelector:@selector(uploadRequestOperation:didCancelUploadingDocument:)]) {
                 [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                              didCancelUploadingDocument:localDocument];
+                                              didCancelUploadingDocument:document];
             }
             
             return;
         } else {
             
             if (failure) {
-                failure((id<PPUploadRequestOperation>)operation, localDocument, error);
+                failure((id<PPUploadRequestOperation>)operation, document, error);
             }
             
             [_uploadRequestOperation.delegate uploadRequestOperation:_uploadRequestOperation
-                                             didFailToUploadDocument:localDocument
+                                             didFailToUploadDocument:document
                                                            withError:error];
         }
+    }];
+    
+    // 7. execute as background task
+    [uploadRequestOperation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^() {
+        
     }];
     
     // 7. done

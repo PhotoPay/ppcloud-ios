@@ -135,14 +135,12 @@
         if (url != nil) {
             dispatch_async(self.successCallbackQueue ?: dispatch_get_main_queue(), ^{
                 if (success) {
-                    NSLog(@"Document is:\n%@", [localDocument toString]);
                     success(localDocument, url);
                 }
             });
         } else {
             dispatch_async(self.failureCallbackQueue ?: dispatch_get_main_queue(), ^{
                 if (failure) {
-                    NSLog(@"Document is:\n%@", [localDocument toString]);
                     failure(localDocument, returnedError);
                 }
             });

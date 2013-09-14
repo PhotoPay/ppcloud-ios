@@ -19,8 +19,7 @@
 #import "PPRemoteDocument.h"
 #import "PPUser.h"
 #import "PPDocumentManager.h"
-#import "PPUploadParameters.h"
-#import "PPUploadParametersQueue.h"
+#import "PPLocalDocumentUploadQueue.h"
 
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"

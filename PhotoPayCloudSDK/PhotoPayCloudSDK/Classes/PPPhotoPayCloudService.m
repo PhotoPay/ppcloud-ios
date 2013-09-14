@@ -10,20 +10,18 @@
 #import "PPLocalDocument.h"
 #import "PPRemoteDocument.h"
 #import "PPUser.h"
-#import "PPUploadParameters.h"
 #import "PPDocumentManager.h"
-#import "NSString+Factory.h"
-#import "PPUploadParametersQueue.h"
+#import "PPLocalDocumentUploadQueue.h"
 #import "PPNetworkManager.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
 
 /**
- This queue contains a list of UploadParameters objects. These represent all LocalDocuments which are
+ This queue contains a list of PPLocalDocument objects. These represent all LocalDocuments which are
  still uploading and not yet sent to the PhotoPay Cloud web application.
  */
-@property (nonatomic, strong) PPUploadParametersQueue* uploadParametersQueue;
+@property (nonatomic, strong) PPLocalDocumentUploadQueue* documentUploadQueue;
 
 /** Serial dispatch queue for upload requests */
 @property (nonatomic, assign) dispatch_queue_t uploadDispatchQueue;
@@ -32,10 +30,9 @@
 @property (nonatomic) PPPhotoPayCloudServiceState state;
 
 /**
- Helper method for creating Upload parameters object
+ Checks if any existing upload queues wait for continuation
  */
-- (PPUploadParameters*)createUploadParameters:(PPLocalDocument*)document
-                                   pushNotify:(BOOL)pushNotify;
+- (void)checkExistingUploadQueue;
 
 /**
  Method which sends a local document which is already saved to documents directory
@@ -43,7 +40,6 @@
  This method creates and dispatches the actual upload request
  */
 - (void)uploadStoredDocument:(PPLocalDocument*)localDocument
-                  pushNotify:(BOOL)pushNotify
                      success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                      failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
                     canceled:(void (^)(PPLocalDocument* localDocument))canceled;
@@ -66,7 +62,7 @@
 @synthesize uploadDispatchQueue;
 @synthesize successDispatchQueue;
 @synthesize failureDispatchQueue;
-@synthesize uploadParametersQueue;
+@synthesize documentUploadQueue;
 
 + (PPPhotoPayCloudService*)sharedService {
     static PPPhotoPayCloudService* sharedService = nil;
@@ -97,10 +93,10 @@
         failureDispatchQueue = nil;
         
         // in the beginning, upload upload paramteres are empty
-        uploadParametersQueue = [[PPUploadParametersQueue alloc] init];
+        documentUploadQueue = [[PPLocalDocumentUploadQueue alloc] init];
         
         // uploading is ready
-        state = PPPhotoPayCloudServiceStateReady;
+        state = PPPhotoPayCloudServiceStateUninitialized;
         
         // user is not set. Please set the user to be able to request uploads.
         user = nil;
@@ -193,13 +189,31 @@
 - (void)setUser:(PPUser *)inUser {
     user = inUser;
     
-    // deserialize the request queue for this user
-    NSString* userIdHash = [[[self user] userId] MD5];
-    uploadParametersQueue = [PPUploadParametersQueue queueForUserIdHash:userIdHash];
+    if (self.networkManager != nil && self.user != nil) {
+        [self checkExistingUploadQueue];
+    } else {
+        self.state = PPPhotoPayCloudServiceStateUninitialized;
+    }
+}
+
+- (void)setNetworkManager:(PPNetworkManager *)inNetworkManager {
+    networkManager = inNetworkManager;
     
-    if (uploadParametersQueue == nil) {
-        // we don't have any existing uploads
-        uploadParametersQueue = [[PPUploadParametersQueue alloc] init];
+    if (self.networkManager != nil && self.user != nil) {
+        [self checkExistingUploadQueue];
+    } else {
+        self.state = PPPhotoPayCloudServiceStateUninitialized;
+    }
+}
+
+- (void)checkExistingUploadQueue {
+    // deserialize the request queue for this user
+    NSString* userIdHash = [[self user] userIdHash];
+    documentUploadQueue = [PPLocalDocumentUploadQueue queueForUserIdHash:userIdHash];
+    
+    if (documentUploadQueue == nil) {
+        // we don't have any existing uploadsf
+        documentUploadQueue = [[PPLocalDocumentUploadQueue alloc] init];
         self.state = PPPhotoPayCloudServiceStateReady;
     } else {
         self.state = PPPhotoPayCloudServiceStatePaused;
@@ -207,23 +221,24 @@
 }
 
 - (void)uploadStoredDocument:(PPLocalDocument*)localDocument
-                  pushNotify:(BOOL)pushNotify
                      success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                      failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
                     canceled:(void (^)(PPLocalDocument* localDocument))canceled {
     // called in upload dispatch queue which makes main free for UI
     
-    PPUploadParameters *uploadParameters = [self createUploadParameters:localDocument
-                                                             pushNotify:pushNotify];
+    // set document data
+    [localDocument setOwnerIdHash:[[self user] userIdHash]];
+    
+    NSLog(@"We are uploading document:\n %@", [localDocument toString]);
     
     // create the upload request
     id<PPUploadRequestOperation> uploadRequest =
         [[self networkManager] createUploadRequestForUser:[self user]
-                                         uploadParameters:uploadParameters
+                                            localDocument:localDocument
                                                   success:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument) {
-                                                      [[self uploadParametersQueue] remove:uploadParameters];
                                                       
-                                                      if ([[self uploadParametersQueue] count] == 0) {
+                                                      [[self documentUploadQueue] remove:localDocument];
+                                                      if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
@@ -234,10 +249,10 @@
                                                       }
                                                   }
                                                   failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
-                                                      [[self uploadParametersQueue] remove:uploadParameters];
-                                                      localDocument.state = PPDocumentStateStored;
                                                       
-                                                      if ([[self uploadParametersQueue] count] == 0) {
+                                                      [[self documentUploadQueue] remove:localDocument];
+                                                      localDocument.state = PPDocumentStateStored;
+                                                      if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
@@ -248,10 +263,10 @@
                                                       }
                                                   }
                                                  canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
-                                                     [[self uploadParametersQueue] remove:uploadParameters];
-                                                     localDocument.state = PPDocumentStateStored;
                                                      
-                                                     if ([[self uploadParametersQueue] count] == 0) {
+                                                     [[self documentUploadQueue] remove:localDocument];
+                                                     localDocument.state = PPDocumentStateStored;
+                                                     if ([[self documentUploadQueue] count] == 0) {
                                                          state = PPPhotoPayCloudServiceStateReady;
                                                      }
                                                      
@@ -264,7 +279,7 @@
     
     // enqueue upload parameters queue;
     // also serializes upload parameters object to documents directory
-    BOOL saveSuccessful = [[self uploadParametersQueue] enqueue:[uploadRequest uploadParameters]];
+    BOOL saveSuccessful = [[self documentUploadQueue] enqueue:localDocument];
     if (!saveSuccessful) {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadCannotStoreRequest";
@@ -302,20 +317,28 @@
 }
 
 - (void)uploadDocument:(PPLocalDocument*)document
-            pushNotify:(BOOL)pushNotify
                success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
               canceled:(void (^)(PPLocalDocument* localDocument))canceled {
     
     if (document == nil) {
-        NSLog(@"Cannot process request without valid document object");
-        return;
+        // invalid document
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"Input document is nil"
+                                     userInfo:nil];
     }
     
-    if ([self user] == nil) {
-        NSLog(@"Cannot process request without valid user object specified");
-        NSLog(@"Please set the user object using user property of PPPhotoPayCloudSerice object");
-        return;
+    if ([self state] == PPPhotoPayCloudServiceStateUninitialized) {
+        NSString* reason = @"Unknown";
+        if ([self user] == nil) {
+            reason = @"User object is not provided!";
+        } else if ([self networkManager] == nil) {
+            reason = @"Network manager is not provided!";
+        }
+        // invalid state
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"Cannot process request when PPPhotoPayCloudService object is uninitialized! Reason: %@", reason]
+                                     userInfo:nil];
     }
     
     
@@ -325,11 +348,9 @@
         // this will not block the calling queue
         [document saveUsingDocumentManager:[self documentManager]
                                    success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
-                                       
                                        // local document is already stored
                                        // repeate request for stored document
                                        [self uploadStoredDocument:document
-                                                       pushNotify:pushNotify
                                                           success:success
                                                           failure:failure
                                                          canceled:canceled];
@@ -345,37 +366,11 @@
             // local document is already stored
             // repeate request for stored document
             [self uploadStoredDocument:document
-                            pushNotify:pushNotify
                                success:success
                                failure:failure
                               canceled:canceled];
         });
     }
-}
-
-- (PPUploadParameters*)createUploadParameters:(PPLocalDocument*)document
-                                   pushNotify:(BOOL)pushNotify {
-    // create PPUploadParameters object
-    PPUploadParameters* uploadParameters = [[PPUploadParameters alloc] init];
-    
-    // set document data
-    [uploadParameters setLocalDocument:document];
-    
-    NSString* userIdHash = [[[self user] userId] MD5];
-    
-    // set user data
-    [uploadParameters setUserIdHash:userIdHash];
-    [uploadParameters setOrganizationId:[[self user] organizationId]];
-    [uploadParameters setUserType:[[self user] userType]];
-    
-    // set push notification data
-    [uploadParameters setPushNotify:pushNotify];
-    [uploadParameters setDeviceToken:[self deviceToken]];
-    
-    // set creation date
-    [uploadParameters setCreationDate:[NSDate date]];
-    
-    return uploadParameters;
 }
 
 - (void)getDocuments:(PPDocumentState)documentStates

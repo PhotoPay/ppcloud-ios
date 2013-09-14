@@ -8,6 +8,7 @@
 
 #import "PPNetworkManager.h"
 #import "PPRemoteDocument.h"
+#import "PPLocalDocument.h"
 
 @interface PPNetworkManager ()
 
@@ -40,10 +41,11 @@
 }
 
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
-                                          uploadParameters:(PPUploadParameters *)uploadParameters
+                                             localDocument:(PPLocalDocument*)document
                                                    success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
                                                    failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
                                                   canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled {
+    
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
                                    reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
@@ -51,14 +53,8 @@
 }
 
 - (void)setUploadDelegate:(id<PPUploadRequestOperationDelegate>)inUploadDelegate {
-    if (inUploadDelegate == nil) {
-        NSLog(@"Setting upload delegate to NIL!");
-    } else {
-        NSLog(@"Setting upload delegate!");
-    }
     uploadDelegate = inUploadDelegate;
     for (id<PPUploadRequestOperation> operation in self.uploadOperationQueue.operations) {
-        NSLog(@"One delegate set!");
         operation.delegate = uploadDelegate;
     }
 }

@@ -60,6 +60,11 @@ typedef NS_ENUM(NSUInteger, PPUserType) {
             userType:(PPUserType)userType;
 
 /**
+ Returns the hashed value of the user ID
+ */
+- (NSString*)userIdHash;
+
+/**
  Returns object representation of the user type enum value
  */
 + (id)objectForUserType:(PPUserType)type;

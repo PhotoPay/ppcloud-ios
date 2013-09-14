@@ -12,11 +12,6 @@
 @interface PPAFUploadRequestOperation : AFJSONRequestOperation <PPUploadRequestOperation>
 
 /**
- Each upload request operation need to have exactly one upload parameters object
- */
-@property (nonatomic, strong) PPUploadParameters* uploadParameters;
-
-/**
  Delegate is also requred. Could be nil.
  */
 @property (nonatomic, weak) id<PPUploadRequestOperationDelegate> delegate;
@@ -26,7 +21,9 @@
  */
 @property (nonatomic, strong) NSNumber* progress;
 
-- (id)initWithRequest:(NSURLRequest *)urlRequest
-     uploadParameters:(PPUploadParameters*)uploadParameters;
+/**
+ Designated initializer
+ */
+- (id)initWithRequest:(NSURLRequest *)urlRequest;
 
 @end

@@ -34,10 +34,10 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
     /** when document processing finishes with error. This means processing will be repeated */
     PPDocumentStateProcessingError  = (0x1 << 6),
     /** when document processing finishes with success */
-    PPDocumentStateDone             = (0x1 << 7),
+    PPDocumentStateProcessed        = (0x1 << 7),
     /**  when document processing finishes with error several times. Documents in this state will
      no longer be processed and an error message should be presented to the user */
-    PPDocumentStateDoneWithError    = (0x1 << 8),
+    PPDocumentStateProcessedWithError    = (0x1 << 8),
     /** when the user uses the processed results for making the actual payment. */
     PPDocumentStateConfirmed        = (0x1 << 9),
     /** when the user deletes the uploaded document without making the actual payment. */
@@ -87,7 +87,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  URL pointing to the location of the document.
  Can be url both local or remote 
  */
-@property (nonatomic, strong, readonly) NSURL* url;
+@property (nonatomic, strong) NSURL* url;
 
 /**
  State in which is the document.
@@ -109,6 +109,11 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  @see PPDocumentProcessingType
  */
 @property (nonatomic, assign, readonly) PPDocumentProcessingType processingType;
+
+/**
+ Exact date of the creation of the document
+ */
+@property (nonatomic, strong) NSDate* creationDate;
 
 /**
  Designated initializer
@@ -148,5 +153,10 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Returns object representation for the PPDocumentProcessingType enum
  */
 + (id)objectForDocumentProcessingType:(PPDocumentProcessingType)type;
+
+/**
+ Returns object representation for the PPDocumentState enum
+ */
++ (id)objectForDocumentState:(PPDocumentState)documentState;
 
 @end

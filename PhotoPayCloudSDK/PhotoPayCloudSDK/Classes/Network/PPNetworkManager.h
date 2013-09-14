@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "PPUploadRequestOperation.h"
 
-@class PPUploadParameters;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
@@ -38,7 +37,7 @@
  Should be implemented by the application
  */
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
-                                          uploadParameters:(PPUploadParameters *)uploadParameters
+                                             localDocument:(PPLocalDocument*)document
                                                    success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
                                                    failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
                                                   canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled;

@@ -24,6 +24,11 @@
 @property (nonatomic, strong, readonly) NSData *bytes;
 
 /**
+ Hash of the userID for the user which owns this document
+ */
+@property (nonatomic, strong) NSString* ownerIdHash;
+
+/**
  Initializes the local document with concrete bytes
  */
 - (id)initWithBytes:(NSData*)inBytes

@@ -13,7 +13,6 @@
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
-@class PPUploadParametersQueue;
 @class PPDocumentManager;
 @class PPNetworkManager;
 
@@ -21,6 +20,13 @@
  States the service can be in.
  */
 typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
+    
+    /** 
+     When created and without two objects necessary for using PhotoPayCloud, PPUser and PPNetworkManager
+     the state will be PPPhotoPayCloudServiceStateUninitialized.
+     */
+    PPPhotoPayCloudServiceStateUninitialized,
+    
     /** 
      When it's created, service is in Ready state. This state is active as long as no
      uploads are being performed.
@@ -117,6 +123,8 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  Device token used for sending push notifications about processing updates to this device.
  
  Needs to be set for push notifications to work.
+ 
+ If you don't want push notifications, set this to nil
  */
 @property (nonatomic, strong) NSData* deviceToken;
 
@@ -131,7 +139,6 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  the list of current documents (documents property).
  */
 - (void)uploadDocument:(PPLocalDocument*)document
-            pushNotify:(BOOL)pushNotify
                success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
               canceled:(void (^)(PPLocalDocument* localDocument))canceled;

@@ -22,9 +22,7 @@
 @implementation PPLocalDocument
 
 @synthesize bytes = bytes_;
-@synthesize url;
-@synthesize documentType;
-@synthesize processingType;
+@synthesize ownerIdHash;
 
 - (id)initWithBytes:(NSData*)inBytes
        documentType:(PPDocumentType)inDocumentType
@@ -35,6 +33,7 @@
                processingType:inProcessingType];
     if (self) {
         bytes_ = inBytes;
+        ownerIdHash = nil;
     }
     return self;
 }
@@ -45,14 +44,19 @@
         return nil;
     }
     bytes_ = nil;
+    ownerIdHash = [decoder decodeObjectForKey:@"ownerIdHash"];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.url forKey:@"url"];
-    [encoder encodeInteger:self.state forKey:@"state"];
-    [encoder encodeInteger:self.documentType forKey:@"documentType"];
-    [encoder encodeInteger:self.processingType forKey:@"processingType"];
+    [super encodeWithCoder:encoder];
+    [encoder encodeObject:self.ownerIdHash forKey:@"ownerIdHash"];
+}
+
+- (NSString*)toString {
+    NSString* result = [super toString];
+    result = [result stringByAppendingFormat:@"Owner ID HASH: %@\n", [self ownerIdHash]];
+    return result;
 }
 
 /**
@@ -95,8 +99,6 @@
                           success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
                               localDocument.url = documentUrl;
                               localDocument.state = PPDocumentStateStored;
-                              NSLog(@"Document is:\n%@", [localDocument toString]);
-                              NSLog(@"State %d", [localDocument state]);
                               success(localDocument, documentUrl);
                           }
                           failure:^(PPLocalDocument*localDocument, NSError* error) {

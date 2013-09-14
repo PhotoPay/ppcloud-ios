@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class PPUploadParameters;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @protocol PPUploadRequestOperationDelegate;
@@ -21,12 +20,6 @@
 @protocol PPUploadRequestOperation <NSObject>
 
 @required
-
-/**
- Each upload request operation need to have exactly one upload parameters object
- */
-@property (nonatomic, strong, readonly) PPUploadParameters* uploadParameters;
-
 /**
  Delegate is also requred. Could be nil.
  */
