@@ -226,7 +226,7 @@
   didUpdateProgressForDocument:(PPLocalDocument *)localDocument
              totalBytesWritten:(long long)totalBytesWritten
              totalBytesToWrite:(long long)totalBytesToWrite {
-    DDLogInfo(@"Document is uploading. Progress is %.2f!", 100 * totalBytesWritten / (double)totalBytesToWrite);
+    DDLogInfo(@"Document %@ is uploading. Progress is %.2f!", [localDocument url],  100 * totalBytesWritten / (double)totalBytesToWrite);
 }
 
 - (void)uploadRequestOperation:(id<PPUploadRequestOperation>)operation
