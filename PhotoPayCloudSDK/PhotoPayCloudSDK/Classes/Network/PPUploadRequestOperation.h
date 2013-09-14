@@ -30,6 +30,11 @@
  */
 @property (nonatomic, strong) NSNumber* progress;
 
+/**
+ Cancels the operation
+ */
+- (void)cancel;
+
 @end
 
 /**

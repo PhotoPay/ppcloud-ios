@@ -22,4 +22,8 @@
     return self;
 }
 
+- (void)cancel {
+    [super cancel];
+}
+
 @end

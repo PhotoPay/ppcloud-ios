@@ -245,7 +245,10 @@
                                                       if (success) {
                                                           dispatch_async(self.successDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                               success(localDocument, remoteDocument);
+                                                              [localDocument setUploadRequest:nil];
                                                           });
+                                                      } else {
+                                                          [localDocument setUploadRequest:nil];
                                                       }
                                                   }
                                                   failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
@@ -259,7 +262,10 @@
                                                       if (failure) {
                                                           dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                               failure(localDocument, error);
+                                                              [localDocument setUploadRequest:nil];
                                                           });
+                                                      } else {
+                                                          [localDocument setUploadRequest:nil];
                                                       }
                                                   }
                                                  canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
@@ -273,9 +279,14 @@
                                                      if (canceled) {
                                                          dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
                                                              canceled(localDocument);
+                                                             [localDocument setUploadRequest:nil];
                                                          });
+                                                     } else {
+                                                         [localDocument setUploadRequest:nil];
                                                      }
                                                  }];
+    
+    [localDocument setUploadRequest:uploadRequest];
     
     // enqueue upload parameters queue;
     // also serializes upload parameters object to documents directory

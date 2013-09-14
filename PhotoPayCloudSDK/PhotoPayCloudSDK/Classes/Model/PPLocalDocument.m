@@ -23,6 +23,7 @@
 
 @synthesize bytes = bytes_;
 @synthesize ownerIdHash;
+@synthesize uploadRequest;
 
 - (id)initWithBytes:(NSData*)inBytes
        documentType:(PPDocumentType)inDocumentType
@@ -34,6 +35,7 @@
     if (self) {
         bytes_ = inBytes;
         ownerIdHash = nil;
+        uploadRequest = nil;
     }
     return self;
 }
@@ -45,6 +47,7 @@
     }
     bytes_ = nil;
     ownerIdHash = [decoder decodeObjectForKey:@"ownerIdHash"];
+    uploadRequest = nil;
     return self;
 }
 

@@ -11,6 +11,8 @@
 
 @class PPDocumentManager;
 
+@protocol PPUploadRequestOperation;
+
 /**
  Encapsulates a local PhotoPay cloud document object 
  */
@@ -27,6 +29,12 @@
  Hash of the userID for the user which owns this document
  */
 @property (nonatomic, strong) NSString* ownerIdHash;
+
+/**
+ Upload request.
+ Exists only when document is uploading.
+ */
+@property (nonatomic, weak) id<PPUploadRequestOperation>uploadRequest;
 
 /**
  Initializes the local document with concrete bytes
