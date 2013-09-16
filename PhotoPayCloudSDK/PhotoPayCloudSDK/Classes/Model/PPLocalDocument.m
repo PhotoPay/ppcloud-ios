@@ -48,6 +48,12 @@
     bytes_ = nil;
     ownerIdHash = [decoder decodeObjectForKey:@"ownerIdHash"];
     uploadRequest = nil;
+    
+    // when deserialized, all local documents should be in state stored
+    // state uploading is impossible since it was just deserialized.
+    // created is also impossible because then the document wouldnt be stored
+    self.state = PPDocumentStateStored;
+    
     return self;
 }
 
@@ -56,8 +62,8 @@
     [encoder encodeObject:self.ownerIdHash forKey:@"ownerIdHash"];
 }
 
-- (NSString*)toString {
-    NSString* result = [super toString];
+- (NSString*)description {
+    NSString* result = [super description];
     result = [result stringByAppendingFormat:@"Owner ID HASH: %@\n", [self ownerIdHash]];
     return result;
 }
@@ -88,6 +94,7 @@
         NSError *__autoreleasing error = nil;
         bytes_ = [[NSData alloc] initWithContentsOfURL:[self url] options:NSDataReadingMappedIfSafe error:&error];
         if (error != nil) {
+            NSLog(@"Bytes cannot be read! %@", [error localizedDescription]);
             bytes_ = nil;
         }
     }

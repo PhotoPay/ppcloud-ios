@@ -8,6 +8,7 @@
 
 #import "PPDocument.h"
 #import "PPLocalDocument.h"
+#import "PPRemoteDocument.h"
 
 @interface PPDocument ()
 
@@ -80,7 +81,7 @@
     [encoder encodeObject:self.creationDate forKey:@"creationDate"];
 }
 
-- (BOOL)isEqualToDocument:(id)other {
+- (BOOL)isEqual:(id)other {
     if (self == other) {
         return true;
     }
@@ -88,6 +89,10 @@
         return false;
     }
     return [[[self url] path] isEqualToString:[[(PPDocument* )other url] path]];
+}
+
+- (NSUInteger)hash {
+    return [[[self url] path] hash];
 }
 
 - (NSString*)mimeType {
@@ -134,7 +139,23 @@
     }
 }
 
-- (NSString*)toString {
+- (PPLocalDocument*)localDocument {
+    if ((([self state] & PPDocumentStateLocal) != 0) && [self isKindOfClass:[PPLocalDocument class]]) {
+        return (PPLocalDocument*) self;
+    } else {
+        return nil;
+    }
+}
+
+- (PPRemoteDocument*)remoteDocument {
+    if ((([self state] & PPDocumentStateLocal) == 0) && [self isKindOfClass:[PPLocalDocument class]]) {
+        return (PPRemoteDocument*) self;
+    } else {
+        return nil;
+    }
+}
+
+- (NSString*)description {
     NSString* result = @"";
     result = [result stringByAppendingFormat:@"Document URL: %@\n", [[self url] path]];
     result = [result stringByAppendingFormat:@"State: %@\n", [PPDocument objectForDocumentState:[self state]]];

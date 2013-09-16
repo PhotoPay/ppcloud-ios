@@ -18,11 +18,12 @@
  */
 @interface PPTableSectionCreator : NSObject
 
-/**
- Method divides an array of items into sections to be used inside UITableView.
- 
- Resulting array must contain PPTableSection objects
- */
- - (NSArray*)createSectionsForItems:(NSArray*)items;
+@property (nonatomic, strong, readonly) NSArray* sections;
+
+- (NSIndexPath*)insertItem:(id)item;
+
+- (NSIndexPath*)removeItem:(id)item;
+
+- (NSIndexPath*)reloadItem:(id)item;
 
 @end

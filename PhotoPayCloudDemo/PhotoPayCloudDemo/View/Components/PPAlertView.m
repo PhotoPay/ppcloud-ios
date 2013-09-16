@@ -25,7 +25,11 @@
   cancelButtonTitle:(NSString *)cancelButtonTitle
   otherButtonTitles:(NSString *)otherButtonTitles, ... {
     
-    self = [self initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil ];
+    self = [self initWithTitle:title
+                       message:message
+                      delegate:self
+             cancelButtonTitle:cancelButtonTitle
+             otherButtonTitles:nil ];
     
     if (self) {
         completion = inCompletion;
@@ -36,6 +40,7 @@
         for (NSString *key = otherButtonTitles; key != nil; key = (__bridge NSString *)va_arg(arguments, void *)) {
             [self addButtonWithTitle:key];
         }
+        
         va_end(arguments);
     }
     return self;

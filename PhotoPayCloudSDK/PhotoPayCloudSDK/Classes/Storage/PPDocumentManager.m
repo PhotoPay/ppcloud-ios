@@ -192,6 +192,11 @@
     }
 }
 
+- (BOOL)deleteDocument:(PPLocalDocument*)localDocument
+                 error:(NSError**)error {
+    return [UIApplication deleteFileWithUrl:[localDocument url] error:error];
+}
+
 + (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {
     NSString* uuid = [NSString UUID];
     NSString* extension = [PPDocumentManager fileExtensionForType:type];

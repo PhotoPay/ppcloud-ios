@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PPHomeTableViewCell.h"
 
 /**
  A cell for displaying one scanned document, i.e. PPDocument object
  */
-@interface PPDocumentTableViewCell : UITableViewCell
+@interface PPDocumentTableViewCell : PPHomeTableViewCell
 
 /**
  Displays a thumbnail of the document

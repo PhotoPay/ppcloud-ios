@@ -34,4 +34,13 @@
              success:(void(^)(PPLocalDocument*localDocument, NSURL* documentUrl))success
              failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure;
 
+/**
+ Performs the deletion of a local document. Inverse to saveDocument function, except it
+ work synchronously
+ 
+ Returns true if successful.
+ */
+- (BOOL)deleteDocument:(PPLocalDocument*)localDocument
+                 error:(NSError**)error;
+
 @end

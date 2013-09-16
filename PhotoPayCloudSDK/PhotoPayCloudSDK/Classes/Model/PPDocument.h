@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "PPModelObject.h"
 
+@class PPLocalDocument;
+@class PPRemoteDocument;
+
 /** 
  Defines the states document can be in
  */
@@ -48,6 +51,9 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
     
     /** Document is local if it's in one of these three states */
     PPDocumentStateRemoteUnconfirmed  = PPDocumentStateReceived | PPDocumentStatePending | PPDocumentStateProcessing | PPDocumentStateProcessingError | PPDocumentStateProcessed | PPDocumentStateProcessedWithError,
+    
+//    /** Shortcut to unknown state *
+    PPDocumentStateUnknown          = (0x1 << 30),
 };
 
 /**
@@ -137,18 +143,14 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 - (NSString*)mimeType;
 
 /**
- Checks equality with other document.
- 
- Equality check is based on URL to document
+ Safely checks if this document is in fact a local document. If not, returns nil, else returns caster reference
  */
-- (BOOL)isEqualToDocument:(id)other;
+- (PPLocalDocument*)localDocument;
 
 /**
- Returns string representation of this object
- 
- For debugging purposes only
+ Safely checks if this document is in fact a remote document. If not, returns nil, else returns caster reference
  */
-- (NSString*)toString;
+- (PPRemoteDocument*)remoteDocument;
 
 /**
  Returns object representation of document type enum value

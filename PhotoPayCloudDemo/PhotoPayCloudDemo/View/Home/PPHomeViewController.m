@@ -11,8 +11,9 @@
 #import "UIViewController+Modal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PPAlertView.h"
+#import "PPHomeTableViewCell.h"
 
-@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPDocumentListDelegate>
+@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPTableViewDataSourceDelegate>
 
 @property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
 
@@ -40,7 +41,10 @@
     [self setTitle:_(@"PhotoPayHomeTitle")];
     
     documentsDataSource = [[PPDocumentsDataSource alloc] init];
+    [documentsDataSource setSectionCreator:[[PPTableLinearSectionCreator alloc] init]];
+    [documentsDataSource setDelegate:self];
     
+    [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     [[self billsTable] setDataSource:[self documentsDataSource]];
     [[self billsTable] setDelegate:self];
     
@@ -58,11 +62,11 @@
     
     // this view controller will receive all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
-    [[PPPhotoPayCloudService sharedService] setDocumentListDelegate:self];
     
     //To clear any selection in the table view before it’s displayed,
     // implement the viewWillAppear: method to clear the selected row
     // (if any) by calling deselectRowAtIndexPath:animated:.
+    
     
     [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal|PPDocumentStateRemoteUnconfirmed];
 }
@@ -72,13 +76,6 @@
     
     // flash the scroll view’s scroll indicators
     [[self billsTable] flashScrollIndicators];
-    
-    // check if PhotoPayCloudService was paused
-    if ([[PPPhotoPayCloudService sharedService] state] == PPPhotoPayCloudServiceStatePaused) {
-        // if true, ask user to continue or abort paused requests
-        
-//        [[PPPhotoPayCloudService sharedService] resumeUploadRequests];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -86,7 +83,6 @@
     
     // this view controller will receive all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
-    [[PPPhotoPayCloudService sharedService] setDocumentListDelegate:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -155,14 +151,6 @@
                                                   }];
 }
 
-#pragma mark - PPDocumentListDelegate
-
-- (void)documentListDidUpdate:(NSArray *)documents {
-    DDLogInfo(@"Updated list!");
-    [[self documentsDataSource] setItems:documents];
-    [[self billsTable] reloadData];
-}
-
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -185,6 +173,51 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissModalViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark - PPTableViewDataSourceDelegate
+
+/**
+ Called when new items are inserted into table view.
+ Method passes the exact index paths of the inserted elements
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+ didInsertItemsAtIndexPaths:(NSArray*)indexPaths {
+//    for (NSIndexPath *path in indexPaths) {
+//        NSLog(@"Callback did insert section %d, row %d", [path section], [path row]);
+//    }
+    [[self billsTable] beginUpdates];
+    [[self billsTable] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+/**
+ Called when items are deleted from table view.
+ Method passes the exact index paths of the deleted elements
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+ didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
+//    for (NSIndexPath *path in indexPaths) {
+//        NSLog(@"callback did delete section %d, row %d", [path section], [path row]);
+//    }
+    [[self billsTable] beginUpdates];
+    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+/**
+ Called when items are reloaded inside the table view.
+ Method passes the exact index paths of the reloaded elements
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+  didReloadItemsAtIndexPath:(NSArray*)indexPaths {
+//    for (NSIndexPath *path in indexPaths) {
+//        NSLog(@"callback did reload section %d, row %d", [path section], [path row]);
+//    }
+    [[self billsTable] beginUpdates];
+    [[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
 
 #pragma mark - PPUploadRequestOperationDelegate
 
@@ -216,7 +249,12 @@ didFailToUploadWithError:(NSError *)error {
 didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
     totalBytesToWrite:(long long)totalBytesToWrite {
     
-    DDLogInfo(@"Document %@ is uploading. Progress is %.2f!", [localDocument url],  100 * totalBytesWritten / (double)totalBytesToWrite);
+    // instead of requesting the whole table to update, we just find the potential cell among visible cells
+    for (PPHomeTableViewCell* cell in self.billsTable.visibleCells) {
+        if (cell.document == localDocument) {
+            [cell refresh];
+        }
+    }
 }
 
 - (void)localDocumentDidCancelUpload:(PPLocalDocument *)localDocument {

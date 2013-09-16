@@ -20,10 +20,30 @@
 "PhotoPaySignUpErrorTaken" = "E-mail adresa se već koristi.";
 
 
+/* PENDING UPLOADS */
+
+"PhotoPayPendingUploadsAlertViewTitle" = "Upload nekih dokumenata nije uspješno završio";
+
+"PhotoPayPendingUploadsAlertViewMessage" = "Želite li nastaviti upload ili prekinuti?";
+
+"PhotoPayPendingUploadsAlertViewContinue" = "Nastavi";
+
+"PhotoPayPendingUploadsAlertViewAbort" = "Prekini";
+
+
 /* HOME SCREEN */
 
 /* Title of the home screen */
 "PhotoPayHomeTitle" = "Moji računi";
+
+/** Label describing that document is currently created and in memory, not yet stored */
+"PhotoPayHomeDocumentCreatedLabel" = "Dokument je stvoren";
+
+/** Label describing that document is currently stored on phone's flash drive */
+"PhotoPayHomeDocumentStoredLabel" = "Dokument je spremljen";
+
+/* Label describing that document is being uploaded */
+"PhotoPayHomeDocumentUploadingLabel" = "Upload dokumenta u tijeku";
 
 
 // Library todo:

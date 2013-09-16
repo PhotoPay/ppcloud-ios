@@ -12,37 +12,88 @@
 
 @interface PPTableViewDataSource ()
 
-/** This stores PPDocumentTableSection objects */
-@property (nonatomic, strong) NSArray* sections;
-
 @end
 
 @implementation PPTableViewDataSource
 
-@synthesize items;
-@synthesize sections;
 @synthesize sectionCreator;
+@synthesize items;
 
 - (id)init {
     self = [super init];
     if (self) {
-        sectionCreator = [[PPTableLinearSectionCreator alloc] init];
+        items = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-- (void)setItems:(NSArray *)inItems {
-    items = inItems;
-    
-    sections = [[self sectionCreator] createSectionsForItems:items];
+- (id)initWithSectionCreator:(PPTableSectionCreator*)inSectionCreator {
+    self = [super init];
+    if (self) {
+        sectionCreator = inSectionCreator;
+        items = [[NSMutableArray alloc] init];
+    }
+    return self;
 }
 
 - (void)setSectionCreator:(id)inSectionCreator {
-    if ([sectionCreator respondsToSelector:@selector(createSectionsForItems:)]) {
+    if (sectionCreator != inSectionCreator) {
+        NSArray* allItems = [self items];
+        
+        [self removeItems:allItems];
+        
         sectionCreator = inSectionCreator;
-        sections = [[self sectionCreator] createSectionsForItems:items];
-    } else {
-        NSLog(@"Invalid section creator, please specify object which inherits PPTableSectionCreator class");
+        
+        [self insertItems:allItems];
+    }
+}
+
+- (void)insertItems:(NSArray*)itemsToAdd {
+    NSIndexPath *indexPath = nil;
+    
+    NSMutableArray* insertedIndexPaths = [[NSMutableArray alloc] init];
+    NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
+    
+    for (id item in itemsToAdd) {
+        NSUInteger index = [[self items] indexOfObject:item];
+        if (index == NSNotFound) {
+            NSLog(@"Inserting %p", item);
+            [[self items] addObject:item];
+            indexPath = [[self sectionCreator] insertItem:item];
+            [insertedIndexPaths addObject:indexPath];
+        } else {
+            NSLog(@"Reloading %p", item);
+            indexPath = [[self sectionCreator] reloadItem:item];
+            [[self items] replaceObjectAtIndex:index withObject:item];
+            if (indexPath != nil) {
+                [reloadedIndexPaths addObject:indexPath];
+            }
+        }
+    }
+    
+    if ([insertedIndexPaths count] > 0) {
+        [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
+    }
+    if ([reloadedIndexPaths count] > 0) {
+        [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
+    }
+}
+
+- (void)removeItems:(NSArray*)itemsToRemove {
+    NSIndexPath *indexPath = nil;
+    
+    NSMutableArray* removedIndexPaths = [[NSMutableArray alloc] init];
+    for (id item in itemsToRemove) {
+        if ([[self items] containsObject:item]) {
+            indexPath = [[self sectionCreator] removeItem:item];
+            if (indexPath != nil) {
+                [removedIndexPaths addObject:indexPath];
+            }
+        }
+    }
+    
+    if ([removedIndexPaths count] > 0) {
+        [[self delegate] tableViewDataSource:self didDeleteItemsAtIndexPaths:removedIndexPaths];
     }
 }
 
@@ -52,6 +103,10 @@
     
     // Return item in given section
     return [[section items] objectAtIndex:indexPath.row];
+}
+
+- (NSArray*)sections {
+    return [[self sectionCreator] sections];
 }
 
 #pragma mark - UITableViewDataSource
@@ -66,7 +121,9 @@
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // this method must be overriden because it cannot instantiate UITableViewCells
-    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__] userInfo:nil];
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

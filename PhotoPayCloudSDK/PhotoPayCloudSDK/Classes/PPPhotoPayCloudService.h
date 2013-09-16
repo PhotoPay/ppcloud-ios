@@ -11,12 +11,12 @@
 
 @protocol PPDocumentUploadDelegate;
 @protocol PPUploadRequestOperation;
-@protocol PPDocumentListDelegate;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
 @class PPDocumentManager;
 @class PPNetworkManager;
+@class PPDocumentsTableDataSource;
 
 /**
  States the service can be in.
@@ -133,8 +133,8 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
 /** Upload delegate for all upload requests currently in queue */
 @property (nonatomic, weak) id<PPDocumentUploadDelegate> uploadDelegate;
 
-/** Upload delegate for all upload requests currently in queue */
-@property (nonatomic, weak) id<PPDocumentListDelegate> documentListDelegate;
+/** Data source object for any uitableviews in charge of displaying documents */
+@property (nonatomic, strong) PPDocumentsTableDataSource* dataSource;
 
 /**
  Creating upload request for a specified document.
@@ -152,6 +152,13 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
                failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
               canceled:(void (^)(PPLocalDocument* localDocument))canceled;
 
+- (void)uploadPendingDocuments;
+
+- (void)deletePendingDocumentsWithError:(NSError**)error;
+
+- (void)deleteDocument:(PPDocument*)document
+                 error:(NSError**)error;
+
 /**
  Retrieves documents with given statuses.
  
@@ -162,3 +169,5 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
 - (void)requestDocuments:(PPDocumentState)documentStateList;
 
 @end
+
+

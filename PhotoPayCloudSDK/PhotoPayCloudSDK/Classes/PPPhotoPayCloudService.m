@@ -13,7 +13,7 @@
 #import "PPDocumentManager.h"
 #import "PPLocalDocumentUploadQueue.h"
 #import "PPNetworkManager.h"
-#import "PPDocumentList.h"
+#import "PPDocumentsTableDataSource.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
@@ -29,9 +29,6 @@
 
 /** Override of the state property. Inside of the class it's changeable */
 @property (nonatomic) PPPhotoPayCloudServiceState state;
-
-/** Object responsible for managing a list of documents */
-@property (nonatomic, strong) PPDocumentList* documentList;
 
 /**
  Checks if any existing upload queues wait for continuation
@@ -68,7 +65,6 @@
 @synthesize successDispatchQueue;
 @synthesize failureDispatchQueue;
 @synthesize documentUploadQueue;
-@synthesize documentList;
 
 + (PPPhotoPayCloudService*)sharedService {
     static PPPhotoPayCloudService* sharedService = nil;
@@ -88,9 +84,6 @@
         
         // network manager is not set in the beginning
         networkManager = nil;
-        
-        // document list is nil until user and network manager are determined
-        documentList = nil;
         
         // dispatch queue for upload requests
         self.uploadDispatchQueue = dispatch_queue_create("net.photopay.cloud.sdk.upload", NULL);
@@ -196,25 +189,32 @@
 }
 
 - (void)setUser:(PPUser *)inUser {
-    user = inUser;
-    
-    if (self.networkManager != nil && self.user != nil) {
-        [self checkExistingUploadQueue];
-        self.documentList = [[PPDocumentList alloc] initWithUser:self.user networkManager:self.networkManager];
+    if (self.networkManager != nil && inUser != nil) {
+        if (self.state == PPPhotoPayCloudServiceStateUninitialized) {
+            self.state = PPPhotoPayCloudServiceStateReady;
+        }
+        if (inUser != user) {
+            [self checkExistingUploadQueue];
+        }
     } else {
         self.state = PPPhotoPayCloudServiceStateUninitialized;
     }
+    
+    user = inUser;
 }
 
 - (void)setNetworkManager:(PPNetworkManager *)inNetworkManager {
-    networkManager = inNetworkManager;
-    
-    if (self.networkManager != nil && self.user != nil) {
-        [self checkExistingUploadQueue];
-        self.documentList = [[PPDocumentList alloc] initWithUser:self.user networkManager:self.networkManager];
+    if (inNetworkManager != nil && self.user != nil) {
+        if (self.state == PPPhotoPayCloudServiceStateUninitialized) {
+            self.state = PPPhotoPayCloudServiceStateReady;
+        }
+        if (inNetworkManager != networkManager) {
+            [self checkExistingUploadQueue];
+        }
     } else {
         self.state = PPPhotoPayCloudServiceStateUninitialized;
     }
+    networkManager = inNetworkManager;
 }
 
 - (void)checkExistingUploadQueue {
@@ -228,6 +228,7 @@
         self.state = PPPhotoPayCloudServiceStateReady;
     } else {
         self.state = PPPhotoPayCloudServiceStatePaused;
+        NSLog(@"%d uploads pending!", [[documentUploadQueue elements] count]);
     }
 }
 
@@ -249,8 +250,6 @@
     // set document data
     [localDocument setOwnerIdHash:[[self user] userIdHash]];
     
-    NSLog(@"We are uploading document:\n %@", [localDocument toString]);
-    
     // create the upload request
     id<PPUploadRequestOperation> uploadRequest =
         [[self networkManager] createUploadRequestForUser:[self user]
@@ -262,8 +261,11 @@
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
-                                                      [[self documentList] swapLocalDocument:localDocument withRemoteDocument:remoteDocument];
-                                                      [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
+                                                      dispatch_async(dispatch_get_main_queue(), ^() {
+                                                          [[self dataSource] swapLocalDocument:localDocument
+                                                                            withRemoteDocument:remoteDocument];
+                                                          NSLog(@"Document list refreshed with successful upload!");
+                                                      });
                                                       
                                                       if (success) {
                                                           dispatch_async(self.successDispatchQueue ?: dispatch_get_main_queue(), ^{
@@ -281,7 +283,10 @@
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
-                                                      [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
+                                                      dispatch_async(dispatch_get_main_queue(), ^() {
+                                                          [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                          NSLog(@"Document list refreshed with failed upload!");
+                                                      });
                                                       
                                                       if (failure) {
                                                           dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
@@ -299,7 +304,10 @@
                                                          state = PPPhotoPayCloudServiceStateReady;
                                                      }
                                                      
-                                                     [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
+                                                     dispatch_async(dispatch_get_main_queue(), ^() {
+                                                         [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                         NSLog(@"Document list refreshed with canceled upload!");
+                                                     });
                                                      
                                                      if (canceled) {
                                                          dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
@@ -312,12 +320,11 @@
                                                  }];
     
     [uploadRequest setDelegate:delegate];
-    
     [localDocument setUploadRequest:uploadRequest];
     
     // enqueue upload parameters queue;
     // also serializes upload parameters object to documents directory
-    BOOL saveSuccessful = [[self documentUploadQueue] enqueue:localDocument];
+    BOOL saveSuccessful = [[self documentUploadQueue] insert:localDocument];
     if (!saveSuccessful) {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadCannotStoreRequest";
@@ -333,11 +340,13 @@
         return;
     }
     
-    [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
-    
     localDocument.state = PPDocumentStateUploading;
-    
     state = PPPhotoPayCloudServiceStateUploading;
+    
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        NSLog(@"Document list refreshing with document which started uploading!");
+        [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+    });
     
     // add it to the operation queue
     [[[self networkManager] uploadOperationQueue] addOperation:uploadRequest];
@@ -386,6 +395,7 @@
         // this will not block the calling queue
         [document saveUsingDocumentManager:[self documentManager]
                                    success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
+                            
                                        // local document is already stored
                                        // repeate request for stored document
                                        [self uploadStoredDocument:document
@@ -413,18 +423,76 @@
     }
 }
 
-- (void)setDocumentListDelegate:(id<PPDocumentListDelegate>)documentListDelegate {
-    [[self documentList] setDelegate:documentListDelegate];
+- (void)uploadPendingDocuments {
+    if ([self state] == PPPhotoPayCloudServiceStatePaused) {
+        for (PPLocalDocument* document in [[self documentUploadQueue] elements]) {
+            [self uploadDocument:document
+                        delegate:[self uploadDelegate]
+                         success:nil
+                         failure:nil
+                        canceled:nil];
+        }
+    }
 }
 
-- (id<PPDocumentListDelegate>)documentListDelegate {
-    return [[self documentList] delegate];
+- (void)deletePendingDocumentsWithError:(NSError**)error {
+    for (int i = [[self documentUploadQueue] count] - 1; i >= 0 ; i--) {
+        PPLocalDocument *localDocument = [[[self documentUploadQueue] elements] objectAtIndex:i];
+        [self deleteDocument:localDocument error:error];
+    }
+}
+
+- (void)deleteDocument:(PPDocument*)document
+                 error:(NSError**)error {
+    PPLocalDocument* localDocument = [document localDocument];
+    if (localDocument != nil) {
+        [[self documentManager] deleteDocument:localDocument error:error];
+        [[self documentUploadQueue] remove:localDocument];
+    } else {
+//        PPRemoteDocument* remoteDocument = [document remoteDocument];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        NSLog(@"Document list refreshed with deleted document!");
+        [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+    });
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates {
-    [[self documentList] setDocumentStateList:documentStates];
-    [[self documentList] requestRemoteDocuments];
-    [[self documentList] refreshLocalDocuments:[self documentUploadQueue]];
+    NSLog(@"Requesting documents!");
+    
+    static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
+    if (documentStates == lastDocumentStates) { // document states are the same as last presented, so we're fine and dandy, just return
+        return;
+    }
+    
+    // find all documents currently in data source which aren't in the state given by documentStates
+    NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
+    for (PPDocument* document in [[self dataSource] items]) {
+        if (([document state] & documentStates) == 0) {
+            [documentsToRemove addObject:document];
+        }
+    }
+    
+    // these should be removed
+    
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        [[self dataSource] removeItems:documentsToRemove];
+    });
+   
+    
+    // find all documents currently in document upload queue which are in the state given by document states
+    NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];
+    for (PPDocument* document in [[self documentUploadQueue] elements]) {
+        if ([document state] & documentStates) {
+            [documentsToAdd addObject:document];
+        }
+    }
+    
+    // these should be added
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        [[self dataSource] insertItems:documentsToAdd];
+    });
 }
 
 @end

@@ -11,12 +11,14 @@
 #import "PPAFNetworkManager.h"
 #import <PhotoPayCloud/PhotoPayCloud.h>
 #import <AFNetworking/AFNetworking.h>
+#import "PPAlertView.h"
 
 @interface PPAppDelegate ()
 
 - (void)configureApp;
 - (void)configureLogger;
 - (void)configurePhotoPayCloud;
+- (void)checkPhotoPayCloudUploads;
 
 + (AFHTTPClient*)httpclient;
 
@@ -91,6 +93,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [self checkPhotoPayCloudUploads];
 }
 
 + (AFHTTPClient*)httpclient {
@@ -105,6 +109,26 @@
 - (void)configurePhotoPayCloud {
     [[PPPhotoPayCloudService sharedService] setUser:[[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]]];
     [[PPPhotoPayCloudService sharedService] setNetworkManager:[[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]]];
+}
+
+- (void)checkPhotoPayCloudUploads {
+    // check if PhotoPayCloudService was paused
+    if ([[PPPhotoPayCloudService sharedService] state] == PPPhotoPayCloudServiceStatePaused) {
+        // if true, ask user to continue or abort paused requests
+        PPAlertView* alertView = [[PPAlertView alloc] initWithTitle:_(@"PhotoPayPendingUploadsAlertViewTitle")
+                                                            message:_(@"PhotoPayPendingUploadsAlertViewMessage")
+                                                         completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                             NSError* __autoreleasing error = nil;
+                                                             if (buttonIndex == 0) {
+                                                                 [[PPPhotoPayCloudService sharedService] deletePendingDocumentsWithError:&error];
+                                                             } else if (buttonIndex == 1) {
+                                                                 [[PPPhotoPayCloudService sharedService] uploadPendingDocuments];
+                                                             }
+                                                         }
+                                                  cancelButtonTitle:_(@"PhotoPayPendingUploadsAlertViewAbort")
+                                                  otherButtonTitles:_(@"PhotoPayPendingUploadsAlertViewContinue"), nil];
+        [alertView show];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

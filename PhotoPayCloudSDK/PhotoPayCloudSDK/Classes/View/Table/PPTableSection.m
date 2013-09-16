@@ -36,6 +36,22 @@ static const int INITIAL_CAPACITY = 20;
     [[self mutableItems] addObject:item];
 }
 
+- (NSUInteger)removeItem:(id)item {
+    NSUInteger index = [[self mutableItems] indexOfObject:item];
+    if (index != NSNotFound) {
+        [[self mutableItems] removeObjectAtIndex:index];
+    }
+    return index;
+}
+
+- (NSUInteger)reloadItem:(id)item {
+    NSUInteger index = [[self mutableItems] indexOfObject:item];
+    if (index != NSNotFound) {
+        [[self mutableItems] replaceObjectAtIndex:index withObject:item];
+    }
+    return index;
+}
+
 - (NSArray *)items {
     return [[self mutableItems] copy];
 }

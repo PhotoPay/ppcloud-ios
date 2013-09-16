@@ -38,9 +38,29 @@
 - (id)initWithSectionId:(NSInteger)sectionId name:(NSString*)name;
 
 /**
- Adds the document to the section.
+ Adds the item to the section.
  */
 - (void)addItem:(id)item;
+
+/**
+ Removes the item from the section. Section is traversed and checked if there is an existing element which responds YES to [element isEqual:item]
+ If there exists one, it's removed from the list, and it's index is returned.
+ 
+ If there is none, NSNotFound is returned.
+ 
+ Only one element can be removed, if there are duplicates, they will remain in the section.
+ */
+- (NSUInteger)removeItem:(id)item;
+
+/**
+ Reloads the item int the section. Section is traversed and checked if there is an existing element which responds YES to [element isEqual:item]
+ If there exists one, it's replaced with the given item, and it's index is returned.
+ 
+ If there is none, NSUInteger is returned.
+ 
+ Only one element can be reloaded, if there are duplicates, they will remain unchanged in the section.
+ */
+- (NSUInteger)reloadItem:(id)item;
 
 /**
  Helper method for obtaining section item count

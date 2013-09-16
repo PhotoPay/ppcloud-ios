@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		181139A617D8CC0F0065AC3A /* PP_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 181139A517D8CC0F0065AC3A /* PP_background.jpg */; };
+		1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */; };
 		1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249217DEFD8A00EDE12B /* NSString+Factory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883249317DEFD8A00EDE12B /* NSString+Factory.m */; };
 		1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249B17DF162200EDE12B /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,8 +43,6 @@
 		18AAF6E417E4682600204B06 /* PPDocumentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AAF6DE17E4682600204B06 /* PPDocumentManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		18AAF6E517E4682600204B06 /* PPLocalDocumentUploadQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AAF6DF17E4682600204B06 /* PPLocalDocumentUploadQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18AAF6E617E4682600204B06 /* PPLocalDocumentUploadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AAF6E017E4682600204B06 /* PPLocalDocumentUploadQueue.m */; };
-		18AAF6EB17E4E01200204B06 /* PPDocumentList.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AAF6E917E4E01200204B06 /* PPDocumentList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		18AAF6EC17E4E01200204B06 /* PPDocumentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AAF6EA17E4E01200204B06 /* PPDocumentList.m */; };
 		18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		18BA04E917E09A0300FF3CD3 /* PPUploadRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,6 +66,8 @@
 
 /* Begin PBXFileReference section */
 		181139A517D8CC0F0065AC3A /* PP_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PP_background.jpg; sourceTree = "<group>"; };
+		1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentsTableDataSource.h; sourceTree = "<group>"; };
+		1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsTableDataSource.m; sourceTree = "<group>"; };
 		1883249217DEFD8A00EDE12B /* NSString+Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Factory.h"; sourceTree = "<group>"; };
 		1883249317DEFD8A00EDE12B /* NSString+Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Factory.m"; sourceTree = "<group>"; };
 		1883249B17DF162200EDE12B /* PhotoPayCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPayCloud.h; sourceTree = "<group>"; };
@@ -89,8 +91,6 @@
 		18AAF6DE17E4682600204B06 /* PPDocumentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentManager.m; sourceTree = "<group>"; };
 		18AAF6DF17E4682600204B06 /* PPLocalDocumentUploadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalDocumentUploadQueue.h; sourceTree = "<group>"; };
 		18AAF6E017E4682600204B06 /* PPLocalDocumentUploadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalDocumentUploadQueue.m; sourceTree = "<group>"; };
-		18AAF6E917E4E01200204B06 /* PPDocumentList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentList.h; sourceTree = "<group>"; };
-		18AAF6EA17E4E01200204B06 /* PPDocumentList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentList.m; sourceTree = "<group>"; };
 		18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNetworkManager.h; sourceTree = "<group>"; };
 		18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPNetworkManager.m; sourceTree = "<group>"; };
 		18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUploadRequestOperation.h; sourceTree = "<group>"; };
@@ -175,8 +175,6 @@
 				18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */,
 				18BA04F617E1D4A200FF3CD3 /* PPUser.h */,
 				18BA04F717E1D4A200FF3CD3 /* PPUser.m */,
-				18AAF6E917E4E01200204B06 /* PPDocumentList.h */,
-				18AAF6EA17E4E01200204B06 /* PPDocumentList.m */,
 				18999BB917DC7A40009FA90A /* Model */,
 				188AAF3817D89B92009531FA /* View */,
 				18AAF6DC17E4682600204B06 /* Storage */,
@@ -229,6 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */,
+				1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */,
+				1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */,
 				18BA050717E1D5BC00FF3CD3 /* Table */,
 			);
 			path = View;
@@ -294,7 +294,6 @@
 				18999BC017DC7A40009FA90A /* PPLocalDocument.h in Headers */,
 				18BA04F817E1D4A200FF3CD3 /* PPUser.h in Headers */,
 				18BA04F417E1B36300FF3CD3 /* PPModelObject.h in Headers */,
-				18AAF6EB17E4E01200204B06 /* PPDocumentList.h in Headers */,
 				18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */,
 				18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */,
 				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
@@ -305,6 +304,7 @@
 				18BA051417E1D5BC00FF3CD3 /* PPTableSectionCreator.h in Headers */,
 				18BA051017E1D5BC00FF3CD3 /* PPTableLinearSectionCreator.h in Headers */,
 				18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */,
+				1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */,
 				18999BC117DC7A40009FA90A /* PPLocalDocument.m in Sources */,
 				18BA051717E1D5BC00FF3CD3 /* PPTableViewDataSource.m in Sources */,
 				18BA04F917E1D4A200FF3CD3 /* PPUser.m in Sources */,
@@ -420,7 +421,6 @@
 				18BA051517E1D5BC00FF3CD3 /* PPTableSectionCreator.m in Sources */,
 				18BA04F517E1B36300FF3CD3 /* PPModelObject.m in Sources */,
 				18999BA817DC762F009FA90A /* PPPhotoPayCloudService.m in Sources */,
-				18AAF6EC17E4E01200204B06 /* PPDocumentList.m in Sources */,
 				18BA051117E1D5BC00FF3CD3 /* PPTableLinearSectionCreator.m in Sources */,
 				18BA051B17E1EC2900FF3CD3 /* PPRemoteDocument.m in Sources */,
 				18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */,
@@ -461,7 +461,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -484,7 +484,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -496,6 +496,7 @@
 				DSTROOT = /tmp/PhotoPayCloudSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -513,6 +514,7 @@
 					"NS_BLOCK_ASSERTIONS=1",
 					"NDEBUG=1",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -12,6 +12,6 @@
 /** 
  Data source for UITableView with list of scanned documents
  */
-@interface PPDocumentsDataSource : PPTableViewDataSource
+@interface PPDocumentsDataSource : PPDocumentsTableDataSource
 
 @end
