@@ -25,29 +25,31 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
     PPDocumentStateStored           = (0x1 << 1),
     /** when document upload starts and is still in progress */
     PPDocumentStateUploading        = (0x1 << 2),
+    /** when document upload started but failed */
+    PPDocumentStateUploadFailed     = (0x1 << 3),
     
     /** Document is local if it's in one of these three states */
-    PPDocumentStateLocal            = PPDocumentStateCreated | PPDocumentStateStored | PPDocumentStateUploading,
+    PPDocumentStateLocal            = PPDocumentStateCreated | PPDocumentStateStored | PPDocumentStateUploading | PPDocumentStateUploadFailed,
     
     /** 2. States of RemoteDocument objects */
     
     /** when the server acknowledges that document was successfully uploaded */
-    PPDocumentStateReceived         = (0x1 << 3),
+    PPDocumentStateReceived         = (0x1 << 4),
     /** when the document is uploaded, but processing still hasn't started */
-    PPDocumentStatePending          = (0x1 << 4),
+    PPDocumentStatePending          = (0x1 << 5),
     /** when document processing starts and is still in progress */
-    PPDocumentStateProcessing       = (0x1 << 5),
+    PPDocumentStateProcessing       = (0x1 << 6),
     /** when document processing finishes with error. This means processing will be repeated */
-    PPDocumentStateProcessingError  = (0x1 << 6),
+    PPDocumentStateProcessingError  = (0x1 << 7),
     /** when document processing finishes with success */
-    PPDocumentStateProcessed        = (0x1 << 7),
+    PPDocumentStateProcessed        = (0x1 << 8),
     /**  when document processing finishes with error several times. Documents in this state will
      no longer be processed and an error message should be presented to the user */
-    PPDocumentStateProcessedWithError    = (0x1 << 8),
+    PPDocumentStateProcessedWithError    = (0x1 << 9),
     /** when the user uses the processed results for making the actual payment. */
-    PPDocumentStatePaid             = (0x1 << 9),
+    PPDocumentStatePaid             = (0x1 << 10),
     /** when the user deletes the uploaded document without making the actual payment. */
-    PPDocumentStateDeleted          = (0x1 << 10),
+    PPDocumentStateDeleted          = (0x1 << 11),
     
     /** Document is local if it's in one of these three states */
     PPDocumentStateRemoteUnconfirmed  = PPDocumentStateReceived | PPDocumentStatePending | PPDocumentStateProcessing | PPDocumentStateProcessingError | PPDocumentStateProcessed | PPDocumentStateProcessedWithError,

@@ -82,6 +82,10 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  */
 + (PPPhotoPayCloudService*)sharedService;
 
+- (void)initializeForUser:(PPUser*)user withNetworkManager:(PPNetworkManager*)networkManager;
+
+- (void)uninitialize;
+
 /**
  The callback dispatch queue on success. If `NULL` (default), the main queue is used.
  */
@@ -100,7 +104,7 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
 /**
  Object responsible for managing network communication
  */
-@property (nonatomic, strong) PPNetworkManager* networkManager;
+@property (nonatomic, strong, readonly) PPNetworkManager* networkManager;
 
 /** 
  Object responsible for managing document saving.
@@ -108,7 +112,7 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  Default implementation saves documents to application documents directory. 
  This can be overriden by custom implementation.
  */
-@property (nonatomic, strong) PPDocumentManager* documentManager;
+@property (nonatomic, strong, readonly) PPDocumentManager* documentManager;
 
 /**
  Current user of the PhotoPay Cloud web service
@@ -119,7 +123,7 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  It's best to set the user in your AppDelegate applicationDidBecomeActive: method to ensure
  user will always be set.
  */
-@property (nonatomic, strong) PPUser* user;
+@property (nonatomic, strong, readonly) PPUser* user;
 
 /**
  Device token used for sending push notifications about processing updates to this device.

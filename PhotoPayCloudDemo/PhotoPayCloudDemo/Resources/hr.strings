@@ -36,14 +36,14 @@
 /* Title of the home screen */
 "PhotoPayHomeTitle" = "Moji računi";
 
-/** Label describing that document is currently created and in memory, not yet stored */
-"PhotoPayHomeDocumentCreatedLabel" = "Dokument je stvoren";
-
 /** Label describing that document is currently stored on phone's flash drive */
-"PhotoPayHomeDocumentStoredLabel" = "Dokument je spremljen";
+"PhotoPayHomeDocumentWaitingForUploadLabel" = "Dokument čeka na slanje";
 
 /* Label describing that document is being uploaded */
-"PhotoPayHomeDocumentUploadingLabel" = "Upload dokumenta u tijeku";
+"PhotoPayHomeDocumentUploadingLabel" = "Slanje u tijeku";
+
+/* Label describing that document has failed to upload */
+"PhotoPayHomeDocumentUploadFailedLabel" = "Slanje nije uspjelo";
 
 
 // Library todo:

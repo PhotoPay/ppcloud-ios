@@ -25,11 +25,11 @@
 /* Title of the home screen */
 "PhotoPayHomeTitle" = "My Bills";
 
-/** Label describing that document is currently created and in memory, not yet stored */
-"PhotoPayHomeDocumentCreatedLabel" = "Document created";
-
 /** Label describing that document is currently stored on phone's flash drive */
-"PhotoPayHomeDocumentStoredLabel" = "Document stored";
+"PhotoPayHomeDocumentWaitingForUploadLabel" = "Document is waiting for upload";
 
 /* Label describing that document is being uploaded */
 "PhotoPayHomeDocumentUploadingLabel" = "Upload in progress";
+
+/* Label describing that document has failed to upload */
+"PhotoPayHomeDocumentUploadFailedLabel" = "Upload failed";

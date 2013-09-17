@@ -42,6 +42,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     if (self) {
         image = inImage;
     }
+    
     return self;
 }
 

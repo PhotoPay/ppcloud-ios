@@ -57,12 +57,10 @@
     for (id item in itemsToAdd) {
         NSUInteger index = [[self items] indexOfObject:item];
         if (index == NSNotFound) {
-            NSLog(@"Inserting %p", item);
             [[self items] addObject:item];
             indexPath = [[self sectionCreator] insertItem:item];
             [insertedIndexPaths addObject:indexPath];
         } else {
-            NSLog(@"Reloading %p", item);
             indexPath = [[self sectionCreator] reloadItem:item];
             [[self items] replaceObjectAtIndex:index withObject:item];
             if (indexPath != nil) {

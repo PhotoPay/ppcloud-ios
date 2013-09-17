@@ -145,7 +145,7 @@
     if (self) {
         sections = [[NSMutableArray alloc] init];
         
-        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:@"Bills"];
+        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:nil];
         
         [sections addObject:section];
     }

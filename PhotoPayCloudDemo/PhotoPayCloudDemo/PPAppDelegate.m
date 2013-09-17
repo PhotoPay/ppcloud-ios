@@ -17,8 +17,10 @@
 
 - (void)configureApp;
 - (void)configureLogger;
-- (void)configurePhotoPayCloud;
 - (void)checkPhotoPayCloudUploads;
+
+- (void)photoPayCloudLogin;
+- (void)photoPayCloudLogout;
 
 + (AFHTTPClient*)httpclient;
 
@@ -28,10 +30,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"Did finish launching!");
+    
     // These should be called before crearing view controllers, so that they have
     // correct values set in their lifecycle methods
     [self configureApp];
-    [self configurePhotoPayCloud];
+    [self photoPayCloudLogin];
     
     PPHomeViewController *homeViewController = [[PPHomeViewController alloc] initWithNibName:[PPHomeViewController defaultXibName]
                                                                                   bundle:nil];
@@ -69,10 +73,47 @@
     [[PPPhotoPayCloudService sharedService] setDeviceToken:nil];
 }
 
+/** Hack to test logging out */
+static bool loggedIn = false;
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    static NSTimeInterval logoutInterval = 8.0f;
+    __block UIBackgroundTaskIdentifier bgTask;
+    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        // Clean up any unfinished task business by marking where you
+        // stopped or ending the task outright.
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    loggedIn = false;
+    // Delay execution of my block for 10 seconds.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, logoutInterval * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self photoPayCloudLogout];
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    });
+    
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)photoPayCloudLogout {
+    if (!loggedIn) {
+        NSLog(@"Logout");
+        [[PPPhotoPayCloudService sharedService] uninitialize];
+    }
+}
+
+- (void)photoPayCloudLogin {
+    loggedIn = true;
+    NSLog(@"Login");
+    
+    PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
+    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]];
+    
+    [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -85,15 +126,17 @@
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
+    NSLog(@"Will enter foreground!");
+    
     // call configure photopaycloud because it's possible
     // that PhotoPayCloudService was deallocated in the meantime
-    [self configurePhotoPayCloud];
+    [self photoPayCloudLogin];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
+    NSLog(@"Did become active!");
     [self checkPhotoPayCloudUploads];
 }
 
@@ -106,12 +149,8 @@
     return httpclient;
 }
 
-- (void)configurePhotoPayCloud {
-    [[PPPhotoPayCloudService sharedService] setUser:[[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]]];
-    [[PPPhotoPayCloudService sharedService] setNetworkManager:[[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]]];
-}
-
 - (void)checkPhotoPayCloudUploads {
+    NSLog(@"Checking uploads!");
     // check if PhotoPayCloudService was paused
     if ([[PPPhotoPayCloudService sharedService] state] == PPPhotoPayCloudServiceStatePaused) {
         // if true, ask user to continue or abort paused requests

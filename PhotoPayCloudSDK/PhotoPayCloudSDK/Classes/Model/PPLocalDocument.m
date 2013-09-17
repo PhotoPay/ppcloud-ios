@@ -45,6 +45,7 @@
     if (!self) {
         return nil;
     }
+    
     bytes_ = nil;
     ownerIdHash = [decoder decodeObjectForKey:@"ownerIdHash"];
     uploadRequest = nil;
@@ -52,7 +53,9 @@
     // when deserialized, all local documents should be in state stored
     // state uploading is impossible since it was just deserialized.
     // created is also impossible because then the document wouldnt be stored
-    self.state = PPDocumentStateStored;
+    if (self.state == PPDocumentStateUploading) {
+        self.state = PPDocumentStateUploadFailed;
+    }
     
     return self;
 }

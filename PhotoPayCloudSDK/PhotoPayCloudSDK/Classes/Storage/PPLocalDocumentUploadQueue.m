@@ -41,13 +41,10 @@
 }
 
 - (BOOL)remove:(PPLocalDocument*)document {
-    for (int i = 0; i < [elements count]; i++) {
-        if ([[elements objectAtIndex:i] isEqual:document]) {
-            [self.elements removeObjectAtIndex:i];
-            return YES;
-        }
-    }
-    return NO;
+    [self.elements removeObject:document];
+    NSLog(@"Removing object!");
+    return [NSKeyedArchiver archiveRootObject:self
+                                       toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
 }
 
 - (BOOL)insert:(PPLocalDocument*)document {
@@ -59,8 +56,6 @@
     }
     return [NSKeyedArchiver archiveRootObject:self
                                        toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
-    
-    return NO;
 }
 
 - (NSUInteger)count {

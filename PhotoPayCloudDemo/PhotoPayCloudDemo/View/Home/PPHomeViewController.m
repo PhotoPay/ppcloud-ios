@@ -60,19 +60,24 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    NSLog(@"Will appear!");
+    
     // this view controller will receive all news about the upload status
+    [[self documentsDataSource] setUploadDelegate:self];
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+    NSLog(@"Upload delegate set!");
     
     //To clear any selection in the table view before it’s displayed,
     // implement the viewWillAppear: method to clear the selected row
     // (if any) by calling deselectRowAtIndexPath:animated:.
     
     
-    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal|PPDocumentStateRemoteUnconfirmed];
+    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    NSLog(@"Did appear!");
     
     // flash the scroll view’s scroll indicators
     [[self billsTable] flashScrollIndicators];
@@ -82,7 +87,10 @@
     [super viewWillDisappear:animated];
     
     // this view controller will receive all news about the upload status
+    [[self documentsDataSource] setUploadDelegate:nil];
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+    
+    NSLog(@"Upload delegate reset, now is NIL!");
 }
 
 - (void)didReceiveMemoryWarning
@@ -231,23 +239,13 @@ didFinishUploadWithResult:(PPRemoteDocument *)remoteDocument {
 didFailToUploadWithError:(NSError *)error {
     DDLogError(@"Document has failed to upload!");
     DDLogError(@"Error message is %@", [error localizedDescription]);
-    
-    PPAlertView *alertView = [[PPAlertView alloc] initWithTitle:@"Upload could not be completed"
-                                                        message:@"Would you like to try again?"
-                                                     completion:^(BOOL cancelled, NSInteger buttonIndex) {
-                                                            if (buttonIndex == 1) { // retry button
-                                                                // enqueue this upload once more
-                                                                [self uploadDocument:localDocument];
-                                                            }
-                                                        }
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Try again", nil];
-    [alertView show];
 }
 
 - (void)localDocument:(PPLocalDocument *)localDocument
 didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
     totalBytesToWrite:(long long)totalBytesToWrite {
+    
+//    NSLog(@"Update %@ progress: %f", [localDocument url], totalBytesWritten / (double)totalBytesToWrite);
     
     // instead of requesting the whole table to update, we just find the potential cell among visible cells
     for (PPHomeTableViewCell* cell in self.billsTable.visibleCells) {
