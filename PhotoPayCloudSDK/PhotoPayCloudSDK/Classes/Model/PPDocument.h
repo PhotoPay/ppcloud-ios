@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "PPModelObject.h"
 
 @class PPLocalDocument;
@@ -127,7 +128,19 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  Exact date of the creation of the document
  */
-@property (nonatomic, strong) NSDate* creationDate;
+@property (nonatomic, strong, readonly) NSDate* creationDate;
+
+/** 
+ Generates and chaches thumbnail image for this document
+ */
+- (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
+                          failure:(void (^)(void))failure;
+
+/**
+ Generates and chaches preview image for this document
+ */
+- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
+                        failure:(void (^)(void))failure;
 
 /**
  Designated initializer

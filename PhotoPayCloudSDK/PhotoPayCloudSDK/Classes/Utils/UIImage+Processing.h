@@ -17,4 +17,6 @@
           scaledToResolution:(NSUInteger)mpixels
             compressionLevel:(CGFloat)compressionLevel;
 
+- (UIImage *)fixOrientation;
+
 @end

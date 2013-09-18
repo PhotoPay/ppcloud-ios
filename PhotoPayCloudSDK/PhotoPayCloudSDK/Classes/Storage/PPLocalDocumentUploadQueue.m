@@ -42,7 +42,6 @@
 
 - (BOOL)remove:(PPLocalDocument*)document {
     [self.elements removeObject:document];
-    NSLog(@"Removing object!");
     return [NSKeyedArchiver archiveRootObject:self
                                        toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
 }

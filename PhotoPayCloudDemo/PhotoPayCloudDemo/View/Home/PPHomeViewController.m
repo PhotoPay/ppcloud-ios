@@ -11,7 +11,8 @@
 #import "UIViewController+Modal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PPAlertView.h"
-#import "PPHomeTableViewCell.h"
+#import "PPDocumentTableViewCell+Uploading.h"
+#import "PPDocumentDetailsViewController.h"
 
 @interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPTableViewDataSourceDelegate>
 
@@ -60,12 +61,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    NSLog(@"Will appear!");
-    
-    // this view controller will receive all news about the upload status
     [[self documentsDataSource] setUploadDelegate:self];
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
-    NSLog(@"Upload delegate set!");
     
     //To clear any selection in the table view before it’s displayed,
     // implement the viewWillAppear: method to clear the selected row
@@ -77,7 +74,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"Did appear!");
     
     // flash the scroll view’s scroll indicators
     [[self billsTable] flashScrollIndicators];
@@ -89,8 +85,6 @@
     // this view controller will receive all news about the upload status
     [[self documentsDataSource] setUploadDelegate:nil];
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
-    
-    NSLog(@"Upload delegate reset, now is NIL!");
 }
 
 - (void)didReceiveMemoryWarning
@@ -141,7 +135,14 @@
 }
 
 - (void)openDocumentDetailsView:(PPDocument*)document {
-    DDLogInfo(@"Opening document!");
+//    PPDocumentDetailsViewController* documentDetails = [[PPDocumentDetailsViewController alloc] initWithNibName:[PPDocumentDetailsViewController defaultXibName]
+//                                                                                                         bundle:nil];
+//    
+//    // make the transition smoother
+//    [[self documentsDataSource] setUploadDelegate:nil];
+//    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+//    
+//    [[self navigationController] pushViewController:documentDetails animated:YES];
 }
 
 - (void)uploadDocument:(PPLocalDocument *)document {
@@ -190,9 +191,6 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  didInsertItemsAtIndexPaths:(NSArray*)indexPaths {
-//    for (NSIndexPath *path in indexPaths) {
-//        NSLog(@"Callback did insert section %d, row %d", [path section], [path row]);
-//    }
     [[self billsTable] beginUpdates];
     [[self billsTable] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self billsTable] endUpdates];
@@ -204,9 +202,6 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
-//    for (NSIndexPath *path in indexPaths) {
-//        NSLog(@"callback did delete section %d, row %d", [path section], [path row]);
-//    }
     [[self billsTable] beginUpdates];
     [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self billsTable] endUpdates];
@@ -218,9 +213,6 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
   didReloadItemsAtIndexPath:(NSArray*)indexPaths {
-//    for (NSIndexPath *path in indexPaths) {
-//        NSLog(@"callback did reload section %d, row %d", [path section], [path row]);
-//    }
     [[self billsTable] beginUpdates];
     [[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self billsTable] endUpdates];
@@ -248,9 +240,9 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 //    NSLog(@"Update %@ progress: %f", [localDocument url], totalBytesWritten / (double)totalBytesToWrite);
     
     // instead of requesting the whole table to update, we just find the potential cell among visible cells
-    for (PPHomeTableViewCell* cell in self.billsTable.visibleCells) {
-        if (cell.document == localDocument) {
-            [cell refresh];
+    for (PPDocumentTableViewCell* cell in self.billsTable.visibleCells) {
+        if (cell.document.state == PPDocumentStateUploading) {
+            [cell refreshProgress];
         }
     }
 }
@@ -262,7 +254,7 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.f;
+    return [PPDocumentTableViewCell defaultHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

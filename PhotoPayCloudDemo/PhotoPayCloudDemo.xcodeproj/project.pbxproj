@@ -8,8 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0FA954F2DE8A46DFA82D6F0D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8E8A97E55D4F8188890B7F /* libPods.a */; };
-		1819980B17E8608A001B66B1 /* PPDocumentDefaultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819980A17E8608A001B66B1 /* PPDocumentDefaultTableViewCell.m */; };
-		1819980D17E860A7001B66B1 /* PPDocumentDefaultTableViewCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819980C17E860A7001B66B1 /* PPDocumentDefaultTableViewCell_iPhone.xib */; };
+		1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */; };
+		1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */; };
+		1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981417E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m */; };
+		1819981B17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981A17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m */; };
+		1819982017E9ACB2001B66B1 /* PPDocumentDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981E17E9ACB2001B66B1 /* PPDocumentDetailsViewController.m */; };
+		1819982D17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819982C17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib */; };
+		1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819983217E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib */; };
+		1819983617E9C443001B66B1 /* PPDocumentUploadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819983517E9C443001B66B1 /* PPDocumentUploadingView.m */; };
+		1819983C17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819983B17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib */; };
 		1829748D17E78EA200FAD137 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748B17E78EA200FAD137 /* redo.png */; };
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
@@ -36,9 +43,6 @@
 		18999B4B17DB4DC2009FA90A /* PPDocumentsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B4A17DB4DC2009FA90A /* PPDocumentsDataSource.m */; };
 		18999B5A17DB866D009FA90A /* thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18999B5917DB866D009FA90A /* thumb.jpg */; };
 		18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18999BA217DBCC24009FA90A /* MobileCoreServices.framework */; };
-		18AAF6F317E50BAF00204B06 /* PPDocumentUploadingTableViewCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18AAF6F217E50BAF00204B06 /* PPDocumentUploadingTableViewCell_iPhone.xib */; };
-		18AAF6F617E50BD100204B06 /* PPDocumentUploadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AAF6F517E50BD100204B06 /* PPDocumentUploadingTableViewCell.m */; };
-		18AAF6F917E50F6B00204B06 /* PPHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AAF6F817E50F6B00204B06 /* PPHomeTableViewCell.m */; };
 		18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */; };
 		18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */; };
 		18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA052C17E24DC200FF3CD3 /* PPAlertView.m */; };
@@ -51,9 +55,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1819980917E8608A001B66B1 /* PPDocumentDefaultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentDefaultTableViewCell.h; sourceTree = "<group>"; };
-		1819980A17E8608A001B66B1 /* PPDocumentDefaultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentDefaultTableViewCell.m; sourceTree = "<group>"; };
-		1819980C17E860A7001B66B1 /* PPDocumentDefaultTableViewCell_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentDefaultTableViewCell_iPhone.xib; sourceTree = "<group>"; };
+		1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentTableViewCell_iPhone.xib; sourceTree = "<group>"; };
+		1819981017E8BDB2001B66B1 /* PPDocumentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentTableViewCell.h; sourceTree = "<group>"; };
+		1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentTableViewCell.m; sourceTree = "<group>"; };
+		1819981317E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Uploading.h"; sourceTree = "<group>"; };
+		1819981417E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Uploading.m"; sourceTree = "<group>"; };
+		1819981917E99AB9001B66B1 /* PPDocumentTableViewCell+Local.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Local.h"; sourceTree = "<group>"; };
+		1819981A17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Local.m"; sourceTree = "<group>"; };
+		1819981D17E9ACB2001B66B1 /* PPDocumentDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentDetailsViewController.h; sourceTree = "<group>"; };
+		1819981E17E9ACB2001B66B1 /* PPDocumentDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentDetailsViewController.m; sourceTree = "<group>"; };
+		1819982C17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentDetailsViewController_iPhone.xib; sourceTree = "<group>"; };
+		1819983217E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentUploadingView_iPhone.xib; sourceTree = "<group>"; };
+		1819983417E9C443001B66B1 /* PPDocumentUploadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentUploadingView.h; sourceTree = "<group>"; };
+		1819983517E9C443001B66B1 /* PPDocumentUploadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentUploadingView.m; sourceTree = "<group>"; };
+		1819983B17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentTableViewCell_iPad.xib; sourceTree = "<group>"; };
 		1829748B17E78EA200FAD137 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		1829748C17E78EA200FAD137 /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,11 +104,6 @@
 		18999B4A17DB4DC2009FA90A /* PPDocumentsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsDataSource.m; sourceTree = "<group>"; };
 		18999B5917DB866D009FA90A /* thumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thumb.jpg; sourceTree = "<group>"; };
 		18999BA217DBCC24009FA90A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		18AAF6F217E50BAF00204B06 /* PPDocumentUploadingTableViewCell_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentUploadingTableViewCell_iPhone.xib; sourceTree = "<group>"; };
-		18AAF6F417E50BD100204B06 /* PPDocumentUploadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentUploadingTableViewCell.h; sourceTree = "<group>"; };
-		18AAF6F517E50BD100204B06 /* PPDocumentUploadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentUploadingTableViewCell.m; sourceTree = "<group>"; };
-		18AAF6F717E50F6B00204B06 /* PPHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHomeTableViewCell.h; sourceTree = "<group>"; };
-		18AAF6F817E50F6B00204B06 /* PPHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPHomeTableViewCell.m; sourceTree = "<group>"; };
 		18BA04EC17E103CA00FF3CD3 /* PPAFNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFNetworkManager.h; sourceTree = "<group>"; };
 		18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAFNetworkManager.m; sourceTree = "<group>"; };
 		18BA04EF17E1058500FF3CD3 /* PPAFUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFUploadRequestOperation.h; sourceTree = "<group>"; };
@@ -142,6 +152,27 @@
 				18DEA44C17DA7B6700DCEC17 /* en.strings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1819981C17E9AC9A001B66B1 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				1819981D17E9ACB2001B66B1 /* PPDocumentDetailsViewController.h */,
+				1819981E17E9ACB2001B66B1 /* PPDocumentDetailsViewController.m */,
+				1819982C17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib */,
+				1819983117E9C30A001B66B1 /* Views */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		1819983117E9C30A001B66B1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1819983217E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib */,
+				1819983417E9C443001B66B1 /* PPDocumentUploadingView.h */,
+				1819983517E9C443001B66B1 /* PPDocumentUploadingView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		188AAED617D876E9009531FA = {
@@ -211,6 +242,7 @@
 				18BA052A17E24DAB00FF3CD3 /* Components */,
 				18999B1A17DB136A009FA90A /* SignUp */,
 				18999B1617DB136A009FA90A /* Home */,
+				1819981C17E9AC9A001B66B1 /* Details */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -254,14 +286,14 @@
 		18AAF6F117E50BAF00204B06 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				18AAF6F217E50BAF00204B06 /* PPDocumentUploadingTableViewCell_iPhone.xib */,
-				18AAF6F417E50BD100204B06 /* PPDocumentUploadingTableViewCell.h */,
-				18AAF6F517E50BD100204B06 /* PPDocumentUploadingTableViewCell.m */,
-				18AAF6F717E50F6B00204B06 /* PPHomeTableViewCell.h */,
-				18AAF6F817E50F6B00204B06 /* PPHomeTableViewCell.m */,
-				1819980917E8608A001B66B1 /* PPDocumentDefaultTableViewCell.h */,
-				1819980A17E8608A001B66B1 /* PPDocumentDefaultTableViewCell.m */,
-				1819980C17E860A7001B66B1 /* PPDocumentDefaultTableViewCell_iPhone.xib */,
+				1819983B17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib */,
+				1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */,
+				1819981017E8BDB2001B66B1 /* PPDocumentTableViewCell.h */,
+				1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */,
+				1819981317E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.h */,
+				1819981417E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m */,
+				1819981917E99AB9001B66B1 /* PPDocumentTableViewCell+Local.h */,
+				1819981A17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -363,13 +395,14 @@
 				18999B5A17DB866D009FA90A /* thumb.jpg in Resources */,
 				18999B2217DB136A009FA90A /* PPSignUpViewController_iPad.xib in Resources */,
 				18999B3F17DB4057009FA90A /* camera~iphone.png in Resources */,
-				18AAF6F317E50BAF00204B06 /* PPDocumentUploadingTableViewCell_iPhone.xib in Resources */,
 				1829748D17E78EA200FAD137 /* redo.png in Resources */,
+				1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */,
 				188AAEED17D876E9009531FA /* InfoPlist.strings in Resources */,
+				1819983C17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib in Resources */,
 				188AAEF517D876E9009531FA /* Default.png in Resources */,
 				188AAEF717D876E9009531FA /* Default@2x.png in Resources */,
 				18999B3E17DB4057009FA90A /* camera~ipad.png in Resources */,
-				1819980D17E860A7001B66B1 /* PPDocumentDefaultTableViewCell_iPhone.xib in Resources */,
+				1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */,
 				188AAEF917D876E9009531FA /* Default-568h@2x.png in Resources */,
 				18FE944417DDF4960083F148 /* PhotoPayCloud.xcconfig in Resources */,
 				18FE944517DDF4960083F148 /* PhotoPayCloudResources.bundle in Resources */,
@@ -380,6 +413,7 @@
 				18999B2E17DB178E009FA90A /* PPHomeViewController_iPhone.xib in Resources */,
 				1829748E17E78EA200FAD137 /* redo@2x.png in Resources */,
 				18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */,
+				1819982D17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,20 +457,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */,
+				1819983617E9C443001B66B1 /* PPDocumentUploadingView.m in Sources */,
 				18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */,
 				18999B2D17DB178E009FA90A /* PPHomeViewController.m in Sources */,
 				188AAEEF17D876E9009531FA /* main.m in Sources */,
 				18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */,
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
-				1819980B17E8608A001B66B1 /* PPDocumentDefaultTableViewCell.m in Sources */,
+				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
 				188AAF6E17D8C176009531FA /* UIViewController+Modal.m in Sources */,
 				18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */,
+				1819981B17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m in Sources */,
 				18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */,
+				1819982017E9ACB2001B66B1 /* PPDocumentDetailsViewController.m in Sources */,
 				18999B2117DB136A009FA90A /* PPSignUpViewController.m in Sources */,
 				18999B4B17DB4DC2009FA90A /* PPDocumentsDataSource.m in Sources */,
-				18AAF6F917E50F6B00204B06 /* PPHomeTableViewCell.m in Sources */,
-				18AAF6F617E50BD100204B06 /* PPDocumentUploadingTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

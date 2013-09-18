@@ -9,6 +9,7 @@
 #import "PPDocument.h"
 #import "PPLocalDocument.h"
 #import "PPRemoteDocument.h"
+#import "UIImage+Processing.h"
 
 @interface PPDocument ()
 
@@ -33,6 +34,9 @@
  */
 + (NSDictionary *)documentStateObjectTable;
 
+/** Cached thumbnail image */
+@property (nonatomic, strong) UIImage* thumbnailImage;
+
 @end
 
 @implementation PPDocument
@@ -42,6 +46,7 @@
 @synthesize documentType;
 @synthesize processingType;
 @synthesize creationDate;
+@synthesize thumbnailImage;
 
 - (id)initWithUrl:(NSURL*)inUrl
     documentState:(PPDocumentState)inState
@@ -54,6 +59,7 @@
         documentType = inDocumentType;
         processingType = inProcessingType;
         creationDate = [NSDate date];
+        thumbnailImage = nil;
     }
     return self;
 }
@@ -69,6 +75,7 @@
     documentType = [decoder decodeIntegerForKey:@"documentType"];
     processingType = [decoder decodeIntegerForKey:@"processingType"];
     creationDate = [decoder decodeObjectForKey:@"creationDate"];
+    thumbnailImage = nil;
     
     return self;
 }
@@ -93,6 +100,20 @@
 
 - (NSUInteger)hash {
     return [[[self url] path] hash];
+}
+
+- (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
+                          failure:(void (^)(void))failure {
+    if (failure) {
+        failure();
+    }
+}
+
+- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
+                        failure:(void (^)(void))failure {
+    if (failure) {
+        failure();
+    }
 }
 
 - (NSString*)mimeType {

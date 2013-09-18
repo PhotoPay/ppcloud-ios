@@ -13,13 +13,16 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 
 @interface PPLocalImageDocument ()
 
-@property (nonatomic, assign) UIImage* image;
+@property (nonatomic, strong) UIImage* image;
+
+@property (nonatomic, strong) UIImage* thumbnailImage;
 
 @end
 
 @implementation PPLocalImageDocument
 
 @synthesize image;
+@synthesize thumbnailImage;
 
 - (id)initWithImage:(UIImage*)inImage
      processingType:(PPDocumentProcessingType)inProcessingType {
@@ -41,6 +44,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     
     if (self) {
         image = inImage;
+        thumbnailImage = nil;
     }
     
     return self;
@@ -67,16 +71,86 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
                                          userInfo:nil];
         }
         // we need to have UIImage object here
-        self->bytes_ = [UIImage jpegDataWithImage:image
+        self->bytes_ = [UIImage jpegDataWithImage:[image fixOrientation]
                                scaledToResolution:finalResolution
                                  compressionLevel:0.9];
-        
-        image = nil; // image is no longer needed
     }
     if (self->bytes_ == nil) {
         return [super bytes];
     }
     return self->bytes_;
+}
+
+- (UIImage*)image {
+    if (image == nil) {
+        image = [UIImage imageWithData:[self bytes]];
+    }
+    return image;
+}
+
+- (void)thumbnailImageWithSuccess:(void (^)(UIImage *))success
+                          failure:(void (^)(void))failure {
+    if (thumbnailImage != nil) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                success(thumbnailImage);
+            });
+        }
+    } else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+            UIImage* fullImage = [self image];
+            
+            if (fullImage == nil) {
+                dispatch_async(dispatch_get_main_queue(), ^(){
+                    if (failure) {
+                        failure();
+                    }
+                });
+            }
+            CGFloat width = 144.0f;
+            CGSize thumbnailSize = CGSizeMake(width, width * fullImage.size.height / fullImage.size.width);
+            thumbnailImage = [UIImage imageWithImage:fullImage scaledToSize:thumbnailSize];
+            
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                if (thumbnailImage != nil) {
+                    if (success) {
+                        success(thumbnailImage);
+                    };
+                } else {
+                    if (failure) {
+                        failure();
+                    }
+                }
+            });
+        });
+    }
+}
+
+- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
+                        failure:(void (^)(void))failure {
+    if (image != nil) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                success(image);
+            });
+        }
+    } else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+            UIImage* fullImage = [self image];
+            
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                if (fullImage != nil) {
+                    if (success) {
+                        success(fullImage);
+                    };
+                } else {
+                    if (failure) {
+                        failure();
+                    }
+                }
+            });
+        });
+    }
 }
 
 @end

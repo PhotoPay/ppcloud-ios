@@ -7,17 +7,16 @@
 //
 
 #import "PPDocumentsDataSource.h"
-
-#import "PPHomeTableViewCell.h"
-#import "PPDocumentDefaultTableViewCell.h"
-#import "PPDocumentUploadingTableViewCell.h"
+#import "PPDocumentTableViewCell.h"
+#import "PPDocumentTableViewCell+Local.h"
+#import "PPDocumentTableViewCell+Uploading.h"
 
 @interface PPDocumentsDataSource ()
 
-+ (PPHomeTableViewCell *)cellForDocumentStateDefault:(PPLocalDocument*)document
-                                           tableView:(UITableView*)tableView;
++ (PPDocumentTableViewCell *)cellForDocumentStateLocal:(PPLocalDocument*)document
+                                             tableView:(UITableView*)tableView;
 
-+ (PPHomeTableViewCell *)cellForDocumentStateUploading:(PPLocalDocument*)documentUploading
++ (PPDocumentTableViewCell *)cellForDocumentStateUploading:(PPLocalDocument*)documentUploading
                                              tableView:(UITableView*)tableView;
 
 @end
@@ -32,15 +31,14 @@
     // Obtain document object for given index path
     PPDocument *document = [self itemForIndexPath:indexPath];
     
-    PPHomeTableViewCell *cell = nil;
+    PPDocumentTableViewCell *cell = nil;
     
     switch ([document state]) {
         case PPDocumentStateCreated:
         case PPDocumentStateStored: {
-            PPDocumentDefaultTableViewCell *cell1 = (PPDocumentDefaultTableViewCell*)[PPDocumentsDataSource cellForDocumentStateDefault:[document localDocument]
-                                                            tableView:tableView];
-            cell1.messageLabel.text = _(@"PhotoPayHomeDocumentWaitingForUploadLabel");
-            cell = cell1;
+            cell = [PPDocumentsDataSource cellForDocumentStateLocal:[document localDocument]
+                                                          tableView:tableView];
+            cell.mediumLabel.text = _(@"PhotoPayHomeDocumentWaitingForUploadLabel");
             break;
         }
         case PPDocumentStateUploading:
@@ -48,52 +46,43 @@
                                                               tableView:tableView];
             break;
         case PPDocumentStateUploadFailed: {
-            PPDocumentDefaultTableViewCell *cell1 = (PPDocumentDefaultTableViewCell*)[PPDocumentsDataSource cellForDocumentStateDefault:[document localDocument]
-                                                                                                                              tableView:tableView];
-            cell1.messageLabel.text = _(@"PhotoPayHomeDocumentUploadFailedLabel");
-            cell = cell1;
+            cell = [PPDocumentsDataSource cellForDocumentStateLocal:[document localDocument]
+                                                          tableView:tableView];
+            cell.mediumLabel.text = _(@"PhotoPayHomeDocumentUploadFailedLabel");
             break;
         }
         default: {
-            PPDocumentDefaultTableViewCell *cell1 = (PPDocumentDefaultTableViewCell*)[PPDocumentsDataSource cellForDocumentStateDefault:[document localDocument]
-                                                                                                                              tableView:tableView];
-            cell1.messageLabel.text = _(@"PhotoPayHomeDocumentWaitingForUploadLabel");
-            cell = cell1;
+            cell = [PPDocumentsDataSource cellForDocumentStateLocal:[document localDocument]
+                                                          tableView:tableView];
+            cell.mediumLabel.text = _(@"PhotoPayHomeDocumentWaitingForUploadLabel");
             break;
         }
     }
     
-    NSLog(@"Section %d, row %d, file %@", [indexPath section], [indexPath row], [document url]);
-    
-    cell.document = document;
-    
     return cell;
 }
 
-+ (PPHomeTableViewCell *)cellForDocumentStateDefault:(PPLocalDocument*)document
++ (PPDocumentTableViewCell *)cellForDocumentStateLocal:(PPLocalDocument*)document
                                            tableView:(UITableView*)tableView {
-    NSString* nibName =  @"PPDocumentDefaultTableViewCell_iPhone";
-    PPDocumentDefaultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName];
+   
+    PPDocumentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[PPDocumentTableViewCell defaultXibName]];
     if (cell == nil) {
-        cell = [PPDocumentDefaultTableViewCell allocWithNibName:nibName
-                                                            document:document];
+        cell = [PPDocumentTableViewCell allocWithNibName:[PPDocumentTableViewCell defaultXibName]];
     }
+    [cell refreshWithLocalDocument:document];
     
     return cell;
 }
 
 
-+ (PPHomeTableViewCell *)cellForDocumentStateUploading:(PPLocalDocument*)documentUploading
-                                             tableView:(UITableView*)tableView {
-    NSString* nibName =  @"PPDocumentUploadingTableViewCell_iPhone";
-    PPDocumentUploadingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nibName];
++ (PPDocumentTableViewCell *)cellForDocumentStateUploading:(PPLocalDocument*)documentUploading
+                                                 tableView:(UITableView*)tableView {
+    PPDocumentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[PPDocumentTableViewCell defaultXibName]];
     if (cell == nil) {
-        cell = [PPDocumentUploadingTableViewCell allocWithNibName:nibName
-                                                         document:documentUploading];
+        cell = [PPDocumentTableViewCell allocWithNibName:[PPDocumentTableViewCell defaultXibName]];
     }
     
-    cell.messageLabel.text = _(@"PhotoPayHomeDocumentUploadingLabel");
-    cell.uploadProgress.progress = [[[documentUploading uploadRequest] progress] floatValue];
+    [cell refreshWithUploadingDocument:documentUploading];
     
     return cell;
 }

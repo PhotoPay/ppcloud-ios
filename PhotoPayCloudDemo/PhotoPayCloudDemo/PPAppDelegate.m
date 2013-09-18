@@ -30,8 +30,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSLog(@"Did finish launching!");
-    
     // These should be called before crearing view controllers, so that they have
     // correct values set in their lifecycle methods
     [self configureApp];
@@ -101,14 +99,12 @@ static bool loggedIn = false;
 
 - (void)photoPayCloudLogout {
     if (!loggedIn) {
-        NSLog(@"Logout");
         [[PPPhotoPayCloudService sharedService] uninitialize];
     }
 }
 
 - (void)photoPayCloudLogin {
     loggedIn = true;
-    NSLog(@"Login");
     
     PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
     PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]];
@@ -126,8 +122,6 @@ static bool loggedIn = false;
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
-    NSLog(@"Will enter foreground!");
-    
     // call configure photopaycloud because it's possible
     // that PhotoPayCloudService was deallocated in the meantime
     [self photoPayCloudLogin];
@@ -136,7 +130,7 @@ static bool loggedIn = false;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"Did become active!");
+    
     [self checkPhotoPayCloudUploads];
 }
 
@@ -150,7 +144,6 @@ static bool loggedIn = false;
 }
 
 - (void)checkPhotoPayCloudUploads {
-    NSLog(@"Checking uploads!");
     // check if PhotoPayCloudService was paused
     if ([[PPPhotoPayCloudService sharedService] state] == PPPhotoPayCloudServiceStatePaused) {
         // if true, ask user to continue or abort paused requests

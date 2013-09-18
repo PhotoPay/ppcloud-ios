@@ -40,7 +40,7 @@
 "PhotoPayHomeDocumentWaitingForUploadLabel" = "Dokument čeka na slanje";
 
 /* Label describing that document is being uploaded */
-"PhotoPayHomeDocumentUploadingLabel" = "Slanje u tijeku";
+"PhotoPayHomeDocumentUploadingLabel" = "Račun se šalje…";
 
 /* Label describing that document has failed to upload */
 "PhotoPayHomeDocumentUploadFailedLabel" = "Slanje nije uspjelo";

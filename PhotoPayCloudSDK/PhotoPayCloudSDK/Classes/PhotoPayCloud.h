@@ -38,4 +38,7 @@
 /** PhotoPayCloudService */
 #import "PPPhotoPayCloudService.h"
 
+/** Utils */
+#import "UIImage+Processing.h"
+
 #endif /* _PHOTOPAY_CLOUD_ */

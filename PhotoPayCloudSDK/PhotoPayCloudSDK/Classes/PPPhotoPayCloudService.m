@@ -212,8 +212,6 @@
     state = PPPhotoPayCloudServiceStateReady;
     
     [self checkExistingUploadQueue];
-    
-    NSLog(@"Initialized!");
 }
 
 - (void)uninitialize {
@@ -224,26 +222,19 @@
     for (int i = 0; i < [[[self documentUploadQueue] elements] count]; i++) {
         [[[[[[self documentUploadQueue] elements] objectAtIndex:i] localDocument] uploadRequest] cancel];
     }
-    
-    NSLog(@"Uninitialized!");
 }
 
 - (void)checkExistingUploadQueue {
-    NSLog(@"Checking!");
     // deserialize the request queue for this user
     NSString* userIdHash = [[self user] userIdHash];
-    NSLog(@"User id hash = %@", userIdHash);
     documentUploadQueue = [PPLocalDocumentUploadQueue queueForUserIdHash:userIdHash];
-    NSLog(@"Queue length = %d", [[self documentUploadQueue] count]);
     
     if (documentUploadQueue == nil || [documentUploadQueue count] == 0) {
         // we don't have any existing uploadsf
         documentUploadQueue = [[PPLocalDocumentUploadQueue alloc] init];
         self.state = PPPhotoPayCloudServiceStateReady;
-        NSLog(@"READY");
     } else {
         self.state = PPPhotoPayCloudServiceStatePaused;
-        NSLog(@"PAUSED");
     }
    
 }
@@ -272,13 +263,11 @@
                                                       [[self documentUploadQueue] remove:localDocument];
                                                       if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
-                                                          NSLog(@"READY");
                                                       }
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
                                                           [[self dataSource] swapLocalDocument:localDocument
                                                                             withRemoteDocument:remoteDocument];
-                                                          NSLog(@"Document list refreshed with successful upload!");
                                                       });
                                                       
                                                       if (success) {
@@ -295,13 +284,10 @@
                                                       localDocument.state = PPDocumentStateUploadFailed;
                                                       if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
-                                                          NSLog(@"READY");
                                                       }
-                                                      NSLog(@"Queue length = %d", [[self documentUploadQueue] count]);
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
                                                           [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
-                                                          NSLog(@"Document list refreshed with failed upload!");
                                                       });
                                                       
                                                       if (failure) {
@@ -317,13 +303,11 @@
                                                      
                                                      localDocument.state = PPDocumentStateUploadFailed;
                                                      if ([[self documentUploadQueue] count] == 0) {
-                                                         NSLog(@"READY");
                                                          state = PPPhotoPayCloudServiceStateReady;
                                                      }
                                                      
                                                      dispatch_async(dispatch_get_main_queue(), ^() {
                                                          [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
-                                                         NSLog(@"Document list refreshed with canceled upload!");
                                                      });
                                                      
                                                      if (canceled) {
@@ -359,10 +343,8 @@
     }
     
     state = PPPhotoPayCloudServiceStateUploading;
-    NSLog(@"UPLOADING");
     
     dispatch_async(dispatch_get_main_queue(), ^(){
-        NSLog(@"Document list refreshing with document which started uploading!");
         [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
     });
     
@@ -442,7 +424,6 @@
 
 - (void)uploadPendingDocuments {
     if ([self state] == PPPhotoPayCloudServiceStatePaused) {
-        NSLog(@"Delegate is null? %@", [self uploadDelegate] == nil ? @"YES" : @"NO");
         for (PPLocalDocument* document in [[self documentUploadQueue] elements]) {
             [self uploadDocument:document
                         delegate:[self uploadDelegate]
@@ -459,7 +440,6 @@
         [self deleteDocument:localDocument error:error];
     }
     [self setState:PPPhotoPayCloudServiceStateReady];
-    NSLog(@"READY");
 }
 
 - (void)deleteDocument:(PPDocument*)document
@@ -472,16 +452,12 @@
 //        PPRemoteDocument* remoteDocument = [document remoteDocument];
     }
     
-    NSLog(@"Queue length = %d", [[self documentUploadQueue] count]);
-    
     dispatch_async(dispatch_get_main_queue(), ^() {
-        NSLog(@"Document list refreshed with deleted document!");
         [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
     });
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates {
-    NSLog(@"Requesting documents!");
     
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
     if (documentStates == lastDocumentStates) { // document states are the same as last presented, so we're fine and dandy, just return

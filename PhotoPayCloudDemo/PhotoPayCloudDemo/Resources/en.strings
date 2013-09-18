@@ -26,10 +26,10 @@
 "PhotoPayHomeTitle" = "My Bills";
 
 /** Label describing that document is currently stored on phone's flash drive */
-"PhotoPayHomeDocumentWaitingForUploadLabel" = "Document is waiting for upload";
+"PhotoPayHomeDocumentWaitingForUploadLabel" = "Waiting…";
 
 /* Label describing that document is being uploaded */
-"PhotoPayHomeDocumentUploadingLabel" = "Upload in progress";
+"PhotoPayHomeDocumentUploadingLabel" = "Document sending…";
 
 /* Label describing that document has failed to upload */
-"PhotoPayHomeDocumentUploadFailedLabel" = "Upload failed";
+"PhotoPayHomeDocumentUploadFailedLabel" = "Sending failed";

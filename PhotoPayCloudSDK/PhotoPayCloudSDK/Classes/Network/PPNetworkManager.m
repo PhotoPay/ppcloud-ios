@@ -29,6 +29,7 @@
     if (self) {
         uploadOperationQueue = [[NSOperationQueue alloc] init];
         uploadOperationQueue.name = @"PhotoPay Cloud Upload Queue";
+        [uploadOperationQueue setMaxConcurrentOperationCount:2];
     }
     return self;
 }
