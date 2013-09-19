@@ -68,7 +68,7 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [self viewDidDisappear:animated];
+    [super viewDidDisappear:animated];
     
     [self.documentView setDocument:nil];
     [[self document] setDelegate:nil];

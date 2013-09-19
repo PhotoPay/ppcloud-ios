@@ -107,7 +107,8 @@ static bool loggedIn = false;
     loggedIn = true;
     
     PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
-    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]];
+    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+                                   organizationId:@"EBS"];
     
     [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
 }
@@ -138,7 +139,14 @@ static bool loggedIn = false;
     static AFHTTPClient* httpclient = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/cloud"]];
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://192.168.5.24:8080/"]];
+        NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
+        [httpclient setDefaultHeader:@"X-OS" value:osString];
+        
+        NSString* buildNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+        NSString* versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        NSString* appVersion = [NSString stringWithFormat:@"Build: %@, Version: %@", buildNumber, versionNumber];
+        [httpclient setDefaultHeader:@"X-app-version" value:appVersion];
     });
     return httpclient;
 }

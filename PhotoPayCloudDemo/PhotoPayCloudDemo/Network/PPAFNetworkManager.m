@@ -51,7 +51,7 @@
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadUserIdNotSet";
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
-        if (*error != nil) {
+        if (error != nil) {
             *error = [NSError errorWithDomain:domain
                                          code:2001
                                      userInfo:userInfo];
@@ -70,7 +70,7 @@
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadOrganisationIdNotSet";
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
-        if (*error != nil) {
+        if (error != nil) {
             *error = [NSError errorWithDomain:domain
                                          code:2004
                                      userInfo:userInfo];
@@ -105,6 +105,7 @@
                                                                    localDocument:document
                                                                            error:&error];
     if (error != nil) {
+        NSLog(@"%@", [NSString stringWithFormat:@"Error creating request: %@", [error localizedDescription]]);
         failure(nil, document, error);
         return nil;
     }
@@ -112,7 +113,7 @@
     // 2. create multipart request
     NSMutableURLRequest *multipartRequest =
         [[self httpClient] multipartFormRequestWithMethod:@"POST"
-                                                     path:@"/upload/document"
+                                                     path:@"/cloud/upload/document"
                                                parameters:uploadRequestParameters
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
                                     [formData appendPartWithFileData:[document bytes]
@@ -154,6 +155,8 @@
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPRemoteDocument* remoteDocument = [[PPRemoteDocument alloc] initWithDictionary:responseObject];
         
+        NSLog(@"Response %@", responseObject);
+        
         if (success) {
             success(_uploadRequestOperation, document, remoteDocument);
         }
@@ -162,6 +165,8 @@
                               didFinishUploadWithResult:remoteDocument];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Response %@", operation.responseString);
+        
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
             if (canceled) {

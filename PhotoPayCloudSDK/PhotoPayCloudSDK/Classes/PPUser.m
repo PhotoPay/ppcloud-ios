@@ -21,11 +21,6 @@
 @synthesize organizationId;
 @synthesize userType;
 
-- (id)initWithUserId:(NSString*)inUserId {
-    return [self initWithUserId:inUserId
-                 organizationId:nil];
-}
-
 - (id)initWithUserId:(NSString*)inUserId
       organizationId:(NSString*)inOrganizationId {
     return [self initWithUserId:inUserId

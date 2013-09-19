@@ -195,7 +195,6 @@
     return result;
 }
 
-
 + (NSDictionary *)documentTypeObjectTable {
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
@@ -203,7 +202,7 @@
         table = @{@(PPDocumentTypeDOC) : @"DOC",
                   @(PPDocumentTypeGIF) : @"GIF",
                   @(PPDocumentTypeHTML) : @"HTML",
-                  @(PPDocumentTypeJPG) : @"JPG",
+                  @(PPDocumentTypeJPG) : @"JPEG",
                   @(PPDocumentTypeJSON) : @"JSON",
                   @(PPDocumentTypePDF) : @"PDF",
                   @(PPDocumentTypePNG) : @"PNG",
@@ -245,10 +244,10 @@
 }
 
 + (NSDictionary *)documentProcessingTypeObjectTable {
-    return @{@(PPDocumentProcessingTypeAustrianPDFInvoice)      : @"AustrianPDF",
-             @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"AustrianPhoto",
-             @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"SerbianPDF",
-             @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"SerbianPhoto"};
+    return @{@(PPDocumentProcessingTypeAustrianPDFInvoice)      : @"RequestType_Austria_PDF",
+             @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria",
+             @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"RequestType_Serbia_PDF",
+             @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"RequestType_Serbia"};
 }
 
 + (id)objectForDocumentProcessingType:(PPDocumentProcessingType)type {

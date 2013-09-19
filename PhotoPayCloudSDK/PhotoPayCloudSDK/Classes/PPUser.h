@@ -35,14 +35,6 @@ typedef NS_ENUM(NSUInteger, PPUserType) {
 @property (nonatomic, readonly) PPUserType userType;
 
 /**
- Initializer
- 
- Sets user type to default value PPUserTypePerson
- Sets organization id to default nil
- */
-- (id)initWithUserId:(NSString*)userId;
-
-/**
  Initializer.
  
  Sets user type to default value PPUserTypePerson

@@ -42,9 +42,11 @@
             NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
             NSString *desc = @"PhotoPayErrorDocumentsUnavailable";
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
-            *error = [NSError errorWithDomain:domain
-                                         code:1001
-                                     userInfo:userInfo];
+            if (error != nil) {
+                *error = [NSError errorWithDomain:domain
+                                             code:1001
+                                         userInfo:userInfo];
+            }
             return nil;
         }
     }
