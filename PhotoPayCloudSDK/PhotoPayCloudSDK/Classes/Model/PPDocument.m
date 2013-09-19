@@ -88,6 +88,15 @@
     [encoder encodeObject:self.creationDate forKey:@"creationDate"];
 }
 
+- (void)setState:(PPDocumentState)inState {
+    if (state != inState) {
+        state = inState;
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [[self delegate] documentDidChangeState:self];
+        });
+    }
+}
+
 - (BOOL)isEqual:(id)other {
     if (self == other) {
         return true;
@@ -224,7 +233,9 @@
                   @(PPDocumentStateProcessingError)     : @"ProcessingError",
                   @(PPDocumentStateReceived)            : @"Received",
                   @(PPDocumentStateStored)              : @"Stored",
-                  @(PPDocumentStateUploading)           : @"Uploading"};
+                  @(PPDocumentStateUnknown)             : @"Unknown",
+                  @(PPDocumentStateUploading)           : @"Uploading",
+                  @(PPDocumentStateUploadFailed)        : @"UploadFailed"};
     });
     return table;
 }

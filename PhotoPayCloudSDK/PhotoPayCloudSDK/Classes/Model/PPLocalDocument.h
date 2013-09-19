@@ -34,7 +34,7 @@
  Upload request.
  Exists only when document is uploading.
  */
-@property (nonatomic, weak) id<PPUploadRequestOperation>uploadRequest;
+@property (nonatomic, strong) id<PPUploadRequestOperation> uploadRequest;
 
 /**
  Initializes the local document with concrete bytes

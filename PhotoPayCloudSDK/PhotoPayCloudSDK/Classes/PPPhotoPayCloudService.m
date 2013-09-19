@@ -324,6 +324,8 @@
     [localDocument setUploadRequest:uploadRequest];
     localDocument.state = PPDocumentStateUploading;
     
+    NSLog(@"uploadRequest reference %p", [localDocument uploadRequest]);
+    
     // enqueue upload parameters queue;
     // also serializes upload parameters object to documents directory
     BOOL saveSuccessful = [[self documentUploadQueue] insert:localDocument];

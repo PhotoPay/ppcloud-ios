@@ -45,6 +45,20 @@
 /* Label describing that document has failed to upload */
 "PhotoPayHomeDocumentUploadFailedLabel" = "Slanje nije uspjelo";
 
+/** DETAILS */
+
+/** Title of the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewTitle" = "Jeste li sigurni da želite obrisati dokument?";
+
+/** Message of the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewMessage" = "";
+
+/** Cancel button title in the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewCancel" = "Ne, odustani";
+
+/** Confirm button title in the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewDelete" = "Da, obriši";
+
 
 // Library todo:
 

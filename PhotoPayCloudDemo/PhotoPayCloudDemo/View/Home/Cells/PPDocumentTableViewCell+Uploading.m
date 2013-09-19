@@ -13,8 +13,6 @@
 - (void)refreshWithUploadingDocument:(PPLocalDocument*)uploadingDocument {
     [self refreshWithDocument:uploadingDocument];
     
-    NSLog(@"Uploading refresh");
-    
     [self largeLabel].hidden = YES;
     [self mediumLabel].hidden = NO;
     [self smallLabel].hidden = YES;

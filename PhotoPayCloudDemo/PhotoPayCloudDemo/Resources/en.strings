@@ -33,3 +33,18 @@
 
 /* Label describing that document has failed to upload */
 "PhotoPayHomeDocumentUploadFailedLabel" = "Sending failed";
+
+
+/** DETAILS */
+
+/** Title of the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewTitle" = "Are you sure that you want to delete this document?";
+
+/** Message of the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewMessage" = "";
+
+/** Cancel button title in the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewCancel" = "No, cancel";
+
+/** Confirm button title in the alert view which user sees when he wants to delete a document */
+"PhotoPayDetailsDeleteDocumentAlertViewDelete" = "Yes, delete";

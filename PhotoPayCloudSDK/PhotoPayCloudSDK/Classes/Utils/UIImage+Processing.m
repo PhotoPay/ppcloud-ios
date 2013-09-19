@@ -17,8 +17,6 @@
         return nil;
     }
     
-    NSLog(@"Class %@", NSStringFromClass([image class]));
-    
     UIGraphicsBeginImageContext(newSize);
     [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();

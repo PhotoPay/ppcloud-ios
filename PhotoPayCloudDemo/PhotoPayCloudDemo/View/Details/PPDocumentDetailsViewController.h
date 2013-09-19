@@ -17,6 +17,10 @@
 
 @property (nonatomic, strong, readonly) PPDocument* document;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
+             document:(PPDocument*)inDocument;
+
 /**
  Loads the default XIB file for this view controller
  */

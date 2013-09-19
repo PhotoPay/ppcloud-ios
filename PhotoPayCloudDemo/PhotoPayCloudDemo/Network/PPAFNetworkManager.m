@@ -162,8 +162,6 @@
                               didFinishUploadWithResult:remoteDocument];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"failed to execute upload %@", [error localizedDescription]);
-        
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
             if (canceled) {

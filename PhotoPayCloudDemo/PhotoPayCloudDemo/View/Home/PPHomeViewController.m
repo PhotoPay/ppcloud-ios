@@ -135,14 +135,14 @@
 }
 
 - (void)openDocumentDetailsView:(PPDocument*)document {
-//    PPDocumentDetailsViewController* documentDetails = [[PPDocumentDetailsViewController alloc] initWithNibName:[PPDocumentDetailsViewController defaultXibName]
-//                                                                                                         bundle:nil];
-//    
-//    // make the transition smoother
-//    [[self documentsDataSource] setUploadDelegate:nil];
-//    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
-//    
-//    [[self navigationController] pushViewController:documentDetails animated:YES];
+    PPDocumentDetailsViewController* documentDetails = [[PPDocumentDetailsViewController alloc] initWithNibName:[PPDocumentDetailsViewController defaultXibName]
+                                                                                                         bundle:nil
+                                                                                                       document:document];
+    // make the transition smoother
+    [[self documentsDataSource] setUploadDelegate:nil];
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+    
+    [[self navigationController] pushViewController:documentDetails animated:YES];
 }
 
 - (void)uploadDocument:(PPLocalDocument *)document {

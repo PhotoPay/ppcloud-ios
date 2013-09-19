@@ -22,8 +22,6 @@
     [self thumbnailLoadingIndicator].hidden = NO;
     [[self thumbnailLoadingIndicator] startAnimating];
     
-    NSLog(@"Refresh base");
-    
     [document thumbnailImageWithSuccess:^(UIImage *thumbnailImage) {
         [self thumbnailView].hidden = NO;
         [self thumbnailView].image = thumbnailImage;

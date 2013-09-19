@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "PPModelObject.h"
 
+@protocol PPDocumentStateChangedDelegate;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 
@@ -130,17 +131,8 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  */
 @property (nonatomic, strong, readonly) NSDate* creationDate;
 
-/** 
- Generates and chaches thumbnail image for this document
- */
-- (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
-                          failure:(void (^)(void))failure;
-
-/**
- Generates and chaches preview image for this document
- */
-- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
-                        failure:(void (^)(void))failure;
+/** Delegate for state changed notifications */
+@property (nonatomic, weak) id<PPDocumentStateChangedDelegate> delegate;
 
 /**
  Designated initializer
@@ -156,6 +148,18 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Mime type is determined by documentType enum
  */
 - (NSString*)mimeType;
+
+/**
+ Generates and chaches thumbnail image for this document
+ */
+- (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
+                          failure:(void (^)(void))failure;
+
+/**
+ Generates and chaches preview image for this document
+ */
+- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
+                        failure:(void (^)(void))failure;
 
 /**
  Safely checks if this document is in fact a local document. If not, returns nil, else returns caster reference
@@ -181,5 +185,20 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Returns object representation for the PPDocumentState enum
  */
 + (id)objectForDocumentState:(PPDocumentState)documentState;
+
+@end
+
+/**
+ Protocol for delegates which get notified on document change state
+ */
+@protocol PPDocumentStateChangedDelegate <NSObject>
+
+@required
+/**
+ Method called when document's state is changed
+ 
+ Guaranteed to be called on the main thread
+ */
+- (void)documentDidChangeState:(PPDocument*)document;
 
 @end

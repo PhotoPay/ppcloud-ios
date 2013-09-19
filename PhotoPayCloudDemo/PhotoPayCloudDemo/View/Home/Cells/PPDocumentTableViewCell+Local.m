@@ -17,8 +17,6 @@
     [self mediumLabel].hidden = NO;
     [self smallLabel].hidden = YES;
     [self progressView].hidden = YES;
-    
-    NSLog(@"Refresh default");
 }
 
 @end

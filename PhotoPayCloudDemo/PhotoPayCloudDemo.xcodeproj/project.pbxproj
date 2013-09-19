@@ -17,6 +17,10 @@
 		1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819983217E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib */; };
 		1819983617E9C443001B66B1 /* PPDocumentUploadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819983517E9C443001B66B1 /* PPDocumentUploadingView.m */; };
 		1819983C17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819983B17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib */; };
+		1819984017E9D6B6001B66B1 /* PPDocumentViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819983F17E9D6B6001B66B1 /* PPDocumentViewFactory.m */; };
+		1819984417EA108F001B66B1 /* PPDocumentDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819984317EA108F001B66B1 /* PPDocumentDetailsView.m */; };
+		1819984617EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819984517EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib */; };
+		1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */; };
 		1829748D17E78EA200FAD137 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748B17E78EA200FAD137 /* redo.png */; };
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
@@ -69,6 +73,13 @@
 		1819983417E9C443001B66B1 /* PPDocumentUploadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentUploadingView.h; sourceTree = "<group>"; };
 		1819983517E9C443001B66B1 /* PPDocumentUploadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentUploadingView.m; sourceTree = "<group>"; };
 		1819983B17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentTableViewCell_iPad.xib; sourceTree = "<group>"; };
+		1819983E17E9D6B6001B66B1 /* PPDocumentViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentViewFactory.h; sourceTree = "<group>"; };
+		1819983F17E9D6B6001B66B1 /* PPDocumentViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentViewFactory.m; sourceTree = "<group>"; };
+		1819984217EA108F001B66B1 /* PPDocumentDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentDetailsView.h; sourceTree = "<group>"; };
+		1819984317EA108F001B66B1 /* PPDocumentDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentDetailsView.m; sourceTree = "<group>"; };
+		1819984517EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentUploadFailedView_iPhone.xib; sourceTree = "<group>"; };
+		1819984717EA1F9F001B66B1 /* PPDocumentUploadFailedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentUploadFailedView.h; sourceTree = "<group>"; };
+		1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentUploadFailedView.m; sourceTree = "<group>"; };
 		1829748B17E78EA200FAD137 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		1829748C17E78EA200FAD137 /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +171,8 @@
 				1819981D17E9ACB2001B66B1 /* PPDocumentDetailsViewController.h */,
 				1819981E17E9ACB2001B66B1 /* PPDocumentDetailsViewController.m */,
 				1819982C17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib */,
+				1819983E17E9D6B6001B66B1 /* PPDocumentViewFactory.h */,
+				1819983F17E9D6B6001B66B1 /* PPDocumentViewFactory.m */,
 				1819983117E9C30A001B66B1 /* Views */,
 			);
 			path = Details;
@@ -168,9 +181,14 @@
 		1819983117E9C30A001B66B1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1819984217EA108F001B66B1 /* PPDocumentDetailsView.h */,
+				1819984317EA108F001B66B1 /* PPDocumentDetailsView.m */,
 				1819983217E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib */,
 				1819983417E9C443001B66B1 /* PPDocumentUploadingView.h */,
 				1819983517E9C443001B66B1 /* PPDocumentUploadingView.m */,
+				1819984517EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib */,
+				1819984717EA1F9F001B66B1 /* PPDocumentUploadFailedView.h */,
+				1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -403,6 +421,7 @@
 				188AAEF717D876E9009531FA /* Default@2x.png in Resources */,
 				18999B3E17DB4057009FA90A /* camera~ipad.png in Resources */,
 				1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */,
+				1819984617EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib in Resources */,
 				188AAEF917D876E9009531FA /* Default-568h@2x.png in Resources */,
 				18FE944417DDF4960083F148 /* PhotoPayCloud.xcconfig in Resources */,
 				18FE944517DDF4960083F148 /* PhotoPayCloudResources.bundle in Resources */,
@@ -457,16 +476,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1819984417EA108F001B66B1 /* PPDocumentDetailsView.m in Sources */,
 				1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */,
 				1819983617E9C443001B66B1 /* PPDocumentUploadingView.m in Sources */,
 				18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */,
 				18999B2D17DB178E009FA90A /* PPHomeViewController.m in Sources */,
 				188AAEEF17D876E9009531FA /* main.m in Sources */,
 				18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */,
+				1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */,
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
 				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
 				188AAF6E17D8C176009531FA /* UIViewController+Modal.m in Sources */,
+				1819984017E9D6B6001B66B1 /* PPDocumentViewFactory.m in Sources */,
 				18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */,
 				1819981B17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m in Sources */,
 				18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */,
@@ -560,7 +582,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoPayCloudDemo/PhotoPayCloudDemo-Prefix.pch";
 				INFOPLIST_FILE = "PhotoPayCloudDemo/PhotoPayCloudDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -579,7 +601,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoPayCloudDemo/PhotoPayCloudDemo-Prefix.pch";
 				INFOPLIST_FILE = "PhotoPayCloudDemo/PhotoPayCloudDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
