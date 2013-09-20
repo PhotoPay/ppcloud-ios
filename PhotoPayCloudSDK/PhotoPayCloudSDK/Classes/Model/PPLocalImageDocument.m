@@ -139,4 +139,12 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     }
 }
 
+- (UIImage*)previewImage {
+    return image;
+}
+
+- (UIImage*)thumbnailImage {
+    return thumbnailImage;
+}
+
 @end

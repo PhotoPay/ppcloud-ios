@@ -130,16 +130,20 @@
 
 - (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
                           failure:(void (^)(void))failure {
-    if (failure) {
-        failure();
-    }
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        if (failure) {
+            failure();
+        }
+    });
 }
 
 - (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
                         failure:(void (^)(void))failure {
-    if (failure) {
-        failure();
-    }
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        if (failure) {
+            failure();
+        }
+    });
 }
 
 - (NSString*)mimeType {
@@ -195,7 +199,7 @@
 }
 
 - (PPRemoteDocument*)remoteDocument {
-    if ((([self state] & PPDocumentStateLocal) == 0) && [self isKindOfClass:[PPLocalDocument class]]) {
+    if ((([self state] & PPDocumentStateLocal) == 0) && [self isKindOfClass:[PPRemoteDocument class]]) {
         return (PPRemoteDocument*) self;
     } else {
         return nil;

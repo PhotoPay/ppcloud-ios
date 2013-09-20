@@ -11,4 +11,8 @@
 
 @interface PPRemoteDocument : PPDocument
 
+- (void)setThumbnailImage:(UIImage*)thumbnailImage;
+
+- (void)setPreviewImage:(UIImage*)inPreviewImage;
+
 @end

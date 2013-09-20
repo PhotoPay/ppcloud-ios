@@ -268,9 +268,12 @@
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
+                                                      [remoteDocument setPreviewImage:[localDocument previewImage]];
+                                                      [remoteDocument setThumbnailImage:[localDocument thumbnailImage]];
+                                                      
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
-                                                          [[self dataSource] swapLocalDocument:localDocument
-                                                                            withRemoteDocument:remoteDocument];
+                                                          [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                          [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:remoteDocument, nil]];
                                                       });
                                                       
                                                       if (success) {
