@@ -96,14 +96,18 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Abstract document class
  */
 @interface PPDocument : PPModelObject <NSCoding> {
-    NSURL* url_;
+    NSString* documentId_;
 }
 
 /** 
- URL pointing to the location of the document.
- Can be url both local or remote 
+ ID of the document.
  */
-@property (nonatomic, strong) NSURL* url;
+@property (nonatomic, strong, readonly) NSString* documentId;
+
+/**
+ URL pointing to the location of the byte array containing the document
+ */
+@property (nonatomic, strong, readonly) NSURL* bytesUrl;
 
 /**
  State in which is the document.
@@ -137,10 +141,11 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  Designated initializer
  */
-- (id)initWithUrl:(NSURL*)url
-    documentState:(PPDocumentState)state
-     documentType:(PPDocumentType)documentType
-   processingType:(PPDocumentProcessingType)processingType;
+- (id)initWithDocumentId:(NSString*)inDocumentId
+                bytesUrl:(NSURL*)bytesUrl
+           documentState:(PPDocumentState)inState
+            documentType:(PPDocumentType)inDocumentType
+          processingType:(PPDocumentProcessingType)inProcessingType;
 
 /**
  Returns a mime type of a this document
@@ -185,6 +190,11 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Returns object representation for the PPDocumentState enum
  */
 + (id)objectForDocumentState:(PPDocumentState)documentState;
+
+/**
+ Returns file extension string for a given document type
+ */
++ (id)fileExtensionForDocumentType:(PPDocumentType)documentType;
 
 @end
 

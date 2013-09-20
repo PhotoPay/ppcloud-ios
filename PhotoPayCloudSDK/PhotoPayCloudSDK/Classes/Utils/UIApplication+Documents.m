@@ -80,6 +80,25 @@
     return nil;
 }
 
++ (NSURL*)createFileWithData:(NSData*)data
+                         url:(NSURL*)url
+                       error:(NSError**)error {
+    if (data && url) {
+        NSDataWritingOptions options = NSDataWritingAtomic | NSDataWritingFileProtectionComplete;
+        
+        BOOL res = [data writeToURL:url
+                            options:options
+                              error:error];
+        if (!res) {
+            return nil;
+        } else {
+            return url;
+        }
+    }
+    
+    return nil;
+}
+
 + (BOOL)deleteFolder:(NSString*)folderName
                error:(NSError**)error {
     NSURL* documentsDir = [UIApplication applicationDocumentsDirectoryWithError:error];

@@ -25,6 +25,15 @@
                         error:(NSError**)error;
 
 /**
+ Saves the data under specified URL. Must be under application documents directoru
+ 
+ Returns the NSURL object to saved file.
+ */
++ (NSURL*)createFileWithData:(NSData*)data
+                         url:(NSURL*)url
+                       error:(NSError**)error;
+
+/**
  Deletes the file with specified URL.
  
  Error object can be used to get info about any possible errors

@@ -51,31 +51,17 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 }
 
 /** 
- There are three states in which a local image document can be found.
- From all of these states properties URL and BYTES must be reachable.
- 
- To ensure this, this custom getter is provided. We handle these cases:
- 
- 1. BYTES and URL properties are nil.
-        IMAGE property is decoded and downsampled so that the BYTES property can be set
- 2. BYTES is still nil
-        Superclass implementation is called. @see [PPLocalDocument bytes]
- 3. BYTES is available
-        simply returned that value
+ Bytes array can be generated from the imate, if it exists
+ Othewise, it's loaded as any stored local document - from a file in documents folders
  */
 - (NSData*)bytes {
-    if (self->bytes_ == nil && self.url == nil) {
-        if ([self image] == nil) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:@"Local document should have either URL, BYTES or IMAGE property set. Save the document using saveUsingDocumentManager:success:failure and use the bytes property in callbacks only"
-                                         userInfo:nil];
-        }
-        // we need to have UIImage object here
+    if (self->bytes_ == nil && image != nil) {
+        // if we don't have bytes property, but have local UIImage, create bytes from UIImage
         self->bytes_ = [UIImage jpegDataWithImage:[image fixOrientation]
                                scaledToResolution:finalResolution
                                  compressionLevel:0.9];
-    }
-    if (self->bytes_ == nil) {
+    } else if (self->bytes_ == nil) {
+        // otherwise, create bytes like any other local document
         return [super bytes];
     }
     return self->bytes_;

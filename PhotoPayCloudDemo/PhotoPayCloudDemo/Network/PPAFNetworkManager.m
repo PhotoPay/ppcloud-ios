@@ -118,7 +118,7 @@
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
                                     [formData appendPartWithFileData:[document bytes]
                                                                 name:@"data"
-                                                            fileName:[[document url] lastPathComponent]
+                                                            fileName:[[document bytesUrl] lastPathComponent]
                                                             mimeType:[document mimeType]];
                                 }];
     

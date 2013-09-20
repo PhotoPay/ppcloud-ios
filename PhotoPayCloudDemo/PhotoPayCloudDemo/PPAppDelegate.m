@@ -107,8 +107,11 @@ static bool loggedIn = false;
     loggedIn = true;
     
     PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
-    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
-                                   organizationId:@"EBS"];
+//    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+//                                   organizationId:@"EBS"];
+    
+    PPUser* user = [[PPUser alloc] initWithUserId:@"dev@photopay"
+                                   organizationId:@"PhotoPay"];
     
     [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
 }
@@ -139,7 +142,8 @@ static bool loggedIn = false;
     static AFHTTPClient* httpclient = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://192.168.5.24:8080/"]];
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://169.254.22.143:8080"]];
+//        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
         [httpclient setDefaultHeader:@"X-OS" value:osString];
         

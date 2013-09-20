@@ -9,18 +9,10 @@
 #import "PPDocumentManager.h"
 #import "PPLocalDocument.h"
 #import "UIApplication+Documents.h"
-#import "NSString+Factory.h"
 
 @interface PPDocumentManager ()
 
 @property (nonatomic, assign) dispatch_queue_t documentQueue;
-
-/**
- Returns the extension of the current document
- 
- Extension is determined by documentType enum
- */
-+ (NSString*)fileExtensionForType:(PPDocumentType)type;
 
 @end
 
@@ -120,22 +112,31 @@
     }
 }
 
-- (void)saveDocument:(PPLocalDocument*)localDocument
-             success:(void(^)(PPLocalDocument*localDocument, NSURL* documentUrl))success
++ (NSURL*)urlForFilename:(NSString*)filename {
+    NSError * __autoreleasing error = nil;
+    NSURL* documentsDir = [UIApplication applicationDocumentsDirectoryWithError:&error];
+    if (documentsDir == nil || error != nil) {
+        return nil;
+    }
+    
+    return [documentsDir URLByAppendingPathComponent:filename];
+}
+
+- (void)saveDocument:(PPLocalDocument*)localDocument atUrl:(NSURL*)documentUrl
+             success:(void(^)(PPLocalDocument*localDocument))success
              failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure {
     
     dispatch_async(documentQueue, ^{
-        NSString* filename = [PPDocumentManager generateUniqueFilenameForType:[localDocument documentType]];
         NSError * __autoreleasing error;
         NSURL *url = [UIApplication createFileWithData:[localDocument bytes]
-                                              filename:filename
+                                                   url:documentUrl
                                                  error:&error];
         
         NSError *returnedError = [error copy];
         if (url != nil) {
             dispatch_async(self.successCallbackQueue ?: dispatch_get_main_queue(), ^{
                 if (success) {
-                    success(localDocument, url);
+                    success(localDocument);
                 }
             });
         } else {
@@ -148,59 +149,9 @@
     });
 }
 
-+ (NSString*)fileExtensionForType:(PPDocumentType)type {
-    switch (type) {
-        case PPDocumentTypePNG:
-            return @"png";
-            break;
-        case PPDocumentTypeJPG:
-            return @"jpg";
-            break;
-        case PPDocumentTypeGIF:
-            return @"gif";
-            break;
-        case PPDocumentTypeTIFF:
-            return @"tiff";
-            break;
-        case PPDocumentTypePDF:
-            return @"pdf";
-            break;
-        case PPDocumentTypeHTML:
-            return @"html";
-            break;
-        case PPDocumentTypeXLS:
-            return @"xls";
-            break;
-        case PPDocumentTypeDOC:
-            return @"doc";
-            break;
-        case PPDocumentTypeTXT:
-            return @"txt";
-            break;
-        case PPDocumentTypeXML:
-            return @"xml";
-            break;
-        case PPDocumentTypeJSON:
-            return @"json";
-            break;
-        default:
-            // invalid document type
-            @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:[NSString stringWithFormat:@"%u is not a valid document type", type]
-                                         userInfo:nil];
-            break;
-    }
-}
-
 - (BOOL)deleteDocument:(PPLocalDocument*)localDocument
                  error:(NSError**)error {
-    return [UIApplication deleteFileWithUrl:[localDocument url] error:error];
-}
-
-+ (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {
-    NSString* uuid = [NSString UUID];
-    NSString* extension = [PPDocumentManager fileExtensionForType:type];
-    return [NSString stringWithFormat:@"%@.%@", uuid, extension];
+    return [UIApplication deleteFileWithUrl:[localDocument bytesUrl] error:error];
 }
 
 @end

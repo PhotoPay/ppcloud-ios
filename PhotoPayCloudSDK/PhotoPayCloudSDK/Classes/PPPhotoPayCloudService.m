@@ -215,6 +215,7 @@
 }
 
 - (void)uninitialize {
+    NSLog(@"Uninitializing");
     user = nil;
     networkManager = nil;
     self.state = PPPhotoPayCloudServiceStateUninitialized;
@@ -253,6 +254,8 @@
     
     // set document data
     [localDocument setOwnerIdHash:[[self user] userIdHash]];
+    
+    NSLog(@"Document is %@", localDocument);
     
     // create the upload request
     id<PPUploadRequestOperation> uploadRequest =
@@ -393,7 +396,7 @@
         // document saving is done in document manager's serial dispatch queue
         // this will not block the calling queue
         [document saveUsingDocumentManager:[self documentManager]
-                                   success:^(PPLocalDocument*localDocument, NSURL* documentUrl) {
+                                   success:^(PPLocalDocument*localDocument) {
                             
                                        // local document is already stored
                                        // repeate request for stored document

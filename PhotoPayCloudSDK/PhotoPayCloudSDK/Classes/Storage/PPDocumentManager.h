@@ -28,10 +28,15 @@
 - (id)init;
 
 /**
+ Returns an URL for a given filename. URL points to a location in applciation documents directoru
+ */
++ (NSURL*)urlForFilename:(NSString*)filename;
+
+/**
  Performs the saving of a local document to application documents folder
  */
-- (void)saveDocument:(PPLocalDocument*)localDocument
-             success:(void(^)(PPLocalDocument*localDocument, NSURL* documentUrl))success
+- (void)saveDocument:(PPLocalDocument*)localDocument atUrl:(NSURL*)documentUrl
+             success:(void(^)(PPLocalDocument*localDocument))success
              failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure;
 
 /**

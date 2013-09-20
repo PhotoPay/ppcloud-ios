@@ -21,6 +21,13 @@
 + (NSDictionary*)documentTypeObjectTable;
 
 /**
+ Creates and returns an map enum value : file extension name for enum PPDocumentType
+ 
+ This is primarily used for saving documents in the right format
+ */
++ (NSDictionary*)fileExtensionTable;
+
+/**
  Creates and returns an map enum value : object value for enum PPDocumentProcessingType
  
  This is primarily used in making network requests
@@ -41,20 +48,28 @@
 
 @implementation PPDocument
 
-@synthesize url = url_;
+@synthesize documentId = documentId_;
+@synthesize bytesUrl;
 @synthesize state;
 @synthesize documentType;
 @synthesize processingType;
 @synthesize creationDate;
 @synthesize thumbnailImage;
 
-- (id)initWithUrl:(NSURL*)inUrl
-    documentState:(PPDocumentState)inState
-     documentType:(PPDocumentType)inDocumentType
-   processingType:(PPDocumentProcessingType)inProcessingType {
+- (id)initWithDocumentId:(NSString*)inDocumentId
+                bytesUrl:(NSURL*)inBytesUrl
+           documentState:(PPDocumentState)inState
+            documentType:(PPDocumentType)inDocumentType
+          processingType:(PPDocumentProcessingType)inProcessingType {
     self = [super init];
     if (self) {
-        url_ = inUrl;
+        if (inDocumentId == nil) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                           reason:@"Document ID should not be nil!"
+                                         userInfo:nil];
+        }
+        documentId_ = inDocumentId;
+        bytesUrl = inBytesUrl;
         state = inState;
         documentType = inDocumentType;
         processingType = inProcessingType;
@@ -70,7 +85,8 @@
         return nil;
     }
     
-    url_ = [decoder decodeObjectForKey:@"url"];
+    documentId_ = [decoder decodeObjectForKey:@"documentId"];
+    bytesUrl = [decoder decodeObjectForKey:@"bytesUrl"];
     state = [decoder decodeIntegerForKey:@"state"];
     documentType = [decoder decodeIntegerForKey:@"documentType"];
     processingType = [decoder decodeIntegerForKey:@"processingType"];
@@ -81,7 +97,8 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.url forKey:@"url"];
+    [encoder encodeObject:self.documentId forKey:@"documentId"];
+    [encoder encodeObject:self.bytesUrl forKey:@"bytesUrl"];
     [encoder encodeInteger:self.state forKey:@"state"];
     [encoder encodeInteger:self.documentType forKey:@"documentType"];
     [encoder encodeInteger:self.processingType forKey:@"processingType"];
@@ -104,11 +121,11 @@
     if ([self class] != [other class]) {
         return false;
     }
-    return [[[self url] path] isEqualToString:[[(PPDocument* )other url] path]];
+    return [[self documentId] isEqualToString:[(PPDocument* )other documentId]];
 }
 
 - (NSUInteger)hash {
-    return [[[self url] path] hash];
+    return [[self documentId] hash];
 }
 
 - (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
@@ -187,7 +204,8 @@
 
 - (NSString*)description {
     NSString* result = @"";
-    result = [result stringByAppendingFormat:@"Document URL: %@\n", [[self url] path]];
+    result = [result stringByAppendingFormat:@"Document ID: %@\n", [self documentId]];
+    result = [result stringByAppendingFormat:@"Document bytes URL: %@\n", [self bytesUrl]];
     result = [result stringByAppendingFormat:@"State: %@\n", [PPDocument objectForDocumentState:[self state]]];
     result = [result stringByAppendingFormat:@"Type: %@\n", [PPDocument objectForDocumentType:[self documentType]]];
     result = [result stringByAppendingFormat:@"Processing Type: %@\n", [PPDocument objectForDocumentProcessingType:[self processingType]]];
@@ -252,6 +270,32 @@
 
 + (id)objectForDocumentProcessingType:(PPDocumentProcessingType)type {
     return [PPDocument documentProcessingTypeObjectTable][@(type)];
+}
+
++ (NSDictionary *)fileExtensionTable {
+    static NSDictionary *table = nil;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        table = @{@(PPDocumentTypeDOC) : @"doc",
+                  @(PPDocumentTypeGIF) : @"gif",
+                  @(PPDocumentTypeHTML) : @"html",
+                  @(PPDocumentTypeJPG) : @"jpg",
+                  @(PPDocumentTypeJSON) : @"json",
+                  @(PPDocumentTypePDF) : @"pdf",
+                  @(PPDocumentTypePNG) : @"png",
+                  @(PPDocumentTypeTIFF) : @"tiff",
+                  @(PPDocumentTypeTXT) : @"txt",
+                  @(PPDocumentTypeXLS) : @"xls",
+                  @(PPDocumentTypeXML) : @"xml"};
+    });
+    return table;
+}
+
+/**
+ Returns file extension string for a given document type
+ */
++ (id)fileExtensionForDocumentType:(PPDocumentType)documentType {
+    return [PPDocument fileExtensionTable][@(documentType)];
 }
 
 @end

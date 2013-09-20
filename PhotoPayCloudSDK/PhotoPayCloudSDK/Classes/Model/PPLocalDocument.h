@@ -45,11 +45,9 @@
 
 /**
  Persists the local document
- 
- In callbacks we have access to NSURL under which the document is stored
  */
 - (void)saveUsingDocumentManager:(PPDocumentManager*)documentManager
-                         success:(void(^)(PPLocalDocument*localDocument, NSURL* documentUrl))success
+                         success:(void(^)(PPLocalDocument*localDocument))success
                          failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure;
 
 @end
