@@ -23,6 +23,7 @@
 		1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */; };
 		1829748D17E78EA200FAD137 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748B17E78EA200FAD137 /* redo.png */; };
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
+		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
 		188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE417D876E9009531FA /* Foundation.framework */; };
 		188AAEE717D876E9009531FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE617D876E9009531FA /* CoreGraphics.framework */; };
@@ -82,6 +83,8 @@
 		1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentUploadFailedView.m; sourceTree = "<group>"; };
 		1829748B17E78EA200FAD137 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		1829748C17E78EA200FAD137 /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
+		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
+		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188AAEE217D876E9009531FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		188AAEE417D876E9009531FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -312,6 +315,8 @@
 				1819981417E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m */,
 				1819981917E99AB9001B66B1 /* PPDocumentTableViewCell+Local.h */,
 				1819981A17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m */,
+				18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */,
+				18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -477,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1819984417EA108F001B66B1 /* PPDocumentDetailsView.m in Sources */,
+				18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */,
 				1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */,
 				1819983617E9C443001B66B1 /* PPDocumentUploadingView.m in Sources */,
 				18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */,

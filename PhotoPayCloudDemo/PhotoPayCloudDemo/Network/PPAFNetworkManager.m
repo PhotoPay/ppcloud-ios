@@ -144,6 +144,8 @@
     [uploadRequestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         _uploadRequestOperation.progress = [[NSNumber alloc] initWithDouble:totalBytesWritten / (double)totalBytesExpectedToWrite];
         
+        NSLog(@"Progress = %f", _uploadRequestOperation.progress.floatValue);
+        
         if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didUpdateProgressWithBytesWritten:totalBytesToWrite:)]) {
             [[_uploadRequestOperation delegate] localDocument:document
                             didUpdateProgressWithBytesWritten:totalBytesWritten
@@ -155,7 +157,7 @@
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPRemoteDocument* remoteDocument = [[PPRemoteDocument alloc] initWithDictionary:responseObject];
         
-        NSLog(@"Response %@", responseObject);
+        NSLog(@"Remote document: %@", remoteDocument);
         
         if (success) {
             success(_uploadRequestOperation, document, remoteDocument);

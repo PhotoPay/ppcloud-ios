@@ -10,6 +10,7 @@
 #import "PPDocumentTableViewCell.h"
 #import "PPDocumentTableViewCell+Local.h"
 #import "PPDocumentTableViewCell+Uploading.h"
+#import "PPDocumentTableViewCell+Processing.h"
 
 @interface PPDocumentsDataSource ()
 
@@ -18,6 +19,9 @@
 
 + (PPDocumentTableViewCell *)cellForDocumentStateUploading:(PPLocalDocument*)documentUploading
                                              tableView:(UITableView*)tableView;
+
++ (PPDocumentTableViewCell *)cellForDocumentStateProcessing:(PPRemoteDocument*)document
+                                                  tableView:(UITableView*)tableView;
 
 @end
 
@@ -52,9 +56,8 @@
             break;
         }
         default: {
-            cell = [PPDocumentsDataSource cellForDocumentStateLocal:[document localDocument]
-                                                          tableView:tableView];
-            cell.mediumLabel.text = _(@"PhotoPayHomeDocumentWaitingForUploadLabel");
+            cell = [PPDocumentsDataSource cellForDocumentStateProcessing:[document remoteDocument]
+                                                               tableView:tableView];
             break;
         }
     }
@@ -83,6 +86,18 @@
     }
     
     [cell refreshWithUploadingDocument:documentUploading];
+    
+    return cell;
+}
+
++ (PPDocumentTableViewCell *)cellForDocumentStateProcessing:(PPRemoteDocument*)document
+                                                  tableView:(UITableView*)tableView {
+    PPDocumentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[PPDocumentTableViewCell defaultXibName]];
+    if (cell == nil) {
+        cell = [PPDocumentTableViewCell allocWithNibName:[PPDocumentTableViewCell defaultXibName]];
+    }
+    
+    [cell refreshWithDocumentInProcessing:document];
     
     return cell;
 }

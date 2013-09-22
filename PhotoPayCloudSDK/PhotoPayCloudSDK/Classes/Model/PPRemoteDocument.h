@@ -11,6 +11,8 @@
 
 @interface PPRemoteDocument : PPDocument
 
+@property (nonatomic, strong) NSNumber* expectedProcessingTime;
+
 - (void)setThumbnailImage:(UIImage*)thumbnailImage;
 
 - (void)setPreviewImage:(UIImage*)inPreviewImage;

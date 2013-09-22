@@ -45,6 +45,18 @@
 /* Label describing that document has failed to upload */
 "PhotoPayHomeDocumentUploadFailedLabel" = "Slanje nije uspjelo";
 
+/* Label describing that document is in processing */
+"PhotoPayHomeDocumentProcessingLabel" = "Račun je u obradi";
+
+/* Label for explaining how long will the processing take */
+"PhotoPayHomeDocumentProcessingTimeLabel" = "Očekivano vrijeme obrade";
+
+/* Singular for minute */
+"PhotoPayHomeDocumentProcessingMinuteSingular" = "minuta";
+
+/* Plural for minutes */
+"PhotoPayHomeDocumentProcessingMinutesPlural" = "minute";
+
 /** DETAILS */
 
 /** Title of the alert view which user sees when he wants to delete a document */

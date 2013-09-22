@@ -20,6 +20,7 @@
 
 @synthesize thumbnailImage;
 @synthesize previewImage;
+@synthesize expectedProcessingTime;
 
 - (id)initWithDictionary:(NSDictionary*)dictionary {
     self = [super initWithDictionary:dictionary];
@@ -31,6 +32,7 @@
     
     self->documentId_ = [PPModelObject initString:documentDictionary[@"id"]];
     self.state = PPDocumentStateReceived;
+    self.expectedProcessingTime = @(1.0);
     
     NSLog(@"%@", documentDictionary);
     

@@ -34,6 +34,18 @@
 /* Label describing that document has failed to upload */
 "PhotoPayHomeDocumentUploadFailedLabel" = "Sending failed";
 
+/* Label describing that document is in processing */
+"PhotoPayHomeDocumentProcessingLabel" = "Document is being processed…";
+
+/* Label for explaining how long will the processing take */
+"PhotoPayHomeDocumentProcessingTimeLabel" = "Expected processing time";
+
+/* Singular for minute */
+"PhotoPayHomeDocumentProcessingMinuteSingular" = "minute";
+
+/* Plural for minutes */
+"PhotoPayHomeDocumentProcessingMinutesPlural" = "minutes";
+
 
 /** DETAILS */
 
