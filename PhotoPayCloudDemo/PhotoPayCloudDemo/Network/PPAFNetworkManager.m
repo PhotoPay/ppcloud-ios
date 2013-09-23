@@ -13,6 +13,14 @@
 @interface PPAFNetworkManager ()
 
 /**
+ Prepares the request parameters for a given user.
+ 
+ Error checking is performed.
+ */
+- (NSMutableDictionary*)requestParametersForUser:(PPUser*)user
+                                           error:(NSError**)error;
+
+/**
  Prepares the request parameters dictionary with user and upload data
  Also performs error checking so any errors in the request will be immediately reported,
  without the need for waiting rejection from the server
@@ -38,15 +46,13 @@
     return httpClient;
 }
 
-- (NSDictionary*)uploadRequestParametersForUser:(PPUser*)user
-                                  localDocument:(PPLocalDocument*)document
-                                          error:(NSError**)error {
-    
-    NSMutableDictionary *uploadRequestParams = [[NSMutableDictionary alloc] init];
+- (NSMutableDictionary*)requestParametersForUser:(PPUser*)user
+                                           error:(NSError**)error {
+    NSMutableDictionary *requestParams = [[NSMutableDictionary alloc] init];
     
     // set user id and check for possible error
     if ([user userId] != nil && [[user userId] length] != 0) {
-        [uploadRequestParams setObject:[user userId] forKey:@"customerId"];
+        [requestParams setObject:[user userId] forKey:@"customerId"];
     } else {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadUserIdNotSet";
@@ -60,12 +66,12 @@
     
     // set user type if specified (if not specified, server default will be used
     if ([user userType] != PPUserTypeDefault) {
-        [uploadRequestParams setObject:[PPUser objectForUserType:[user userType]] forKey:@"customerType"];
+        [requestParams setObject:[PPUser objectForUserType:[user userType]] forKey:@"customerType"];
     }
     
     // set organization id if specified (if not specified, server default will be used
     if ([user organizationId] != nil && [[user organizationId] length] != 0) {
-        [uploadRequestParams setObject:[user organizationId] forKey:@"organizationId"];
+        [requestParams setObject:[user organizationId] forKey:@"organizationId"];
     } else {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadOrganisationIdNotSet";
@@ -75,6 +81,18 @@
                                          code:2004
                                      userInfo:userInfo];
         }
+    }
+    
+    return requestParams;
+}
+
+- (NSDictionary*)uploadRequestParametersForUser:(PPUser*)user
+                                  localDocument:(PPLocalDocument*)document
+                                          error:(NSError**)error {
+    NSMutableDictionary* uploadRequestParams = [self requestParametersForUser:user error:error];
+    
+    if (*error != nil) {
+        return nil;
     }
     
     // set request type (this will always be specified)
@@ -128,7 +146,7 @@
     // 4. check for errors
     if (uploadRequestOperation == nil) {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
-        NSString *desc = @"PhotoPayErrorUploadCannotCreateRequest";
+        NSString *desc = _(@"PhotoPayErrorUploadCannotCreateRequest");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
         NSError *error = [NSError errorWithDomain:domain
                                              code:2002
@@ -193,11 +211,99 @@
     
     // 7. execute as background task
     [uploadRequestOperation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^() {
+        NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+        NSString *desc = _(@"PhotoPayErrorUploadOperationTooLong");
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
+        NSError *error = [NSError errorWithDomain:domain
+                                             code:2005
+                                         userInfo:userInfo];
         
+        failure(_uploadRequestOperation, document, error);
     }];
     
     // 7. done
     return uploadRequestOperation;
+}
+
+- (NSOperation*)createGetDocumentsRequestForUser:(PPUser *)user
+                                  documentStates:(NSArray*)documentStates
+                                       startDate:(NSDate*)startDate
+                                         endDate:(NSDate*)endDate
+                                 startsWithIndex:(NSNumber*)startsWithIndex
+                                   endsWithIndex:(NSNumber*)numElements
+                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *))success
+                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        return nil;
+    }
+    
+    if (startDate != nil) {
+        // set start date as number of milliseconds from 1970
+        [requestParams setObject:@((long long)([startDate timeIntervalSince1970] * 1000.f))
+                          forKey:@"startDate"];
+    }
+    
+    if (endDate != nil) {
+        // set end date as number of milliseconds from 1970
+        // set start date as number of milliseconds from 1970
+        [requestParams setObject:@((long long)([endDate timeIntervalSince1970] * 1000.f))
+                          forKey:@"endDate"];
+    }
+    
+    // set start index of documents
+    [requestParams setObject:@([startsWithIndex longValue])
+                      forKey:@"startWith"];
+    
+    // set end index of documents
+    [requestParams setObject:@([numElements longValue])
+                      forKey:@"perPage"];
+    
+    
+    for (NSString* state in documentStates) {
+        // set end index of documents
+        [requestParams setObject:state
+                          forKey:@"status"];
+    }
+    
+    // 2. create multipart request
+    NSMutableURLRequest *getRequest = [[self httpClient] requestWithMethod:@"GET"
+                                                                      path:[NSString stringWithFormat:@"/cloud/customer/documents/%@", [user userId]]
+                                                                parameters:requestParams];
+    
+    AFJSONRequestOperation *getRequestOperation =
+        [AFJSONRequestOperation JSONRequestOperationWithRequest:getRequest
+                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+                                                            NSLog(@"response %@", JSON);
+                                                            NSArray* documents = nil;
+//                                                            NSArray* documents = [PPRemoteDocument initArray:JSON
+//                                                                                                   className:NSStringFromClass([PPRemoteDocument class])];
+                                                            if (success) {
+                                                                success(request, response, documents);
+                                                            }
+                                                        }
+                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+                                                            if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+                                                                    NSLog(@"request canceled");
+                                                                    if (canceled) {
+                                                                        canceled(request, response);
+                                                                    }
+                                                                    return;
+                                                                }
+                                                                
+                                                                NSLog(@"failed to execute request %@", error.description);
+                                                                
+                                                                if (failure != nil) {
+                                                                    failure(request, response, error);
+                                                                }
+                                                        }];
+    
+    return getRequestOperation;
+    
 }
 
 @end

@@ -17,7 +17,7 @@
 - (NSMutableDictionary*)dictionaryWithModelObject;
 
 /** Serializes an array of objects */
-+ (NSMutableArray*)dictinaryArrayWithModelObjectArray:(NSArray*)objectArray;
++ (NSMutableArray*)dictionaryArrayWithModelObjectArray:(NSArray*)objectArray;
 
 /** Creates a string for serializing date object */
 + (NSString*)dictionaryStringWithDate:(NSDate*)date;

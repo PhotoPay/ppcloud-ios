@@ -84,3 +84,5 @@
 "PhotoPayErrorUploadCannotStoreRequest" = "PhotoPayErrorUploadCannotStoreRequest";
 /** Error code 2004. Cannot upload document because user ID is not set */
 "PhotoPayErrorUploadOrganisationIdNotSet" = "PhotoPayErrorUploadOrganisationIdNotSet";
+/** Error code 2005. Cannot upload, the operation takes too long */
+"PhotoPayErrorUploadOperationTooLong" = "PhotoPayErrorUploadOperationTooLong";

@@ -53,6 +53,21 @@
                 error:(NSError*)error
               failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure;
 
+
+/**
+ A method responsible for updating the list of remote documents
+ */
+- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject;
+
+/**
+ Method which retrieves all remote documents for the current user with states that match
+ those in given input list
+ */
+- (void)getRemoteDocuments:(PPDocumentState)documentStateList
+                   success:(void (^)(NSArray* remoteDocuments))success
+                   failure:(void (^)(NSError* error))failure
+                  canceled:(void (^)())canceled;
+
 @end
 
 @implementation PPPhotoPayCloudService
@@ -466,37 +481,120 @@
 - (void)requestDocuments:(PPDocumentState)documentStates {
     
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
-    if (documentStates == lastDocumentStates) { // document states are the same as last presented, so we're fine and dandy, just return
-        return;
-    }
     
-    // find all documents currently in data source which aren't in the state given by documentStates
-    NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
-    for (PPDocument* document in [[self dataSource] items]) {
-        if (([document state] & documentStates) == 0) {
-            [documentsToRemove addObject:document];
+    if (documentStates != lastDocumentStates) {
+        // document states are not the same as last presented, so recheck all existing documents
+        
+        // find all documents currently in data source which aren't in the state given by documentStates
+        NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
+        for (PPDocument* document in [[self dataSource] items]) {
+            if (([document state] & documentStates) == 0) {
+                [documentsToRemove addObject:document];
+            }
         }
-    }
-    
-    // these should be removed
-    
-    dispatch_async(dispatch_get_main_queue(), ^() {
-        [[self dataSource] removeItems:documentsToRemove];
-    });
-   
-    
-    // find all documents currently in document upload queue which are in the state given by document states
-    NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];
-    for (PPDocument* document in [[self documentUploadQueue] elements]) {
-        if ([document state] & documentStates) {
-            [documentsToAdd addObject:document];
+        
+        // these should be removed
+        
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [[self dataSource] removeItems:documentsToRemove];
+        });
+        
+        
+        // find all documents currently in document upload queue which are in the state given by document states
+        NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];
+        for (PPDocument* document in [[self documentUploadQueue] elements]) {
+            if ([document state] & documentStates) {
+                [documentsToAdd addObject:document];
+            }
         }
+        
+        // these should be added
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [[self dataSource] insertItems:documentsToAdd];
+        });
     }
     
-    // these should be added
-    dispatch_async(dispatch_get_main_queue(), ^() {
-        [[self dataSource] insertItems:documentsToAdd];
-    });
+    [self requestRemoteDocuments:@(documentStates)];
+}
+
+- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject {
+    NSUInteger documentStates = [documentStatesObject longValue];
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
+        [[self dataSource] insertItems:remoteDocuments];
+        if ([[self dataSource] delegate] != nil) {
+            [self performSelector:@selector(requestDocuments:) withObject:documentStatesObject afterDelay:2.0f];
+        }
+    } failure:^(NSError *error) {
+        if ([[self dataSource] delegate] != nil) {
+            [self performSelector:@selector(requestDocuments:) withObject:documentStatesObject afterDelay:2.0f];
+        }
+    } canceled:nil];
+}
+
+- (NSArray*)getStatesArrayForDocumentStates:(PPDocumentState)documentStateList {
+    NSMutableArray *res = [[NSMutableArray alloc] init];
+    
+    if (documentStateList & PPDocumentStateDeleted) {
+        [res addObject:@"USER_DELETED"];
+    }
+    if (documentStateList & PPDocumentStateReceived) {
+        [res addObject:@"NEW"];
+    }
+    if (documentStateList & PPDocumentStatePending) {
+        [res addObject:@"PENDING"];
+    }
+    if (documentStateList & PPDocumentStateProcessing) {
+        [res addObject:@"WIP"];
+    }
+    if (documentStateList & PPDocumentStateProcessed) {
+        [res addObject:@"DONE"];
+    }
+    if (documentStateList & PPDocumentStateProcessingError) {
+        [res addObject:@"ERROR"];
+    }
+    if (documentStateList & PPDocumentStateProcessedWithError) {
+        [res addObject:@"FORCED_ERROR"];
+    }
+    if (documentStateList & PPDocumentStatePaid) {
+        [res addObject:@"RESULTS_ACK"];
+    }
+    
+    return res;
+}
+
+- (void)getRemoteDocuments:(PPDocumentState)documentStateList
+                   success:(void (^)(NSArray* remoteDocuments))success
+                   failure:(void (^)(NSError* error))failure
+                  canceled:(void (^)())canceled {
+    
+    NSArray* states = [self getStatesArrayForDocumentStates:documentStateList];
+    
+    NSOperation* getDocumentsOperation =
+        [[self networkManager] createGetDocumentsRequestForUser:[self user]
+                                                 documentStates:states
+                                                      startDate:nil
+                                                        endDate:nil
+                                                startsWithIndex:[NSNumber numberWithLong:0]
+                                                  endsWithIndex:[NSNumber numberWithLong:1234567]
+                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *remoteDocuments) {
+                                                            if (success) {
+                                                                success(remoteDocuments);
+                                                            }
+                                                        }
+                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                            if (failure) {
+                                                                failure(error);
+                                                            }
+                                                        } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                            if (canceled) {
+                                                                canceled();
+                                                            }
+                                                        }];
+    
+    [getDocumentsOperation start];
 }
 
 @end

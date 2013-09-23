@@ -60,4 +60,20 @@
     }
 }
 
+- (NSOperation*)createGetDocumentsRequestForUser:(PPUser *)user
+                                  documentStates:(NSArray*)documentStates
+                                       startDate:(NSDate*)startDate
+                                         endDate:(NSDate*)endDate
+                                 startsWithIndex:(NSNumber*)startsWith
+                                   endsWithIndex:(NSNumber*)endsWith
+                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *))success
+                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
 @end

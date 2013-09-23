@@ -19,9 +19,4 @@
 
 @implementation PPDocumentsTableDataSource
 
-- (void)swapLocalDocument:(PPLocalDocument *)localDocument
-       withRemoteDocument:(PPRemoteDocument *)remoteDocument {
-    NSLog(@"Swapping");
-}
-
 @end

@@ -18,7 +18,7 @@
     return [[NSMutableDictionary alloc] init];
 }
 
-+ (NSMutableArray*)dictinaryArrayWithModelObjectArray:(NSArray*)objectArray {
++ (NSMutableArray*)dictionaryArrayWithModelObjectArray:(NSArray*)objectArray {
     NSMutableArray *dictionary = [[NSMutableArray alloc] init];
     
     for (PPModelObject *object in objectArray) {

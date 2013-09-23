@@ -142,7 +142,7 @@ static bool loggedIn = false;
     static AFHTTPClient* httpclient = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://192.168.1.6:8080"]];
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://192.168.5.14:8080"]];
 //        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
         [httpclient setDefaultHeader:@"X-OS" value:osString];

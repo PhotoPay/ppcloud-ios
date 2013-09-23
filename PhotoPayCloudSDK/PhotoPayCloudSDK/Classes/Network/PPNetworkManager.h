@@ -42,4 +42,20 @@
                                                    failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
                                                   canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled;
 
+/**
+ Abstract.
+ Factory method for creating GetUsersDocumentsRequestOperations.
+ 
+ Should be implemented by the application
+ */
+- (NSOperation*)createGetDocumentsRequestForUser:(PPUser *)user
+                                  documentStates:(NSArray*)documentStates
+                                       startDate:(NSDate*)startDate
+                                         endDate:(NSDate*)endDate
+                                 startsWithIndex:(NSNumber*)startsWith
+                                   endsWithIndex:(NSNumber*)endsWith
+                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *))success
+                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
+
 @end
