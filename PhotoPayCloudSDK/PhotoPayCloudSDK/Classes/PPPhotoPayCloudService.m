@@ -552,14 +552,16 @@
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
+    float delay = 20.f;
+    
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
         [[self dataSource] insertItems:remoteDocuments];
         if ([[self dataSource] delegate] != nil) {
-            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:2.0f];
+            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:delay];
         }
     } failure:^(NSError *error) {
         if ([[self dataSource] delegate] != nil) {
-            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:2.0f];
+            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:delay];
         }
     } canceled:nil];
 }

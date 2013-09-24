@@ -32,8 +32,6 @@
             indexPath = [[self sectionCreator] insertItem:item];
             [insertedIndexPaths addObject:indexPath];
         } else {
-            indexPath = [[self sectionCreator] reloadItem:item];
-            
             id object = [[self items] objectAtIndex:index];
             if ([object isKindOfClass:[PPDocument class]] &&
                 [item isKindOfClass:[PPDocument class]]) {
@@ -43,6 +41,7 @@
                 BOOL changed = [document reloadWithDocument:newDocument];
                 
                 if (changed) {
+                    indexPath = [[self sectionCreator] reloadItem:object];
                     [[self items] replaceObjectAtIndex:index withObject:object];
                     if (indexPath != nil) {
                         [reloadedIndexPaths addObject:indexPath];
@@ -56,6 +55,7 @@
         [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
     }
     if ([reloadedIndexPaths count] > 0) {
+        NSLog(@"Reloading %d", [reloadedIndexPaths count]);
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }
 }

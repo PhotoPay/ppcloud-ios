@@ -11,9 +11,9 @@
 
 @interface PPRemoteDocument ()
 
-@property (nonatomic, strong) UIImage* previewImage;
+@property (nonatomic, strong, getter = previewImage) UIImage* previewImage;
 
-@property (nonatomic, strong) UIImage* thumbnailImage;
+@property (nonatomic, strong, getter = thumbnailImage) UIImage* thumbnailImage;
 
 @end
 
@@ -49,11 +49,15 @@
     self.expectedProcessingTime = [PPModelObject initNumber:dictionary[@"estimatedMinutesLeft"]
                                               defaultNumber:@(1.0)];
     
+    thumbnailImage = nil;
+    previewImage = nil;
+    
     return self;
 };
 
 - (BOOL)reloadWithDocument:(PPDocument*)other {
     PPRemoteDocument* otherRemoteDocument = [other remoteDocument];
+    
     if (![self isEqual:otherRemoteDocument]) {
         return NO;
     }
@@ -67,11 +71,13 @@
     
     if (thumbnailImage == nil && otherRemoteDocument.thumbnailImage != nil) {
         self.thumbnailImage = otherRemoteDocument.thumbnailImage;
+        NSLog(@"Caching thumbnail!");
         changed = YES;
     }
     
     if (previewImage == nil && otherRemoteDocument.previewImage != nil) {
         self.previewImage = otherRemoteDocument.previewImage;
+        NSLog(@"Caching preview!");
         changed = YES;
     }
     
@@ -99,8 +105,8 @@
                                                           imageSize:PPImageSizeThumbnailXHdpi
                                                         imageFormat:PPImageFormatJpeg
                                                             success:^(UIImage *image) {
-                                                                thumbnailImage = image;
                                                                 dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    [self setThumbnailImage:image];
                                                                     if (success) {
                                                                         success(image);
                                                                     }
@@ -137,6 +143,22 @@
             }
         });
     }
+}
+
+- (NSString*)description {
+    NSString* result = [super description];
+    result = [result stringByAppendingFormat:@"Thumbnail %p\n", [self thumbnailImage]];
+    result = [result stringByAppendingFormat:@"Preview %p\n", [self previewImage]];
+    return result;
+}
+
+
+- (UIImage*)previewImage {
+    return previewImage;
+}
+
+- (UIImage*)thumbnailImage {
+    return thumbnailImage;
 }
 
 @end

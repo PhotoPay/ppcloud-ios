@@ -139,11 +139,7 @@
     NSMutableArray *objects = [[NSMutableArray alloc] init];
     
     for (NSDictionary *element in dictinaryObject) {
-        NSLog(@"Element: %@", element);
-        
         [objects addObject:[[class alloc] initWithDictionary:element]];
-        
-        NSLog(@"Doc: %@", [objects objectAtIndex:([objects count] - 1)]);
     }
     
     return objects;

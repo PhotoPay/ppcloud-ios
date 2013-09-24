@@ -18,17 +18,25 @@
 
 - (void)refreshWithDocument:(PPDocument*)document {
     [self setDocument:document];
-    [self thumbnailView].hidden = YES;
-    [self thumbnailLoadingIndicator].hidden = NO;
-    [[self thumbnailLoadingIndicator] startAnimating];
     
-    [document thumbnailImageWithSuccess:^(UIImage *thumbnailImage) {
+    if ([document thumbnailImage] == nil) {
+        NSLog(@"Setting thumbail!");
+        [self thumbnailView].hidden = YES;
+        [self thumbnailLoadingIndicator].hidden = NO;
+        [[self thumbnailLoadingIndicator] startAnimating];
+        
+        [document thumbnailImageWithSuccess:^(UIImage *thumbnailImage) {
+            [self thumbnailView].hidden = NO;
+            [self thumbnailView].image = thumbnailImage;
+            [[self thumbnailLoadingIndicator] stopAnimating];
+        } failure:^{
+            ;
+        }];
+    } else {
         [self thumbnailView].hidden = NO;
-        [self thumbnailView].image = thumbnailImage;
         [[self thumbnailLoadingIndicator] stopAnimating];
-    } failure:^{
-        ;
-    }];
+        [self thumbnailView].image = [document thumbnailImage];
+    }
 }
 
 + (NSString*)defaultXibName {

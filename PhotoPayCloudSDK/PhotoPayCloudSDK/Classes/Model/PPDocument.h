@@ -160,6 +160,24 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 - (NSString*)mimeType;
 
 /**
+ Returns preview image if available
+ Will return nil otherwise.
+ 
+ For creating the preview and asynchronous retuning of the thumbnail, use
+ thumbnailImageWithSuccess:failure:
+ */
+- (UIImage*)previewImage;
+
+/**
+ Returns thumbnail image if available
+ Will return nil otherwise.
+ 
+ For creating the thumbnail and asynchronous retuning of the thumbnail, use
+ thumbnailImageWithSuccess:failure:
+ */
+- (UIImage*)thumbnailImage;
+
+/**
  Generates and chaches thumbnail image for this document
  */
 - (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
