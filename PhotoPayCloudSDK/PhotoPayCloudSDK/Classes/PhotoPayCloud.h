@@ -13,6 +13,7 @@
 
 /** model headers */
 #import "PPModelObject.h"
+#import "PPBaseResponse.h"
 #import "PPDocument.h"
 #import "PPLocalDocument.h"
 #import "PPLocalImageDocument.h"

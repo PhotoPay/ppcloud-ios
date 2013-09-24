@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PPDocument.h"
+#import "PPNetworkManager.h"
 
 @protocol PPDocumentUploadDelegate;
 @protocol PPUploadRequestOperation;
@@ -15,7 +16,6 @@
 @class PPRemoteDocument;
 @class PPUser;
 @class PPDocumentManager;
-@class PPNetworkManager;
 @class PPDocumentsTableDataSource;
 
 /**
@@ -155,6 +155,19 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
                success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
               canceled:(void (^)(PPLocalDocument* localDocument))canceled;
+
+/**
+ Retrieves the image for a given document. The size and format of the image can be specified.
+ 
+ Image is typically used for UI stuff, tables, etc.
+ */
+- (void)getImageForDocument:(PPRemoteDocument*)document
+                  imageSize:(PPImageSize)imageSize
+                imageFormat:(PPImageFormat)imageFormat
+                    success:(void (^)(UIImage* image))success
+                    failure:(void (^)(NSError* error))failure
+                   canceled:(void (^)())canceled;
+
 
 - (void)uploadPendingDocuments;
 

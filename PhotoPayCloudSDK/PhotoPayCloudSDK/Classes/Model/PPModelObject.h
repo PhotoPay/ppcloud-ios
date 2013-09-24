@@ -3,6 +3,8 @@
 //  PhotoPayCloudSDK
 //
 //  Created by Jurica Cerovec on 9/12/13.
+//  Special thanks to Marko Mihovilić.
+//
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
@@ -48,18 +50,19 @@
 
 /** Initializes a enum from dictionary */
 + (NSUInteger)initEnum:(id)dictionaryObject
-           enumStrings:(__strong NSString*[])enumStrings
-      enumStringsCount:(NSUInteger)count;
+             enumTable:(NSDictionary*)enumTable;
 
-/** Initializes a enum from dictionary.
- Default enum value is set if there is no dictionary present */
+/** Initializes a enum from dictionary */
 + (NSUInteger)initEnum:(id)dictionaryObject
-           enumStrings:(__strong NSString*[])enumStrings
-      enumStringsCount:(NSUInteger)count
+             enumTable:(NSDictionary*)enumTable
            defaultEnum:(NSUInteger)defaultEnum;
 
+/** Initializes an object from dictionary */
++ (id)initObject:(id)dictionaryObject
+       className:(NSString*)name;
+
 /** Initializes a array object from dictionary */
-+ (NSMutableArray*)initArray:(id)dictinaryObject
++ (NSMutableArray*)initArray:(id)dictionaryObject
                    className:(NSString*)name;
 
 /** Initializes a array object from dictionary. 

@@ -96,7 +96,12 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Abstract document class
  */
 @interface PPDocument : PPModelObject <NSCoding> {
+    
+@protected
     NSString* documentId_;
+    PPDocumentType documentType_;
+    PPDocumentProcessingType processingType_;
+    NSDate* creationDate_;
 }
 
 /** 
@@ -175,6 +180,32 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Safely checks if this document is in fact a remote document. If not, returns nil, else returns caster reference
  */
 - (PPRemoteDocument*)remoteDocument;
+
+/**
+ Sets the unknown values in this document from the other document
+ */
+- (BOOL)reloadWithDocument:(PPDocument*)other;
+
+/**
+ Creates and returns an map enum value : object value for enum PPDocumentType
+ 
+ This is primarily used in making network requests
+ */
++ (NSDictionary*)documentTypeObjectTable;
+
+/**
+ Creates and returns an map enum value : object value for enum PPDocumentProcessingType
+ 
+ This is primarily used in making network requests
+ */
++ (NSDictionary *)documentProcessingTypeObjectTable;
+
+/**
+ Creates and returns an map enum value : object value for enum PPDocumentProcessingState
+ 
+ This is primarily used in debugging
+ */
++ (NSDictionary *)documentStateObjectTable;
 
 /**
  Returns object representation of document type enum value

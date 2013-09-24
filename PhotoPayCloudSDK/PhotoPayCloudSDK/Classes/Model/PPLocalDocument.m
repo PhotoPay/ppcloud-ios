@@ -109,6 +109,22 @@
                           }];
 }
 
+- (BOOL)reloadWithDocument:(PPDocument*)other {
+    PPLocalDocument* otherLocalDocument = [other localDocument];
+    if (![self isEqual:otherLocalDocument]) {
+        return NO;
+    }
+    
+    BOOL changed = NO;
+    
+    if (self.bytes == nil && otherLocalDocument.bytes != nil) {
+        bytes_ = otherLocalDocument.bytes;
+        changed = YES;
+    }
+    
+    return changed;
+}
+
 + (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {
     NSString* uuid = [NSString UUID];
     NSString* extension = [PPDocument fileExtensionForDocumentType:type];

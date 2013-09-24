@@ -478,6 +478,36 @@
     });
 }
 
+- (void)getImageForDocument:(PPRemoteDocument*)document
+                  imageSize:(PPImageSize)imageSize
+                imageFormat:(PPImageFormat)imageFormat
+                    success:(void (^)(UIImage* image))success
+                    failure:(void (^)(NSError* error))failure
+                   canceled:(void (^)())canceled {
+    
+    NSOperation* getImageOperation =
+        [[self networkManager] createGetImageRequestForDocument:document
+                                                           user:[self user]
+                                                      imageSize:imageSize
+                                                    imageFormat:imageFormat
+                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                            if (success) {
+                                                                success(image);
+                                                            }
+                                                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                            if (failure) {
+                                                                failure(error);
+                                                            }
+                                                        } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                            if (canceled) {
+                                                                canceled();
+                                                            }
+                                                        }];
+    
+    // add it to the operation queue
+    [[[self networkManager] imagesOperationQueue] addOperation:getImageOperation];
+}
+
 - (void)requestDocuments:(PPDocumentState)documentStates {
     
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
@@ -525,11 +555,11 @@
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
         [[self dataSource] insertItems:remoteDocuments];
         if ([[self dataSource] delegate] != nil) {
-            [self performSelector:@selector(requestDocuments:) withObject:documentStatesObject afterDelay:2.0f];
+            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:2.0f];
         }
     } failure:^(NSError *error) {
         if ([[self dataSource] delegate] != nil) {
-            [self performSelector:@selector(requestDocuments:) withObject:documentStatesObject afterDelay:2.0f];
+            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:2.0f];
         }
     } canceled:nil];
 }

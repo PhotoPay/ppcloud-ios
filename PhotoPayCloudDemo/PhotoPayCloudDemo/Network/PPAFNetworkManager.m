@@ -52,7 +52,7 @@
     
     // set user id and check for possible error
     if ([user userId] != nil && [[user userId] length] != 0) {
-        [requestParams setObject:[user userId] forKey:@"customerId"];
+        [requestParams setObject:[user userId] forKey:kPPParameterCustomerId];
     } else {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadUserIdNotSet";
@@ -66,12 +66,12 @@
     
     // set user type if specified (if not specified, server default will be used
     if ([user userType] != PPUserTypeDefault) {
-        [requestParams setObject:[PPUser objectForUserType:[user userType]] forKey:@"customerType"];
+        [requestParams setObject:[PPUser objectForUserType:[user userType]] forKey:kPPParameterCustomerType];
     }
     
     // set organization id if specified (if not specified, server default will be used
     if ([user organizationId] != nil && [[user organizationId] length] != 0) {
-        [requestParams setObject:[user organizationId] forKey:@"organizationId"];
+        [requestParams setObject:[user organizationId] forKey:kPPParameterOrganizationId];
     } else {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadOrganisationIdNotSet";
@@ -97,15 +97,15 @@
     
     // set request type (this will always be specified)
     [uploadRequestParams setObject:[PPDocument objectForDocumentProcessingType:[document processingType]]
-                            forKey:@"requestType"];
+                            forKey:kPPParameterRequestType];
     
     // file type will also always be specified
     [uploadRequestParams setObject:[PPDocument objectForDocumentType:[document documentType]]
-                            forKey:@"fileType"];
+                            forKey:kPPParameterFileType];
     
     // file type will also always be specified
     [uploadRequestParams setObject:@(([[PPPhotoPayCloudService sharedService] deviceToken] != nil))
-                            forKey:@"pushNotify"];
+                            forKey:kPPParameterPushNotify];
     
     // callback URL and device token are never sent
     
@@ -135,7 +135,7 @@
                                                parameters:uploadRequestParameters
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
                                     [formData appendPartWithFileData:[document bytes]
-                                                                name:@"data"
+                                                                name:kPPParameterData
                                                             fileName:[[document bytesUrl] lastPathComponent]
                                                             mimeType:[document mimeType]];
                                 }];
@@ -162,8 +162,6 @@
     [uploadRequestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         _uploadRequestOperation.progress = [[NSNumber alloc] initWithDouble:totalBytesWritten / (double)totalBytesExpectedToWrite];
         
-        NSLog(@"Progress = %f", _uploadRequestOperation.progress.floatValue);
-        
         if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didUpdateProgressWithBytesWritten:totalBytesToWrite:)]) {
             [[_uploadRequestOperation delegate] localDocument:document
                             didUpdateProgressWithBytesWritten:totalBytesWritten
@@ -173,7 +171,9 @@
     
     // 6. add success, failure and cancellation blocks
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        PPRemoteDocument* remoteDocument = [[PPRemoteDocument alloc] initWithDictionary:responseObject];
+        NSLog(@"Response object %@", responseObject);
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        PPRemoteDocument* remoteDocument = [baseResponse document];
         
         NSLog(@"Remote document: %@", remoteDocument);
         
@@ -245,30 +245,33 @@
     if (startDate != nil) {
         // set start date as number of milliseconds from 1970
         [requestParams setObject:@((long long)([startDate timeIntervalSince1970] * 1000.f))
-                          forKey:@"startDate"];
+                          forKey:kPPParameterStartDate];
     }
     
     if (endDate != nil) {
         // set end date as number of milliseconds from 1970
         // set start date as number of milliseconds from 1970
         [requestParams setObject:@((long long)([endDate timeIntervalSince1970] * 1000.f))
-                          forKey:@"endDate"];
+                          forKey:kPPParameterEndDate];
     }
     
     // set start index of documents
     [requestParams setObject:@([startsWithIndex longValue])
-                      forKey:@"startWith"];
+                      forKey:kPPParameterStartsWith];
     
     // set end index of documents
     [requestParams setObject:@([numElements longValue])
-                      forKey:@"perPage"];
+                      forKey:kPPParameterPerPage];
     
     
+    NSMutableSet* states = [[NSMutableSet alloc] init];
     for (NSString* state in documentStates) {
-        // set end index of documents
-        [requestParams setObject:state
-                          forKey:@"status"];
+        [states addObject:state];
     }
+    
+    // set end index of documents
+    [requestParams setObject:states
+                      forKey:kPPParameterStatus];
     
     // 2. create multipart request
     NSMutableURLRequest *getRequest = [[self httpClient] requestWithMethod:@"GET"
@@ -278,12 +281,10 @@
     AFJSONRequestOperation *getRequestOperation =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:getRequest
                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            NSLog(@"response %@", JSON);
-                                                            NSArray* documents = nil;
-//                                                            NSArray* documents = [PPRemoteDocument initArray:JSON
-//                                                                                                   className:NSStringFromClass([PPRemoteDocument class])];
+                                                            PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
+                                                            
                                                             if (success) {
-                                                                success(request, response, documents);
+                                                                success(request, response, [baseResponse documentsList]);
                                                             }
                                                         }
                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
@@ -304,6 +305,59 @@
     
     return getRequestOperation;
     
+}
+
+- (NSOperation*)createGetImageRequestForDocument:(PPRemoteDocument*)remoteDocument
+                                            user:(PPUser *)user
+                                       imageSize:(PPImageSize)imageSize
+                                     imageFormat:(PPImageFormat)imageFormat
+                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
+                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        return nil;
+    }
+    
+    // set request type (this will always be specified)
+    [requestParams setObject:[PPNetworkManager objectForImageFormat:imageFormat]
+                      forKey:kPPParameterImageFormat];
+    
+    // file type will also always be specified
+    [requestParams setObject:[PPNetworkManager objectForImageSize:imageSize]
+                            forKey:kPPParameterHeight];
+    
+    NSMutableURLRequest *urlRequest = [[self httpClient] requestWithMethod:@"GET"
+                                                                      path:[NSString stringWithFormat:@"cloud/image/%@", [remoteDocument documentId]]
+                                                                parameters:requestParams];
+        
+    AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
+    
+    NSLog(@"Request: %@", requestOperation);
+    
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success!");
+        if (success) {
+            success(operation.request, operation.response, responseObject);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Fail! %@", error);
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            if (canceled) {
+               canceled(operation.request, operation.response);
+            }
+            return;
+        }
+        
+        if (failure != nil) {
+            failure(operation.request, operation.response, error);
+        }
+    }];
+
+    return requestOperation;
 }
 
 @end

@@ -10,6 +10,22 @@
 #import "PPRemoteDocument.h"
 #import "PPLocalDocument.h"
 
+NSString* const kPPParameterData = @"data";
+NSString* const kPPParameterCustomerId = @"customerId";
+NSString* const kPPParameterOrganizationId = @"organizationId";
+NSString* const kPPParameterRequestType = @"requestType";
+NSString* const kPPParameterFileType = @"fileType";
+NSString* const kPPParameterDeviceToken = @"deviceToken";
+NSString* const kPPParameterPushNotify = @"pushNotify";
+NSString* const kPPParameterCustomerType = @"customerType";
+NSString* const kPPParameterStartDate = @"startDate";
+NSString* const kPPParameterEndDate = @"endDate";
+NSString* const kPPParameterStartsWith = @"startWith";
+NSString* const kPPParameterPerPage = @"perPage";
+NSString* const kPPParameterHeight = @"heightSize";
+NSString* const kPPParameterImageFormat = @"imageFormat";
+NSString* const kPPParameterStatus = @"status";
+
 @interface PPNetworkManager ()
 
 /**
@@ -17,12 +33,18 @@
  */
 @property (nonatomic, strong) NSOperationQueue* uploadOperationQueue;
 
+/**
+ Operation queue which handles requests for images (thumbnails, etc.)
+ */
+@property (nonatomic, strong) NSOperationQueue* imagesOperationQueue;
+
 @end
 
 @implementation PPNetworkManager
 
 @synthesize uploadDelegate;
 @synthesize uploadOperationQueue;
+@synthesize imagesOperationQueue;
 
 - (id)init {
     self = [super init];
@@ -30,6 +52,10 @@
         uploadOperationQueue = [[NSOperationQueue alloc] init];
         uploadOperationQueue.name = @"PhotoPay Cloud Upload Queue";
         [uploadOperationQueue setMaxConcurrentOperationCount:2];
+        
+        imagesOperationQueue = [[NSOperationQueue alloc] init];
+        imagesOperationQueue.name = @"PhotoPay Cloud Images Queue";
+        [imagesOperationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
     }
     return self;
 }
@@ -39,6 +65,41 @@
     @throw [NSException exceptionWithName:NSInvalidArgumentException
                                    reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
                                  userInfo:nil];
+}
+
++ (NSDictionary*)imageFormatObjectTable {
+    static NSDictionary *table = nil;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        table = @{@(PPImageFormatJpeg) : @"JPEG",
+                  @(PPImageFormatPng) : @"PNG"};
+    });
+    return table;
+}
+
++ (NSDictionary *)imageSizeObjectTable {
+    static NSDictionary *table = nil;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        table = @{@(PPImageSizeThumbnailMdpi) : @"THUMBNAIL_MDPI",
+                  @(PPImageSizeThumbnailHdpi) : @"THUMBNAIL_HDPI",
+                  @(PPImageSizeThumbnailXHdpi) : @"THUMBNAIL_XHDPI",
+                  @(PPImageSizeThumbnailXXHdpi) : @"THUMBNAIL_XXHDPI",
+                  @(PPImageSizeUIMdpi) : @"UI_MDPI",
+                  @(PPImageSizeUIHdpi) : @"UI_HDPI",
+                  @(PPImageSizeUIXHdpi) : @"UI_XHDPI",
+                  @(PPImageSizeUIXXHdpi) : @"UI_XXHDPI",
+                  @(PPImageSizeFull) : @"FULL_IMAGE"};
+    });
+    return table;
+}
+
++ (id)objectForImageFormat:(PPImageFormat)imageFormat {
+    return [PPNetworkManager imageFormatObjectTable][@(imageFormat)];
+}
+
++ (id)objectForImageSize:(PPImageSize)imageSize {
+     return [PPNetworkManager imageSizeObjectTable][@(imageSize)];
 }
 
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
@@ -67,6 +128,20 @@
                                  startsWithIndex:(NSNumber*)startsWith
                                    endsWithIndex:(NSNumber*)endsWith
                                          success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *))success
+                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
+- (NSOperation*)createGetImageRequestForDocument:(PPRemoteDocument*)remoteDocument
+                                            user:(PPUser *)user
+                                       imageSize:(PPImageSize)imageSize
+                                     imageFormat:(PPImageFormat)imageFormat
+                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
                                          failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                                         canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
     

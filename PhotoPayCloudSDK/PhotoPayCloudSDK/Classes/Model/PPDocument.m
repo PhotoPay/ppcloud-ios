@@ -14,32 +14,11 @@
 @interface PPDocument ()
 
 /**
- Creates and returns an map enum value : object value for enum PPDocumentType
- 
- This is primarily used in making network requests
- */
-+ (NSDictionary*)documentTypeObjectTable;
-
-/**
  Creates and returns an map enum value : file extension name for enum PPDocumentType
  
  This is primarily used for saving documents in the right format
  */
 + (NSDictionary*)fileExtensionTable;
-
-/**
- Creates and returns an map enum value : object value for enum PPDocumentProcessingType
- 
- This is primarily used in making network requests
- */
-+ (NSDictionary *)documentProcessingTypeObjectTable;
-
-/**
- Creates and returns an map enum value : object value for enum PPDocumentProcessingState
- 
- This is primarily used in debugging
- */
-+ (NSDictionary *)documentStateObjectTable;
 
 /** Cached thumbnail image */
 @property (nonatomic, strong) UIImage* thumbnailImage;
@@ -51,9 +30,9 @@
 @synthesize documentId = documentId_;
 @synthesize bytesUrl;
 @synthesize state;
-@synthesize documentType;
-@synthesize processingType;
-@synthesize creationDate;
+@synthesize documentType = documentType_;
+@synthesize processingType = processingType_;
+@synthesize creationDate = creationDate_;
 @synthesize thumbnailImage;
 
 - (id)initWithDocumentId:(NSString*)inDocumentId
@@ -71,9 +50,9 @@
         documentId_ = inDocumentId;
         bytesUrl = inBytesUrl;
         state = inState;
-        documentType = inDocumentType;
-        processingType = inProcessingType;
-        creationDate = [NSDate date];
+        documentType_ = inDocumentType;
+        processingType_ = inProcessingType;
+        creationDate_ = [NSDate date];
         thumbnailImage = nil;
     }
     return self;
@@ -88,9 +67,9 @@
     documentId_ = [decoder decodeObjectForKey:@"documentId"];
     bytesUrl = [decoder decodeObjectForKey:@"bytesUrl"];
     state = [decoder decodeIntegerForKey:@"state"];
-    documentType = [decoder decodeIntegerForKey:@"documentType"];
-    processingType = [decoder decodeIntegerForKey:@"processingType"];
-    creationDate = [decoder decodeObjectForKey:@"creationDate"];
+    documentType_ = [decoder decodeIntegerForKey:@"documentType"];
+    processingType_ = [decoder decodeIntegerForKey:@"processingType"];
+    creationDate_ = [decoder decodeObjectForKey:@"creationDate"];
     thumbnailImage = nil;
     
     return self;
@@ -206,6 +185,10 @@
     }
 }
 
+- (BOOL)reloadWithDocument:(PPDocument*)other {
+    return NO;
+}
+
 - (NSString*)description {
     NSString* result = @"";
     result = [result stringByAppendingFormat:@"Document ID: %@\n", [self documentId]];
@@ -244,22 +227,24 @@
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        table = @{@(PPDocumentStatePaid)                : @"Paid",
-                  @(PPDocumentStateCreated)             : @"Created",
-                  @(PPDocumentStateDeleted)             : @"Deleted",
-                  @(PPDocumentStatePending)             : @"Pending",
-                  @(PPDocumentStateProcessed)           : @"Processed",
-                  @(PPDocumentStateProcessedWithError)  : @"ProcessedWithError",
-                  @(PPDocumentStateProcessing)          : @"Processing",
-                  @(PPDocumentStateProcessingError)     : @"ProcessingError",
-                  @(PPDocumentStateReceived)            : @"Received",
-                  @(PPDocumentStateStored)              : @"Stored",
-                  @(PPDocumentStateUnknown)             : @"Unknown",
-                  @(PPDocumentStateUploading)           : @"Uploading",
-                  @(PPDocumentStateUploadFailed)        : @"UploadFailed"};
+        table = @{@(PPDocumentStatePaid)                : @"RESULTS_ACK",
+                  @(PPDocumentStateCreated)             : @"CREATED",
+                  @(PPDocumentStateDeleted)             : @"USER_DELETED",
+                  @(PPDocumentStatePending)             : @"PENDING",
+                  @(PPDocumentStateProcessed)           : @"DONE",
+                  @(PPDocumentStateProcessedWithError)  : @"FORCED_ERROR",
+                  @(PPDocumentStateProcessing)          : @"WIP",
+                  @(PPDocumentStateProcessingError)     : @"ERROR",
+                  @(PPDocumentStateReceived)            : @"NEW",
+                  @(PPDocumentStateStored)              : @"STORED",
+                  @(PPDocumentStateUnknown)             : @"UNKNOWN",
+                  @(PPDocumentStateUploading)           : @"UPLOADING",
+                  @(PPDocumentStateUploadFailed)        : @"UPLOAD_FAILED"};
     });
     return table;
 }
+
+
 
 + (id)objectForDocumentState:(PPDocumentState)documentState {
     return [PPDocument documentStateObjectTable][@(documentState)];

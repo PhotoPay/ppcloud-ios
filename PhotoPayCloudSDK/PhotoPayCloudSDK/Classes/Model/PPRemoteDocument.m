@@ -7,6 +7,7 @@
 //
 
 #import "PPRemoteDocument.h"
+#import "PPPhotoPayCloudService.h"
 
 @interface PPRemoteDocument ()
 
@@ -28,16 +29,54 @@
         return nil;
     }
     
-    NSDictionary *documentDictionary = dictionary[@"document"];
+    self->documentId_ = [PPModelObject initString:dictionary[@"id"]];
     
-    self->documentId_ = [PPModelObject initString:documentDictionary[@"id"]];
-    self.state = PPDocumentStateReceived;
-    self.expectedProcessingTime = @(1.0);
+    self->documentType_ = [PPModelObject initEnum:dictionary[@"documentType"]
+                                        enumTable:[PPDocument documentTypeObjectTable]
+                                      defaultEnum:PPDocumentTypeJPG];
     
-    NSLog(@"%@", documentDictionary);
+    self->processingType_ = [PPModelObject initEnum:dictionary[@"requestType"]
+                                        enumTable:[PPDocument documentProcessingTypeObjectTable]
+                                        defaultEnum:PPDocumentProcessingTypeSerbianPhotoInvoice];
+    
+    self.state = [PPModelObject initEnum:dictionary[@"status"]
+                               enumTable:[PPDocument documentStateObjectTable]
+                             defaultEnum:PPDocumentStatePending];
+    
+    self->creationDate_ = [PPModelObject initDate:dictionary[@"creationTime"]
+                                      defaultDate:[NSDate date]];
+    
+    self.expectedProcessingTime = [PPModelObject initNumber:dictionary[@"estimatedMinutesLeft"]
+                                              defaultNumber:@(1.0)];
     
     return self;
 };
+
+- (BOOL)reloadWithDocument:(PPDocument*)other {
+    PPRemoteDocument* otherRemoteDocument = [other remoteDocument];
+    if (![self isEqual:otherRemoteDocument]) {
+        return NO;
+    }
+    
+    BOOL changed = NO;
+    
+    if (expectedProcessingTime != otherRemoteDocument.expectedProcessingTime) {
+        self.expectedProcessingTime = otherRemoteDocument.expectedProcessingTime;
+        changed = YES;
+    }
+    
+    if (thumbnailImage == nil && otherRemoteDocument.thumbnailImage != nil) {
+        self.thumbnailImage = otherRemoteDocument.thumbnailImage;
+        changed = YES;
+    }
+    
+    if (previewImage == nil && otherRemoteDocument.previewImage != nil) {
+        self.previewImage = otherRemoteDocument.previewImage;
+        changed = YES;
+    }
+    
+    return changed;
+}
 
 - (void)setThumbnailImage:(UIImage*)inThumbnailImage {
     thumbnailImage = inThumbnailImage;
@@ -56,11 +95,30 @@
             });
         }
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            if (failure) {
-                failure();
-            }
-        });
+        [[PPPhotoPayCloudService sharedService] getImageForDocument:self
+                                                          imageSize:PPImageSizeThumbnailXHdpi
+                                                        imageFormat:PPImageFormatJpeg
+                                                            success:^(UIImage *image) {
+                                                                thumbnailImage = image;
+                                                                dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    if (success) {
+                                                                        success(image);
+                                                                    }
+                                                                });
+                                                            } failure:^(NSError *error) {
+                                                                thumbnailImage = nil;
+                                                                dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    if (failure) {
+                                                                        failure();
+                                                                    }
+                                                                });
+                                                            } canceled:^{
+                                                                dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    if (failure) {
+                                                                        failure();
+                                                                    }
+                                                                });
+                                                            }];
     }
 }
 

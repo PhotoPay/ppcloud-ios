@@ -3,6 +3,8 @@
 //  PhotoPayCloudSDK
 //
 //  Created by Jurica Cerovec on 9/12/13.
+//  Special thanks to Marko Mihovilić.
+//
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
@@ -77,34 +79,31 @@
     return dictionaryObject;
 }
 
+/** Initializes a enum from dictionary */
 + (NSUInteger)initEnum:(id)dictionaryObject
-           enumStrings:(NSString *__strong *)enumStrings
-      enumStringsCount:(NSUInteger)count {
+             enumTable:(NSDictionary*)enumTable {
     
     return [self initEnum:dictionaryObject
-              enumStrings:enumStrings
-         enumStringsCount:count
+                enumTable:enumTable
               defaultEnum:NSNotFound];
 }
 
+/** Initializes a enum from dictionary */
 + (NSUInteger)initEnum:(id)dictionaryObject
-           enumStrings:(NSString *__strong *)enumStrings
-      enumStringsCount:(NSUInteger)count
+             enumTable:(NSDictionary*)enumTable
            defaultEnum:(NSUInteger)defaultEnum {
     
     if (dictionaryObject == [NSNull null]) {
         return defaultEnum;
     }
     
-    NSArray *enumStringsArray = [[NSArray alloc] initWithObjects:enumStrings count:count];
+    NSArray* keys = [enumTable allKeysForObject:dictionaryObject];
     
-    NSUInteger resultEnum = [enumStringsArray indexOfObject:dictionaryObject];
-    
-    if (resultEnum == NSNotFound) {
+    if ([keys count] == 0) {
         return defaultEnum;
     }
     
-    return resultEnum;
+    return [[keys objectAtIndex:0] unsignedIntegerValue];
 }
 
 + (NSMutableArray*)initArray:(id)dictinaryObject
@@ -113,6 +112,13 @@
     return [self initArray:dictinaryObject
                  className:name
               defaultArray:[[NSMutableArray alloc] init]];
+}
+
++ (id)initObject:(id)dictionaryObject
+       className:(NSString*)name {
+    
+    Class class = NSClassFromString(name);
+    return [[class alloc] initWithDictionary:dictionaryObject];
 }
 
 + (NSMutableArray*)initArray:(id)dictinaryObject
@@ -133,7 +139,11 @@
     NSMutableArray *objects = [[NSMutableArray alloc] init];
     
     for (NSDictionary *element in dictinaryObject) {
+        NSLog(@"Element: %@", element);
+        
         [objects addObject:[[class alloc] initWithDictionary:element]];
+        
+        NSLog(@"Doc: %@", [objects objectAtIndex:([objects count] - 1)]);
     }
     
     return objects;

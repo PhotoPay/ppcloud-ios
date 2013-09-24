@@ -14,6 +14,4 @@
 
 @interface PPDocumentsTableDataSource : PPTableViewDataSource
 
-- (void)getRemoteDocuments:(PPDocumentState)documentStateList;
-
 @end
