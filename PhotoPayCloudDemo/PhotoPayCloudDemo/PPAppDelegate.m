@@ -39,6 +39,8 @@
                                                                                   bundle:nil];
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     
+    navigationController.navigationBar.tintColor = [UIColor colorWithRed:190.0f/255.0f green:30.0f/255.0f blue:45.0f/255.0f alpha:1.0];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window setRootViewController:navigationController];
     [self.window makeKeyAndVisible];
