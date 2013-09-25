@@ -552,7 +552,8 @@
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    float delay = 20.f;
+    float delay = 2.f;
+    NSLog(@"Requesting!");
     
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
         [[self dataSource] insertItems:remoteDocuments];

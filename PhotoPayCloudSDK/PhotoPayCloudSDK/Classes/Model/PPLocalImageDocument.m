@@ -93,7 +93,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
                     }
                 });
             }
-            CGFloat width = 144.0f;
+            CGFloat width = 184.0f;
             CGSize thumbnailSize = CGSizeMake(width, width * fullImage.size.height / fullImage.size.width);
             thumbnailImage = [UIImage imageWithImage:fullImage scaledToSize:thumbnailSize];
             

@@ -102,7 +102,7 @@
         }
     } else {
         [[PPPhotoPayCloudService sharedService] getImageForDocument:self
-                                                          imageSize:PPImageSizeThumbnailXHdpi
+                                                          imageSize:PPImageSizeThumbnailXXHdpi
                                                         imageFormat:PPImageFormatJpeg
                                                             success:^(UIImage *image) {
                                                                 dispatch_async(dispatch_get_main_queue(), ^(){
