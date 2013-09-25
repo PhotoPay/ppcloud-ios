@@ -17,6 +17,8 @@
     [self mediumLabel].hidden = NO;
     [self smallLabel].hidden = YES;
     [self progressView].hidden = NO;
+    [self midLowerLabel].hidden = YES;
+    [self midupperLabel].hidden = YES;
     
     [self mediumLabel].text = _(@"PhotoPayHomeDocumentUploadingLabel");
     

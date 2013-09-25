@@ -23,6 +23,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *smallLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *midupperLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *midLowerLabel;
+
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 + (id)allocWithNibName:(NSString *)name;

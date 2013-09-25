@@ -15,17 +15,19 @@
     [self refreshWithDocument:remoteDocument];
     
     [self largeLabel].hidden = YES;
-    [self mediumLabel].hidden = NO;
-    [self smallLabel].hidden = NO;
+    [self mediumLabel].hidden = YES;
+    [self smallLabel].hidden = YES;
     [self progressView].hidden = YES;
+    [self midLowerLabel].hidden = NO;
+    [self midupperLabel].hidden = NO;
     
-    [self mediumLabel].text = _(@"PhotoPayHomeDocumentProcessingLabel");
-    int lastDigits = ((int)roundf([remoteDocument expectedProcessingTime].floatValue * 100.0f)) % 100;
+    [self midupperLabel].text = _(@"PhotoPayHomeDocumentProcessingLabel");
+    int lastDigits = ((int)roundf([remoteDocument expectedProcessingTime].floatValue)) % 100;
     int lastDigit = lastDigits % 10;
     BOOL singular = (lastDigits >= 10 && lastDigits <= 19) || lastDigit > 5 || lastDigit < 2;
     NSString* expectedTimeString = singular ? _(@"PhotoPayHomeDocumentProcessingMinuteSingular") : _(@"PhotoPayHomeDocumentProcessingMinutePlural");
     
-    [self smallLabel].text = [NSString stringWithFormat:@"%@: %.1f %@", _(@"PhotoPayHomeDocumentProcessingTimeLabel"), [[remoteDocument expectedProcessingTime] floatValue], expectedTimeString];
+    [self midLowerLabel].text = [NSString stringWithFormat:@"%@: %d %@", _(@"PhotoPayHomeDocumentProcessingTimeLabel"), (int)([[remoteDocument expectedProcessingTime] integerValue] + 0.5), expectedTimeString];
 }
 
 @end

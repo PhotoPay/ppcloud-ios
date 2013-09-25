@@ -31,8 +31,20 @@
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elektrovojvodina d.d" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9d7-S7-ynu">
+                        <rect key="frame" x="84" y="14" width="200" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12313-12313 97" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l9c-w9-VoR">
                         <rect key="frame" x="84" y="45" width="200" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12313-12313 97" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eSO-Vl-z3F">
+                        <rect key="frame" x="84" y="36" width="200" height="21"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="highlightedColor"/>
@@ -54,6 +66,8 @@
             <connections>
                 <outlet property="largeLabel" destination="FuF-Fr-dE4" id="qpA-rF-Qn5"/>
                 <outlet property="mediumLabel" destination="B8S-AT-hvZ" id="CIE-9X-MRO"/>
+                <outlet property="midLowerLabel" destination="eSO-Vl-z3F" id="dNs-tQ-Qjg"/>
+                <outlet property="midupperLabel" destination="9d7-S7-ynu" id="81u-m1-lV3"/>
                 <outlet property="progressView" destination="byL-dB-99L" id="CnT-yG-Mb4"/>
                 <outlet property="smallLabel" destination="l9c-w9-VoR" id="5oj-wP-R66"/>
                 <outlet property="thumbnailLoadingIndicator" destination="KLo-5Y-yTm" id="Wvh-Iq-x6j"/>

@@ -64,10 +64,12 @@
     [[self documentsDataSource] setUploadDelegate:self];
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
     
+    
     //To clear any selection in the table view before it’s displayed,
     // implement the viewWillAppear: method to clear the selected row
     // (if any) by calling deselectRowAtIndexPath:animated:.
     
+    [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
     
     [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed];
 }
@@ -259,7 +261,6 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self openDocumentDetailsView:(PPDocument*) [[self documentsDataSource] itemForIndexPath:indexPath]];
-    [[self billsTable] deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -50,7 +50,8 @@
                 break;
 
             case PPDocumentStateCreated:
-            default:
+            case PPDocumentStateStored:
+            case PPDocumentStateUploading:
                 if (IS_IPAD) {
                     currentView = [[[NSBundle mainBundle] loadNibNamed:@"PPDocumentUploadingView_iPhone" owner:self options:nil] objectAtIndex:0];
                 } else {
@@ -58,6 +59,18 @@
                 }
                 
                 ((PPDocumentUploadingView*)currentView).progressView.progress = [[[[[self document] localDocument] uploadRequest] progress] floatValue];
+                break;
+                
+            case PPDocumentStateReceived:
+            case PPDocumentStatePending:
+            case PPDocumentStateProcessing:
+            case PPDocumentStateProcessingError:
+            default:
+                if (IS_IPAD) {
+                    currentView = [[[NSBundle mainBundle] loadNibNamed:@"PPDocumentProcessingView_iPhone" owner:self options:nil] objectAtIndex:0];
+                } else {
+                    currentView = [[[NSBundle mainBundle] loadNibNamed:@"PPDocumentProcessingView_iPhone" owner:self options:nil] objectAtIndex:0];
+                }
                 break;
         }
         

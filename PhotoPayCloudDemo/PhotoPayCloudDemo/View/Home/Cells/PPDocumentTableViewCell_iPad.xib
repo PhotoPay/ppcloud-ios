@@ -31,8 +31,21 @@
                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elektrovojvodina d.d" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xRU-Wv-yo5">
+                        <rect key="frame" x="124" y="23" width="601" height="25"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12313-12313 97" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l9c-w9-VoR">
                         <rect key="frame" x="124" y="59" width="601" height="19"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12313-12313 97" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D73-Q4-ueD">
+                        <rect key="frame" x="124" y="50" width="601" height="19"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,6 +68,8 @@
             <connections>
                 <outlet property="largeLabel" destination="FuF-Fr-dE4" id="qpA-rF-Qn5"/>
                 <outlet property="mediumLabel" destination="B8S-AT-hvZ" id="CIE-9X-MRO"/>
+                <outlet property="midLowerLabel" destination="D73-Q4-ueD" id="vok-2w-8xx"/>
+                <outlet property="midupperLabel" destination="xRU-Wv-yo5" id="oSV-qR-N7Z"/>
                 <outlet property="progressView" destination="byL-dB-99L" id="CnT-yG-Mb4"/>
                 <outlet property="smallLabel" destination="l9c-w9-VoR" id="5oj-wP-R66"/>
                 <outlet property="thumbnailLoadingIndicator" destination="KLo-5Y-yTm" id="Wvh-Iq-x6j"/>
