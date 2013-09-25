@@ -137,11 +137,30 @@
             });
         }
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            if (failure) {
-                failure();
-            }
-        });
+        [[PPPhotoPayCloudService sharedService] getImageForDocument:self
+                                                          imageSize:PPImageSizeUIXXHdpi
+                                                        imageFormat:PPImageFormatJpeg
+                                                            success:^(UIImage *image) {
+                                                                dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    [self setPreviewImage:image];
+                                                                    if (success) {
+                                                                        success(image);
+                                                                    }
+                                                                });
+                                                            } failure:^(NSError *error) {
+                                                                previewImage = nil;
+                                                                dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    if (failure) {
+                                                                        failure();
+                                                                    }
+                                                                });
+                                                            } canceled:^{
+                                                                dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                    if (failure) {
+                                                                        failure();
+                                                                    }
+                                                                });
+                                                            }];
     }
 }
 
