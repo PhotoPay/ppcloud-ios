@@ -20,9 +20,6 @@
  */
 + (NSDictionary*)fileExtensionTable;
 
-/** Cached thumbnail image */
-@property (nonatomic, strong) UIImage* thumbnailImage;
-
 @end
 
 @implementation PPDocument
@@ -33,7 +30,6 @@
 @synthesize documentType = documentType_;
 @synthesize processingType = processingType_;
 @synthesize creationDate = creationDate_;
-@synthesize thumbnailImage;
 
 - (id)initWithDocumentId:(NSString*)inDocumentId
                 bytesUrl:(NSURL*)inBytesUrl
@@ -53,7 +49,8 @@
         documentType_ = inDocumentType;
         processingType_ = inProcessingType;
         creationDate_ = [NSDate date];
-        thumbnailImage = nil;
+        previewImage_ = nil;
+        thumbnailImage_ = nil;
     }
     return self;
 }
@@ -70,7 +67,8 @@
     documentType_ = [decoder decodeIntegerForKey:@"documentType"];
     processingType_ = [decoder decodeIntegerForKey:@"processingType"];
     creationDate_ = [decoder decodeObjectForKey:@"creationDate"];
-    thumbnailImage = nil;
+    previewImage_ = nil;
+    thumbnailImage_ = nil;
     
     return self;
 }
@@ -200,6 +198,14 @@
     return result;
 }
 
+- (UIImage*)previewImage {
+    return previewImage_;
+}
+
+- (UIImage*)thumbnailImage {
+    return thumbnailImage_;
+}
+
 + (NSDictionary *)documentTypeObjectTable {
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
@@ -286,5 +292,23 @@
 + (id)fileExtensionForDocumentType:(PPDocumentType)documentType {
     return [PPDocument fileExtensionTable][@(documentType)];
 }
+
+#pragma mark - QLPreviewItem
+
+- (NSURL *)previewItemURL {
+    return [self bytesUrl];
+}
+
+#pragma mark - QLPreviewControllerDataSource
+
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
+    return 1;
+}
+
+- (id <QLPreviewItem>)previewController:(QLPreviewController *)controller
+                     previewItemAtIndex:(NSInteger)index {
+    return self;
+}
+
 
 @end

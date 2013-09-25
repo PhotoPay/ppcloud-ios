@@ -180,4 +180,8 @@
     return thumbnailImage;
 }
 
+- (NSURL *)previewItemURL {
+    return [self bytesUrl];
+}
+
 @end

@@ -13,16 +13,11 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 
 @interface PPLocalImageDocument ()
 
-@property (nonatomic, strong) UIImage* image;
-
-@property (nonatomic, strong) UIImage* thumbnailImage;
+- (UIImage*)image;
 
 @end
 
 @implementation PPLocalImageDocument
-
-@synthesize image;
-@synthesize thumbnailImage;
 
 - (id)initWithImage:(UIImage*)inImage
      processingType:(PPDocumentProcessingType)inProcessingType {
@@ -43,21 +38,29 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
                  processingType:inProcessingType];
     
     if (self) {
-        image = inImage;
-        thumbnailImage = nil;
+        originalDocument_ = inImage;
+        previewImage_ = inImage;
     }
     
     return self;
 }
 
-/** 
+- (UIImage*)image {
+    if (originalDocument_ == nil) {
+        originalDocument_ = [UIImage imageWithData:[self bytes]];
+        previewImage_ = (UIImage*)originalDocument_;
+    }
+    return (UIImage*)originalDocument_;
+}
+
+/**
  Bytes array can be generated from the imate, if it exists
  Othewise, it's loaded as any stored local document - from a file in documents folders
  */
 - (NSData*)bytes {
-    if (self->bytes_ == nil && image != nil) {
+    if (self->bytes_ == nil && [self image] != nil) {
         // if we don't have bytes property, but have local UIImage, create bytes from UIImage
-        self->bytes_ = [UIImage jpegDataWithImage:[image fixOrientation]
+        self->bytes_ = [UIImage jpegDataWithImage:[[self image] fixOrientation]
                                scaledToResolution:finalResolution
                                  compressionLevel:0.9];
     } else if (self->bytes_ == nil) {
@@ -67,19 +70,12 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     return self->bytes_;
 }
 
-- (UIImage*)image {
-    if (image == nil) {
-        image = [UIImage imageWithData:[self bytes]];
-    }
-    return image;
-}
-
 - (void)thumbnailImageWithSuccess:(void (^)(UIImage *))success
                           failure:(void (^)(void))failure {
-    if (thumbnailImage != nil) {
+    if (thumbnailImage_ != nil) {
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^() {
-                success(thumbnailImage);
+                success(thumbnailImage_);
             });
         }
     } else {
@@ -95,12 +91,12 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
             }
             CGFloat width = 184.0f;
             CGSize thumbnailSize = CGSizeMake(width, width * fullImage.size.height / fullImage.size.width);
-            thumbnailImage = [UIImage imageWithImage:fullImage scaledToSize:thumbnailSize];
+            thumbnailImage_ = [UIImage imageWithImage:fullImage scaledToSize:thumbnailSize];
             
             dispatch_async(dispatch_get_main_queue(), ^() {
-                if (thumbnailImage != nil) {
+                if (thumbnailImage_ != nil) {
                     if (success) {
-                        success(thumbnailImage);
+                        success(thumbnailImage_);
                     };
                 } else {
                     if (failure) {
@@ -114,15 +110,16 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 
 - (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
                         failure:(void (^)(void))failure {
-    if (image != nil) {
+    if (previewImage_ != nil) {
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^() {
-                success(image);
+                success(previewImage_);
             });
         }
     } else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
             UIImage* fullImage = [self image];
+            previewImage_ = fullImage;
             
             dispatch_async(dispatch_get_main_queue(), ^() {
                 if (fullImage != nil) {
@@ -137,14 +134,6 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
             });
         });
     }
-}
-
-- (UIImage*)previewImage {
-    return image;
-}
-
-- (UIImage*)thumbnailImage {
-    return thumbnailImage;
 }
 
 @end

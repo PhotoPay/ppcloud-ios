@@ -48,14 +48,29 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[self documentPreviewActivityIndicator] startAnimating];
-    
-    [[self document] previewImageWithSuccess:^(UIImage *previewImage) {
-        [self documentPreviewView].image = previewImage;
-        [[self documentPreviewActivityIndicator] stopAnimating];
-    } failure:^{
-        ;
-    }];
+    if ([[self document] previewImage] == nil) {
+        // if a preview image doesn't exist
+        
+        // if thumbnail image exists, set it as a placeholder
+        if ([[self document] thumbnailImage] != nil) {
+            [self documentPreviewView].image = [[self document] thumbnailImage];
+        }
+        
+        // show loading indicator
+        [[self documentPreviewActivityIndicator] startAnimating];
+        
+        // present preview image asynchronously
+        [[self document] previewImageWithSuccess:^(UIImage *previewImage) {
+            [self documentPreviewView].image = previewImage;
+            [[self documentPreviewActivityIndicator] stopAnimating];
+        } failure:^(){
+            [[self documentPreviewActivityIndicator] stopAnimating];
+        }];
+        
+    } else {
+        // if we have preview image available, present it synchronously
+        [self documentPreviewView].image = [[self document] previewImage];
+    }
     
     [self showDetailsViewForDocument:[self document] animated:NO];
 }

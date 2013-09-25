@@ -131,12 +131,4 @@
     return [NSString stringWithFormat:@"%@.%@", uuid, extension];
 }
 
-- (UIImage*)previewImage {
-    return nil;
-}
-
-- (UIImage*)thumbnailImage {
-    return nil;
-}
-
 @end

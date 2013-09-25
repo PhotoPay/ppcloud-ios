@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuickLook/QuickLook.h>
 #import <UIKit/UIKit.h>
 #import "PPModelObject.h"
 
@@ -95,13 +96,16 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  Abstract document class
  */
-@interface PPDocument : PPModelObject <NSCoding> {
+@interface PPDocument : PPModelObject <NSCoding, QLPreviewControllerDataSource, QLPreviewItem> {
     
 @protected
     NSString* documentId_;
     PPDocumentType documentType_;
     PPDocumentProcessingType processingType_;
     NSDate* creationDate_;
+    UIImage* previewImage_;
+    UIImage* thumbnailImage_;
+    id originalDocument_;
 }
 
 /** 
