@@ -14,4 +14,7 @@
 
 @interface PPDocumentsTableDataSource : PPTableViewDataSource
 
+- (void)swapLocalDocument:(PPLocalDocument*)localDocument
+       withRemoteDocument:(PPRemoteDocument*)remoteDocument;
+
 @end

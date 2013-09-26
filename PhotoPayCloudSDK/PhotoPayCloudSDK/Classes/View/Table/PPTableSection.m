@@ -44,10 +44,10 @@ static const int INITIAL_CAPACITY = 20;
     return index;
 }
 
-- (NSUInteger)reloadItem:(id)item {
+- (NSUInteger)reloadItem:(id)item withOther:(id)other {
     NSUInteger index = [[self mutableItems] indexOfObject:item];
     if (index != NSNotFound) {
-        [[self mutableItems] replaceObjectAtIndex:index withObject:item];
+        [[self mutableItems] replaceObjectAtIndex:index withObject:other];
     }
     return index;
 }

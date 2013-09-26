@@ -61,7 +61,7 @@
             indexPath = [[self sectionCreator] insertItem:item];
             [insertedIndexPaths addObject:indexPath];
         } else {
-            indexPath = [[self sectionCreator] reloadItem:item];
+            indexPath = [[self sectionCreator] reloadItem:item withOther:item];
             [[self items] replaceObjectAtIndex:index withObject:item];
             if (indexPath != nil) {
                 [reloadedIndexPaths addObject:indexPath];

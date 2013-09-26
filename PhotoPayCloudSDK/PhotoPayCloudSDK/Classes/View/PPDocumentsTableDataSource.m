@@ -26,9 +26,6 @@
     NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
     
     for (id item in itemsToAdd) {
-        if ([[item documentId] isEqualToString:@"037864FF-7D94-4003-B81E-4DDB8BBF6658.jpg"]) {
-            NSLog(@"Item");
-        }
         NSUInteger index = [[self items] indexOfObject:item];
         if (index == NSNotFound) {
             [[self items] addObject:item];
@@ -44,7 +41,7 @@
                 BOOL changed = [document reloadWithDocument:newDocument];
                 
                 if (changed) {
-                    indexPath = [[self sectionCreator] reloadItem:object];
+                    indexPath = [[self sectionCreator] reloadItem:object withOther:object];
                     [[self items] replaceObjectAtIndex:index withObject:object];
                     if (indexPath != nil) {
                         [reloadedIndexPaths addObject:indexPath];
@@ -57,6 +54,32 @@
     if ([insertedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
     }
+    if ([reloadedIndexPaths count] > 0) {
+        [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
+    }
+}
+
+- (void)swapLocalDocument:(PPLocalDocument*)localDocument
+       withRemoteDocument:(PPRemoteDocument*)remoteDocument {
+        
+    [remoteDocument setPreviewImage:[localDocument previewImage]];
+    [remoteDocument setThumbnailImage:[localDocument thumbnailImage]];
+    
+    NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
+    
+    NSUInteger index = [[self items] indexOfObject:localDocument];
+    
+    if (index != NSNotFound) {
+        NSIndexPath *indexPath = [[self sectionCreator] reloadItem:localDocument
+                                                         withOther:remoteDocument];
+        
+        [[self items] replaceObjectAtIndex:index withObject:remoteDocument];
+        
+        if (indexPath != nil) {
+            [reloadedIndexPaths addObject:indexPath];
+        }
+    }
+    
     if ([reloadedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }

@@ -13,7 +13,6 @@
 @interface PPDocumentViewFactory ()
 
 @property (nonatomic, strong) PPDocumentDetailsView* currentView;
-@property (nonatomic, strong) PPDocument* document;
 @property (nonatomic, assign) PPDocumentState currentDocumentState;
 
 @end
@@ -27,18 +26,41 @@
 - (id)initWithDocument:(PPDocument*)inDocument {
     self = [super init];
     if (self) {
-        currentDocumentState = [inDocument state];
-        document = inDocument;
+        self.document = inDocument;
         currentView = nil;
+        currentDocumentState = PPDocumentStateUnknown;
     }
     return self;
 }
 
-- (PPDocumentDetailsView*)documentViewForDocumentState:(PPDocumentState)state {
-    if (currentDocumentState != state || currentView == nil) {
-        currentDocumentState = state;
+- (void)setDocument:(PPDocument *)inDocument {
+    document = inDocument;
+}
 
-        NSLog(@"State is %@", [PPDocument objectForDocumentState:state]);
+NSUInteger stateGroupForState(PPDocumentState state) {
+    switch (state) {
+        case PPDocumentStateUploadFailed:
+            return 0;
+        case PPDocumentStateCreated:
+        case PPDocumentStateStored:
+        case PPDocumentStateUploading:
+            return 1;
+        case PPDocumentStateProcessed:
+            return 2;
+        case PPDocumentStateReceived:
+        case PPDocumentStatePending:
+        case PPDocumentStateProcessing:
+        case PPDocumentStateProcessingError:
+        default:
+            return 3;
+    }
+}
+
+- (PPDocumentDetailsView*)documentView {
+    if (stateGroupForState(currentDocumentState) != stateGroupForState([document state]) || currentView == nil) {
+        currentDocumentState = [document state];
+
+        NSLog(@"State is %@", [PPDocument objectForDocumentState:[document state]]);
         
         switch (currentDocumentState) {
             case PPDocumentStateUploadFailed:

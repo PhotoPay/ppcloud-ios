@@ -35,6 +35,8 @@
     
     if ([self largeLabel].text == nil || [self largeLabel].text.length == 0) {
         [self largeLabel].text = _(@"PhotoPayResultsMissingAmount");
+    } else {
+        [self largeLabel].text = [NSString stringWithFormat:@"%@ RSD", [self largeLabel].text];
     }
     
     if ([self mediumLabel].text == nil || [self mediumLabel].text.length == 0) {

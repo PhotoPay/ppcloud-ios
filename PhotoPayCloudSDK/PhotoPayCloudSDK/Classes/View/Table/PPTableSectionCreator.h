@@ -24,6 +24,6 @@
 
 - (NSIndexPath*)removeItem:(id)item;
 
-- (NSIndexPath*)reloadItem:(id)item;
+- (NSIndexPath*)reloadItem:(id)item withOther:(id)other;
 
 @end

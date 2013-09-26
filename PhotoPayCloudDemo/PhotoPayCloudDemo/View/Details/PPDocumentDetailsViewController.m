@@ -196,6 +196,10 @@
 #pragma mark - PPDocumentDetailsViewDelegate
 
 - (void)documentDidChangeState:(PPDocument*)inDocument {
+    [[self document] setDelegate:nil];
+    document = inDocument;
+    [[self document] setDelegate:self];
+    [[self viewFactory] setDocument:document];
     [self showDetailsViewForDocument:inDocument animated:YES];
 }
 
@@ -204,7 +208,7 @@
     
     void (^showBlock)(BOOL) = ^(BOOL finished) {
         // set hidden
-        self.documentView = [[self viewFactory] documentViewForDocumentState:[[self document] state]];
+        self.documentView = [[self viewFactory] documentView];
         self.documentView.frame = [self frameForDocumentView:self.documentView];
         self.documentView.delegate = self;
         [[self scrollView] addSubview:self.documentView];

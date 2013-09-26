@@ -14,6 +14,8 @@
 
 - (id)initWithDocument:(PPDocument*)inDocument;
 
-- (PPDocumentDetailsView*)documentViewForDocumentState:(PPDocumentState)state;
+- (PPDocumentDetailsView*)documentView;
+
+@property (nonatomic, strong) PPDocument* document;
 
 @end

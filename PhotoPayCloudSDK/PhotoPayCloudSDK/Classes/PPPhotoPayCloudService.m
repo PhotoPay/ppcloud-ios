@@ -289,12 +289,11 @@
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }
                                                       
-                                                      [remoteDocument setPreviewImage:[localDocument previewImage]];
-                                                      [remoteDocument setThumbnailImage:[localDocument thumbnailImage]];
-                                                      
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
-                                                          [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
-                                                          [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:remoteDocument, nil]];
+                                                          [[self dataSource] swapLocalDocument:localDocument
+                                                                            withRemoteDocument:remoteDocument];
+                                                          
+                                                          [[localDocument delegate] documentDidChangeState:remoteDocument];
                                                       });
                                                       
                                                       if (success) {
