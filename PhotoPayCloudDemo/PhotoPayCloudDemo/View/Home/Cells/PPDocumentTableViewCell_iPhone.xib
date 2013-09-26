@@ -49,6 +49,7 @@
 								<string key="NSFrame">{{6, 3}, {72, 64}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="62785466"/>
 								<string key="NSHuggingPriority">{251, 251}</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">2</int>
@@ -56,7 +57,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">camera.png</string>
+									<string key="NSResourceName">camera@2x~iphone.png</string>
 								</object>
 							</object>
 							<object class="IBUILabel" id="929231727">
@@ -66,6 +67,7 @@
 								<string key="NSFrame">{{84, 4}, {213, 22}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="621029299"/>
 								<string key="NSHuggingPriority">{251, 251}</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -97,6 +99,7 @@
 								<string key="NSFrame">{{84, 26}, {213, 21}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="439154641"/>
 								<string key="NSHuggingPriority">{251, 251}</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -124,6 +127,7 @@
 								<string key="NSFrame">{{84, 14}, {213, 21}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="496678098"/>
 								<string key="NSHuggingPriority">{251, 251}</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -151,6 +155,7 @@
 								<string key="NSFrame">{{84, 45}, {213, 21}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="298488361"/>
 								<string key="NSHuggingPriority">{251, 251}</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -164,7 +169,7 @@
 									<int key="type">1</int>
 									<double key="pointSize">14</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="200182260">
+								<object class="NSFont" key="IBUIFont" id="755242387">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">14</double>
 									<int key="NSfFlags">16</int>
@@ -178,6 +183,7 @@
 								<string key="NSFrame">{{84, 36}, {213, 21}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="686290682"/>
 								<string key="NSHuggingPriority">{251, 251}</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -188,14 +194,14 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<reference key="IBUIFontDescription" ref="471082069"/>
-								<reference key="IBUIFont" ref="200182260"/>
+								<reference key="IBUIFont" ref="755242387"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUIProgressView" id="298488361">
 								<reference key="NSNextResponder" ref="124705670"/>
 								<int key="NSvFlags">1322</int>
 								<object class="NSPSMatrix" key="NSFrameMatrix"/>
-								<string key="NSFrame">{{84, 55}, {216, 9}}</string>
+								<string key="NSFrame">{{84, 54}, {216, 11}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
 								<string key="NSHuggingPriority">{250, 750}</string>
@@ -206,6 +212,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<float key="IBUIProgress">0.80000001192092896</float>
+								<int key="IBUIProgressViewStyle">1</int>
 								<object class="NSColor" key="IBUIProgressTintColor">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC43NDUwOTgwMzkyIDAuMTE3NjQ3MDU4OCAwLjE3NjQ3MDU4ODIAA</bytes>
@@ -219,6 +226,7 @@
 								<string key="NSFrame">{{33, 24}, {20, 20}}</string>
 								<reference key="NSSuperview" ref="124705670"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="929231727"/>
 								<string key="NSHuggingPriority">{750, 750}</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -228,6 +236,7 @@
 						<string key="NSFrameSize">{300, 69}</string>
 						<reference key="NSSuperview" ref="520223303"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="472517577"/>
 						<reference key="IBUIBackgroundColor" ref="359994439"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -240,6 +249,7 @@
 				<string key="NSFrameSize">{320, 70}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="124705670"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISelectionStyle">2</int>
 				<int key="IBUIAccessoryType">1</int>
@@ -501,8 +511,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">camera.png</string>
-			<string key="NS.object.0">{60, 60}</string>
+			<string key="NS.key.0">camera@2x~iphone.png</string>
+			<string key="NS.object.0">{120, 120}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

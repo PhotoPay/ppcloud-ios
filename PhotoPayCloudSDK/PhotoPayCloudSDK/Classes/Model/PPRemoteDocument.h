@@ -9,9 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "PPDocument.h"
 
+@class PPScanResult;
+
 @interface PPRemoteDocument : PPDocument
 
 @property (nonatomic, strong) NSNumber* expectedProcessingTime;
+
+@property (nonatomic, strong) PPScanResult* scanResult;
 
 - (void)setThumbnailImage:(UIImage*)thumbnailImage;
 

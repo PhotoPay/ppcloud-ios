@@ -10,6 +10,7 @@
 #import "PPPhotoPayCloudService.h"
 #import "PPDocumentManager.h"
 #import "UIApplication+Documents.h"
+#import "PPScanResult.h"
 
 @interface PPRemoteDocument ()
 
@@ -50,6 +51,8 @@
     self.expectedProcessingTime = [PPModelObject initNumber:dictionary[@"estimatedMinutesLeft"]
                                               defaultNumber:@(1.0)];
     
+    self.scanResult = [[PPScanResult alloc] initWithDictionary:dictionary[@"candidateList"]];
+    
     thumbnailImage_ = nil;
     previewImage_ = nil;
     
@@ -65,27 +68,34 @@
     
     BOOL changed = NO;
     
+    if (self.state != other.state) {
+        self.state = other.state;
+        changed = YES;
+    }
+    
     if (expectedProcessingTime != otherRemoteDocument.expectedProcessingTime) {
         self.expectedProcessingTime = otherRemoteDocument.expectedProcessingTime;
         changed = YES;
     }
     
+    if ([self.scanResult isEmpty] && ![otherRemoteDocument.scanResult isEmpty]) {
+        self.scanResult = otherRemoteDocument.scanResult;
+        changed = YES;
+    }
+    
     if (thumbnailImage_ == nil && otherRemoteDocument.thumbnailImage != nil) {
         thumbnailImage_ = otherRemoteDocument.thumbnailImage;
-        NSLog(@"Caching thumbnail!");
         changed = YES;
     }
     
     if (previewImage_ == nil && otherRemoteDocument.previewImage != nil) {
         previewImage_ = otherRemoteDocument.previewImage;
-        NSLog(@"Caching preview!");
         changed = YES;
     }
     
     if (cachedDocumentUrl_ == nil && otherRemoteDocument.cachedDocumentUrl != nil) {
         cachedDocumentUrl_ = otherRemoteDocument.cachedDocumentUrl;
         changed = YES;
-        NSLog(@"Caching document");
     }
     
     return changed;
@@ -201,6 +211,7 @@
     NSString* result = [super description];
     result = [result stringByAppendingFormat:@"Thumbnail %p\n", [self thumbnailImage]];
     result = [result stringByAppendingFormat:@"Preview %p\n", [self previewImage]];
+    result = [result stringByAppendingFormat:@"Scan result: %@\n", [self scanResult]];
     return result;
 }
 

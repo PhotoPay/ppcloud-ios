@@ -130,14 +130,15 @@
         return NO;
     }
     
-    BOOL changed = NO;
+    if (self.state != other.state) {
+        self.state = other.state;
+    }
     
     if (self.bytes == nil && otherLocalDocument.bytes != nil) {
         bytes_ = otherLocalDocument.bytes;
-        changed = YES;
     }
     
-    return changed;
+    return YES; // local documents are always reloaded
 }
 
 + (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {

@@ -64,6 +64,14 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     return self->bytes_;
 }
 
+- (UIImage*)image {
+    if (image != nil) {
+        return image;
+    }
+    image = [UIImage imageWithData:[self bytes]];
+    return image;
+}
+
 - (void)thumbnailImageWithSuccess:(void (^)(UIImage *))success
                           failure:(void (^)(void))failure {
     if (thumbnailImage_ != nil) {

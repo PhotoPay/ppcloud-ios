@@ -26,6 +26,9 @@
     NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
     
     for (id item in itemsToAdd) {
+        if ([[item documentId] isEqualToString:@"037864FF-7D94-4003-B81E-4DDB8BBF6658.jpg"]) {
+            NSLog(@"Item");
+        }
         NSUInteger index = [[self items] indexOfObject:item];
         if (index == NSNotFound) {
             [[self items] addObject:item];
@@ -55,7 +58,6 @@
         [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
     }
     if ([reloadedIndexPaths count] > 0) {
-        NSLog(@"Reloading %d", [reloadedIndexPaths count]);
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }
 }

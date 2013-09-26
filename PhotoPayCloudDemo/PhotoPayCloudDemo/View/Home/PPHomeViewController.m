@@ -71,7 +71,7 @@
     
     [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
     
-    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed];
+    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed pollInterval:2.5f];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

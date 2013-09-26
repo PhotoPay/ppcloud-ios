@@ -72,6 +72,18 @@
 /** Confirm button title in the alert view which user sees when he wants to delete a document */
 "PhotoPayDetailsDeleteDocumentAlertViewDelete" = "Da, obriši";
 
+
+/** RESULTS VIEW */
+
+/** Message about missing amount in scanning results */
+"PhotoPayResultsMissingAmount" = "Nedostaje iznos";
+
+/** Message about missing account number in scanning results */
+"PhotoPayResultsMissingAccount" = "Nedostaje broj računa";
+
+/** Message about missing reference number in scanning results */
+"PhotoPayResultsMissingReference" = "Nedostaje poziv na broj";
+
 /** PREVIEW */
 
 /** Title of the previewed document */

@@ -47,6 +47,18 @@
 "PhotoPayHomeDocumentProcessingMinutesPlural" = "minutes";
 
 
+/** RESULTS VIEW */
+
+/** Message about missing amount in scanning results */
+"PhotoPayResultsMissingAmount" = "Missing amount";
+
+/** Message about missing account number in scanning results */
+"PhotoPayResultsMissingAccount" = "Missing account number";
+
+/** Message about missing reference number in scanning results */
+"PhotoPayResultsMissingReference" = "Missing reference number";
+
+
 /** DETAILS */
 
 /** Title of the alert view which user sees when he wants to delete a document */

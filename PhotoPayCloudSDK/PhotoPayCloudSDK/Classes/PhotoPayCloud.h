@@ -22,6 +22,12 @@
 #import "PPDocumentManager.h"
 #import "PPLocalDocumentUploadQueue.h"
 
+/** Scan results */
+#import "PPScanResult.h"
+#import "PPElementCandidateList.h"
+#import "PPElementCandidate.h"
+#import "PPElementPosition.h"
+
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"
 #import "PPDocumentsTableDataSource.h"
