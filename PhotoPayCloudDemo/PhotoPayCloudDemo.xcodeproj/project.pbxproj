@@ -53,6 +53,7 @@
 		18A6316717F2655B00C14A51 /* PPDocumentProcessingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A6316617F2655B00C14A51 /* PPDocumentProcessingView.m */; };
 		18A6316917F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A6316817F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib */; };
 		18AB525817F487250046AB13 /* PPDocumentTableViewCell+Processed.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB525717F487250046AB13 /* PPDocumentTableViewCell+Processed.m */; };
+		18AB527117F4CB130046AB13 /* PPQLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB527017F4CB130046AB13 /* PPQLPreviewController.m */; };
 		18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */; };
 		18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */; };
 		18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA052C17E24DC200FF3CD3 /* PPAlertView.m */; };
@@ -131,6 +132,8 @@
 		18A6316817F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentProcessingView_iPhone.xib; sourceTree = "<group>"; };
 		18AB525617F487250046AB13 /* PPDocumentTableViewCell+Processed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processed.h"; sourceTree = "<group>"; };
 		18AB525717F487250046AB13 /* PPDocumentTableViewCell+Processed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processed.m"; sourceTree = "<group>"; };
+		18AB526F17F4CB130046AB13 /* PPQLPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPQLPreviewController.h; sourceTree = "<group>"; };
+		18AB527017F4CB130046AB13 /* PPQLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPQLPreviewController.m; sourceTree = "<group>"; };
 		18BA04EC17E103CA00FF3CD3 /* PPAFNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFNetworkManager.h; sourceTree = "<group>"; };
 		18BA04ED17E103CA00FF3CD3 /* PPAFNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAFNetworkManager.m; sourceTree = "<group>"; };
 		18BA04EF17E1058500FF3CD3 /* PPAFUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAFUploadRequestOperation.h; sourceTree = "<group>"; };
@@ -218,6 +221,8 @@
 			children = (
 				182C0A7D17F3AA8400DF1D78 /* PPDocumentPreview.h */,
 				182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */,
+				18AB526F17F4CB130046AB13 /* PPQLPreviewController.h */,
+				18AB527017F4CB130046AB13 /* PPQLPreviewController.m */,
 			);
 			path = Preview;
 			sourceTree = "<group>";
@@ -535,6 +540,7 @@
 				18999B2117DB136A009FA90A /* PPSignUpViewController.m in Sources */,
 				18999B4B17DB4DC2009FA90A /* PPDocumentsDataSource.m in Sources */,
 				18AB525817F487250046AB13 /* PPDocumentTableViewCell+Processed.m in Sources */,
+				18AB527117F4CB130046AB13 /* PPQLPreviewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

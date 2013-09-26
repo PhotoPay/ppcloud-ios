@@ -29,6 +29,8 @@
                                              url:[[self document] qlPreviewUrl]
                                            error:&error];
             
+            NSLog(@"Created %@ from instance %p", [[self document] qlPreviewUrl], self);
+            
             if ([qlController currentPreviewItem] == self) {
                 [qlController reloadData];
                 [qlController refreshCurrentPreviewItem];
@@ -43,6 +45,7 @@
 - (void)dealloc {
     [UIApplication pp_deleteFileWithUrl:[[self document] qlPreviewUrl]
                                   error:nil];
+    NSLog(@"Deleted %@ from instance %p", [[self document] qlPreviewUrl], self);
 }
 
 #pragma mark - QLPreviewItem

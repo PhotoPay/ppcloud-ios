@@ -10,6 +10,7 @@
 #import "PPDocumentViewFactory.h"
 #import "PPDocumentDetailsView.h"
 #import "PPDocumentPreview.h"
+#import "PPQLPreviewController.h"
 
 @interface PPDocumentDetailsViewController () <PPDocumentDetailsViewDelegate, PPDocumentStateChangedDelegate>
 
@@ -107,10 +108,10 @@
 }
 
 - (IBAction)openPreview:(id)sender {
-    QLPreviewController *qlpvc = [[QLPreviewController alloc] init];
+    PPQLPreviewController *qlpvc = [[PPQLPreviewController alloc] init];
     
     PPDocumentPreview* documentPreview = [[PPDocumentPreview alloc] initWithDocument:[self document] forController:qlpvc];
-    qlpvc.dataSource = documentPreview;
+    qlpvc.documentPreview = documentPreview;
     
     //[self presentModalViewController:qlpvc animated:YES];
     [self.navigationController pushViewController:qlpvc animated:YES];
