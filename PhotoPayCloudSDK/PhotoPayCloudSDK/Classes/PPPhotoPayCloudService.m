@@ -520,16 +520,7 @@
         [[self networkManager] createGetDocumentData:document
                                                 user:[self user]
                                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data) {
-                                                 NSError * __autoreleasing error = nil;
-                                                 NSLog(@"saving file");
-                                                 [UIApplication pp_createFileWithData:data
-                                                                                  url:[document cachedDocumentUrl]
-                                                                                error:&error];
-                                                 if (error == nil) {
-                                                     success(data);
-                                                 } else {
-                                                     failure(error);
-                                                 }
+                                                 success(data);
                                              } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                                                  ;
                                              } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
@@ -537,7 +528,8 @@
                                              }];
     
     // add it to the operation queue
-    [[[self networkManager] imagesOperationQueue] addOperation:getDataOperation];
+    [[[self networkManager] documentDataOperationQueue] cancelAllOperations];
+    [[[self networkManager] documentDataOperationQueue] addOperation:getDataOperation];
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates {

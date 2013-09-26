@@ -20,7 +20,6 @@
     [self setDocument:document];
     
     if ([document thumbnailImage] == nil) {
-        NSLog(@"Setting thumbail!");
         [self thumbnailView].hidden = YES;
         [self thumbnailLoadingIndicator].hidden = NO;
         [[self thumbnailLoadingIndicator] startAnimating];

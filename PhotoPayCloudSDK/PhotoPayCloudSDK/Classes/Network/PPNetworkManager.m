@@ -39,6 +39,11 @@ NSString* const kPPParameterStatus = @"status";
 @property (nonatomic, strong) NSOperationQueue* imagesOperationQueue;
 
 /**
+ Operation queue which handles requests for document data
+ */
+@property (nonatomic, strong) NSOperationQueue* documentDataOperationQueue;
+
+/**
  Operation queue which handles for all documents in home view
  */
 @property (nonatomic, strong) NSOperationQueue* fetchDocumentsOperationQueue;
@@ -49,6 +54,7 @@ NSString* const kPPParameterStatus = @"status";
 
 @synthesize uploadDelegate;
 @synthesize uploadOperationQueue;
+@synthesize documentDataOperationQueue;
 @synthesize imagesOperationQueue;
 @synthesize fetchDocumentsOperationQueue;
 
@@ -62,6 +68,10 @@ NSString* const kPPParameterStatus = @"status";
         imagesOperationQueue = [[NSOperationQueue alloc] init];
         imagesOperationQueue.name = @"PhotoPay Cloud Images Queue";
         [imagesOperationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
+        
+        documentDataOperationQueue = [[NSOperationQueue alloc] init];
+        documentDataOperationQueue.name = @"PhotoPay Cloud Document Data Queue";
+        [documentDataOperationQueue setMaxConcurrentOperationCount:1];
         
         fetchDocumentsOperationQueue = [[NSOperationQueue alloc] init];
         fetchDocumentsOperationQueue.name = @"PhotoPay Cloud Fetch Documents Queue";

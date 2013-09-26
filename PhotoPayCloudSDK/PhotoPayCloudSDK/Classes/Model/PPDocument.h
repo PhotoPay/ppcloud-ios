@@ -112,7 +112,6 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
     NSDate* creationDate_;
     UIImage* previewImage_;
     UIImage* thumbnailImage_;
-    id originalDocument_;
 }
 
 /** 
@@ -189,14 +188,9 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 - (UIImage*)thumbnailImage;
 
 /**
- Returns the original document object. E.g, for images, this will be the original 
- UIIimage which the user created by taking the photo
- 
- It's possible that the original document is not available immediately. 
- For creating the thumbnail and asynchronous returing of the thumbnail, use
- originalDocumentWithSuccess:failure: 
+ URL for a file used for QuickLook preview of this document
  */
-- (id)originalDocument;
+- (NSURL*)qlPreviewUrl;
 
 /**
  Generates and chaches thumbnail image for this document
@@ -211,10 +205,10 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
                         failure:(void (^)(void))failure;
 
 /**
- Generates and chaches the original document object
+ Generates and chaches the original document object's byte array representation
  */
-- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
-                            failure:(void (^)(void))failure;
+- (void)documentBytesWithSuccess:(void (^)(NSData* bytes))success
+                         failure:(void (^)(void))failure;
 
 /**
  Safely checks if this document is in fact a local document. If not, returns nil, else returns caster reference

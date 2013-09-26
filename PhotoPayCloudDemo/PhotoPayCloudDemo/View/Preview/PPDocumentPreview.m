@@ -19,25 +19,36 @@
     if (self) {
         document = inDocument;
         
-        // if we have a local document, everything is fine and dandy
-        // however, if we have a remote document, we first need to fetch it from the server
-        // and on success, refresh QL controller
-        if (([document state] & PPDocumentStateRemote) != 0) {
-            [[document remoteDocument] originalDocumentWithSuccess:^(id originalDocument) {
-                if ([qlController currentPreviewItem] == self) {
-                    [qlController refreshCurrentPreviewItem];
-                    NSLog(@"Refreshing!");
-                }
-            } failure:nil];
-        }
+        // fetch the document bytes and create a temporary file for quick look view controller
+        [document documentBytesWithSuccess:^(NSData *bytes) {
+            NSError * __autoreleasing error = nil;
+            NSLog(@"saving file");
+            
+            // use [[self document] qlPreviewUrl] as an url for documents for safe naming.
+            [UIApplication pp_createFileWithData:bytes
+                                             url:[[self document] qlPreviewUrl]
+                                           error:&error];
+            
+            if ([qlController currentPreviewItem] == self) {
+                [qlController reloadData];
+                [qlController refreshCurrentPreviewItem];
+                NSLog(@"Refreshing!");
+            }
+
+        } failure:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [UIApplication pp_deleteFileWithUrl:[[self document] qlPreviewUrl]
+                                  error:nil];
 }
 
 #pragma mark - QLPreviewItem
 
 - (NSURL *)previewItemURL {
-    return [self.document cachedDocumentUrl];
+    return [[self document] qlPreviewUrl];
 }
 
 - (NSString *)previewItemTitle {

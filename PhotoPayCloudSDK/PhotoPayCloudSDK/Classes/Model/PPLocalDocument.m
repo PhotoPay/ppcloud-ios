@@ -95,6 +95,21 @@
     return bytes_;
 }
 
+- (void)documentBytesWithSuccess:(void (^)(NSData* bytes))success
+                         failure:(void (^)(void))failure {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if ([self bytes] != nil) {
+            if (success) {
+                success([self bytes]);
+            }
+        } else {
+            if (failure) {
+                failure();
+            }
+        }
+    });
+}
+
 - (void)saveUsingDocumentManager:(PPDocumentManager*)documentManager
                          success:(void(^)(PPLocalDocument*localDocument))success
                          failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure {

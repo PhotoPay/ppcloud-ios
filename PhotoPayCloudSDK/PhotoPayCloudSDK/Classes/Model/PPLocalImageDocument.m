@@ -13,11 +13,13 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 
 @interface PPLocalImageDocument ()
 
-- (UIImage*)image;
+@property (nonatomic, strong) UIImage* image;
 
 @end
 
 @implementation PPLocalImageDocument
+
+@synthesize image;
 
 - (id)initWithImage:(UIImage*)inImage
      processingType:(PPDocumentProcessingType)inProcessingType {
@@ -38,19 +40,11 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
                  processingType:inProcessingType];
     
     if (self) {
-        originalDocument_ = inImage;
+        image = inImage;
         previewImage_ = inImage;
     }
     
     return self;
-}
-
-- (UIImage*)image {
-    if (originalDocument_ == nil) {
-        originalDocument_ = [UIImage imageWithData:[self bytes]];
-        previewImage_ = (UIImage*)originalDocument_;
-    }
-    return (UIImage*)originalDocument_;
 }
 
 /**
@@ -58,7 +52,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
  Othewise, it's loaded as any stored local document - from a file in documents folders
  */
 - (NSData*)bytes {
-    if (self->bytes_ == nil && originalDocument_ != nil) {
+    if (self->bytes_ == nil && image != nil) {
         // if we don't have bytes property, but have local UIImage, create bytes from UIImage
         self->bytes_ = [UIImage pp_jpegDataWithImage:[[self image] pp_fixOrientation]
                                   scaledToResolution:finalResolution
@@ -97,34 +91,6 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
                 if (thumbnailImage_ != nil) {
                     if (success) {
                         success(thumbnailImage_);
-                    };
-                } else {
-                    if (failure) {
-                        failure();
-                    }
-                }
-            });
-        });
-    }
-}
-
-- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
-                            failure:(void (^)(void))failure {
-    if (originalDocument_ != nil) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^() {
-                success(originalDocument_);
-            });
-        }
-    } else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
-            
-            originalDocument_ = [UIImage imageWithData:[self bytes]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^() {
-                if (originalDocument_ != nil) {
-                    if (success) {
-                        success(originalDocument_);
                     };
                 } else {
                     if (failure) {

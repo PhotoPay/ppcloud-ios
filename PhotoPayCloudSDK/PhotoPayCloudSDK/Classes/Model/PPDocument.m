@@ -10,6 +10,7 @@
 #import "PPLocalDocument.h"
 #import "PPRemoteDocument.h"
 #import "UIImage+Processing.h"
+#import "PPDocumentManager.h"
 
 @interface PPDocument ()
 
@@ -123,8 +124,8 @@
     });
 }
 
-- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
-                            failure:(void (^)(void))failure {
+- (void)documentBytesWithSuccess:(void (^)(NSData* bytes))success
+                         failure:(void (^)(void))failure {
     dispatch_async(dispatch_get_main_queue(), ^(){
         if (failure) {
             failure();
@@ -215,8 +216,10 @@
     return thumbnailImage_;
 }
 
-- (id)originalDocument {
-    return originalDocument_;
+- (NSURL*)qlPreviewUrl {
+    NSString* extension = [PPDocument fileExtensionForDocumentType:[self documentType]];
+    NSString* filename = [NSString stringWithFormat:@"QL-%@.%@", [self documentId], extension];
+    return [PPDocumentManager urlForFilename:filename];
 }
 
 + (NSDictionary *)documentTypeObjectTable {

@@ -41,5 +41,6 @@
 
 /** Utils */
 #import "UIImage+Processing.h"
+#import "UIApplication+Documents.h"
 
 #endif /* _PHOTOPAY_CLOUD_ */

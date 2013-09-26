@@ -152,13 +152,13 @@
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
                                                   delegate:self
                                                    success:^(PPLocalDocument *localDocument, PPRemoteDocument *remoteDocument) {
-                                                       NSLog(@"Success!");
+//                                                       NSLog(@"Success!");
                                                    }
                                                    failure:^(PPLocalDocument *localDocument, NSError *error) {
-                                                       NSLog(@"Failure!");
+//                                                       NSLog(@"Failure!");
                                                    }
                                                   canceled:^(PPLocalDocument *localDocument) {
-                                                      NSLog(@"Canceled!");
+//                                                      NSLog(@"Canceled!");
                                                   }];
 }
 

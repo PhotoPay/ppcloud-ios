@@ -336,10 +336,7 @@
         
     AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
     
-    NSLog(@"Request: %@", requestOperation);
-    
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success!");
         if (success) {
             success(operation.request, operation.response, responseObject);
         }

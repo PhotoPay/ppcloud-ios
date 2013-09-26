@@ -126,6 +126,11 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
 @property (nonatomic, strong, readonly) NSOperationQueue* imagesOperationQueue;
 
 /**
+ Operation queue which handles requests for document data
+ */
+@property (nonatomic, strong, readonly) NSOperationQueue* documentDataOperationQueue;
+
+/**
  Operation queue which handles for all documents in home view
  */
 @property (nonatomic, strong, readonly) NSOperationQueue* fetchDocumentsOperationQueue;

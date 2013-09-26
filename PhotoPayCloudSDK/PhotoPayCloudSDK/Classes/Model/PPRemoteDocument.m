@@ -9,6 +9,7 @@
 #import "PPRemoteDocument.h"
 #import "PPPhotoPayCloudService.h"
 #import "PPDocumentManager.h"
+#import "UIApplication+Documents.h"
 
 @interface PPRemoteDocument ()
 
@@ -32,9 +33,8 @@
                                         enumTable:[PPDocument documentTypeObjectTable]
                                       defaultEnum:PPDocumentTypeJPG];
     
-    NSString* extension = [PPDocument fileExtensionForDocumentType:self->documentType_];
-    NSString* filename = [NSString stringWithFormat:@"%@.%@", self->documentId_, extension];
-    self->cachedDocumentUrl_ = [PPDocumentManager urlForFilename:filename];
+    self->cachedDocumentUrl_ = nil;
+
     
     self->processingType_ = [PPModelObject initEnum:dictionary[@"requestType"]
                                         enumTable:[PPDocument documentProcessingTypeObjectTable]
@@ -80,6 +80,12 @@
         previewImage_ = otherRemoteDocument.previewImage;
         NSLog(@"Caching preview!");
         changed = YES;
+    }
+    
+    if (cachedDocumentUrl_ == nil && otherRemoteDocument.cachedDocumentUrl != nil) {
+        cachedDocumentUrl_ = otherRemoteDocument.cachedDocumentUrl;
+        changed = YES;
+        NSLog(@"Caching document");
     }
     
     return changed;
@@ -165,40 +171,30 @@
     }
 }
 
-- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
-                            failure:(void (^)(void))failure {
-    if (originalDocument_ != nil) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^() {
-                success(originalDocument_);
-            });
-        }
-    } else {
-        [[PPPhotoPayCloudService sharedService] getDocumentData:self
-                                                        success:^(NSData *bytes) {
-                                                            originalDocument_ = [self getDocumentFromByteArray:bytes];
-                                                            
-                                                            dispatch_async(dispatch_get_main_queue(), ^(){
-                                                                NSLog(@"We have a document");
-                                                                if (success) {
-                                                                    success(originalDocument_);
-                                                                }
-                                                            });
-                                                        } failure:^(NSError *error) {
-                                                            previewImage_ = nil;
-                                                            dispatch_async(dispatch_get_main_queue(), ^(){
-                                                                if (failure) {
-                                                                    failure();
-                                                                }
-                                                            });
-                                                        } canceled:^{
-                                                            dispatch_async(dispatch_get_main_queue(), ^(){
-                                                                if (failure) {
-                                                                    failure();
-                                                                }
-                                                            });
-                                                        }];
-    }
+- (void)documentBytesWithSuccess:(void (^)(NSData* bytes))success
+                         failure:(void (^)(void))failure {
+    [[PPPhotoPayCloudService sharedService] getDocumentData:self
+                                                    success:^(NSData *bytes) {
+                                                        NSLog(@"Original Document obtained, cached");
+                                                        dispatch_async(dispatch_get_main_queue(), ^(){
+                                                            NSLog(@"We have a document");
+                                                            if (success) {
+                                                                success(bytes);
+                                                            }
+                                                        });
+                                                    } failure:^(NSError *error) {
+                                                        dispatch_async(dispatch_get_main_queue(), ^(){
+                                                            if (failure) {
+                                                                failure();
+                                                            }
+                                                        });
+                                                    } canceled:^{
+                                                        dispatch_async(dispatch_get_main_queue(), ^(){
+                                                            if (failure) {
+                                                                failure();
+                                                            }
+                                                        });
+                                                    }];
 }
 
 - (NSString*)description {

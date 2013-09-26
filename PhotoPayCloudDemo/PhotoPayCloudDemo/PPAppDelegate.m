@@ -45,10 +45,12 @@
     [self.window makeKeyAndVisible];
     
     if (IS_IOS7_DEVICE) {
+#ifdef IS_IOS7_SDK
         navigationController.navigationBar.tintColor = [UIColor colorWithRed:190.0f/255.0f
                                                                        green:30.0f/255.0f
                                                                         blue:45.0f/255.0f
                                                                        alpha:1.0];
+#endif
     }
     
     // This is where registration for push notifications will be done.
@@ -152,8 +154,7 @@ static bool loggedIn = false;
     static AFHTTPClient* httpclient = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://192.168.1.43:8080"]];
-//        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
         [httpclient setDefaultHeader:@"X-OS" value:osString];
         
