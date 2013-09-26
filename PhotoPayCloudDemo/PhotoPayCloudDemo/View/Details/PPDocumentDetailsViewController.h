@@ -11,6 +11,8 @@
 
 @interface PPDocumentDetailsViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 @property (weak, nonatomic) IBOutlet UIImageView *documentPreviewView;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *documentPreviewActivityIndicator;

@@ -53,6 +53,8 @@
 		18AB526A17F48D0D0046AB13 /* PPElementPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB526817F48D0D0046AB13 /* PPElementPosition.m */; };
 		18AB526D17F497420046AB13 /* PPElementCandidateList.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AB526B17F497420046AB13 /* PPElementCandidateList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18AB526E17F497420046AB13 /* PPElementCandidateList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB526C17F497420046AB13 /* PPElementCandidateList.m */; };
+		18AB527917F4DA7D0046AB13 /* PPScanResult+Serbia.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AB527717F4DA7B0046AB13 /* PPScanResult+Serbia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18AB527A17F4DA7D0046AB13 /* PPScanResult+Serbia.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB527817F4DA7C0046AB13 /* PPScanResult+Serbia.m */; };
 		18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		18BA04E917E09A0300FF3CD3 /* PPUploadRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -111,6 +113,8 @@
 		18AB526817F48D0D0046AB13 /* PPElementPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPElementPosition.m; sourceTree = "<group>"; };
 		18AB526B17F497420046AB13 /* PPElementCandidateList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPElementCandidateList.h; sourceTree = "<group>"; };
 		18AB526C17F497420046AB13 /* PPElementCandidateList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPElementCandidateList.m; sourceTree = "<group>"; };
+		18AB527717F4DA7B0046AB13 /* PPScanResult+Serbia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPScanResult+Serbia.h"; sourceTree = "<group>"; };
+		18AB527817F4DA7C0046AB13 /* PPScanResult+Serbia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPScanResult+Serbia.m"; sourceTree = "<group>"; };
 		18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNetworkManager.h; sourceTree = "<group>"; };
 		18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPNetworkManager.m; sourceTree = "<group>"; };
 		18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUploadRequestOperation.h; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 				18AB526417F48CC50046AB13 /* PPElementCandidate.m */,
 				18AB526717F48D0D0046AB13 /* PPElementPosition.h */,
 				18AB526817F48D0D0046AB13 /* PPElementPosition.m */,
+				18AB527717F4DA7B0046AB13 /* PPScanResult+Serbia.h */,
+				18AB527817F4DA7C0046AB13 /* PPScanResult+Serbia.m */,
 			);
 			path = ScanResult;
 			sourceTree = "<group>";
@@ -348,6 +354,7 @@
 				18AB526517F48CC60046AB13 /* PPElementCandidate.h in Headers */,
 				18AB526917F48D0D0046AB13 /* PPElementPosition.h in Headers */,
 				18AB526D17F497420046AB13 /* PPElementCandidateList.h in Headers */,
+				18AB527917F4DA7D0046AB13 /* PPScanResult+Serbia.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +479,7 @@
 				18AB526617F48CC60046AB13 /* PPElementCandidate.m in Sources */,
 				18AB526A17F48D0D0046AB13 /* PPElementPosition.m in Sources */,
 				18AB526E17F497420046AB13 /* PPElementCandidateList.m in Sources */,
+				18AB527A17F4DA7D0046AB13 /* PPScanResult+Serbia.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

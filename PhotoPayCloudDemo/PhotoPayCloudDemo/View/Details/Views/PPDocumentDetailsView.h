@@ -29,5 +29,10 @@
 
 - (void)documentDetailsViewWillClose:(PPDocumentDetailsView*)detailsView;
 
+- (void)documentDetailsView:(PPDocumentDetailsView*)detailsView
+          didMakeViewActive:(UIView*)activeView;
+
+- (void)documentDetailsViewDidMakeViewInactive:(PPDocumentDetailsView*)detailsView;
+
 @end
 

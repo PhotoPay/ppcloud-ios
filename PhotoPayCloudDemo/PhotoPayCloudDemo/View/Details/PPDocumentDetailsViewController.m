@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) PPDocumentDetailsView* documentView;
 
+@property (nonatomic, strong) UIView* activeField;
+
 - (CGRect)frameForDocumentView:(UIView*)documentView;
 
 @end
@@ -26,6 +28,7 @@
 
 @synthesize document;
 @synthesize viewFactory;
+@synthesize activeField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -75,10 +78,6 @@
     }
     
     [self showDetailsViewForDocument:[self document] animated:NO];
-    
-    if (!IS_IOS7_DEVICE) {
-        [self setWantsFullScreenLayout:YES];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -86,6 +85,10 @@
     
     [self.documentView setDocument:[self document]];
     [[self document] setDelegate:self];
+    
+    [self registerForKeyboardNotifications];
+    
+    NSLog(@"Scroll view y %f", self.scrollView.frame.origin.y);
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -93,9 +96,12 @@
     
     [self.documentView setDocument:nil];
     [[self document] setDelegate:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidUnload {
+    [self setScrollView:nil];
     [super viewDidUnload];
     
     self.documentView = nil;
@@ -129,11 +135,59 @@
     CGRect frame = [documentView frame];
     frame.origin.y = self.documentPreviewView.frame.origin.y + self.documentPreviewView.frame.size.height;
     frame.origin.x = 0;
-    frame.size.width = self.view.frame.size.width;
+    frame.size.width = self.scrollView.frame.size.width;
     
     documentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     return frame;
+}
+
+#pragma mark - Keyboard methods
+
+// Call this method somewhere in your view controller setup code.
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification {
+    
+    NSDictionary* info = [aNotification userInfo];
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0f, 0.0f, keyboardSize.height, 0.0f);
+//    UIEdgeInsets a = UIEdgeInsetsMa
+    
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+    
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    // Your application might not need or want this behavior.
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= keyboardSize.height;
+    
+    CGPoint activeFieldOrigin = activeField.frame.origin;
+    activeFieldOrigin.x += self.documentView.frame.origin.x;
+    activeFieldOrigin.y += self.documentView.frame.origin.y;
+    
+    if (!CGRectContainsPoint(aRect, activeFieldOrigin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0f, activeFieldOrigin.y - keyboardSize.height + 64.0f);
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:0.3];
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+    [UIView commitAnimations];
 }
 
 #pragma mark - PPDocumentDetailsViewDelegate
@@ -150,7 +204,8 @@
         self.documentView = [[self viewFactory] documentViewForDocumentState:[[self document] state]];
         self.documentView.frame = [self frameForDocumentView:self.documentView];
         self.documentView.delegate = self;
-        [[self view] addSubview:self.documentView];
+        [[self scrollView] addSubview:self.documentView];
+        [[self scrollView] setContentSize:CGSizeMake(self.documentView.frame.size.width, self.documentView.frame.size.height + self.documentView.frame.origin.y)];
 	};
     
     if (!animated) {
@@ -174,6 +229,15 @@
 
 - (void)documentDetailsViewWillClose:(PPDocumentDetailsView*)detailsView {
     [[self navigationController] popViewControllerAnimated:YES];
+}
+
+- (void)documentDetailsView:(PPDocumentDetailsView*)detailsView
+          didMakeViewActive:(UIView*)activeView {
+    self.activeField = activeView;
+}
+
+- (void)documentDetailsViewDidMakeViewInactive:(PPDocumentDetailsView*)detailsView {
+    self.activeField = nil;
 }
 
 @end

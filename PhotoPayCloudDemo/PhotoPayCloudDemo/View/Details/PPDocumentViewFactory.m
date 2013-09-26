@@ -61,6 +61,14 @@
                 ((PPDocumentUploadingView*)currentView).progressView.progress = [[[[[self document] localDocument] uploadRequest] progress] floatValue];
                 break;
                 
+            case PPDocumentStateProcessed:
+                if (IS_IPAD) {
+                    currentView = [[[NSBundle mainBundle] loadNibNamed:@"PPProcessedDocumentView_iPhone" owner:self options:nil] objectAtIndex:0];
+                } else {
+                    currentView = [[[NSBundle mainBundle] loadNibNamed:@"PPProcessedDocumentView_iPhone" owner:self options:nil] objectAtIndex:0];
+                }
+                break;
+                
             case PPDocumentStateReceived:
             case PPDocumentStatePending:
             case PPDocumentStateProcessing:

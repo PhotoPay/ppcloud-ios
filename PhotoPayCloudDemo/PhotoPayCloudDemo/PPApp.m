@@ -47,8 +47,6 @@ NSString* const keyLanguage = @"keyLanguage";
 }
 
 - (NSString*)userId {
-    [self setUserId:@"dev@null"];
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSString* userId = [defaults stringForKey:keyUserId];
