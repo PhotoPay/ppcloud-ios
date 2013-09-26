@@ -273,7 +273,7 @@
     [requestParams setObject:states
                       forKey:kPPParameterStatus];
     
-    // 2. create multipart request
+    // 2. create request
     NSMutableURLRequest *getRequest = [[self httpClient] requestWithMethod:@"GET"
                                                                       path:[NSString stringWithFormat:@"/cloud/customer/documents/%@", [user userId]]
                                                                 parameters:requestParams];

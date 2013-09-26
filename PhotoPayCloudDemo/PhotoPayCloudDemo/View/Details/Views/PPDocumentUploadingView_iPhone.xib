@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1280</int>
+		<int key="IBDocument.SystemTarget">1552</int>
 		<string key="IBDocument.SystemVersion">12F37</string>
-		<string key="IBDocument.InterfaceBuilderVersion">4510</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">3742</string>
+			<string key="NS.object.0">2083</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -63,8 +63,8 @@
 							<int key="type">1</int>
 							<double key="pointSize">17</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="876024255">
-							<string key="NSName">HelveticaNeue</string>
+						<object class="NSFont" key="IBUIFont" id="591640592">
+							<string key="NSName">Helvetica</string>
 							<double key="NSSize">17</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -74,7 +74,7 @@
 						<reference key="NSNextResponder" ref="369042713"/>
 						<int key="NSvFlags">1322</int>
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
-						<string key="NSFrame">{{20, 36}, {280, 9}}</string>
+						<string key="NSFrame">{{20, 36}, {280, 11}}</string>
 						<reference key="NSSuperview" ref="369042713"/>
 						<reference key="NSWindow"/>
 						<string key="NSHuggingPriority">{250, 750}</string>
@@ -82,10 +82,10 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
-						<reference key="IBUITintColor" ref="168413769"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<float key="IBUIProgress">0.5</float>
+						<int key="IBUIProgressViewStyle">1</int>
 						<object class="NSColor" key="IBUIProgressTintColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC43NDUwOTgwMzkyIDAuMTE3NjQ3MDU4OCAwLjE3NjQ3MDU4ODIAA</bytes>
@@ -104,21 +104,21 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<object class="NSColor" key="IBUINormalTitleColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC43NDUwOTgwMzkyIDAuMTE3NjQ3MDU4OCAwLjE3NjQ3MDU4ODIAA</bytes>
-						</object>
+						<string key="IBUINormalTitle">Obriši</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="807137009">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 						</object>
-						<string key="IBUINormalTitle">Obriši</string>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC43NDUwOTgwMzkyIDAuMTE3NjQ3MDU4OCAwLjE3NjQ3MDU4ODIAA</bytes>
+						</object>
 						<object class="NSColor" key="IBUINormalTitleShadowColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
 						<reference key="IBUIFontDescription" ref="32999876"/>
-						<reference key="IBUIFont" ref="876024255"/>
+						<reference key="IBUIFont" ref="591640592"/>
 					</object>
 					<object class="IBUIButton" id="222972325">
 						<reference key="NSNextResponder" ref="369042713"/>
@@ -132,14 +132,14 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
+						<string key="IBUINormalTitle">Prekini</string>
+						<reference key="IBUIHighlightedTitleColor" ref="807137009"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC43NDUwOTgwMzkyIDAuMTE3NjQ3MDU4OCAwLjE3NjQ3MDU4ODIAA</bytes>
 						</object>
-						<reference key="IBUIHighlightedTitleColor" ref="807137009"/>
-						<string key="IBUINormalTitle">Prekini</string>
 						<reference key="IBUIFontDescription" ref="32999876"/>
-						<reference key="IBUIFont" ref="876024255"/>
+						<reference key="IBUIFont" ref="591640592"/>
 					</object>
 				</array>
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
@@ -350,17 +350,12 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1280" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.InterfaceBuilder3</string>
 			<integer value="4600" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">3742</string>
+		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

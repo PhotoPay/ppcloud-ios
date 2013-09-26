@@ -152,13 +152,10 @@
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
                                                   delegate:self
                                                    success:^(PPLocalDocument *localDocument, PPRemoteDocument *remoteDocument) {
-//                                                       NSLog(@"Success!");
                                                    }
                                                    failure:^(PPLocalDocument *localDocument, NSError *error) {
-//                                                       NSLog(@"Failure!");
                                                    }
                                                   canceled:^(PPLocalDocument *localDocument) {
-//                                                      NSLog(@"Canceled!");
                                                   }];
 }
 
@@ -226,7 +223,6 @@
 - (void)localDocument:(PPLocalDocument *)localDocument
 didFinishUploadWithResult:(PPRemoteDocument *)remoteDocument {
     DDLogInfo(@"Document is successfully uploaded!");
-
 }
 
 - (void)localDocument:(PPLocalDocument *)localDocument
@@ -238,8 +234,6 @@ didFailToUploadWithError:(NSError *)error {
 - (void)localDocument:(PPLocalDocument *)localDocument
 didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
     totalBytesToWrite:(long long)totalBytesToWrite {
-    
-//    NSLog(@"Update %@ progress: %f", [localDocument url], totalBytesWritten / (double)totalBytesToWrite);
     
     // instead of requesting the whole table to update, we just find the potential cell among visible cells
     for (PPDocumentTableViewCell* cell in self.billsTable.visibleCells) {
