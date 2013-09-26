@@ -60,6 +60,9 @@
 
 /** DETAILS */
 
+/** Title of the document details view controller */
+"PhotoPayDetailsViewTitle" = "Račun";
+
 /** Title of the alert view which user sees when he wants to delete a document */
 "PhotoPayDetailsDeleteDocumentAlertViewTitle" = "Jeste li sigurni da želite obrisati dokument?";
 
@@ -84,10 +87,11 @@
 /** Message about missing reference number in scanning results */
 "PhotoPayResultsMissingReference" = "Nedostaje poziv na broj";
 
+
 /** PREVIEW */
 
 /** Title of the previewed document */
-"PhotoPayPreviewDocumentTitle" = "Dokument";
+"PhotoPayPreviewDocumentTitle" = "Slika računa";
 
 // Library todo:
 

@@ -283,6 +283,8 @@
                                                   success:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument) {
                                                       
                                                       [[self documentUploadQueue] remove:localDocument];
+                                                      [[self documentManager] deleteDocument:localDocument error:nil];
+                                                      
                                                       if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
                                                       }

@@ -51,6 +51,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setTitle:_(@"PhotoPayDetailsViewTitle")];
+    
     // Do any additional setup after loading the view from its nib.
     
     if ([[self document] previewImage] == nil) {
