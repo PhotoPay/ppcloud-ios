@@ -56,8 +56,11 @@
 
 /**
  A method responsible for updating the list of remote documents
+ 
+ Specifies the time intervall between consecutive polls
  */
-- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject;
+- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject
+                  pollInterval:(NSTimeInterval)timeInterval;
 
 /**
  Method which retrieves all remote documents for the current user with states that match
@@ -509,7 +512,11 @@
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates {
-    
+    [self requestDocuments:documentStates pollInterval:5.0];
+}
+
+- (void)requestDocuments:(PPDocumentState)documentStates
+            pollInterval:(NSTimeInterval)timeInterval {
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
     
     if (documentStates != lastDocumentStates) {
@@ -544,25 +551,33 @@
         });
     }
     
-    [self requestRemoteDocuments:@(documentStates)];
+    [self requestRemoteDocuments:@(documentStates)
+                    pollInterval:timeInterval];
 }
 
-- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject {
+- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject
+                  pollInterval:(NSTimeInterval)timeInterval {
+    
     NSUInteger documentStates = [documentStatesObject longValue];
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
-    float delay = 2.f;
     NSLog(@"Requesting!");
     
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
         [[self dataSource] insertItems:remoteDocuments];
         if ([[self dataSource] delegate] != nil) {
-            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:delay];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeInterval * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+                [self requestRemoteDocuments:documentStatesObject
+                                pollInterval:timeInterval];
+            });
         }
     } failure:^(NSError *error) {
         if ([[self dataSource] delegate] != nil) {
-            [self performSelector:@selector(requestRemoteDocuments:) withObject:documentStatesObject afterDelay:delay];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeInterval * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+                [self requestRemoteDocuments:documentStatesObject
+                                pollInterval:timeInterval];
+            });
         }
     } canceled:nil];
 }

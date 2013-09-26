@@ -151,7 +151,8 @@
 
 - (BOOL)deleteDocument:(PPLocalDocument*)localDocument
                  error:(NSError**)error {
-    return [UIApplication deleteFileWithUrl:[localDocument bytesUrl] error:error];
+    return [UIApplication deleteFileWithUrl:[localDocument cachedDocumentUrl]
+                                      error:error];
 }
 
 @end

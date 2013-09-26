@@ -54,8 +54,14 @@ typedef NS_ENUM(NSUInteger, PPDocumentState) {
     /** when the user deletes the uploaded document without making the actual payment. */
     PPDocumentStateDeleted          = (0x1 << 11),
     
-    /** Document is local if it's in one of these three states */
+    /** Document is remote unconfirmed if it's in one of these states */
     PPDocumentStateRemoteUnconfirmed  = PPDocumentStateReceived | PPDocumentStatePending | PPDocumentStateProcessing | PPDocumentStateProcessingError | PPDocumentStateProcessed | PPDocumentStateProcessedWithError,
+    
+    /** Document is remote confirmed if it's in one of these states */
+    PPDocumentStateRemoteConfirmed  = PPDocumentStatePaid | PPDocumentStateDeleted,
+    
+    /** Document is remote if it's either remote unconfirmed or remote confirmed */
+    PPDocumentStateRemote = PPDocumentStateRemoteUnconfirmed | PPDocumentStateRemoteConfirmed,
     
 //    /** Shortcut to unknown state *
     PPDocumentStateUnknown          = (0x1 << 30),
@@ -96,7 +102,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  Abstract document class
  */
-@interface PPDocument : PPModelObject <NSCoding, QLPreviewControllerDataSource, QLPreviewItem> {
+@interface PPDocument : PPModelObject <NSCoding> {
     
 @protected
     NSString* documentId_;
@@ -116,7 +122,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  URL pointing to the location of the byte array containing the document
  */
-@property (nonatomic, strong, readonly) NSURL* bytesUrl;
+@property (nonatomic, strong, readonly) NSURL* cachedDocumentUrl;
 
 /**
  State in which is the document.
@@ -151,7 +157,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Designated initializer
  */
 - (id)initWithDocumentId:(NSString*)inDocumentId
-                bytesUrl:(NSURL*)bytesUrl
+       cachedDocumentUrl:(NSURL*)cachedDocumentUrl
            documentState:(PPDocumentState)inState
             documentType:(PPDocumentType)inDocumentType
           processingType:(PPDocumentProcessingType)inProcessingType;

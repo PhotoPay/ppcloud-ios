@@ -23,6 +23,7 @@
 		1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */; };
 		1829748D17E78EA200FAD137 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748B17E78EA200FAD137 /* redo.png */; };
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
+		182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */; };
 		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
 		188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE417D876E9009531FA /* Foundation.framework */; };
@@ -85,6 +86,8 @@
 		1819984817EA1F9F001B66B1 /* PPDocumentUploadFailedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentUploadFailedView.m; sourceTree = "<group>"; };
 		1829748B17E78EA200FAD137 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		1829748C17E78EA200FAD137 /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
+		182C0A7D17F3AA8400DF1D78 /* PPDocumentPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentPreview.h; sourceTree = "<group>"; };
+		182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentPreview.m; sourceTree = "<group>"; };
 		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
 		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,6 +207,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		182C0A7C17F3A91B00DF1D78 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				182C0A7D17F3AA8400DF1D78 /* PPDocumentPreview.h */,
+				182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
 		188AAED617D876E9009531FA = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +284,7 @@
 				18999B1A17DB136A009FA90A /* SignUp */,
 				18999B1617DB136A009FA90A /* Home */,
 				1819981C17E9AC9A001B66B1 /* Details */,
+				182C0A7C17F3A91B00DF1D78 /* Preview */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -501,6 +514,7 @@
 				18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */,
 				1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */,
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
+				182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
 				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
 				188AAF6E17D8C176009531FA /* UIViewController+Modal.m in Sources */,

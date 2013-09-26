@@ -58,7 +58,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
  Othewise, it's loaded as any stored local document - from a file in documents folders
  */
 - (NSData*)bytes {
-    if (self->bytes_ == nil && [self image] != nil) {
+    if (self->bytes_ == nil && originalDocument_ != nil) {
         // if we don't have bytes property, but have local UIImage, create bytes from UIImage
         self->bytes_ = [UIImage jpegDataWithImage:[[self image] fixOrientation]
                                scaledToResolution:finalResolution

@@ -60,3 +60,9 @@
 
 /** Confirm button title in the alert view which user sees when he wants to delete a document */
 "PhotoPayDetailsDeleteDocumentAlertViewDelete" = "Yes, delete";
+
+
+/** PREVIEW */
+
+/** Title of the previewed document */
+"PhotoPayPreviewDocumentTitle" = "Document";

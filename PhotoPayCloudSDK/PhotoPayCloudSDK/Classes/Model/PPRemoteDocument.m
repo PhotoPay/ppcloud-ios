@@ -11,16 +11,10 @@
 
 @interface PPRemoteDocument ()
 
-@property (nonatomic, strong, getter = previewImage) UIImage* previewImage;
-
-@property (nonatomic, strong, getter = thumbnailImage) UIImage* thumbnailImage;
-
 @end
 
 @implementation PPRemoteDocument
 
-@synthesize thumbnailImage;
-@synthesize previewImage;
 @synthesize expectedProcessingTime;
 
 - (id)initWithDictionary:(NSDictionary*)dictionary {
@@ -49,8 +43,8 @@
     self.expectedProcessingTime = [PPModelObject initNumber:dictionary[@"estimatedMinutesLeft"]
                                               defaultNumber:@(1.0)];
     
-    thumbnailImage = nil;
-    previewImage = nil;
+    thumbnailImage_ = nil;
+    previewImage_ = nil;
     
     return self;
 };
@@ -69,14 +63,14 @@
         changed = YES;
     }
     
-    if (thumbnailImage == nil && otherRemoteDocument.thumbnailImage != nil) {
-        self.thumbnailImage = otherRemoteDocument.thumbnailImage;
+    if (thumbnailImage_ == nil && otherRemoteDocument.thumbnailImage != nil) {
+        thumbnailImage_ = otherRemoteDocument.thumbnailImage;
         NSLog(@"Caching thumbnail!");
         changed = YES;
     }
     
-    if (previewImage == nil && otherRemoteDocument.previewImage != nil) {
-        self.previewImage = otherRemoteDocument.previewImage;
+    if (previewImage_ == nil && otherRemoteDocument.previewImage != nil) {
+        previewImage_ = otherRemoteDocument.previewImage;
         NSLog(@"Caching preview!");
         changed = YES;
     }
@@ -85,19 +79,19 @@
 }
 
 - (void)setThumbnailImage:(UIImage*)inThumbnailImage {
-    thumbnailImage = inThumbnailImage;
+    thumbnailImage_ = inThumbnailImage;
 }
 
 - (void)setPreviewImage:(UIImage*)inPreviewImage {
-    previewImage = inPreviewImage;
+    previewImage_ = inPreviewImage;
 }
 
 - (void)thumbnailImageWithSuccess:(void (^)(UIImage *))success
                           failure:(void (^)(void))failure {
-    if (thumbnailImage != nil) {
+    if (thumbnailImage_ != nil) {
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^() {
-                success(thumbnailImage);
+                success(thumbnailImage_);
             });
         }
     } else {
@@ -106,13 +100,13 @@
                                                         imageFormat:PPImageFormatJpeg
                                                             success:^(UIImage *image) {
                                                                 dispatch_async(dispatch_get_main_queue(), ^(){
-                                                                    [self setThumbnailImage:image];
+                                                                    thumbnailImage_ = image;
                                                                     if (success) {
                                                                         success(image);
                                                                     }
                                                                 });
                                                             } failure:^(NSError *error) {
-                                                                thumbnailImage = nil;
+                                                                thumbnailImage_ = nil;
                                                                 dispatch_async(dispatch_get_main_queue(), ^(){
                                                                     if (failure) {
                                                                         failure();
@@ -130,10 +124,10 @@
 
 - (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
                         failure:(void (^)(void))failure {
-    if (previewImage != nil) {
+    if (previewImage_ != nil) {
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^() {
-                success(previewImage);
+                success(previewImage_);
             });
         }
     } else {
@@ -142,13 +136,13 @@
                                                         imageFormat:PPImageFormatJpeg
                                                             success:^(UIImage *image) {
                                                                 dispatch_async(dispatch_get_main_queue(), ^(){
-                                                                    [self setPreviewImage:image];
+                                                                    previewImage_ = image;
                                                                     if (success) {
                                                                         success(image);
                                                                     }
                                                                 });
                                                             } failure:^(NSError *error) {
-                                                                previewImage = nil;
+                                                                previewImage_ = nil;
                                                                 dispatch_async(dispatch_get_main_queue(), ^(){
                                                                     if (failure) {
                                                                         failure();
@@ -169,19 +163,6 @@
     result = [result stringByAppendingFormat:@"Thumbnail %p\n", [self thumbnailImage]];
     result = [result stringByAppendingFormat:@"Preview %p\n", [self previewImage]];
     return result;
-}
-
-
-- (UIImage*)previewImage {
-    return previewImage;
-}
-
-- (UIImage*)thumbnailImage {
-    return thumbnailImage;
-}
-
-- (NSURL *)previewItemURL {
-    return [self bytesUrl];
 }
 
 @end

@@ -25,14 +25,14 @@
 @implementation PPDocument
 
 @synthesize documentId = documentId_;
-@synthesize bytesUrl;
+@synthesize cachedDocumentUrl;
 @synthesize state;
 @synthesize documentType = documentType_;
 @synthesize processingType = processingType_;
 @synthesize creationDate = creationDate_;
 
 - (id)initWithDocumentId:(NSString*)inDocumentId
-                bytesUrl:(NSURL*)inBytesUrl
+       cachedDocumentUrl:(NSURL*)inCachedDocumentUrl
            documentState:(PPDocumentState)inState
             documentType:(PPDocumentType)inDocumentType
           processingType:(PPDocumentProcessingType)inProcessingType {
@@ -44,7 +44,7 @@
                                          userInfo:nil];
         }
         documentId_ = inDocumentId;
-        bytesUrl = inBytesUrl;
+        cachedDocumentUrl = inCachedDocumentUrl;
         state = inState;
         documentType_ = inDocumentType;
         processingType_ = inProcessingType;
@@ -62,7 +62,7 @@
     }
     
     documentId_ = [decoder decodeObjectForKey:@"documentId"];
-    bytesUrl = [decoder decodeObjectForKey:@"bytesUrl"];
+    cachedDocumentUrl = [decoder decodeObjectForKey:@"cachedDocumentUrl"];
     state = [decoder decodeIntegerForKey:@"state"];
     documentType_ = [decoder decodeIntegerForKey:@"documentType"];
     processingType_ = [decoder decodeIntegerForKey:@"processingType"];
@@ -75,7 +75,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:self.documentId forKey:@"documentId"];
-    [encoder encodeObject:self.bytesUrl forKey:@"bytesUrl"];
+    [encoder encodeObject:self.cachedDocumentUrl forKey:@"cachedDocumentUrl"];
     [encoder encodeInteger:self.state forKey:@"state"];
     [encoder encodeInteger:self.documentType forKey:@"documentType"];
     [encoder encodeInteger:self.processingType forKey:@"processingType"];
@@ -190,7 +190,7 @@
 - (NSString*)description {
     NSString* result = @"";
     result = [result stringByAppendingFormat:@"Document ID: %@\n", [self documentId]];
-    result = [result stringByAppendingFormat:@"Document bytes URL: %@\n", [self bytesUrl]];
+    result = [result stringByAppendingFormat:@"Document cached URL: %@\n", [self cachedDocumentUrl]];
     result = [result stringByAppendingFormat:@"State: %@\n", [PPDocument objectForDocumentState:[self state]]];
     result = [result stringByAppendingFormat:@"Type: %@\n", [PPDocument objectForDocumentType:[self documentType]]];
     result = [result stringByAppendingFormat:@"Processing Type: %@\n", [PPDocument objectForDocumentProcessingType:[self processingType]]];
@@ -292,23 +292,5 @@
 + (id)fileExtensionForDocumentType:(PPDocumentType)documentType {
     return [PPDocument fileExtensionTable][@(documentType)];
 }
-
-#pragma mark - QLPreviewItem
-
-- (NSURL *)previewItemURL {
-    return [self bytesUrl];
-}
-
-#pragma mark - QLPreviewControllerDataSource
-
-- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
-    return 1;
-}
-
-- (id <QLPreviewItem>)previewController:(QLPreviewController *)controller
-                     previewItemAtIndex:(NSInteger)index {
-    return self;
-}
-
 
 @end

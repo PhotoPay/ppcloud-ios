@@ -25,10 +25,10 @@
      processingType:(PPDocumentProcessingType)inProcessingType {
     
     NSString* filename = [PPLocalDocument generateUniqueFilenameForType:inDocumentType];
-    NSURL* documentsDir = [PPDocumentManager urlForFilename:filename];
+    NSURL* documentUrl = [PPDocumentManager urlForFilename:filename];
     
     self = [super initWithDocumentId:filename
-                            bytesUrl:documentsDir
+                   cachedDocumentUrl:documentUrl
                        documentState:PPDocumentStateCreated
                         documentType:inDocumentType
                       processingType:inProcessingType];
@@ -79,7 +79,7 @@
     if (bytes_ == nil) {
         if ([self state] != PPDocumentStateCreated) {
             NSError *__autoreleasing error = nil;
-            bytes_ = [[NSData alloc] initWithContentsOfURL:[self bytesUrl]
+            bytes_ = [[NSData alloc] initWithContentsOfURL:[self cachedDocumentUrl]
                                                    options:NSDataReadingMappedIfSafe
                                                      error:&error];
             if (error != nil) {
@@ -99,7 +99,7 @@
                          success:(void(^)(PPLocalDocument*localDocument))success
                          failure:(void(^)(PPLocalDocument*localDocument, NSError* error))failure {
     
-    [documentManager saveDocument:self atUrl:[self bytesUrl]
+    [documentManager saveDocument:self atUrl:[self cachedDocumentUrl]
                           success:^(PPLocalDocument*localDocument) {
                               localDocument.state = PPDocumentStateStored;
                               success(localDocument);

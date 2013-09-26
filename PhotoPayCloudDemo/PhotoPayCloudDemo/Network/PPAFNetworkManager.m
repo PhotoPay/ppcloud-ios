@@ -136,7 +136,7 @@
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
                                     [formData appendPartWithFileData:[document bytes]
                                                                 name:kPPParameterData
-                                                            fileName:[[document bytesUrl] lastPathComponent]
+                                                            fileName:[[document cachedDocumentUrl] lastPathComponent]
                                                             mimeType:[document mimeType]];
                                 }];
     

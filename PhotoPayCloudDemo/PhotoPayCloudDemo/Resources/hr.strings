@@ -57,6 +57,7 @@
 /* Plural for minutes */
 "PhotoPayHomeDocumentProcessingMinutesPlural" = "minute";
 
+
 /** DETAILS */
 
 /** Title of the alert view which user sees when he wants to delete a document */
@@ -71,6 +72,10 @@
 /** Confirm button title in the alert view which user sees when he wants to delete a document */
 "PhotoPayDetailsDeleteDocumentAlertViewDelete" = "Da, obriši";
 
+/** PREVIEW */
+
+/** Title of the previewed document */
+"PhotoPayPreviewDocumentTitle" = "Dokument";
 
 // Library todo:
 

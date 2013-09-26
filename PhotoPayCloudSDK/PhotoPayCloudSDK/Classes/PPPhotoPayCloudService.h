@@ -182,8 +182,22 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  @param documentState bitmask for all documents statuses which need
         to be retrieved. e.g. 
         documentStates = (PPDocumentStateCreated | PPDocumentStateUploading | PPDocumentStateReceived)
+ 
+ Makes polls each 5 seconds (default)
  */
 - (void)requestDocuments:(PPDocumentState)documentStateList;
+
+/**
+ Retrieves documents with given statuses.
+ 
+ @param documentState bitmask for all documents statuses which need
+ to be retrieved. e.g.
+ documentStates = (PPDocumentStateCreated | PPDocumentStateUploading | PPDocumentStateReceived)
+ 
+ Specifies the poll time
+ */
+- (void)requestDocuments:(PPDocumentState)documentStateList
+            pollInterval:(NSTimeInterval)timeInterval;
 
 @end
 
