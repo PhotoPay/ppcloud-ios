@@ -7,6 +7,7 @@
 //
 
 #import "PPDocumentTableViewCell+Processed.h"
+#import <PhotoPayCloud/PPScanResult+Serbia.h>
 
 @implementation PPDocumentTableViewCell (Processed)
 
@@ -20,9 +21,17 @@
     [self midLowerLabel].hidden = YES;
     [self midupperLabel].hidden = YES;
     
-    [self largeLabel].text = [[remoteDocument scanResult] mostProbableCandidateForKey:@"Amount"].value;
-    [self mediumLabel].text = [[remoteDocument scanResult] mostProbableCandidateForKey:@"Account"].value;
-    [self smallLabel].text = [[remoteDocument scanResult] mostProbableCandidateForKey:@"Reference"].value;
+    [self largeLabel].text = [[remoteDocument scanResult] mostProbableAmountCandidate].value;
+    [self mediumLabel].text = [[remoteDocument scanResult] mostProbableAccountNumberCandidate].value;
+    
+    NSString* reference = [[remoteDocument scanResult] mostProbableReferenceNumberCandidate].value;
+    NSString* model = [[remoteDocument scanResult] mostProbableReferenceModelCandidate].value;
+    
+    if (model != nil && [model length] > 0) {
+        [self smallLabel].text = [NSString stringWithFormat:@"%@ %@", model, reference];
+    } else {
+        [self smallLabel].text = reference;
+    }
     
     if ([self largeLabel].text == nil || [self largeLabel].text.length == 0) {
         [self largeLabel].text = _(@"PhotoPayResultsMissingAmount");

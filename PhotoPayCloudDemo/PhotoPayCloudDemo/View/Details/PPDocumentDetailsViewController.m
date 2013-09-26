@@ -174,7 +174,7 @@
     activeFieldOrigin.y += self.documentView.frame.origin.y;
     
     if (!CGRectContainsPoint(aRect, activeFieldOrigin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0f, activeFieldOrigin.y - keyboardSize.height + 64.0f);
+        CGPoint scrollPoint = CGPointMake(0.0f, activeFieldOrigin.y - keyboardSize.height + 64.0f); // offset for navbar and status bar
         [self.scrollView setContentOffset:scrollPoint animated:YES];
     }
 }
