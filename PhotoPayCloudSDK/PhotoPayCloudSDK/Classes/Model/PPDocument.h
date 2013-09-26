@@ -106,6 +106,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
     
 @protected
     NSString* documentId_;
+    NSURL* cachedDocumentUrl_;
     PPDocumentType documentType_;
     PPDocumentProcessingType processingType_;
     NSDate* creationDate_;
@@ -173,7 +174,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Returns preview image if available
  Will return nil otherwise.
  
- For creating the preview and asynchronous retuning of the thumbnail, use
+ For creating the preview and asynchronous returing of the thumbnail, use
  thumbnailImageWithSuccess:failure:
  */
 - (UIImage*)previewImage;
@@ -182,10 +183,20 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  Returns thumbnail image if available
  Will return nil otherwise.
  
- For creating the thumbnail and asynchronous retuning of the thumbnail, use
+ For creating the thumbnail and asynchronous returing of the thumbnail, use
  thumbnailImageWithSuccess:failure:
  */
 - (UIImage*)thumbnailImage;
+
+/**
+ Returns the original document object. E.g, for images, this will be the original 
+ UIIimage which the user created by taking the photo
+ 
+ It's possible that the original document is not available immediately. 
+ For creating the thumbnail and asynchronous returing of the thumbnail, use
+ originalDocumentWithSuccess:failure: 
+ */
+- (id)originalDocument;
 
 /**
  Generates and chaches thumbnail image for this document
@@ -198,6 +209,12 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  */
 - (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
                         failure:(void (^)(void))failure;
+
+/**
+ Generates and chaches the original document object
+ */
+- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
+                            failure:(void (^)(void))failure;
 
 /**
  Safely checks if this document is in fact a local document. If not, returns nil, else returns caster reference

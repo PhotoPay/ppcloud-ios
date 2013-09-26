@@ -10,10 +10,10 @@
 
 @interface NSString (Factory)
 
-+ (NSString *)UUID;
++ (NSString *)pp_UUID;
 
-- (NSString *)MD5;
+- (NSString *)pp_MD5;
 
-- (NSString *)SHA1;
+- (NSString *)pp_SHA1;
 
 @end

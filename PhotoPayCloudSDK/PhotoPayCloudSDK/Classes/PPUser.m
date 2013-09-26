@@ -41,17 +41,17 @@
 }
 
 - (NSString*)userIdHash {
-    return [[self userId] MD5];
+    return [[self userId] pp_MD5];
 }
 
 + (NSDictionary *)userTypeObjectTable {
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        table = @{@(PPUserTypeDefault) : @"Default",
-                  @(PPUserTypePerson) : @"Person",
-                  @(PPUserTypeBusiness) : @"Business",
-                  @(PPUserTypeCraft) : @"Craft"};
+        table = @{@(PPUserTypeDefault) : @(0),
+                  @(PPUserTypePerson) : @(0),
+                  @(PPUserTypeBusiness) : @(1),
+                  @(PPUserTypeCraft) : @(2)};
     });
     return table;
 }

@@ -11,7 +11,7 @@
 
 @implementation NSString (Factory)
 
-+ (NSString *)UUID {
++ (NSString *)pp_UUID {
     CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
     NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
     CFRelease(newUniqueId);
@@ -19,7 +19,7 @@
     return uuidString;
 }
 
-- (NSString*)MD5 {
+- (NSString*)pp_MD5 {
     // Create pointer to the string as UTF8
     const char *ptr = [self UTF8String];
     
@@ -37,7 +37,7 @@
     return output;
 }
 
-- (NSString*)SHA1 {
+- (NSString*)pp_SHA1 {
     const char *cstr = [self cStringUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:cstr length:self.length];
     

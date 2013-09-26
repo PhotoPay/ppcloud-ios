@@ -60,9 +60,9 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 - (NSData*)bytes {
     if (self->bytes_ == nil && originalDocument_ != nil) {
         // if we don't have bytes property, but have local UIImage, create bytes from UIImage
-        self->bytes_ = [UIImage jpegDataWithImage:[[self image] fixOrientation]
-                               scaledToResolution:finalResolution
-                                 compressionLevel:0.9];
+        self->bytes_ = [UIImage pp_jpegDataWithImage:[[self image] pp_fixOrientation]
+                                  scaledToResolution:finalResolution
+                                    compressionLevel:0.9];
     } else if (self->bytes_ == nil) {
         // otherwise, create bytes like any other local document
         return [super bytes];
@@ -91,12 +91,40 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
             }
             CGFloat width = 184.0f;
             CGSize thumbnailSize = CGSizeMake(width, width * fullImage.size.height / fullImage.size.width);
-            thumbnailImage_ = [UIImage imageWithImage:fullImage scaledToSize:thumbnailSize];
+            thumbnailImage_ = [UIImage pp_imageWithImage:fullImage scaledToSize:thumbnailSize];
             
             dispatch_async(dispatch_get_main_queue(), ^() {
                 if (thumbnailImage_ != nil) {
                     if (success) {
                         success(thumbnailImage_);
+                    };
+                } else {
+                    if (failure) {
+                        failure();
+                    }
+                }
+            });
+        });
+    }
+}
+
+- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
+                            failure:(void (^)(void))failure {
+    if (originalDocument_ != nil) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                success(originalDocument_);
+            });
+        }
+    } else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+            
+            originalDocument_ = [UIImage imageWithData:[self bytes]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                if (originalDocument_ != nil) {
+                    if (success) {
+                        success(originalDocument_);
                     };
                 } else {
                     if (failure) {

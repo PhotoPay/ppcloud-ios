@@ -8,8 +8,11 @@
 
 #import "PPRemoteDocument.h"
 #import "PPPhotoPayCloudService.h"
+#import "PPDocumentManager.h"
 
 @interface PPRemoteDocument ()
+
+- (id)getDocumentFromByteArray:(NSData*)data;
 
 @end
 
@@ -28,6 +31,10 @@
     self->documentType_ = [PPModelObject initEnum:dictionary[@"documentType"]
                                         enumTable:[PPDocument documentTypeObjectTable]
                                       defaultEnum:PPDocumentTypeJPG];
+    
+    NSString* extension = [PPDocument fileExtensionForDocumentType:self->documentType_];
+    NSString* filename = [NSString stringWithFormat:@"%@.%@", self->documentId_, extension];
+    self->cachedDocumentUrl_ = [PPDocumentManager urlForFilename:filename];
     
     self->processingType_ = [PPModelObject initEnum:dictionary[@"requestType"]
                                         enumTable:[PPDocument documentProcessingTypeObjectTable]
@@ -158,11 +165,58 @@
     }
 }
 
+- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
+                            failure:(void (^)(void))failure {
+    if (originalDocument_ != nil) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                success(originalDocument_);
+            });
+        }
+    } else {
+        [[PPPhotoPayCloudService sharedService] getDocumentData:self
+                                                        success:^(NSData *bytes) {
+                                                            originalDocument_ = [self getDocumentFromByteArray:bytes];
+                                                            
+                                                            dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                NSLog(@"We have a document");
+                                                                if (success) {
+                                                                    success(originalDocument_);
+                                                                }
+                                                            });
+                                                        } failure:^(NSError *error) {
+                                                            previewImage_ = nil;
+                                                            dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                if (failure) {
+                                                                    failure();
+                                                                }
+                                                            });
+                                                        } canceled:^{
+                                                            dispatch_async(dispatch_get_main_queue(), ^(){
+                                                                if (failure) {
+                                                                    failure();
+                                                                }
+                                                            });
+                                                        }];
+    }
+}
+
 - (NSString*)description {
     NSString* result = [super description];
     result = [result stringByAppendingFormat:@"Thumbnail %p\n", [self thumbnailImage]];
     result = [result stringByAppendingFormat:@"Preview %p\n", [self previewImage]];
     return result;
+}
+
+- (id)getDocumentFromByteArray:(NSData*)data {
+    id document = nil;
+    switch (documentType_) {
+        default: {
+            document = [UIImage imageWithData:data];
+            break;
+        }
+    }
+    return document;
 }
 
 @end

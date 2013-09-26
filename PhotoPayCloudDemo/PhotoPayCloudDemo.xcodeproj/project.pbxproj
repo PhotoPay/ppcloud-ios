@@ -24,6 +24,7 @@
 		1829748D17E78EA200FAD137 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748B17E78EA200FAD137 /* redo.png */; };
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
 		182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */; };
+		182C0A8117F3C48A00DF1D78 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C0A8017F3C48A00DF1D78 /* QuickLook.framework */; };
 		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
 		188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE417D876E9009531FA /* Foundation.framework */; };
@@ -88,6 +89,7 @@
 		1829748C17E78EA200FAD137 /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
 		182C0A7D17F3AA8400DF1D78 /* PPDocumentPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentPreview.h; sourceTree = "<group>"; };
 		182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentPreview.m; sourceTree = "<group>"; };
+		182C0A8017F3C48A00DF1D78 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
 		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182C0A8117F3C48A00DF1D78 /* QuickLook.framework in Frameworks */,
 				18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */,
 				188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */,
 				188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */,
@@ -238,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				18FE943E17DDF4960083F148 /* PhotoPayCloud.embeddedframework */,
+				182C0A8017F3C48A00DF1D78 /* QuickLook.framework */,
 				18999BA217DBCC24009FA90A /* MobileCoreServices.framework */,
 				188AAEE217D876E9009531FA /* UIKit.framework */,
 				188AAEE417D876E9009531FA /* Foundation.framework */,

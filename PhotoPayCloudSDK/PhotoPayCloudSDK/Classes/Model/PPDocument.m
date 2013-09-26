@@ -25,7 +25,7 @@
 @implementation PPDocument
 
 @synthesize documentId = documentId_;
-@synthesize cachedDocumentUrl;
+@synthesize cachedDocumentUrl = cachedDocumentUrl_;
 @synthesize state;
 @synthesize documentType = documentType_;
 @synthesize processingType = processingType_;
@@ -44,7 +44,7 @@
                                          userInfo:nil];
         }
         documentId_ = inDocumentId;
-        cachedDocumentUrl = inCachedDocumentUrl;
+        cachedDocumentUrl_ = inCachedDocumentUrl;
         state = inState;
         documentType_ = inDocumentType;
         processingType_ = inProcessingType;
@@ -62,7 +62,7 @@
     }
     
     documentId_ = [decoder decodeObjectForKey:@"documentId"];
-    cachedDocumentUrl = [decoder decodeObjectForKey:@"cachedDocumentUrl"];
+    cachedDocumentUrl_ = [decoder decodeObjectForKey:@"cachedDocumentUrl"];
     state = [decoder decodeIntegerForKey:@"state"];
     documentType_ = [decoder decodeIntegerForKey:@"documentType"];
     processingType_ = [decoder decodeIntegerForKey:@"processingType"];
@@ -116,6 +116,15 @@
 
 - (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
                         failure:(void (^)(void))failure {
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        if (failure) {
+            failure();
+        }
+    });
+}
+
+- (void)originalDocumentWithSuccess:(void (^)(id originalDocument))success
+                            failure:(void (^)(void))failure {
     dispatch_async(dispatch_get_main_queue(), ^(){
         if (failure) {
             failure();
@@ -204,6 +213,10 @@
 
 - (UIImage*)thumbnailImage {
     return thumbnailImage_;
+}
+
+- (id)originalDocument {
+    return originalDocument_;
 }
 
 + (NSDictionary *)documentTypeObjectTable {

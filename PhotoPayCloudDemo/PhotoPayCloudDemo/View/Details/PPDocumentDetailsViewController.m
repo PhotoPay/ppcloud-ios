@@ -9,6 +9,7 @@
 #import "PPDocumentDetailsViewController.h"
 #import "PPDocumentViewFactory.h"
 #import "PPDocumentDetailsView.h"
+#import "PPDocumentPreview.h"
 
 @interface PPDocumentDetailsViewController () <PPDocumentDetailsViewDelegate, PPDocumentStateChangedDelegate>
 
@@ -73,6 +74,10 @@
     }
     
     [self showDetailsViewForDocument:[self document] animated:NO];
+    
+    if (!IS_IOS7_DEVICE) {
+        [self setWantsFullScreenLayout:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,6 +104,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)openPreview:(id)sender {
+    QLPreviewController *qlpvc = [[QLPreviewController alloc] init];
+    
+    PPDocumentPreview* documentPreview = [[PPDocumentPreview alloc] initWithDocument:[self document] forController:qlpvc];
+    qlpvc.dataSource = documentPreview;
+    
+    //[self presentModalViewController:qlpvc animated:YES];
+    [self.navigationController pushViewController:qlpvc animated:YES];
 }
 
 + (NSString*)defaultXibName {

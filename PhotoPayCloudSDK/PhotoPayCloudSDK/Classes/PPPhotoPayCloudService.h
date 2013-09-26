@@ -168,6 +168,16 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
                     failure:(void (^)(NSError* error))failure
                    canceled:(void (^)())canceled;
 
+/**
+ Retrieves the data of the document
+ 
+ This is typically used to give the user a preview of the document sent for scanning
+ */
+- (void)getDocumentData:(PPRemoteDocument*)document
+                success:(void (^)(NSData* data))success
+                failure:(void (^)(NSError* error))failure
+               canceled:(void (^)())canceled;
+
 
 - (void)uploadPendingDocuments;
 

@@ -14,6 +14,7 @@
 #import "PPLocalDocumentUploadQueue.h"
 #import "PPNetworkManager.h"
 #import "PPDocumentsTableDataSource.h"
+#import "UIApplication+Documents.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
@@ -511,6 +512,34 @@
     [[[self networkManager] imagesOperationQueue] addOperation:getImageOperation];
 }
 
+- (void)getDocumentData:(PPRemoteDocument*)document
+                success:(void (^)(NSData* data))success
+                failure:(void (^)(NSError* error))failure
+               canceled:(void (^)())canceled {
+    NSOperation* getDataOperation =
+        [[self networkManager] createGetDocumentData:document
+                                                user:[self user]
+                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data) {
+                                                 NSError * __autoreleasing error = nil;
+                                                 NSLog(@"saving file");
+                                                 [UIApplication pp_createFileWithData:data
+                                                                                  url:[document cachedDocumentUrl]
+                                                                                error:&error];
+                                                 if (error == nil) {
+                                                     success(data);
+                                                 } else {
+                                                     failure(error);
+                                                 }
+                                             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                 ;
+                                             } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                 ;
+                                             }];
+    
+    // add it to the operation queue
+    [[[self networkManager] imagesOperationQueue] addOperation:getDataOperation];
+}
+
 - (void)requestDocuments:(PPDocumentState)documentStates {
     [self requestDocuments:documentStates pollInterval:5.0];
 }
@@ -551,8 +580,13 @@
         });
     }
     
-    [self requestRemoteDocuments:@(documentStates)
-                    pollInterval:timeInterval];
+    [[[self networkManager] fetchDocumentsOperationQueue] cancelAllOperations];
+    
+    [[[self networkManager] fetchDocumentsOperationQueue] addOperationWithBlock:^{
+        [self requestRemoteDocuments:@(documentStates)
+                        pollInterval:timeInterval];
+    }];
+    
 }
 
 - (void)requestRemoteDocuments:(NSNumber*)documentStatesObject
@@ -560,24 +594,24 @@
     
     NSUInteger documentStates = [documentStatesObject longValue];
     
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
-    NSLog(@"Requesting!");
+    NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
+    NSBlockOperation * __weak _blockOperation = blockOperation;
+    [blockOperation addExecutionBlock:^{
+        sleep(timeInterval);
+        if (![_blockOperation isCancelled]) {
+            [self requestRemoteDocuments:documentStatesObject
+                            pollInterval:timeInterval];
+        }
+    }];
     
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
         [[self dataSource] insertItems:remoteDocuments];
         if ([[self dataSource] delegate] != nil) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeInterval * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-                [self requestRemoteDocuments:documentStatesObject
-                                pollInterval:timeInterval];
-            });
+            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
         }
     } failure:^(NSError *error) {
         if ([[self dataSource] delegate] != nil) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeInterval * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-                [self requestRemoteDocuments:documentStatesObject
-                                pollInterval:timeInterval];
-            });
+            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
         }
     } canceled:nil];
 }

@@ -63,7 +63,7 @@
 
 + (NSString*)serializationPathForUserIdHash:(NSString*)userIdHash {
     NSError * __autoreleasing error;
-    NSString* basePath = [[UIApplication applicationDocumentsDirectoryWithError:&error] path];
+    NSString* basePath = [[UIApplication pp_applicationDocumentsDirectoryWithError:&error] path];
     
     if (basePath == nil) {
         return nil;

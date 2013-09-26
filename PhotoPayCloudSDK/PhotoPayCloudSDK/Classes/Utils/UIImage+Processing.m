@@ -10,8 +10,8 @@
 
 @implementation UIImage (Processing)
 
-+ (UIImage*)imageWithImage:(UIImage*)image
-              scaledToSize:(CGSize)newSize {
++ (UIImage*)pp_imageWithImage:(UIImage*)image
+                 scaledToSize:(CGSize)newSize {
     
     if (image == nil) {
         return nil;
@@ -25,9 +25,9 @@
     return newImage;
 }
 
-+ (NSData*)jpegDataWithImage:(UIImage*)image
-          scaledToResolution:(NSUInteger)mpixels
-            compressionLevel:(CGFloat)compressionLevel {
++ (NSData*)pp_jpegDataWithImage:(UIImage*)image
+             scaledToResolution:(NSUInteger)mpixels
+               compressionLevel:(CGFloat)compressionLevel {
     
     CGFloat oldWidth = image.size.width;
     CGFloat oldHeight = image.size.height;
@@ -37,10 +37,10 @@
     CGFloat newWidth = round(scaleFactor * oldWidth);
     CGFloat newHeight = round(scaleFactor * oldHeight);
     
-    return UIImageJPEGRepresentation([UIImage imageWithImage:image scaledToSize:CGSizeMake(newWidth, newHeight)], compressionLevel);
+    return UIImageJPEGRepresentation([UIImage pp_imageWithImage:image scaledToSize:CGSizeMake(newWidth, newHeight)], compressionLevel);
 }
 
-- (UIImage *)fixOrientation {
+- (UIImage *)pp_fixOrientation {
     
     // No-op if the orientation is already correct
     if (self.imageOrientation == UIImageOrientationUp) return self;

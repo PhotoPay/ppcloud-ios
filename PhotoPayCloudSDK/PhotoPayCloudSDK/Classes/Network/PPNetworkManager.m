@@ -38,6 +38,11 @@ NSString* const kPPParameterStatus = @"status";
  */
 @property (nonatomic, strong) NSOperationQueue* imagesOperationQueue;
 
+/**
+ Operation queue which handles for all documents in home view
+ */
+@property (nonatomic, strong) NSOperationQueue* fetchDocumentsOperationQueue;
+
 @end
 
 @implementation PPNetworkManager
@@ -45,6 +50,7 @@ NSString* const kPPParameterStatus = @"status";
 @synthesize uploadDelegate;
 @synthesize uploadOperationQueue;
 @synthesize imagesOperationQueue;
+@synthesize fetchDocumentsOperationQueue;
 
 - (id)init {
     self = [super init];
@@ -56,6 +62,10 @@ NSString* const kPPParameterStatus = @"status";
         imagesOperationQueue = [[NSOperationQueue alloc] init];
         imagesOperationQueue.name = @"PhotoPay Cloud Images Queue";
         [imagesOperationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
+        
+        fetchDocumentsOperationQueue = [[NSOperationQueue alloc] init];
+        fetchDocumentsOperationQueue.name = @"PhotoPay Cloud Fetch Documents Queue";
+        [fetchDocumentsOperationQueue setMaxConcurrentOperationCount:1];
     }
     return self;
 }
@@ -144,6 +154,18 @@ NSString* const kPPParameterStatus = @"status";
                                          success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
                                          failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                                         canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
+- (NSOperation*)createGetDocumentData:(PPRemoteDocument*)remoteDocument
+                                 user:(PPUser *)user
+                              success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
+                              failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                             canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException

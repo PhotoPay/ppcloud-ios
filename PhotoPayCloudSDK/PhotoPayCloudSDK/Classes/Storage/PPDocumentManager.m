@@ -113,8 +113,12 @@
 }
 
 + (NSURL*)urlForFilename:(NSString*)filename {
+    if (filename == nil) {
+        return nil;
+    }
+    
     NSError * __autoreleasing error = nil;
-    NSURL* documentsDir = [UIApplication applicationDocumentsDirectoryWithError:&error];
+    NSURL* documentsDir = [UIApplication pp_applicationDocumentsDirectoryWithError:&error];
     if (documentsDir == nil || error != nil) {
         return nil;
     }
@@ -128,9 +132,9 @@
     
     dispatch_async(documentQueue, ^{
         NSError * __autoreleasing error;
-        NSURL *url = [UIApplication createFileWithData:[localDocument bytes]
-                                                   url:documentUrl
-                                                 error:&error];
+        NSURL *url = [UIApplication pp_createFileWithData:[localDocument bytes]
+                                                      url:documentUrl
+                                                    error:&error];
         
         NSError *returnedError = [error copy];
         if (url != nil) {
@@ -151,8 +155,8 @@
 
 - (BOOL)deleteDocument:(PPLocalDocument*)localDocument
                  error:(NSError**)error {
-    return [UIApplication deleteFileWithUrl:[localDocument cachedDocumentUrl]
-                                      error:error];
+    return [UIApplication pp_deleteFileWithUrl:[localDocument cachedDocumentUrl]
+                                         error:error];
 }
 
 @end

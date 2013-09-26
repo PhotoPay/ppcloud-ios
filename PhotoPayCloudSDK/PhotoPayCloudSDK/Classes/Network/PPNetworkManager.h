@@ -125,6 +125,11 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
  */
 @property (nonatomic, strong, readonly) NSOperationQueue* imagesOperationQueue;
 
+/**
+ Operation queue which handles for all documents in home view
+ */
+@property (nonatomic, strong, readonly) NSOperationQueue* fetchDocumentsOperationQueue;
+
 /** Upload delegate for all upload requests currently in queue */
 @property (nonatomic, weak) id<PPDocumentUploadDelegate> uploadDelegate;
 
@@ -200,6 +205,18 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
                                          success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
                                          failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                                         canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
+
+/**
+ Abstract.
+ Factory method for creating request operations for obtaining document data. Document data represent the actual document sent to PhotoPayCloud service for recognition.
+ 
+ Should be implemented by the application
+ */
+- (NSOperation*)createGetDocumentData:(PPRemoteDocument*)remoteDocument
+                                 user:(PPUser *)user
+                              success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
+                              failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                             canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
 
 
 

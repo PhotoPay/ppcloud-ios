@@ -13,6 +13,9 @@
 
 @interface PPDocumentPreview : NSObject<QLPreviewControllerDataSource, QLPreviewItem>
 
+- (id)initWithDocument:(PPDocument*)document
+         forController:(QLPreviewController*)qlController;
+
 @property (nonatomic, strong) PPDocument* document;
 
 @end

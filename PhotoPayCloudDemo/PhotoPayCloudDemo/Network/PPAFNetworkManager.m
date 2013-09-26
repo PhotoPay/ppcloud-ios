@@ -360,4 +360,45 @@
     return requestOperation;
 }
 
+- (NSOperation*)createGetDocumentData:(PPRemoteDocument*)remoteDocument
+                                 user:(PPUser *)user
+                              success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
+                              failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                             canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        return nil;
+    }
+    
+    NSMutableURLRequest *urlRequest = [[self httpClient] requestWithMethod:@"GET"
+                                                                      path:[NSString stringWithFormat:@"cloud/document/%@/data", [remoteDocument documentId]]
+                                                                parameters:requestParams];
+    
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+    
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (success) {
+            success(operation.request, operation.response, responseObject);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            if (canceled) {
+                canceled(operation.request, operation.response);
+            }
+            return;
+        }
+        
+        if (failure != nil) {
+            NSLog(@"Fail! %@", error);
+            
+            failure(operation.request, operation.response, error);
+        }
+    }];
+    
+    return requestOperation;
+}
+
 @end

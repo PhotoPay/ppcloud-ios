@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong, readonly) PPDocument* document;
 
+- (IBAction)openPreview:(id)sender;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil
              document:(PPDocument*)inDocument;

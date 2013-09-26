@@ -13,6 +13,27 @@
 
 @synthesize document;
 
+- (id)initWithDocument:(PPDocument*)inDocument
+         forController:(QLPreviewController*)qlController {
+    self = [super init];
+    if (self) {
+        document = inDocument;
+        
+        // if we have a local document, everything is fine and dandy
+        // however, if we have a remote document, we first need to fetch it from the server
+        // and on success, refresh QL controller
+        if (([document state] & PPDocumentStateRemote) != 0) {
+            [[document remoteDocument] originalDocumentWithSuccess:^(id originalDocument) {
+                if ([qlController currentPreviewItem] == self) {
+                    [qlController refreshCurrentPreviewItem];
+                    NSLog(@"Refreshing!");
+                }
+            } failure:nil];
+        }
+    }
+    return self;
+}
+
 #pragma mark - QLPreviewItem
 
 - (NSURL *)previewItemURL {
@@ -31,12 +52,7 @@
 
 - (id <QLPreviewItem>)previewController:(QLPreviewController *)controller
                      previewItemAtIndex:(NSInteger)index {
-    // if we have a local document, everything is fine and dandy, we have a document
-    
-    // however, if we have a remote document, we first need to fetch it from the server
-    if (([[self document] state] & PPDocumentStateRemote) != 0) {
-        
-    }
+    return self;
 }
 
 @end

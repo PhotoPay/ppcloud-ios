@@ -10,13 +10,13 @@
 
 @interface UIImage (Processing)
 
-+ (UIImage*)imageWithImage:(UIImage*)image
-              scaledToSize:(CGSize)newSize;
++ (UIImage*)pp_imageWithImage:(UIImage*)image
+                 scaledToSize:(CGSize)newSize;
 
-+ (NSData*)jpegDataWithImage:(UIImage*)image
-          scaledToResolution:(NSUInteger)mpixels
-            compressionLevel:(CGFloat)compressionLevel;
++ (NSData*)pp_jpegDataWithImage:(UIImage*)image
+             scaledToResolution:(NSUInteger)mpixels
+               compressionLevel:(CGFloat)compressionLevel;
 
-- (UIImage *)fixOrientation;
+- (UIImage *)pp_fixOrientation;
 
 @end

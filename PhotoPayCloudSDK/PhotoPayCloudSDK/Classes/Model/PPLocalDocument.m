@@ -126,7 +126,7 @@
 }
 
 + (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {
-    NSString* uuid = [NSString UUID];
+    NSString* uuid = [NSString pp_UUID];
     NSString* extension = [PPDocument fileExtensionForDocumentType:type];
     return [NSString stringWithFormat:@"%@.%@", uuid, extension];
 }

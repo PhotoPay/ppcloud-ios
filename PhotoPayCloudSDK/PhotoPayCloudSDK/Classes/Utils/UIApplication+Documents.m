@@ -10,7 +10,7 @@
 
 @implementation UIApplication (Documents)
 
-+ (NSURL*)applicationDocumentsDirectoryWithError:(NSError**)error {
++ (NSURL*)pp_applicationDocumentsDirectoryWithError:(NSError**)error {
     NSFileManager* sharedFM = [NSFileManager defaultManager];
     NSArray* possibleURLs = [sharedFM URLsForDirectory:NSDocumentDirectory
                                              inDomains:NSUserDomainMask];
@@ -54,10 +54,10 @@
     return appDirectory;
 }
 
-+ (NSURL*)createFileWithData:(NSData*)data
-                    filename:(NSString*)filename
-                       error:(NSError**)error {
-    NSURL* documentsDir = [UIApplication applicationDocumentsDirectoryWithError:error];
++ (NSURL*)pp_createFileWithData:(NSData*)data
+                       filename:(NSString*)filename
+                          error:(NSError**)error {
+    NSURL* documentsDir = [UIApplication pp_applicationDocumentsDirectoryWithError:error];
     if (documentsDir == nil) {
         return nil;
     }
@@ -80,9 +80,9 @@
     return nil;
 }
 
-+ (NSURL*)createFileWithData:(NSData*)data
-                         url:(NSURL*)url
-                       error:(NSError**)error {
++ (NSURL*)pp_createFileWithData:(NSData*)data
+                            url:(NSURL*)url
+                          error:(NSError**)error {
     if (data && url) {
         NSDataWritingOptions options = NSDataWritingAtomic | NSDataWritingFileProtectionComplete;
         
@@ -99,20 +99,20 @@
     return nil;
 }
 
-+ (BOOL)deleteFolder:(NSString*)folderName
-               error:(NSError**)error {
-    NSURL* documentsDir = [UIApplication applicationDocumentsDirectoryWithError:error];
++ (BOOL)pp_deleteFolder:(NSString*)folderName
+                  error:(NSError**)error {
+    NSURL* documentsDir = [UIApplication pp_applicationDocumentsDirectoryWithError:error];
     if (documentsDir == nil) {
         return NO;
     }
     
     NSURL* folderPath = [documentsDir URLByAppendingPathComponent:folderName];
-    return [UIApplication deleteFileWithUrl:folderPath error:error];
+    return [UIApplication pp_deleteFileWithUrl:folderPath error:error];
 }
 
-+ (BOOL)createFolder:(NSString*)folderName
-               error:(NSError**)error {
-    NSURL* documentsDir = [UIApplication applicationDocumentsDirectoryWithError:error];
++ (BOOL)pp_createFolder:(NSString*)folderName
+                  error:(NSError**)error {
+    NSURL* documentsDir = [UIApplication pp_applicationDocumentsDirectoryWithError:error];
     if (documentsDir == nil) {
         return NO;
     }
@@ -131,13 +131,13 @@
     return YES;
 }
 
-+ (BOOL)deleteFileWithUrl:(NSURL*)url
-                    error:(NSError**)error {
++ (BOOL)pp_deleteFileWithUrl:(NSURL*)url
+                       error:(NSError**)error {
     return [[NSFileManager defaultManager] removeItemAtURL:url
                                                      error:error];
 }
 
-+ (NSMutableArray*)getAllFilesInFolder:(NSURL*)folderName {
++ (NSMutableArray*)pp_getAllFilesInFolder:(NSURL*)folderName {
     NSMutableArray *files = [[NSMutableArray alloc] init];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
