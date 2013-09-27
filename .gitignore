@@ -22,3 +22,5 @@ PhotoPayCloud.embeddedframework
 # Cocoapods
 Pods
 Podfile.lock
+
+*.orig
