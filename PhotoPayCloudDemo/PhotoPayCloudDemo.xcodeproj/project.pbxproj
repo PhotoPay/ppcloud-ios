@@ -632,8 +632,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					../../PhotoPayCloud/PhotoPayCloud.embeddedframework,
-					"/Users/cerovec/Documents/PhotoPay/PhotoPay/core-photopay/PhotoPayIos/PhotoPayCloud/PhotoPayCloud.embeddedframework",
+					../PhotoPayCloud.embeddedframework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoPayCloudDemo/PhotoPayCloudDemo-Prefix.pch";
@@ -651,8 +650,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					../../PhotoPayCloud/PhotoPayCloud.embeddedframework,
-					"/Users/cerovec/Documents/PhotoPay/PhotoPay/core-photopay/PhotoPayIos/PhotoPayCloud/PhotoPayCloud.embeddedframework",
+					../PhotoPayCloud.embeddedframework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoPayCloudDemo/PhotoPayCloudDemo-Prefix.pch";

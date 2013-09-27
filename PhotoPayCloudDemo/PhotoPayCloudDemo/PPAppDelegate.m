@@ -119,7 +119,10 @@ static bool loggedIn = false;
     loggedIn = true;
     
     PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
-    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+//    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+//                                   organizationId:@"PhotoPay"];
+    
+    PPUser* user = [[PPUser alloc] initWithUserId:@"dev@null"
                                    organizationId:@"PhotoPay"];
     
     [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
