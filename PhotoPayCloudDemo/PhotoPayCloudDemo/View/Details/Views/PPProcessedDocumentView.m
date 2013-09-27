@@ -8,6 +8,7 @@
 
 #import "PPProcessedDocumentView.h"
 #import <PhotoPayCloud/PPScanResult+Serbia.h>
+#import "PPAlertView.h"
 
 @interface PPProcessedDocumentView () <UITextFieldDelegate>
 
@@ -27,6 +28,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
+    [tap setCancelsTouchesInView:NO];
     
     [self addGestureRecognizer:tap];
     
@@ -66,6 +68,8 @@
 }
 
 -(void)dismissKeyboard {
+    
+    NSLog(@"Dismissing!");
     [[self delegate] documentDetailsViewDidMakeViewInactive:self];
     
     [self.firstResponder endEditing:YES];
@@ -81,4 +85,22 @@
     return NO;
 }
 
+- (IBAction)payPressed:(id)sender {
+    
+}
+
+- (IBAction)deletePressed:(id)sender {
+    PPAlertView* alertView = [[PPAlertView alloc] initWithTitle:_(@"PhotoPayDetailsDeleteDocumentAlertViewTitle")
+                                                        message:_(@"PhotoPayDetailsDeleteDocumentAlertViewMessage")
+                                                     completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                         if (buttonIndex == 1) {
+                                                             NSError * __autoreleasing error = nil;
+                                                             [[PPPhotoPayCloudService sharedService] deleteDocument:[self document] error:&error];
+                                                             [[self delegate] documentDetailsViewWillClose:self];
+                                                         }
+                                                     }
+                                              cancelButtonTitle:_(@"PhotoPayDetailsDeleteDocumentAlertViewCancel")
+                                              otherButtonTitles:_(@"PhotoPayDetailsDeleteDocumentAlertViewDelete"), nil];
+    [alertView show];
+}
 @end

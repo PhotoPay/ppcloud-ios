@@ -15,6 +15,7 @@
 #import "PPNetworkManager.h"
 #import "PPDocumentsTableDataSource.h"
 #import "UIApplication+Documents.h"
+#import "PPBaseResponse.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
@@ -475,12 +476,46 @@
         [[self documentManager] deleteDocument:localDocument error:error];
         [[self documentUploadQueue] remove:localDocument];
     } else {
-//        PPRemoteDocument* remoteDocument = [document remoteDocument];
+        PPRemoteDocument* remoteDocument = [document remoteDocument];
+        [self deleteRemoteDocument:remoteDocument
+                        withSuccess:^{
+                            ;
+                        } failure:^(NSError *error) {
+                            ;
+                        } canceled:^{
+                            ;
+                        }];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^() {
-        [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+        [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
     });
+}
+
+- (void)deleteRemoteDocument:(PPRemoteDocument*)remoteDocument
+                 withSuccess:(void (^)())success
+                     failure:(void (^)(NSError* error))failure
+                    canceled:(void (^)())canceled {
+    
+    NSOperation* deleteDocumentOperation =
+        [[self networkManager] createDeleteDocumentRequest:remoteDocument
+                                                      user:[self user]
+                                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse* baseReponse) {
+                                                        if (success) {
+                                                            success();
+                                                        }
+                                                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                        if (failure) {
+                                                            failure(error);
+                                                        }
+                                                    } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                        if (canceled) {
+                                                            canceled();
+                                                        }
+                                                    }];
+    
+    [deleteDocumentOperation start];
+
 }
 
 - (void)getImageForDocument:(PPRemoteDocument*)document
@@ -539,25 +574,24 @@
 
 - (void)requestDocuments:(PPDocumentState)documentStates
             pollInterval:(NSTimeInterval)timeInterval {
+    // find all documents currently in data source which aren't in the state given by documentStates
+    NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
+    for (PPDocument* document in [[self dataSource] items]) {
+        if (([document state] & documentStates) == 0) {
+            [documentsToRemove addObject:document];
+        }
+    }
+    
+    // these should be removed
+    
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        [[self dataSource] removeItems:documentsToRemove];
+    });
+    
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
     
     if (documentStates != lastDocumentStates) {
         // document states are not the same as last presented, so recheck all existing documents
-        
-        // find all documents currently in data source which aren't in the state given by documentStates
-        NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
-        for (PPDocument* document in [[self dataSource] items]) {
-            if (([document state] & documentStates) == 0) {
-                [documentsToRemove addObject:document];
-            }
-        }
-        
-        // these should be removed
-        
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            [[self dataSource] removeItems:documentsToRemove];
-        });
-        
         
         // find all documents currently in document upload queue which are in the state given by document states
         NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];

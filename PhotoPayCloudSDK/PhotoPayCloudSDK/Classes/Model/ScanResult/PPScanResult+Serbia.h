@@ -10,18 +10,22 @@
 
 @interface PPScanResult (Serbia)
 
+/** Amount */
 - (PPElementCandidateList*)amountCandidateList;
 
 - (PPElementCandidate*)mostProbableAmountCandidate;
 
+/** Account number */
 - (PPElementCandidateList*)accountNumberCandidateList;
 
 - (PPElementCandidate*)mostProbableAccountNumberCandidate;
 
+/** Reference number */
 - (PPElementCandidateList*)referenceNumberCandidateList;
 
 - (PPElementCandidate*)mostProbableReferenceNumberCandidate;
 
+/** Reference model */
 - (PPElementCandidateList*)referenceModelCandidateList;
 
 - (PPElementCandidate*)mostProbableReferenceModelCandidate;

@@ -28,4 +28,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *payButton;
 
+- (IBAction)deletePressed:(id)sender;
+
+- (IBAction)payPressed:(id)sender;
+
 @end

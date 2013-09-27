@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "PPUploadRequestOperation.h"
 
+@class PPBaseResponse;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
@@ -222,6 +223,18 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
                               success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
                               failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                              canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
+
+/**
+ Abstract.
+ Factory method for creating request operations for deleting the document remotely on server.
+ 
+ Should be implemented by the application
+ */
+- (NSOperation*)createDeleteDocumentRequest:(PPRemoteDocument*)remoteDocument
+                                       user:(PPUser *)user
+                                    success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
+                                    failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                   canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
 
 
 

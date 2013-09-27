@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *estimatedTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+
+- (IBAction)deletePressed:(id)sender;
 @end

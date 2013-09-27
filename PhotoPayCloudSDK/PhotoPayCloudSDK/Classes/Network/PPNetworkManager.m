@@ -9,6 +9,7 @@
 #import "PPNetworkManager.h"
 #import "PPRemoteDocument.h"
 #import "PPLocalDocument.h"
+#import "PPBaseResponse.h"
 
 NSString* const kPPParameterData = @"data";
 NSString* const kPPParameterCustomerId = @"customerId";
@@ -176,6 +177,18 @@ NSString* const kPPParameterStatus = @"status";
                               success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
                               failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                              canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
+- (NSOperation*)createDeleteDocumentRequest:(PPRemoteDocument*)remoteDocument
+                                       user:(PPUser *)user
+                                    success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResponse))success
+                                    failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                   canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException

@@ -90,8 +90,6 @@
     [[self document] setDelegate:self];
     
     [self registerForKeyboardNotifications];
-    
-    NSLog(@"Scroll view y %f", self.scrollView.frame.origin.y);
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
