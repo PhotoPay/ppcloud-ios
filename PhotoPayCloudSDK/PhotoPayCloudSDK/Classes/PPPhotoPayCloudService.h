@@ -17,6 +17,7 @@
 @class PPUser;
 @class PPDocumentManager;
 @class PPDocumentsTableDataSource;
+@class PPUserConfirmedValues;
 
 /**
  States the service can be in.
@@ -167,6 +168,17 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
                     success:(void (^)(UIImage* image))success
                     failure:(void (^)(NSError* error))failure
                    canceled:(void (^)())canceled;
+
+/**
+ Confirms that the given values are indeed correct ones for payment of the document
+ 
+ Important for improving the service, machine learning etc.
+ */
+- (void)confirmValues:(PPUserConfirmedValues*)values
+           forDocument:(PPRemoteDocument*)document
+               success:(void (^)(void))success
+               failure:(void (^)(NSError* error))failure
+              canceled:(void (^)(void))canceled;
 
 /**
  Retrieves the data of the document

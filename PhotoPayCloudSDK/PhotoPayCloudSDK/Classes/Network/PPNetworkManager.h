@@ -14,6 +14,7 @@
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
+@class PPUserConfirmedValues;
 
 /** Parameter names of all API methods in PhotoPay Cloud */
 
@@ -235,6 +236,19 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
                                     success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
                                     failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                                    canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
+
+/**
+ Abstract.
+ Factory method for creating request operations for confirming the correct values for a given document
+ 
+ Should be implemented by the application
+ */
+- (NSOperation*)createConfirmValuesRequest:(PPUserConfirmedValues*)values
+                                  document:(PPRemoteDocument*)remoteDocument
+                                      user:(PPUser *)user
+                                   success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
+                                   failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                  canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
 
 
 

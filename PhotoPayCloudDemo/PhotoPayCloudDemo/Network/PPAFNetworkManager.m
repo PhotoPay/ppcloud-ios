@@ -446,4 +446,54 @@
     return deleteOperation;
 }
 
+- (NSOperation*)createConfirmValuesRequest:(PPUserConfirmedValues*)values
+                                  document:(PPRemoteDocument*)remoteDocument
+                                      user:(PPUser *)user
+                                   success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
+                                   failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                  canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        return nil;
+    }
+    
+    // 2. create request
+    NSMutableURLRequest *confirmRequest = [[self httpClient] requestWithMethod:@"POST"
+                                                                          path:[NSString stringWithFormat:@"/cloud/payment/%@", [remoteDocument documentId]]
+                                                                   parameters:requestParams];
+    
+    NSLog(@"Request %@", confirmRequest);
+    
+    AFJSONRequestOperation *confirmOperation =
+        [AFJSONRequestOperation JSONRequestOperationWithRequest:confirmRequest
+                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+                                                            NSLog(@"Deleting %@", JSON);
+                                                            PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
+                                                            
+                                                            if (success) {
+                                                                success(request, response, baseResponse);
+                                                            }
+                                                        }
+                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+                                                            if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+                                                                NSLog(@"request canceled");
+                                                                if (canceled) {
+                                                                    canceled(request, response);
+                                                                }
+                                                                return;
+                                                            }
+                                                            
+                                                            NSLog(@"failed to execute request %@", error.description);
+                                                            
+                                                            if (failure != nil) {
+                                                                failure(request, response, error);
+                                                            }
+                                                        }];
+    
+    return confirmOperation;
+
+}
+
 @end

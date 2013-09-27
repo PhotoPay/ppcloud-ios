@@ -706,4 +706,25 @@
     [getDocumentsOperation start];
 }
 
+- (void)confirmValues:(PPUserConfirmedValues*)values
+          forDocument:(PPRemoteDocument*)document
+              success:(void (^)(void))success
+              failure:(void (^)(NSError* error))failure
+             canceled:(void (^)(void))canceled {
+    
+    NSOperation* confirmValuesOperation =
+        [[self networkManager] createConfirmValuesRequest:values
+                                                 document:document
+                                                     user:[self user]
+                                                  success:^(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse) {
+                                                      ;
+                                                  } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                      ;
+                                                  } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                      ;
+                                                  }];
+    
+    [confirmValuesOperation start];
+}
+
 @end

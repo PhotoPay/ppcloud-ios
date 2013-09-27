@@ -8,6 +8,7 @@
 
 #import "PPProcessedDocumentView.h"
 #import <PhotoPayCloud/PPScanResult+Serbia.h>
+#import <PhotoPayCloud/PPUserConfirmedValues+Serbia.h>
 #import "PPAlertView.h"
 
 @interface PPProcessedDocumentView () <UITextFieldDelegate>
@@ -68,8 +69,6 @@
 }
 
 -(void)dismissKeyboard {
-    
-    NSLog(@"Dismissing!");
     [[self delegate] documentDetailsViewDidMakeViewInactive:self];
     
     [self.firstResponder endEditing:YES];
@@ -86,7 +85,29 @@
 }
 
 - (IBAction)payPressed:(id)sender {
+    NSString* reference = [self referenceTextField].text;
+    NSArray* components = [reference componentsSeparatedByString:@" "];
+    NSString* referenceModel = ([components count] > 0) ? components[0] : @"";
+    NSString* referenceNumber = ([components count] > 1) ? components[1] : @"";
     
+    PPUserConfirmedValues *values = [[PPUserConfirmedValues alloc] initWithAmount:[self amountTextField].text
+                                                                    accountNumber:[self accountTextField].text
+                                                                  referenceNumber:referenceNumber
+                                                                   referenceModel:referenceModel];
+    
+    NSLog(@"Paid %@", values);
+    
+    [[PPPhotoPayCloudService sharedService] confirmValues:values
+                                              forDocument:[[self document] remoteDocument]
+                                                  success:^{
+                                                      ;
+                                                  } failure:^(NSError *error) {
+                                                      ;
+                                                  } canceled:^{
+                                                      ;
+                                                  }];
+    
+    [[self delegate] documentDetailsViewWillClose:self];
 }
 
 - (IBAction)deletePressed:(id)sender {
