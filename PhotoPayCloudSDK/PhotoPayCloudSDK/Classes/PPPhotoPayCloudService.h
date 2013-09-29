@@ -83,8 +83,21 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  */
 + (PPPhotoPayCloudService*)sharedService;
 
-- (void)initializeForUser:(PPUser*)user withNetworkManager:(PPNetworkManager*)networkManager;
+/**
+ Performs initialization of PhotoPayCloudService object
+ 
+ Must specify current user of the PhotoPayCloud.
+ 
+ Also, must specify Network manager used
+ */
+- (void)initializeForUser:(PPUser*)user
+       withNetworkManager:(PPNetworkManager*)networkManager;
 
+/**
+ Uninitializes and releases objects in PhotoPayCloudService
+ 
+ When uninitialized, PPPhotoPayCloudService cannot make any requests towards PhotoPayCloud web api
+ */
 - (void)uninitialize;
 
 /**
@@ -158,6 +171,18 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
               canceled:(void (^)(PPLocalDocument* localDocument))canceled;
 
 /**
+ In case there were some documents which failed to upload in the last usage session for the current user,
+ this method starts the upload process once more
+ */
+- (void)uploadPendingDocuments;
+
+/**
+ In case there were some documents which failed to upload in the last usage session for the current user,
+ this method deletes all those documents.
+ */
+- (void)deletePendingDocumentsWithError:(NSError**)error;
+
+/**
  Retrieves the image for a given document. The size and format of the image can be specified.
  
  Image is typically used for UI stuff, tables, etc.
@@ -168,6 +193,16 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
                     success:(void (^)(UIImage* image))success
                     failure:(void (^)(NSError* error))failure
                    canceled:(void (^)())canceled;
+
+/**
+ Retrieves the data of the document
+ 
+ This is typically used to give the user a preview of the document sent for scanning
+ */
+- (void)getDocumentData:(PPRemoteDocument*)document
+                success:(void (^)(NSData* data))success
+                failure:(void (^)(NSError* error))failure
+               canceled:(void (^)())canceled;
 
 /**
  Confirms that the given values are indeed correct ones for payment of the document
@@ -181,20 +216,12 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
               canceled:(void (^)(void))canceled;
 
 /**
- Retrieves the data of the document
+ Deletes the document.
  
- This is typically used to give the user a preview of the document sent for scanning
+ If document is local, it's deleted indefinitely and upload for this document will never start again
+ 
+ If document is remote, it will delete document binary data as well as move document to a deleted state so that it will never again appear to the user.
  */
-- (void)getDocumentData:(PPRemoteDocument*)document
-                success:(void (^)(NSData* data))success
-                failure:(void (^)(NSError* error))failure
-               canceled:(void (^)())canceled;
-
-
-- (void)uploadPendingDocuments;
-
-- (void)deletePendingDocumentsWithError:(NSError**)error;
-
 - (void)deleteDocument:(PPDocument*)document
                  error:(NSError**)error;
 
