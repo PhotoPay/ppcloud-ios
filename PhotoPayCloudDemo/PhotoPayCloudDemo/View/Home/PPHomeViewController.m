@@ -35,14 +35,13 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setTitle:_(@"PhotoPayHomeTitle")];
     
-    documentsDataSource = [[PPDocumentsDataSource alloc] init];
-    [documentsDataSource setDelegate:self];
+    self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
+    [self.documentsDataSource setDelegate:self];
     
     [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     [[self billsTable] setDataSource:[self documentsDataSource]];
@@ -54,7 +53,7 @@
 }
 
 - (void)viewDidUnload {
-    [self setDocumentsDataSource:nil];
+    self.documentsDataSource = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -66,7 +65,9 @@
     // To clear any selection in the table view before it’s displayed
     [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
     
-    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed pollInterval:2.5f];
+    // request all local documents and remote unconfirmed to be seen inside table view
+    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
+                                                pollInterval:5.0f];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -142,12 +143,9 @@
     // send document to processing server
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
                                                   delegate:self
-                                                   success:^(PPLocalDocument *localDocument, PPRemoteDocument *remoteDocument) {
-                                                   }
-                                                   failure:^(PPLocalDocument *localDocument, NSError *error) {
-                                                   }
-                                                  canceled:^(PPLocalDocument *localDocument) {
-                                                  }];
+                                                   success:nil
+                                                   failure:nil
+                                                  canceled:nil];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -209,18 +207,7 @@
 }
 
 
-#pragma mark - PPUploadRequestOperationDelegate
-
-- (void)localDocument:(PPLocalDocument *)localDocument
-didFinishUploadWithResult:(PPRemoteDocument *)remoteDocument {
-    DDLogInfo(@"Document is successfully uploaded!");
-}
-
-- (void)localDocument:(PPLocalDocument *)localDocument
-didFailToUploadWithError:(NSError *)error {
-    DDLogError(@"Document has failed to upload!");
-    DDLogError(@"Error message is %@", [error localizedDescription]);
-}
+#pragma mark - PPDocumentUploadDelegate
 
 - (void)localDocument:(PPLocalDocument *)localDocument
 didUpdateProgressWithBytesWritten:(long long)totalBytesWritten

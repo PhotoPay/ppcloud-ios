@@ -42,21 +42,20 @@
  */
 @protocol PPDocumentUploadDelegate <NSObject>
 
-@required
+@optional
 
 /** 
- Success handler is required. UI updates will be required on success 
+ Success handler is optional UI updates will be required on success
  */
 - (void)localDocument:(PPLocalDocument*)localDocument
 didFinishUploadWithResult:(PPRemoteDocument*)remoteDocument;
 
 /**
- Failure handler is required. UI updates will be required on success
+ Failure handler is optional. UI updates will be required on success
  */
 - (void)localDocument:(PPLocalDocument*)localDocument
 didFailToUploadWithError:(NSError*)error;
 
-@optional
 
 /**
  Progress handler is optional.
