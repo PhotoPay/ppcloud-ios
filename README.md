@@ -168,4 +168,163 @@ An instance method of PPDocumentsTableDataSource class which will definitely hel
     PPDocument *document = [self itemForIndexPath:indexPath];
     
 By default, this PPDocumentsTableDataSource object will automatically create one Table view section, and documents will be placed in this object sorted from the newest to the oldest. This behaviour can be overridden, but we'll cover that later.
+
+After your Documents table data source was created, you can initialize UITableView object. For example, your viewDidLoad: and viewDidUnload: methods might look like this:
+
+	- (void)viewDidLoad {
+   		[super viewDidLoad];
     
+    	[self setTitle:@"Home"];
+    
+ 		self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
+ 		
+ 		// set this object to be the delegate to documents data source object
+    	[self.documentsDataSource setDelegate:self];
+    
+    	[[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
+    	[[self billsTable] setDataSource:[self documentsDataSource]];
+    	[[self billsTable] setDelegate:self];
+    
+    	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
+        	[[self cameraButton] setEnabled:NO];
+    	}
+	}
+	
+	- (void)viewDidUnload {
+    	self.documentsDataSource = nil;
+	}
+	
+For updating the table view, your Home view controller should implement PPTableViewDataSourceDelegate protocol. This can be as simple as this:
+
+
+	/**
+ 	 Called when new items are inserted into table view.
+ 	 Method passes the exact index paths of the inserted elements
+ 	 */
+	- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+ 	 didInsertItemsAtIndexPaths:(NSArray*)indexPaths {
+    	[[self billsTable] beginUpdates];
+    	[[self billsTable] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    	[[self billsTable] endUpdates];
+	}
+
+	/**
+ 	 Called when items are deleted from table view.
+ 	 Method passes the exact index paths of the deleted elements
+ 	 */
+	- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+ 	 didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
+    	[[self billsTable] beginUpdates];
+    	[[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    	[[self billsTable] endUpdates];
+	 }
+
+	/**
+ 	 Called when items are reloaded inside the table view.
+ 	 Method passes the exact index paths of the reloaded elements
+ 	 */
+	- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+  	  didReloadItemsAtIndexPath:(NSArray*)indexPaths {
+    	[[self billsTable] beginUpdates];
+    	[[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    	[[self billsTable] endUpdates];
+	}
+	
+### 6. Preparing Home view for appearing on screen
+
+Before presented to the user, Home view must specify which type of documents should be presented in UITable View. Example implementation of viewWillAppear: method is as follows:
+
+	- (void)viewWillAppear:(BOOL)animated {
+    	[super viewWillAppear:animated];
+    
+    	// this view controller will receive all news about the upload status
+    	[[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+    
+    	// To clear any selection in the table view before it’s displayed
+    	[[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
+    
+    	// request all local documents and remote unconfirmed to be seen inside table view
+    	[[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
+                                                	pollInterval:5.0f];
+	} 
+    
+In this method, it's also specified that Home view controller is the delegate for upload progress. For this usage, it should implement PPDocumentUploadDelegate protocol. This protocol has all methods optional, but typically, for providing progress for uploads, it's enough to implement just the following:
+
+	#pragma mark - PPDocumentUploadDelegate
+
+	- (void)localDocument:(PPLocalDocument *)localDocument
+		didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
+    	totalBytesToWrite:(long long)totalBytesToWrite {
+    
+    	// instead of requesting the whole table to update, we just find the potential cell among visible cells
+    	for (PPDocumentTableViewCell* cell in self.billsTable.visibleCells) {
+        	if (cell.document.state == PPDocumentStateUploading) {
+            	[cell refreshProgress];
+        	}
+    	}
+	}
+	
+### 7. Taking photos starting document uploads
+
+For taking photos, it's easiest to use UIImagePickerController. It provides a familiar and elegant solution for not just taking photos, but also for verification of photo quality. The following code starts UIImagePickerController camera capture, obtains the UIImage from the camera, and starts the document upload to PhotoPayCloud web service:
+
+	- (void)openCamera {
+    	UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    
+    	// Use rear camera
+    	cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    	cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+    
+    	// Displays a control that allows the user to choose only photos
+    	cameraUI.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, nil];
+    
+    	// Hides the controls for moving & scaling pictures, or for trimming movies.
+    	cameraUI.allowsEditing = NO;
+    
+    	// Shows default camera control overlay over camera preview.
+    	cameraUI.showsCameraControls = YES;
+    
+    	// set delegate
+    	cameraUI.delegate = self;
+    
+    	// Show view
+    	[self presentModalViewController:cameraUI animated:YES completion:nil];
+	}
+
+	- (void)uploadDocument:(PPLocalDocument *)document {
+    	// send document to processing server
+    	[[PPPhotoPayCloudService sharedService] uploadDocument:document
+                                                  	  delegate:self
+                                                   	   success:nil
+                                                   	   failure:nil
+                                                  	  canceled:nil];
+	}
+
+	#pragma mark - UIImagePickerControllerDelegate
+
+	- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    	NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    
+    	// Handle a still image capture
+    	if (CFStringCompare((CFStringRef) mediaType, kUTTypeImage, 0) == kCFCompareEqualTo) {
+        	UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
+        
+        	// create a local document for this user
+       		PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:originalImage
+                                                					 processingType:PPDocumentProcessingTypeSerbianPhotoInvoice];
+        
+        	[self uploadDocument:document];
+
+    	}
+    	[self dismissModalViewControllerAnimated:YES completion:nil];
+	}
+
+	- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    	[self dismissModalViewControllerAnimated:YES completion:nil];
+	}
+	
+This procedure wraps the Home view controller implementation.
+
+### 8. Examining PPDocument objects
+
+### 9. Specifying custom PPSectionCreator objects
