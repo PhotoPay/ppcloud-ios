@@ -42,7 +42,6 @@
     [self setTitle:_(@"PhotoPayHomeTitle")];
     
     documentsDataSource = [[PPDocumentsDataSource alloc] init];
-    [documentsDataSource setSectionCreator:[[PPTableLinearSectionCreator alloc] init]];
     [documentsDataSource setDelegate:self];
     
     [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
