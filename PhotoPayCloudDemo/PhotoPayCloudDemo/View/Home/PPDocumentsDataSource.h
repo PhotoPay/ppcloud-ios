@@ -14,6 +14,5 @@
  */
 @interface PPDocumentsDataSource : PPDocumentsTableDataSource
 
-@property (nonatomic, weak) id<PPDocumentUploadDelegate> uploadDelegate;
 
 @end

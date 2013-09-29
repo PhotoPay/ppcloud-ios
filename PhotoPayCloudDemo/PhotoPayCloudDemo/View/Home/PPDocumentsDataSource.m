@@ -120,7 +120,7 @@
     return cell;
 }
 
-// Editing (TODO:)
+// Editing
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }

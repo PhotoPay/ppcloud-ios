@@ -61,14 +61,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [[self documentsDataSource] setUploadDelegate:self];
+    // this view controller will receive all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
     
-    
-    //To clear any selection in the table view before it’s displayed,
-    // implement the viewWillAppear: method to clear the selected row
-    // (if any) by calling deselectRowAtIndexPath:animated:.
-    
+    // To clear any selection in the table view before it’s displayed
     [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
     
     [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed pollInterval:2.5f];
@@ -84,8 +80,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    // this view controller will receive all news about the upload status
-    [[self documentsDataSource] setUploadDelegate:nil];
+    // this view controller will stop receiving all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
 }
 
@@ -140,9 +135,6 @@
     PPDocumentDetailsViewController* documentDetails = [[PPDocumentDetailsViewController alloc] initWithNibName:[PPDocumentDetailsViewController defaultXibName]
                                                                                                          bundle:nil
                                                                                                        document:document];
-    // make the transition smoother
-    [[self documentsDataSource] setUploadDelegate:nil];
-    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
     
     [[self navigationController] pushViewController:documentDetails animated:YES];
 }

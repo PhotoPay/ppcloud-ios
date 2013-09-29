@@ -9,10 +9,19 @@
 #import <PhotoPayCloud/PhotoPayCloud.h>
 #import <AFNetworking/AFNetworking.h>
 
+/**
+ Concrete implementation of PPNetworkManager which uses AFNetworking for handling network connections
+ */
 @interface PPAFNetworkManager : PPNetworkManager
 
+/**
+ Initializes network managet with a custom httpClient object
+ */
 - (id)initWithHttpClient:(AFHTTPClient*)httpClient;
 
+/**
+ Custom http client object 
+ */
 @property (nonatomic, strong, readonly) AFHTTPClient* httpClient;
 
 @end
