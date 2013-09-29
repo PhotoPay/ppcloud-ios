@@ -36,6 +36,11 @@ static const int INITIAL_CAPACITY = 20;
     [[self mutableItems] addObject:item];
 }
 
+- (void)addItem:(id)item atIndex:(NSUInteger)index {
+    [[self mutableItems] insertObject:item atIndex:index];
+}
+
+
 - (NSUInteger)removeItem:(id)item {
     NSUInteger index = [[self mutableItems] indexOfObject:item];
     if (index != NSNotFound) {

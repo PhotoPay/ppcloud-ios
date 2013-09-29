@@ -38,9 +38,14 @@
 - (id)initWithSectionId:(NSInteger)sectionId name:(NSString*)name;
 
 /**
- Adds the item to the section.
+ Adds the item to the end of the section.
  */
 - (void)addItem:(id)item;
+
+/**
+ Adds the item to the section at specified index
+ */
+- (void)addItem:(id)item atIndex:(NSUInteger)index;
 
 /**
  Removes the item from the section. Section is traversed and checked if there is an existing element which responds YES to [element isEqual:item]
