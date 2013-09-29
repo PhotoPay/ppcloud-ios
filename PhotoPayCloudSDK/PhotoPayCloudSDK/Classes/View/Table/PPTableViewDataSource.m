@@ -9,6 +9,7 @@
 #import "PPTableViewDataSource.h"
 #import "PPTableLinearSectionCreator.h"
 #import "PPTableSection.h"
+#import <UIKit/UIKit.h>
 
 @interface PPTableViewDataSource ()
 
@@ -23,6 +24,7 @@
     self = [super init];
     if (self) {
         items = [[NSMutableArray alloc] init];
+        sectionCreator = [[PPTableLinearSectionCreator alloc] init];
     }
     return self;
 }
@@ -59,6 +61,24 @@
         if (index == NSNotFound) {
             [[self items] addObject:item];
             indexPath = [[self sectionCreator] insertItem:item];
+            
+            // new object is inserted, compensate in index paths that were already inserted
+            for (int i = 0; i < [insertedIndexPaths count]; i++) {
+                NSIndexPath *ip = [insertedIndexPaths objectAtIndex:i];
+                if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
+                    NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];                    [insertedIndexPaths replaceObjectAtIndex:i withObject:newip];
+                }
+            }
+            
+            // new object is inserted, compensate in index paths that were already inserted
+            for (int i = 0; i < [reloadedIndexPaths count]; i++) {
+                NSIndexPath *ip = [reloadedIndexPaths objectAtIndex:i];
+                if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
+                    NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
+                    [reloadedIndexPaths replaceObjectAtIndex:i withObject:newip];
+                }
+            }
+            
             [insertedIndexPaths addObject:indexPath];
         } else {
             indexPath = [[self sectionCreator] reloadItem:item withOther:item];
