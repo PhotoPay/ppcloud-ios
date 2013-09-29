@@ -20,6 +20,21 @@
 "PhotoPaySignUpErrorTaken" = "E-mail address already in use.";
 
 
+/* PENDING UPLOADS */
+
+/** Title of the alert view which specifies some of the uploads didn't complete successfully */
+"PhotoPayPendingUploadsAlertViewTitle" = "Some documents failed to upload";
+
+/** A message in the alert view which specifies some of the uploads didn't complete successfully */
+"PhotoPayPendingUploadsAlertViewMessage" = "Would you like to continue uploading these documents?";
+
+/** A command to continue uploading pending documents */
+"PhotoPayPendingUploadsAlertViewContinue" = "Continue";
+
+/** A command to abort uploading pending documents */
+"PhotoPayPendingUploadsAlertViewAbort" = "Abort";
+
+
 /* HOME SCREEN */
 
 /* Title of the home screen */

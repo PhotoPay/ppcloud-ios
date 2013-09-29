@@ -22,12 +22,16 @@
 
 /* PENDING UPLOADS */
 
+/** Title of the alert view which specifies some of the uploads didn't complete successfully */
 "PhotoPayPendingUploadsAlertViewTitle" = "Upload nekih dokumenata nije uspješno završio";
 
+/** A message in the alert view which specifies some of the uploads didn't complete successfully */
 "PhotoPayPendingUploadsAlertViewMessage" = "Želite li nastaviti upload ili prekinuti?";
 
+/** A command to continue uploading pending documents */
 "PhotoPayPendingUploadsAlertViewContinue" = "Nastavi";
 
+/** A command to abort uploading pending documents */
 "PhotoPayPendingUploadsAlertViewAbort" = "Prekini";
 
 
