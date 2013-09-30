@@ -34,7 +34,7 @@ html,body{color:black}*:not('#mkdbuttons'){margin:0;padding:0}#wrapper{font:13.3
 <p>Since this is a private git repository, the easiest way to stay up to date with the latest versions is to setup this repository as a git submodule inside your project&#8217;s repository.</p>
 
 <pre><code>cd &lt;your-repo&gt;
-git submodule add ... ppcloud-ios
+git submodule add https://github.com/PhotoPay/ppcloud-ios.git ppcloud-ios
 </code></pre>
 
 <p>This will clone the whole ppcloud-ios repository and check out master branch. Any subsequent pulls inside your repository will automatically pull changes in ppcloud-ios repository as well.</p>
@@ -383,9 +383,7 @@ PPDocument *document = [self itemForIndexPath:indexPath];
 
 <p>In this method, it&#8217;s also specified that Home view controller is the delegate for upload progress. For this usage, it should implement PPDocumentUploadDelegate protocol. This protocol has all methods optional, but typically, for providing progress for uploads, it&#8217;s enough to implement just the following:</p>
 
-<pre><code>#pragma mark - PPDocumentUploadDelegate
-
-- (void)localDocument:(PPLocalDocument *)localDocument
+<pre><code>- (void)localDocument:(PPLocalDocument *)localDocument
     didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
     totalBytesToWrite:(long long)totalBytesToWrite {
 

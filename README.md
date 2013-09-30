@@ -11,7 +11,7 @@ This README document gives an overview of steps for integration of PhotoPayCloud
 Since this is a private git repository, the easiest way to stay up to date with the latest versions is to setup this repository as a git submodule inside your project's repository.
 
 	cd <your-repo>
-	git submodule add ... ppcloud-ios
+	git submodule add https://github.com/PhotoPay/ppcloud-ios.git ppcloud-ios
 	
 This will clone the whole ppcloud-ios repository and check out master branch. Any subsequent pulls inside your repository will automatically pull changes in ppcloud-ios repository as well.
 
