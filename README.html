@@ -1,0 +1,477 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>README</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/*
+This document has been created with Marked.app <http://markedapp.com>, Copyright 2013 Brett Terpstra
+Content is property of the document author
+Please leave this notice in place, along with any additional credits below.
+---------------------------------------------------------------
+Title: GitHub
+Author: Brett Terpstra
+Description: Github README style. Includes theme for Pygmentized code blocks.
+*/
+html,body{color:black}*:not('#mkdbuttons'){margin:0;padding:0}#wrapper{font:13.34px helvetica,arial,freesans,clean,sans-serif;-webkit-font-smoothing:subpixel-antialiased;line-height:1.4;padding:3px;background:#fff;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}p{margin:1em 0}a{color:#4183c4;text-decoration:none}#wrapper{background-color:#fff;padding:30px;margin:15px;font-size:14px;line-height:1.6}#wrapper>*:first-child{margin-top:0!important}#wrapper>*:last-child{margin-bottom:0!important}@media screen{#wrapper{box-shadow:0 0 0 1px #cacaca,0 0 0 4px #eee}}h1,h2,h3,h4,h5,h6{margin:20px 0 10px;padding:0;font-weight:bold;-webkit-font-smoothing:subpixel-antialiased;cursor:text}h1{font-size:28px;color:#000}h2{font-size:24px;border-bottom:1px solid #ccc;color:#000}h3{font-size:18px;color:#333}h4{font-size:16px;color:#333}h5{font-size:14px;color:#333}h6{color:#777;font-size:14px}p,blockquote,table,pre{margin:15px 0}ul{padding-left:30px}ol{padding-left:30px}ol li ul:first-of-type{margin-top:0}hr{background:transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;border:0 none;color:#ccc;height:4px;padding:0}#wrapper>h2:first-child{margin-top:0;padding-top:0}#wrapper>h1:first-child{margin-top:0;padding-top:0}#wrapper>h1:first-child+h2{margin-top:0;padding-top:0}#wrapper>h3:first-child,#wrapper>h4:first-child,#wrapper>h5:first-child,#wrapper>h6:first-child{margin-top:0;padding-top:0}a:first-child h1,a:first-child h2,a:first-child h3,a:first-child h4,a:first-child h5,a:first-child h6{margin-top:0;padding-top:0}h1+p,h2+p,h3+p,h4+p,h5+p,h6+p,ul li>:first-child,ol li>:first-child{margin-top:0}dl{padding:0}dl dt{font-size:14px;font-weight:bold;font-style:italic;padding:0;margin:15px 0 5px}dl dt:first-child{padding:0}dl dt>:first-child{margin-top:0}dl dt>:last-child{margin-bottom:0}dl dd{margin:0 0 15px;padding:0 15px}dl dd>:first-child{margin-top:0}dl dd>:last-child{margin-bottom:0}blockquote{border-left:4px solid #DDD;padding:0 15px;color:#777}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}table{border-collapse:collapse;border-spacing:0;font-size:100%;font:inherit}table th{font-weight:bold;border:1px solid #ccc;padding:6px 13px}table td{border:1px solid #ccc;padding:6px 13px}table tr{border-top:1px solid #ccc;background-color:#fff}table tr:nth-child(2n){background-color:#f8f8f8}img{max-width:100%}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px;font-family:Consolas,'Liberation Mono',Courier,monospace;font-size:12px;color:#333}pre>code{margin:0;padding:0;white-space:pre;border:0;background:transparent}.highlight pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre code,pre tt{background-color:transparent;border:0}.poetry pre{font-family:Georgia,Garamond,serif!important;font-style:italic;font-size:110%!important;line-height:1.6em;display:block;margin-left:1em}.poetry pre code{font-family:Georgia,Garamond,serif!important;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;white-space:pre-wrap}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;vertical-align:super;position:relative}sub{vertical-align:sub;top:-1px}@media print{body{background:#fff}img,pre,blockquote,table,figure{page-break-inside:avoid}#wrapper{background:#fff;border:0}code{background-color:#fff;color:#333!important;padding:0 .2em;border:1px solid #dedede}pre{background:#fff}pre code{background-color:white!important;overflow:visible}}@media screen{body.inverted{color:#eee!important;border-color:#555;box-shadow:none}.inverted #wrapper,.inverted hr .inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt,.inverted blockquote{color:#eee!important;border-color:#555;box-shadow:none}.inverted td,.inverted th{background:#333}.inverted h2{border-color:#555}.inverted hr{border-color:#777;border-width:1px!important}::selection{background:rgba(157,193,200,0.5)}h1::selection{background-color:rgba(45,156,208,0.3)}h2::selection{background-color:rgba(90,182,224,0.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,0.3)}code::selection{background-color:rgba(0,0,0,0.7);color:#eee}code span::selection{background-color:rgba(0,0,0,0.7)!important;color:#eee!important}a::selection{background-color:rgba(255,230,102,0.2)}.inverted a::selection{background-color:rgba(255,230,102,0.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,0.5)}.inverted{background:#0b2531;background:#252a2a}.inverted #wrapper{background:#252a2a}.inverted a{color:#acd1d5}}.highlight .c{color:#998;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k,.highlight .o{font-weight:bold}.highlight .cm{color:#998;font-style:italic}.highlight .cp{color:#999;font-weight:bold}.highlight .c1{color:#998;font-style:italic}.highlight .cs{color:#999;font-weight:bold;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:bold}.highlight .gu{color:#800080;font-weight:bold}.highlight .gt{color:#a00}.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{font-weight:bold}.highlight .kt{color:#458;font-weight:bold}.highlight .m{color:#099}.highlight .s{color:#d14}.highlight .na{color:#008080}.highlight .nb{color:#0086b3}.highlight .nc{color:#458;font-weight:bold}.highlight .no{color:#008080}.highlight .ni{color:#800080}.highlight .ne,.highlight .nf{color:#900;font-weight:bold}.highlight .nn{color:#555}.highlight .nt{color:#000080}.highlight .nv{color:#008080}.highlight .ow{font-weight:bold}.highlight .w{color:#bbb}.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:#099}.highlight .sb,.highlight .sc,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc,.highlight .vg,.highlight .vi{color:#008080}.highlight .il{color:#099}.highlight .gc{color:#999;background-color:#eaf2f5}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:#00F}.type-csharp .highlight .nf{color:#000;font-weight:normal}.type-csharp .highlight .nc{color:#2b91af}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#a31515}
+</style>
+
+</head>
+<body class="normal">
+  <div id="wrapper">
+      <h1 id="photopaycloudsdkforios">PhotoPayCloud SDK for iOS</h1>
+
+<p>PhotoPayCloud is a system for easy and efficient payment data extraction from various payment documents. Documents can be PDF invoices, Excel sheets, Word documents or photos of paper bills. PhotoPayCloud provides secure storage of these payment documents, as well as enables easy and simple payment method used for users of mobile banking applications.</p>
+
+<p>This package contains client side SDK for accessing PhotoPayCloud web services on iOS.</p>
+
+<p>This README document gives an overview of steps for integration of PhotoPayCloud SDK inside your application.</p>
+
+<h2 id="gettingstarted">Getting started</h2>
+
+<p>Since this is a private git repository, the easiest way to stay up to date with the latest versions is to setup this repository as a git submodule inside your project&#8217;s repository.</p>
+
+<pre><code>cd &lt;your-repo&gt;
+git submodule add ... ppcloud-ios
+</code></pre>
+
+<p>This will clone the whole ppcloud-ios repository and check out master branch. Any subsequent pulls inside your repository will automatically pull changes in ppcloud-ios repository as well.</p>
+
+<p>Inside ppcloud-ios there are two separate projects. </p>
+
+<p>PhotoPayCloudSDK is a project which builds the PhotoPayCloud framework. This is the framework which communicates with PhotoPay Cloud web services and you should use it inside your application. </p>
+
+<p>There is also a PhotoPayCloudDemo application which shows an example on how to do a proper integration. PhotoPayCloudDemo app additionaly uses AFNetworking library for network communication. If you use it in your application, the integration is even more simplified because you can simply copy AFNetworking wrappers for PhotoPayCloud into your application from PhotoPayCloudDemo app.</p>
+
+<p>To run PhotoPayCloudDemo you need CocoaPods installed. To set up CocoaPods dependencies you should run:</p>
+
+<pre><code>cd &lt;PhotoPayCloudDemo-folder&gt;
+pod install
+</code></pre>
+
+<h2 id="settingupyourxcodeworkspace">Setting up your Xcode workspace</h2>
+
+<p>The easiest way to use PhotoPayCloudSDK with your Xcode project is to add it into your Xcode workspace. Simply drag and drop PhotoPayCloudSDK.xcodeproj file to your workspace, below your project, on the same hierarchy level. </p>
+
+<p>After that, edit the sceme for building your application. Add <strong>PhotoPayCloudFramework</strong> build target into your scheme, and set it to be built before your application&#8217;s target. Also, disable &#8220;Parallelize Build&#8221; option. This will ensure PhotoPayCloudSDK is always rebuilt with the lastest updates before running your application. </p>
+
+<figure>
+<img src="Docs/xcode-scheme.png" alt="Setting up your build scheme" />
+<figcaption>Setting up your build scheme</figcaption></figure>
+
+
+
+<p>Now, start your application&#8217;s build scheme. It will result with PhotoPayCloud.embeddedframework being created inside ppcloud-ios repository. Drag and drop it in the Frameworks group in your project. When asked, disable option &#8220;Copy items into destination group&#8217;s folder&#8221;</p>
+
+<figure>
+<img src="Docs/xcode-add-framework.png" alt="Adding PhotoPayCloud.embeddedframework to your project" />
+<figcaption>Adding PhotoPayCloud.embeddedframework to your project</figcaption></figure>
+
+
+
+<p>Now you have everything set up to start the coding part. But first we can cover some of the basic PhotoPayCloudSDK architecture.</p>
+
+<h2 id="overviewofphotopaycloudsdkarchitecture">Overview of PhotoPayCloudSDK architecture</h2>
+
+<p>Using PhotoPayCloudSDK primarily means collaborating with the following classes:</p>
+
+<h3 id="ppphotopaycloudservice">PPPhotoPayCloudService</h3>
+
+<p>A singleton object responsible for performing all high level requests. </p>
+
+<p>PPPhotoPayCloudService is a singleton object responsible for performing all high level requests. It can be accessed by using:</p>
+
+<pre><code>[PPPhotoPayCloudService sharedService] 
+</code></pre>
+
+<p>PPPhotoPayCloudService object can perform the following tasks:</p>
+
+<p>Uploading documents to PhotoPay Cloud web API:</p>
+
+<pre><code>- (void)uploadDocument:(PPLocalDocument*)document
+              delegate:(id&lt;PPDocumentUploadDelegate&gt;)delegate
+               success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
+               failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
+              canceled:(void (^)(PPLocalDocument* localDocument))canceled;
+</code></pre>
+
+<p>Uploading all pending documents which failed to upload in the last usage session</p>
+
+<pre><code>- (void)uploadPendingDocuments;
+</code></pre>
+
+<p>Deleting all pending documents</p>
+
+<pre><code>- (void)deletePendingDocumentsWithError:(NSError**)error;
+</code></pre>
+
+<p>Retrieving the image for the document. Image size can be specified, for example thumnail size.</p>
+
+<pre><code>- (void)getImageForDocument:(PPRemoteDocument*)document
+                  imageSize:(PPImageSize)imageSize
+                imageFormat:(PPImageFormat)imageFormat
+                    success:(void (^)(UIImage* image))success
+                    failure:(void (^)(NSError* error))failure
+                   canceled:(void (^)())canceled;
+</code></pre>
+
+<p>Retrieving the actual document. The whole byte array containing the document is retrieved.</p>
+
+<pre><code>- (void)getDocumentData:(PPRemoteDocument*)document
+                success:(void (^)(NSData* data))success
+                failure:(void (^)(NSError* error))failure
+               canceled:(void (^)())canceled;
+</code></pre>
+
+<p>Associating the values user used for making the payment with a document</p>
+
+<pre><code>- (void)confirmValues:(PPUserConfirmedValues*)values
+          forDocument:(PPRemoteDocument*)document
+              success:(void (^)(void))success
+              failure:(void (^)(NSError* error))failure
+             canceled:(void (^)(void))canceled;
+</code></pre>
+
+<p>Deleting the document</p>
+
+<pre><code>- (void)deleteDocument:(PPDocument*)document
+                 error:(NSError**)error;
+</code></pre>
+
+<p>Requesting documents with a given status which should populate PPDocumentsTableDataSource object. Population is then scheduled to perform each 5 seconds</p>
+
+<pre><code>- (void)requestDocuments:(PPDocumentState)documentStateList;
+</code></pre>
+
+<p>Requesting documents which should populate PPDocumentsTableDataSource object with custom poll interval</p>
+
+<pre><code>- (void)requestDocuments:(PPDocumentState)documentStateList
+            pollInterval:(NSTimeInterval)timeInterval;
+</code></pre>
+
+<p>These features are everything that&#8217;s required to provide a well designed user experience.</p>
+
+<h3 id="ppnetworkmanager">PPNetworkManager</h3>
+
+<p>PPNetworkManager is an abstract class for creating web requests for communicating with PhotoPayCloud Web API. It defines the interface which a concrete implementation must provide so that it can be used with PPPhotoPayCloudService object.</p>
+
+<p>For example, PhotoPayCloudDemo application defines a concrete implementation of PPNetworkManager interface which uses AFNetworking library for managing network communication. If you use AFNetworking inside your application, consider using those classes. </p>
+
+<figure>
+<img src="Docs/afppnetworkmanager.png" alt="Implementation of PPNetworkManager which uses AFNetworking" />
+<figcaption>Implementation of PPNetworkManager which uses AFNetworking</figcaption></figure>
+
+
+
+<h3 id="ppuser">PPUser</h3>
+
+<p>An object which specifies the user of the PhotoPayCloud service. User is defined with the following properties:</p>
+
+<ul>
+<li>userId</li>
+<li>organizationId</li>
+<li>userType</li>
+</ul>
+
+<p>userId must be unique for each user of your app. Organisation ID is the unique string ID of the organization which uses your app. User type can be <em>Person</em>, <em>Business</em> or <em>Craft</em>, but <em>Person</em> is typically used if not specified otherwise.</p>
+
+<p>In example, for Erste Bank Serbia, use <em>Matični broj klijenta</em> as userId, string &#8220;EBS&#8221; as organizationId, and leave userType to default value.</p>
+
+<p>It&#8217;s important to note that userId is never stored locally on the mobile device. The only user&#8217;s data which is stored on the user&#8217;s phone is MD5 hash of the userId, and it&#8217;s only used for identifying documents which need to be uploaded until upload finishes, or until user deletes the document.</p>
+
+<h3 id="ppdocumentandsubclasses">PPDocument (and subclasses)</h3>
+
+<p>PPDocument is an ecapsulation of a document used in the payment process. A PPDocument object can be either PPLocalDocument (for example, an image obtained from the camera which still wasn&#8217;t uploaded to PhotoPayCloud web service), or PPRemoteDocument (for example, the same image, but uploaded to server, processed and ready for payment). Furthermore, PPLocalDocument can be PPLocalImageDocument, when created from an UIImage object.</p>
+
+<p>The most important properties of a PPDocument objects are documentType (png, jpeg, pdf, etc.), processing type, which defines what kind of processing will PhotoPayCloud server perform on this document, and a PPDocumentState. State defines what&#8217;s happening with the document at the moment.</p>
+
+<p>Each document starts as a PPLocalDocument in state Created, goes through a variety of states, for example, Uploading, Received, Processing, Processed, etc. For a document, the goal is to finish as a PPRemoteDocument in state Processed. When in this state, the document can be used to prepopulate a payment form with scanned payment data.</p>
+
+<p>For example, for serbian invoices, documents are typically created as a PPLocalImageDocument subtype, with initializer:</p>
+
+<pre><code>- (id)initWithImage:(UIImage*)inImage processingType:(PPDocumentProcessingType)inProcessingType 
+</code></pre>
+
+<p>PPDocumentProcessingType for photos of Serbian invoices is <em>PPDocumentProcessingTypeSerbianPhotoInvoice</em></p>
+
+<h4 id="operationsonallppdocumentobjects">Operations on all PPDocument objects</h4>
+
+<p>Observing document state can be done by examining state property </p>
+
+<pre><code>@property (nonatomic, assign) PPDocumentState state;
+</code></pre>
+
+<p>Also, if needed, there is a PPDocumentStateChangedDelegate protocol available which can notify your object for any state changed events.</p>
+
+<p>Each PPDocument has methods for accessing thumbnail image, preview image and the original document&#8217;s byte array:</p>
+
+<pre><code>- (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
+                         failure:(void (^)(void))failure;
+
+- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
+                        failure:(void (^)(void))failure;
+
+- (void)documentBytesWithSuccess:(void (^)(NSData* bytes))success
+                         failure:(void (^)(void))failure;
+</code></pre>
+
+<p>Also, there is a way to safely cast a PPDocument to any of it&#8217;s subclasses. These methods return nil if cast is not successful.</p>
+
+<pre><code>- (PPLocalDocument*)localDocument;
+- (PPRemoteDocument*)remoteDocument;
+</code></pre>
+
+<h4 id="operationsonpplocaldocumentobjects">Operations on PPLocalDocument objects</h4>
+
+<p>Local document object have access to PPUploadRequestOperation for monitoring uploads</p>
+
+<h4 id="operationsonppremotedocumentobjects">Operations on PPRemoteDocument objects</h4>
+
+<p>Interesting properties of PPRemoteDocument objects are</p>
+
+<pre><code>@property (nonatomic, strong) NSNumber* expectedProcessingTime;
+@property (nonatomic, strong) PPScanResult* scanResult;
+</code></pre>
+
+<h3 id="ppdocumentstabledatasource">PPDocumentsTableDataSource</h3>
+
+<p>PPPhotoPayCloudService object maintains it&#8217;s own object which can be used as a UITableViewDataSource. The concrete implementation of this object can be overridden in your app, but the idea is that PPPhotoPayCloudService singleton object is responsible for maintaining a list of all documents of interest to the current user.</p>
+
+<p>Division of documents in section inside PPDocumentsTableDataSource can be specified separately, but more on that later.</p>
+
+<!--(
+
+### Rough class diagram of most important classes
+
+![Partial class diagram of PhotoPayCloudSDK](Docs/class-diag.png)
+
+)-->
+
+<h2 id="integrationsteps">Integration steps</h2>
+
+<h3 id="initializingppphotopaycloudserviceobject">1. Initializing PPPhotoPayCloudService object</h3>
+
+<p>The initialization method like the following should be called whenever a user logs in to the application. The method should specify specific data about the current user, as well as an object reposnsible for making network requests (PPNetworkManager object). For example, if you use AFNetworking, you can use PPAFNetworkManager class provided in the PhotoPayCloudDemo application, but you have to provide your own AFHTTPClient object.</p>
+
+<pre><code>- (void)photoPayCloudLogin {
+    PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
+    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+                                   organizationId:@&quot;EBS&quot;];
+
+    [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
+}
+</code></pre>
+
+<h3 id="uninitializingppphotopaycloudserviceobject">2. Uninitializing PPPhotoPayCloudService object</h3>
+
+<p>Inverse method to initializatio should be performed every time the user logs out from the application. </p>
+
+<pre><code>- (void)photoPayCloudLogout {
+    [[PPPhotoPayCloudService sharedService] uninitialize];
+}
+</code></pre>
+
+<h3 id="checkingforexistingpendinguploads">3. Checking for existing pending uploads</h3>
+
+<p>After the user logs in into the application, you should check if any pending uploads exist which didn&#8217;t successfully complete. If they exist, the user should have the opportunity to continue those uploads, or delete them permanently.</p>
+
+<pre><code>- (void)checkPhotoPayCloudUploads {
+    // check if PhotoPayCloudService was paused
+    if ([[PPPhotoPayCloudService sharedService] state] == PPPhotoPayCloudServiceStatePaused) {
+
+        // if true, ask user to continue or abort paused requests
+        PPAlertView* alertView = [[PPAlertView alloc] initWithTitle:@&quot;Some documents failed to upload&quot;)
+                                                            message:@&quot;Would you like to continue uploading these documents?&quot;
+                                                         completion:^(BOOL cancelled, NSInteger buttonIndex) {
+                                                            NSError* __autoreleasing error = nil;
+                                                            if (buttonIndex == 0) {
+                                                                [[PPPhotoPayCloudService sharedService] deletePendingDocumentsWithError:&amp;error];
+                                                            } else if (buttonIndex == 1) {
+                                                                [[PPPhotoPayCloudService sharedService] uploadPendingDocuments];
+                                                            }
+                                                         }
+                                                 cancelButtonTitle:@&quot;Abort&quot;
+                                                 otherButtonTitles:@&quot;Continue&quot;, nil];
+        [alertView show];
+    }
+}
+</code></pre>
+
+<h3 id="creatingaphotopaycloudhomeview">4. Creating a PhotoPay Cloud Home View</h3>
+
+<p>PhotoPay Cloud Home View is a Table view which contains a list of all user&#8217;s documents. This View also has a button which can start camera capture for taking a photo of a user&#8217;s bill. Also, each cell in Table view can be pressed to open a Details view for a document represented by this cell.</p>
+
+<p>You can design the Home view as you wish, but the easiest way to set up the basic functionality is to use your own subclass of PPDocumentsTableDataSource class for maintaining a list of PPDocument objects inside your Table view.</p>
+
+<h3 id="specifyingadocumentstabledatasource">5. Specifying a Documents table data source</h3>
+
+<p>To use PPDocumentsTableDataSource as a data source for your UITableViews, you must subclass it and provide methods for creaing UITableViewCells. One example on how to do that is given in PhotoPayCloudDemo project and is a fairly standard way of achieving this. </p>
+
+<p>An instance method of PPDocumentsTableDataSource class which will definitely help for populating UITableViewCells with data about PPDocument objects is</p>
+
+<pre><code>// Obtain document object for given index path
+PPDocument *document = [self itemForIndexPath:indexPath];
+</code></pre>
+
+<p>By default, this PPDocumentsTableDataSource object will automatically create one Table view section, and documents will be placed in this object sorted from the newest to the oldest. This behaviour can be overridden, but we&#8217;ll cover that later.</p>
+
+<p>After your Documents table data source was created, you can initialize UITableView object. For example, your viewDidLoad: and viewDidUnload: methods might look like this:</p>
+
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setTitle:@&quot;Home&quot;];
+
+    self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
+
+    // set this object to be the delegate to documents data source object
+    [self.documentsDataSource setDelegate:self];
+
+    [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
+    [[self billsTable] setDataSource:[self documentsDataSource]];
+    [[self billsTable] setDelegate:self];
+}
+
+- (void)viewDidUnload {
+    self.documentsDataSource = nil;
+}
+</code></pre>
+
+<p>For updating the table view, your Home view controller should implement PPTableViewDataSourceDelegate protocol. This can be as simple as this:</p>
+
+<pre><code>- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+ didInsertItemsAtIndexPaths:(NSArray*)indexPaths {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+ didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+ }
+
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+  didReloadItemsAtIndexPath:(NSArray*)indexPaths {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+</code></pre>
+
+<h3 id="preparinghomeviewforappearingonscreen">6. Preparing Home view for appearing on screen</h3>
+
+<p>Before presented to the user, Home view must specify which type of documents should be presented in UITable View. Example implementation of viewWillAppear: method is as follows:</p>
+
+<pre><code>- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    // this view controller will receive all news about the upload status
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+
+    // To clear any selection in the table view before it’s displayed
+    [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
+
+    // request all local documents and remote unconfirmed to be seen inside table view
+    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
+                                                pollInterval:5.0f];
+} 
+</code></pre>
+
+<p>In this method, it&#8217;s also specified that Home view controller is the delegate for upload progress. For this usage, it should implement PPDocumentUploadDelegate protocol. This protocol has all methods optional, but typically, for providing progress for uploads, it&#8217;s enough to implement just the following:</p>
+
+<pre><code>#pragma mark - PPDocumentUploadDelegate
+
+- (void)localDocument:(PPLocalDocument *)localDocument
+    didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
+    totalBytesToWrite:(long long)totalBytesToWrite {
+
+    // instead of requesting the whole table to update, we just find the potential cell among visible cells
+    for (PPDocumentTableViewCell* cell in self.billsTable.visibleCells) {
+        if (cell.document.state == PPDocumentStateUploading) {
+            [cell refreshProgress];
+        }
+    }
+}
+</code></pre>
+
+<h3 id="takingphotosandstartingdocumentuploads">7. Taking photos and starting document uploads</h3>
+
+<p>For taking photos, it&#8217;s easiest to use UIImagePickerController. It provides a familiar and elegant solution for not just taking photos, but also for verification of photo quality. The following code starts UIImagePickerController camera capture, obtains the UIImage from the camera, and starts the document upload to PhotoPayCloud web service:</p>
+
+<pre><code>- (void)openCamera {
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+
+    // Use rear camera
+    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    cameraUI.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+
+    // Displays a control that allows the user to choose only photos
+    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *)kUTTypeImage, nil];
+
+    // Hides the controls for moving &amp; scaling pictures, or for trimming movies.
+    cameraUI.allowsEditing = NO;
+
+    // Shows default camera control overlay over camera preview.
+    cameraUI.showsCameraControls = YES;
+
+    // set delegate
+    cameraUI.delegate = self;
+
+    // Show view
+    [self presentModalViewController:cameraUI animated:YES completion:nil];
+}
+
+- (void)uploadDocument:(PPLocalDocument *)document {
+    // send document to processing server
+    [[PPPhotoPayCloudService sharedService] uploadDocument:document
+                                                  delegate:self
+                                                   success:nil
+                                                   failure:nil
+                                                  canceled:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+
+    // Handle a still image capture
+    if (CFStringCompare((CFStringRef) mediaType, kUTTypeImage, 0) == kCFCompareEqualTo) {
+        UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
+
+        // create a local document for this user
+        PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:originalImage
+                                                                 processingType:PPDocumentProcessingTypeSerbianPhotoInvoice];
+
+        [self uploadDocument:document];
+
+    }
+    [self dismissModalViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES completion:nil];
+}
+</code></pre>
+
+<p>This procedure wraps the Home view controller implementation.</p>
+
+<h3 id="providingdetailsviewforeachdocument">8. Providing details view for each document</h3>
+
+<p>Once you have a PPDocument for which the details view needs to be displayed, it&#8217;s straightforward to implement such a view. All information about the document are embedded inside this object. For example, accessing scanning results is achieved with the following line:</p>
+
+<pre><code>PPScanResult *scanResult = [[inDocument remoteDocument] scanResult];
+</code></pre>
+
+<h3 id="specifyingcustomppsectioncreatorobjects">9. Specifying custom PPSectionCreator objects</h3>
+
+<p>TBD</p>
+
+<h2 id="wrappingup">Wrapping up</h2>
+
+<p>TBD</p>
+    </div>
+</body>
+</html>
