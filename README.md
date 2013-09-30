@@ -46,18 +46,70 @@ Using PhotoPayCloudSDK primarily means collaborating with the following classes:
 
 ### PPPhotoPayCloudService
 
-A singleton object responsible for performing all high level requests. PPPhotoPayCloudService object can perform the following tasks:
+A singleton object responsible for performing all high level requests. 
 
-- uploading the document to PhotoPay Cloud web API
-- uploading all pending documents which failed to upload in the last usage session
-- deleting all pending documents
-- obtaining the thumbnail and preview image of the document
-- getting the actual document byte data
-- deleting the document
-- requesting all documents with a given status which in turn populate a UITableDataSource object.
-- confirming the payment data values which were used in making the actual payment
+PPPhotoPayCloudService is a singleton object responsible for performing all high level requests. It can be accessed by using:
 
-These fatures are everything that's required to provide a well designed user experience.
+	[PPPhotoPayCloudService sharedService] 
+	
+PPPhotoPayCloudService object can perform the following tasks:
+
+Uploading documents to PhotoPay Cloud web API:
+
+	- (void)uploadDocument:(PPLocalDocument*)document
+              	  delegate:(id<PPDocumentUploadDelegate>)delegate
+               	   success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
+               	   failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
+              	  canceled:(void (^)(PPLocalDocument* localDocument))canceled;
+
+Uploading all pending documents which failed to upload in the last usage session
+
+	- (void)uploadPendingDocuments;
+
+Deleting all pending documents
+
+	- (void)deletePendingDocumentsWithError:(NSError**)error;
+
+Retrieving the image for the document. Image size can be specified, for example thumnail size.
+
+	- (void)getImageForDocument:(PPRemoteDocument*)document
+                  	  imageSize:(PPImageSize)imageSize
+                	imageFormat:(PPImageFormat)imageFormat
+                    	success:(void (^)(UIImage* image))success
+                    	failure:(void (^)(NSError* error))failure
+                   	   canceled:(void (^)())canceled;
+
+Retrieving the actual document. The whole byte array containing the document is retrieved.
+
+	- (void)getDocumentData:(PPRemoteDocument*)document
+                	success:(void (^)(NSData* data))success
+                	failure:(void (^)(NSError* error))failure
+               	   canceled:(void (^)())canceled;
+
+Associating the values user used for making the payment with a document
+
+	- (void)confirmValues:(PPUserConfirmedValues*)values
+           	  forDocument:(PPRemoteDocument*)document
+               	  success:(void (^)(void))success
+               	  failure:(void (^)(NSError* error))failure
+              	 canceled:(void (^)(void))canceled;
+
+Deleting the document
+
+	- (void)deleteDocument:(PPDocument*)document
+                 	 error:(NSError**)error;
+
+
+Requesting documents with a given status which should populate PPDocumentsTableDataSource object. Population is then scheduled to perform each 5 seconds
+
+	- (void)requestDocuments:(PPDocumentState)documentStateList;
+
+Requesting documents which should populate PPDocumentsTableDataSource object with custom poll interval
+
+	- (void)requestDocuments:(PPDocumentState)documentStateList
+            	pollInterval:(NSTimeInterval)timeInterval;
+
+These features are everything that's required to provide a well designed user experience.
 
 ### PPNetworkManager
 
@@ -95,15 +147,54 @@ For example, for serbian invoices, documents are typically created as a PPLocalI
 	
 PPDocumentProcessingType for photos of Serbian invoices is _PPDocumentProcessingTypeSerbianPhotoInvoice_
 
+#### Operations on all PPDocument objects
+
+Observing document state can be done by examining state property 
+
+	@property (nonatomic, assign) PPDocumentState state;
+	
+Also, if needed, there is a PPDocumentStateChangedDelegate protocol available which can notify your object for any state changed events.
+
+Each PPDocument has methods for accessing thumbnail image, preview image and the original document's byte array:
+
+	- (void)thumbnailImageWithSuccess:(void (^)(UIImage* thumbnailImage))success
+                          	 failure:(void (^)(void))failure;
+
+	- (void)previewImageWithSuccess:(void (^)(UIImage* previewImage))success
+                        	failure:(void (^)(void))failure;
+
+	- (void)documentBytesWithSuccess:(void (^)(NSData* bytes))success
+	                         failure:(void (^)(void))failure;
+	                         
+Also, there is a way to safely cast a PPDocument to any of it's subclasses. These methods return nil if cast is not successful.
+
+	- (PPLocalDocument*)localDocument;
+	- (PPRemoteDocument*)remoteDocument;
+
+#### Operations on PPLocalDocument objects
+
+Local document object have access to PPUploadRequestOperation for monitoring uploads
+
+#### Operations on PPRemoteDocument objects
+
+Interesting properties of PPRemoteDocument objects are
+
+	@property (nonatomic, strong) NSNumber* expectedProcessingTime;
+	@property (nonatomic, strong) PPScanResult* scanResult;
+	
 ### PPDocumentsTableDataSource
 
 PPPhotoPayCloudService object maintains it's own object which can be used as a UITableViewDataSource. The concrete implementation of this object can be overridden in your app, but the idea is that PPPhotoPayCloudService singleton object is responsible for maintaining a list of all documents of interest to the current user.
 
 Division of documents in section inside PPDocumentsTableDataSource can be specified separately, but more on that later.
 
+<!--(
+
 ### Rough class diagram of most important classes
 
 ![Partial class diagram of PhotoPayCloudSDK](Docs/class-diag.png)
+
+)-->
 
 ## Integration steps
 
@@ -173,7 +264,6 @@ After your Documents table data source was created, you can initialize UITableVi
 
 	- (void)viewDidLoad {
    		[super viewDidLoad];
-    
     	[self setTitle:@"Home"];
     
  		self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
@@ -184,10 +274,6 @@ After your Documents table data source was created, you can initialize UITableVi
     	[[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     	[[self billsTable] setDataSource:[self documentsDataSource]];
     	[[self billsTable] setDelegate:self];
-    
-    	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
-        	[[self cameraButton] setEnabled:NO];
-    	}
 	}
 	
 	- (void)viewDidUnload {
@@ -196,11 +282,6 @@ After your Documents table data source was created, you can initialize UITableVi
 	
 For updating the table view, your Home view controller should implement PPTableViewDataSourceDelegate protocol. This can be as simple as this:
 
-
-	/**
- 	 Called when new items are inserted into table view.
- 	 Method passes the exact index paths of the inserted elements
- 	 */
 	- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  	 didInsertItemsAtIndexPaths:(NSArray*)indexPaths {
     	[[self billsTable] beginUpdates];
@@ -208,10 +289,6 @@ For updating the table view, your Home view controller should implement PPTableV
     	[[self billsTable] endUpdates];
 	}
 
-	/**
- 	 Called when items are deleted from table view.
- 	 Method passes the exact index paths of the deleted elements
- 	 */
 	- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  	 didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
     	[[self billsTable] beginUpdates];
@@ -219,10 +296,6 @@ For updating the table view, your Home view controller should implement PPTableV
     	[[self billsTable] endUpdates];
 	 }
 
-	/**
- 	 Called when items are reloaded inside the table view.
- 	 Method passes the exact index paths of the reloaded elements
- 	 */
 	- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
   	  didReloadItemsAtIndexPath:(NSArray*)indexPaths {
     	[[self billsTable] beginUpdates];
@@ -264,7 +337,7 @@ In this method, it's also specified that Home view controller is the delegate fo
     	}
 	}
 	
-### 7. Taking photos starting document uploads
+### 7. Taking photos and starting document uploads
 
 For taking photos, it's easiest to use UIImagePickerController. It provides a familiar and elegant solution for not just taking photos, but also for verification of photo quality. The following code starts UIImagePickerController camera capture, obtains the UIImage from the camera, and starts the document upload to PhotoPayCloud web service:
 
@@ -300,8 +373,6 @@ For taking photos, it's easiest to use UIImagePickerController. It provides a fa
                                                   	  canceled:nil];
 	}
 
-	#pragma mark - UIImagePickerControllerDelegate
-
 	- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     	NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     
@@ -325,6 +396,16 @@ For taking photos, it's easiest to use UIImagePickerController. It provides a fa
 	
 This procedure wraps the Home view controller implementation.
 
-### 8. Examining PPDocument objects
+### 8. Providing details view for each document
+
+Once you have a PPDocument for which the details view needs to be displayed, it's straightforward to implement such a view. All information about the document are embedded inside this object. For example, accessing scanning results is achieved with the following line:
+
+	PPScanResult *scanResult = [[inDocument remoteDocument] scanResult];
 
 ### 9. Specifying custom PPSectionCreator objects
+
+TBD
+
+## Wrapping up
+
+TBD
