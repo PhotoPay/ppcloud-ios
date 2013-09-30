@@ -181,8 +181,10 @@
             success(_uploadRequestOperation, document, remoteDocument);
         }
         
-        [_uploadRequestOperation.delegate localDocument:document
+        if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didFinishUploadWithResult:)]) {
+            [_uploadRequestOperation.delegate localDocument:document
                               didFinishUploadWithResult:remoteDocument];
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Response %@", operation.responseString);
@@ -204,8 +206,10 @@
                 failure((id<PPUploadRequestOperation>)operation, document, error);
             }
             
-            [_uploadRequestOperation.delegate localDocument:document
-                                   didFailToUploadWithError:error];
+            if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didFailToUploadWithError:)]) {
+                [_uploadRequestOperation.delegate localDocument:document
+                                       didFailToUploadWithError:error];
+            }
         }
     }];
     
