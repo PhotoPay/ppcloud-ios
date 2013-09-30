@@ -323,8 +323,6 @@ Before presented to the user, Home view must specify which type of documents sho
     
 In this method, it's also specified that Home view controller is the delegate for upload progress. For this usage, it should implement PPDocumentUploadDelegate protocol. This protocol has all methods optional, but typically, for providing progress for uploads, it's enough to implement just the following:
 
-	#pragma mark - PPDocumentUploadDelegate
-
 	- (void)localDocument:(PPLocalDocument *)localDocument
 		didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
     	totalBytesToWrite:(long long)totalBytesToWrite {
