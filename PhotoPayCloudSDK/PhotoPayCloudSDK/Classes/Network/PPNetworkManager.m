@@ -10,6 +10,9 @@
 #import "PPRemoteDocument.h"
 #import "PPLocalDocument.h"
 #import "PPBaseResponse.h"
+#import "PPNetworkUtils.h"
+#import "PPDocument.h"
+#import "PPUser.h"
 
 NSString* const kPPParameterData = @"data";
 NSString* const kPPParameterCustomerId = @"customerId";
@@ -121,6 +124,59 @@ NSString* const kPPParameterStatus = @"status";
 
 + (id)objectForImageSize:(PPImageSize)imageSize {
      return [PPNetworkManager imageSizeObjectTable][@(imageSize)];
+}
+
++ (NSString*)apiPathUpload {
+    return @"cloud/upload/document/";
+}
+
++ (NSString*)apiPathStatusForDocument:(PPDocument*)document {
+    NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
+                                                                withEncoding:NSUTF8StringEncoding];
+    
+    return [NSString stringWithFormat:@"cloud/document/%@/status", documentId];
+}
+
++ (NSString*)apiPathDataForDocument:(PPDocument*)document {
+    NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
+                                                                withEncoding:NSUTF8StringEncoding];
+    
+    return [NSString stringWithFormat:@"cloud/document/%@/data", documentId];
+}
+
++ (NSString*)apiPathDocumentsForUser:(PPUser*)user {
+    NSString *userId = [PPNetworkUtils percentEscapedStringKeyFromString:[user userId]
+                                                            withEncoding:NSUTF8StringEncoding];
+    
+    return [NSString stringWithFormat:@"cloud/customer/documents/%@", userId];
+}
+
++ (NSString*)apiPathImageForDocument:(PPDocument*)document {
+    NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
+                                                                withEncoding:NSUTF8StringEncoding];
+
+    return [NSString stringWithFormat:@"cloud/image/%@", documentId];
+}
+
++ (NSString*)apiPathConfirmDataForDocument:(PPDocument*)document {
+    NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
+                                                                withEncoding:NSUTF8StringEncoding];
+
+    return [NSString stringWithFormat:@"cloud/payment/%@", documentId];
+}
+
++ (NSString*)apiPathPushRegistrationForUser:(PPUser*)user {
+    NSString *userId = [PPNetworkUtils percentEscapedStringKeyFromString:[user userId]
+                                                            withEncoding:NSUTF8StringEncoding];
+    
+    return [NSString stringWithFormat:@"cloud/payment/%@", userId];
+}
+
++ (NSString*)apiPathDeleteDocument:(PPDocument*)document {
+    NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
+                                                                withEncoding:NSUTF8StringEncoding];
+
+    return [NSString stringWithFormat:@"cloud/delete/%@", documentId];
 }
 
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user

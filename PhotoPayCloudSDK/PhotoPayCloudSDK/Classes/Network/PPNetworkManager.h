@@ -11,6 +11,7 @@
 #import "PPUploadRequestOperation.h"
 
 @class PPBaseResponse;
+@class PPDocument;
 @class PPLocalDocument;
 @class PPRemoteDocument;
 @class PPUser;
@@ -170,6 +171,46 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
  Application that uses PhotoPay Cloud SDK should provide concrete implementation
  */
 - (id)httpClient;
+
+/**
+ API path for uploading new documents
+ */
++ (NSString*)apiPathUpload;
+
+/**
+ API path for retrieving single document status
+ */
++ (NSString*)apiPathStatusForDocument:(PPDocument*)document;
+
+/**
+ API path for retrieving single document data
+ */
++ (NSString*)apiPathDataForDocument:(PPDocument*)document;
+
+/**
+ API path for retrieving list of documents for user
+ */
++ (NSString*)apiPathDocumentsForUser:(PPUser*)user;
+
+/**
+ API path for retrieving resized image of document
+ */
++ (NSString*)apiPathImageForDocument:(PPDocument*)document;
+
+/**
+ API path for updating user selected document data
+ */
++ (NSString*)apiPathConfirmDataForDocument:(PPDocument*)document;
+
+/**
+ PI path for registering device token for push notifications
+ */
++ (NSString*)apiPathPushRegistrationForUser:(PPUser*)user;
+
+/**
+ API path for deleting the document
+ */
++ (NSString*)apiPathDeleteDocument:(PPDocument*)document;
 
 /**
  Abstract.

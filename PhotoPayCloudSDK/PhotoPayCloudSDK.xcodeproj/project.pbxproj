@@ -26,6 +26,8 @@
 		1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */; };
 		18722A1317F082260070DE00 /* PPBaseResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 18722A1117F082260070DE00 /* PPBaseResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18722A1417F082260070DE00 /* PPBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 18722A1217F082260070DE00 /* PPBaseResponse.m */; };
+		188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 188175F517FC4C5B0077AC76 /* PPNetworkUtils.h */; };
+		188175F817FC4C5B0077AC76 /* PPNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 188175F617FC4C5B0077AC76 /* PPNetworkUtils.m */; };
 		1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249217DEFD8A00EDE12B /* NSString+Factory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883249317DEFD8A00EDE12B /* NSString+Factory.m */; };
 		1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249B17DF162200EDE12B /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -88,6 +90,8 @@
 		1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsTableDataSource.m; sourceTree = "<group>"; };
 		18722A1117F082260070DE00 /* PPBaseResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBaseResponse.h; sourceTree = "<group>"; };
 		18722A1217F082260070DE00 /* PPBaseResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPBaseResponse.m; sourceTree = "<group>"; };
+		188175F517FC4C5B0077AC76 /* PPNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNetworkUtils.h; sourceTree = "<group>"; };
+		188175F617FC4C5B0077AC76 /* PPNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPNetworkUtils.m; sourceTree = "<group>"; };
 		1883249217DEFD8A00EDE12B /* NSString+Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Factory.h"; sourceTree = "<group>"; };
 		1883249317DEFD8A00EDE12B /* NSString+Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Factory.m"; sourceTree = "<group>"; };
 		1883249B17DF162200EDE12B /* PhotoPayCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPayCloud.h; sourceTree = "<group>"; };
@@ -242,6 +246,8 @@
 				18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */,
 				18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */,
 				18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */,
+				188175F517FC4C5B0077AC76 /* PPNetworkUtils.h */,
+				188175F617FC4C5B0077AC76 /* PPNetworkUtils.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 				18BA051417E1D5BC00FF3CD3 /* PPTableSectionCreator.h in Headers */,
 				18BA051017E1D5BC00FF3CD3 /* PPTableLinearSectionCreator.h in Headers */,
 				18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */,
+				188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */,
 				1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */,
 				18AB526117F48C990046AB13 /* PPScanResult.h in Headers */,
 				18AB526517F48CC60046AB13 /* PPElementCandidate.h in Headers */,
@@ -491,6 +498,7 @@
 				18BA051717E1D5BC00FF3CD3 /* PPTableViewDataSource.m in Sources */,
 				18BA04F917E1D4A200FF3CD3 /* PPUser.m in Sources */,
 				18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */,
+				188175F817FC4C5B0077AC76 /* PPNetworkUtils.m in Sources */,
 				1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */,
 				18BA051317E1D5BC00FF3CD3 /* PPTableSection.m in Sources */,
 				18999BC917DD0F45009FA90A /* UIImage+Processing.m in Sources */,
