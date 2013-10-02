@@ -131,7 +131,7 @@
     // 2. create multipart request
     NSMutableURLRequest *multipartRequest =
         [[self httpClient] multipartFormRequestWithMethod:@"POST"
-                                                     path:@"/cloud/upload/document"
+                                                     path:[PPNetworkManager apiPathUpload]
                                                parameters:uploadRequestParameters
                                 constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
                                     [formData appendPartWithFileData:[document bytes]
@@ -171,11 +171,8 @@
     
     // 6. add success, failure and cancellation blocks
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Response object %@", responseObject);
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
         PPRemoteDocument* remoteDocument = [baseResponse document];
-        
-        NSLog(@"Remote document: %@", remoteDocument);
         
         if (success) {
             success(_uploadRequestOperation, document, remoteDocument);
@@ -240,9 +237,27 @@
                                         canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
     
     // 1. create parameters dictionary
-    NSError * __autoreleasing error = nil;
-    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
-    if (error != nil) {
+    NSMutableDictionary *requestParams = [[NSMutableDictionary alloc] init];
+    
+    // set user type if specified (if not specified, server default will be used
+    if ([user userType] != PPUserTypeDefault) {
+        [requestParams setObject:[PPUser objectForUserType:[user userType]] forKey:kPPParameterCustomerType];
+    }
+    
+    // set organization id if specified (if not specified, server default will be used
+    if ([user organizationId] != nil && [[user organizationId] length] != 0) {
+        [requestParams setObject:[user organizationId] forKey:kPPParameterOrganizationId];
+    } else {
+        NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+        NSString *desc = @"PhotoPayErrorUploadOrganisationIdNotSet";
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
+        NSError *error = [NSError errorWithDomain:domain
+                                             code:2004
+                                         userInfo:userInfo];
+        
+        if (failure) {
+            failure(nil, nil, error);
+        }
         return nil;
     }
     
@@ -279,7 +294,7 @@
     
     // 2. create request
     NSMutableURLRequest *getRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                      path:[NSString stringWithFormat:@"/cloud/customer/documents/%@", [user userId]]
+                                                                      path:[PPNetworkManager apiPathDocumentsForUser:user]
                                                                 parameters:requestParams];
     
     AFJSONRequestOperation *getRequestOperation =
@@ -308,7 +323,6 @@
                                                         }];
     
     return getRequestOperation;
-    
 }
 
 - (NSOperation*)createGetImageRequestForDocument:(PPRemoteDocument*)remoteDocument
@@ -335,7 +349,7 @@
                             forKey:kPPParameterHeight];
     
     NSMutableURLRequest *urlRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                      path:[NSString stringWithFormat:@"cloud/image/%@", [remoteDocument documentId]]
+                                                                      path:[PPNetworkManager apiPathImageForDocument:remoteDocument]
                                                                 parameters:requestParams];
         
     AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
@@ -375,7 +389,7 @@
     }
     
     NSMutableURLRequest *urlRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                      path:[NSString stringWithFormat:@"cloud/document/%@/data", [remoteDocument documentId]]
+                                                                      path:[PPNetworkManager apiPathDataForDocument:remoteDocument]
                                                                 parameters:requestParams];
     
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
@@ -416,7 +430,7 @@
     
     // 2. create request
     NSMutableURLRequest *deleteRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                         path:[NSString stringWithFormat:@"/cloud/delete/%@", [remoteDocument documentId]]
+                                                                         path:[PPNetworkManager apiPathDeleteDocument:remoteDocument]
                                                                    parameters:requestParams];
     
     NSLog(@"Request %@", deleteRequest);
@@ -465,7 +479,7 @@
     
     // 2. create request
     NSMutableURLRequest *confirmRequest = [[self httpClient] requestWithMethod:@"POST"
-                                                                          path:[NSString stringWithFormat:@"/cloud/payment/%@", [remoteDocument documentId]]
+                                                                          path:[PPNetworkManager apiPathConfirmDataForDocument:remoteDocument]
                                                                    parameters:requestParams];
     
     NSLog(@"Request %@", confirmRequest);
