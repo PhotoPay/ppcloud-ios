@@ -25,12 +25,22 @@ NSString* const keyLanguage = @"keyLanguage";
 @synthesize supportedLanguages;
 @synthesize statusBarStack;
 
+NSString *uuid() {
+    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
+    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
+    CFRelease(newUniqueId);
+    return [uuidString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
 + (PPApp*)sharedApp {
     static PPApp* sharedInstance = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
+        if (sharedInstance.userId == nil) {
+            sharedInstance.userId = uuid();
+        }
     });
     
     return sharedInstance;
