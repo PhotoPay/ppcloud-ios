@@ -489,19 +489,16 @@
     NSURL* url = [NSURL URLWithString:[[[confirmRequest URL] absoluteString] stringByAppendingFormat:[path rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AFQueryStringFromParametersWithEncoding(requestParams, encoding)]];
     [confirmRequest setURL:url];
     
-    NSLog(@"URL is %@", url);
     
     NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding));
     [confirmRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
     [confirmRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:[values dictionaryWithModelObject]
                                                                 options:(NSJSONWritingOptions)0 error:&error]];
     
-    NSLog(@"Body is %@", [values dictionaryWithModelObject]);
-    
+    // 3. Create confirm opreation based on request
     AFJSONRequestOperation *confirmOperation =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:confirmRequest
                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            NSLog(@"Confirming %@", JSON);
                                                             PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
                                                             
                                                             if (success) {
@@ -510,7 +507,6 @@
                                                         }
                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
                                                             if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-                                                                NSLog(@"request canceled");
                                                                 if (canceled) {
                                                                     canceled(request, response);
                                                                 }
