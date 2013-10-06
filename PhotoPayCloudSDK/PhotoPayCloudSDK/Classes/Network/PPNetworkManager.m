@@ -264,4 +264,16 @@ NSString* const kPPParameterStatus = @"status";
                                  userInfo:nil];
 }
 
+- (NSOperation*)createRegisterPushNotificationToken:(NSString*)token
+                                            forUser:(PPUser *)user
+                                            success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
+                                            failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                           canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
 @end

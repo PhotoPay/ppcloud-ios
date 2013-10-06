@@ -291,6 +291,15 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
                                    failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                                   canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
 
-
+/**
+ Abstract.
+ 
+ Factory method for creating requests for registering push notifications
+ */
+- (NSOperation*)createRegisterPushNotificationToken:(NSString*)token
+                                            forUser:(PPUser *)user
+                                            success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
+                                            failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
+                                           canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled;
 
 @end
