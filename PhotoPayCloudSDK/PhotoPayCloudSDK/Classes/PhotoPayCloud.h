@@ -27,6 +27,7 @@
 #import "PPElementCandidateList.h"
 #import "PPElementCandidate.h"
 #import "PPElementPosition.h"
+#import "PPUserConfirmedValues.h"
 
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"

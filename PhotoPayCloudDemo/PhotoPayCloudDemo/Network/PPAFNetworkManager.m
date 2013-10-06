@@ -477,17 +477,31 @@
         return nil;
     }
     
-    // 2. create request
-    NSMutableURLRequest *confirmRequest = [[self httpClient] requestWithMethod:@"POST"
-                                                                          path:[PPNetworkManager apiPathConfirmDataForDocument:remoteDocument]
-                                                                   parameters:requestParams];
+    NSStringEncoding encoding = NSUTF8StringEncoding;
     
-    NSLog(@"Request %@", confirmRequest);
+    // 2. create request
+    NSString* path = [PPNetworkManager apiPathConfirmDataForDocument:remoteDocument];
+    NSMutableURLRequest *confirmRequest = [[self httpClient] requestWithMethod:@"POST"
+                                                                          path:path
+                                                                   parameters:nil];
+    
+    // set query string in url
+    NSURL* url = [NSURL URLWithString:[[[confirmRequest URL] absoluteString] stringByAppendingFormat:[path rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AFQueryStringFromParametersWithEncoding(requestParams, encoding)]];
+    [confirmRequest setURL:url];
+    
+    NSLog(@"URL is %@", url);
+    
+    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding));
+    [confirmRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
+    [confirmRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:[values dictionaryWithModelObject]
+                                                                options:(NSJSONWritingOptions)0 error:&error]];
+    
+    NSLog(@"Body is %@", [values dictionaryWithModelObject]);
     
     AFJSONRequestOperation *confirmOperation =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:confirmRequest
                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            NSLog(@"Deleting %@", JSON);
+                                                            NSLog(@"Confirming %@", JSON);
                                                             PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
                                                             
                                                             if (success) {

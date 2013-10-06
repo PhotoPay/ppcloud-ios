@@ -21,8 +21,16 @@
     return self;
 }
 
+- (NSMutableDictionary*)dictionaryWithModelObject {
+    NSMutableDictionary* dictionary = [super dictionaryWithModelObject];
+    
+    [dictionary addEntriesFromDictionary:self.values];
+    
+    return dictionary;
+}
+
 - (NSString*)description {
-    NSString *result = [NSString stringWithFormat:@"User confirmed data size %d", [self.values count]];
+    NSString *result = [NSString stringWithFormat:@"User confirmed data size %d\n", [self.values count]];
     NSArray *keys = [self.values allKeys];
     
     for (NSString* key in keys) {
