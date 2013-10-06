@@ -529,6 +529,47 @@
                                             success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
                                             failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
                                            canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+    
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        return nil;
+    }
+    
+    [requestParams setObject:token forKey:kPPParameterDeviceToken];
+    
+    NSString* path = [PPNetworkManager apiPathPushRegistrationForUser:user];
+    
+    NSMutableURLRequest *pushRegisterRequest = [[self httpClient] requestWithMethod:@"POST"
+                                                                      path:path
+                                                                parameters:nil];
+    
+    NSURL* url = [NSURL URLWithString:[[pushRegisterRequest.URL absoluteString] stringByAppendingFormat:[path rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AFQueryStringFromParametersWithEncoding(requestParams, NSUTF8StringEncoding)]];
+    [pushRegisterRequest setURL:url];
+    
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:pushRegisterRequest];
+    
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (success) {
+            success(operation.request, operation.response, responseObject);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            if (canceled) {
+                canceled(operation.request, operation.response);
+            }
+            return;
+        }
+        
+        if (failure != nil) {
+            NSLog(@"Fail! %@", error);
+            
+            failure(operation.request, operation.response, error);
+        }
+    }];
+    
+    return requestOperation;
 }
 
 @end
