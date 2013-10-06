@@ -169,7 +169,7 @@ NSString* const kPPParameterStatus = @"status";
     NSString *userId = [PPNetworkUtils percentEscapedStringKeyFromString:[user userId]
                                                             withEncoding:NSUTF8StringEncoding];
     
-    return [NSString stringWithFormat:@"cloud/payment/%@", userId];
+    return [NSString stringWithFormat:@"cloud/customer/pushNotificationRegistration/%@", userId];
 }
 
 + (NSString*)apiPathDeleteDocument:(PPDocument*)document {

@@ -248,6 +248,11 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
 - (void)requestDocuments:(PPDocumentState)documentStateList
             pollInterval:(NSTimeInterval)timeInterval;
 
+/**
+ Registers a push notification token for current user
+ */
+- (void)registerPushNotificationToken:(NSString*)token;
+
 @end
 
 

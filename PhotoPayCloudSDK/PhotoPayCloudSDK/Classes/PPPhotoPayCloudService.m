@@ -727,4 +727,19 @@
     [confirmValuesOperation start];
 }
 
+- (void)registerPushNotificationToken:(NSString*)token {
+    NSOperation* registerPushOperation =
+        [[self networkManager] createRegisterPushNotificationToken:token
+                                                           forUser:[self user] success:^(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse) {
+                                                               ;
+                                                           }
+                                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                               ;
+                                                           }
+                                                          canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                              ;
+                                                          }];
+    [registerPushOperation start];
+}
+
 @end
