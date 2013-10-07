@@ -21,8 +21,13 @@
     [self midLowerLabel].hidden = YES;
     [self midupperLabel].hidden = YES;
     
+    NSString* recipient = [[remoteDocument scanResult] mostProbableRecipientNameCandidate].value;
+    if (recipient == nil || [recipient length] == 0) {
+        recipient = [[remoteDocument scanResult] mostProbableAccountNumberCandidate].value;
+    }
+    
     [self largeLabel].text = [[remoteDocument scanResult] mostProbableAmountCandidate].value;
-    [self mediumLabel].text = [[remoteDocument scanResult] mostProbableAccountNumberCandidate].value;
+    [self mediumLabel].text = recipient;
     
     NSString* reference = [[remoteDocument scanResult] mostProbableReferenceNumberCandidate].value;
     NSString* model = [[remoteDocument scanResult] mostProbableReferenceModelCandidate].value;
