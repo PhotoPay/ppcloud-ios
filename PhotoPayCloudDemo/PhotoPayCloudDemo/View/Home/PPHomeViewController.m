@@ -20,6 +20,16 @@
 
 - (void)uploadDocument:(PPLocalDocument*)document;
 
+- (void)setupTableData;
+
+- (void)teardownTableData;
+
+- (void)setupNotifications;
+
+- (void)didEnterBackground:(NSNotification*)notification;
+
+- (void)willEnterForeground:(NSNotification*)notification;
+
 @end
 
 @implementation PPHomeViewController
@@ -59,15 +69,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // this view controller will receive all news about the upload status
-    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+    [self setupTableData];
     
     // To clear any selection in the table view before it’s displayed
     [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
-    
-    // request all local documents and remote unconfirmed to be seen inside table view
-    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
-                                                pollInterval:5.0f];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -75,13 +80,56 @@
     
     // flash the scroll view’s scroll indicators
     [[self billsTable] flashScrollIndicators];
+    
+    [self setupNotifications];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self teardownTableData];
+}
+
+- (void)setupTableData {
+    NSLog(@"Setting up table data!");
+    
+    // this view controller will receive all news about the upload status
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+    
+    // request all local documents and remote unconfirmed to be seen inside table view
+    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
+                                                pollInterval:5.0f];
+}
+
+- (void)teardownTableData {
+    NSLog(@"Tearing down table data!");
+    
     // this view controller will stop receiving all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+}
+
+- (void)setupNotifications {
+    // watch for did enter background event
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
+    
+    // watch for will enter foreground event
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willEnterForeground:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+}
+
+- (void)didEnterBackground:(NSNotification *)notification {
+    [self teardownTableData];
+}
+
+- (void)willEnterForeground:(NSNotification *)notification {
+    [self setupTableData];
 }
 
 - (void)didReceiveMemoryWarning
