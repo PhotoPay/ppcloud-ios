@@ -12,6 +12,7 @@ NSString* const kPPSerbianAmountKey = @"Amount";
 NSString* const kPPSerbianAccountNumberKey = @"Account";
 NSString* const kPPSerbianReferenceNumberKey = @"Reference";
 NSString* const kPPSerbianReferenceModelKey = @"ReferenceModel";
+NSString* const kPPSerbianRecipientNameKey = @"RecipientName";
 
 @implementation PPScanResult (Serbia)
 
@@ -45,6 +46,14 @@ NSString* const kPPSerbianReferenceModelKey = @"ReferenceModel";
 
 - (PPElementCandidate*)mostProbableReferenceModelCandidate {
     return [self mostProbableCandidateForKey:kPPSerbianReferenceModelKey];
+}
+
+- (PPElementCandidateList*)recipientNameCandidateList {
+    return [self candidateListForKey:kPPSerbianRecipientNameKey];
+}
+
+- (PPElementCandidate*)mostProbableRecipientNameCandidate {
+    return [self mostProbableCandidateForKey:kPPSerbianRecipientNameKey];
 }
 
 @end

@@ -12,6 +12,7 @@ extern NSString* const kPPSerbianAmountKey;
 extern NSString* const kPPSerbianAccountNumberKey;
 extern NSString* const kPPSerbianReferenceNumberKey;
 extern NSString* const kPPSerbianReferenceModelKey;
+extern NSString* const kPPSerbianRecipientNameKey;
 
 @interface PPScanResult (Serbia)
 
@@ -34,5 +35,10 @@ extern NSString* const kPPSerbianReferenceModelKey;
 - (PPElementCandidateList*)referenceModelCandidateList;
 
 - (PPElementCandidate*)mostProbableReferenceModelCandidate;
+
+/** Recipient name */
+- (PPElementCandidateList*)recipientNameCandidateList;
+
+- (PPElementCandidate*)mostProbableRecipientNameCandidate;
 
 @end
