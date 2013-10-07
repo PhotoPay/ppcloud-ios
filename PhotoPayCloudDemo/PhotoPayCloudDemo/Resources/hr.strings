@@ -111,3 +111,33 @@
 "PhotoPayErrorUploadOrganisationIdNotSet" = "PhotoPayErrorUploadOrganisationIdNotSet";
 /** Error code 2005. Cannot upload, the operation takes too long */
 "PhotoPayErrorUploadOperationTooLong" = "PhotoPayErrorUploadOperationTooLong";
+
+
+/** DATES */
+
+/** Yesterday */
+"PhotoPayYesterday" = "Jučer";
+
+/** 2 days ago */
+"PhotoPay2DaysAgo" = "Prije 2 dana";
+
+/** This week */
+"PhotoPayThisWeek" = "Ovaj tjedan";
+
+/** Last week */
+"PhotoPayLastWeek" = "Prošli tjedan";
+
+/** This month */
+"PhotoPayThisMonth" = "Ovaj mjesec";
+
+/** Last month */
+"PhotoPayLastMonth" = "Prošli mjesec";
+
+/** This year */
+"PhotoPayThisYear" = "Ove godine";
+
+/** Last year */
+"PhotoPayLastYear" = "Prošle godine";
+
+/** X years ago */
+"PhotoPayYearsAgo" = "Prije %d godine";

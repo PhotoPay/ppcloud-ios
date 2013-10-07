@@ -7,6 +7,7 @@
 //
 
 #import "PPDocumentTableViewCell.h"
+#import "NSDate+Formatting.h"
 
 @implementation PPDocumentTableViewCell
 
@@ -36,6 +37,8 @@
         [[self thumbnailLoadingIndicator] stopAnimating];
         [self thumbnailView].image = [document thumbnailImage];
     }
+    
+    [self dateLabel].text = [[document creationDate] pp_shortRelativeFormattedString];
 }
 
 + (NSString*)defaultXibName {

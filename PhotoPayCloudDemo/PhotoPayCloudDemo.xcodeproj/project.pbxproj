@@ -26,6 +26,7 @@
 		182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */; };
 		182C0A8117F3C48A00DF1D78 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C0A8017F3C48A00DF1D78 /* QuickLook.framework */; };
 		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
+		1881760D1802F3810077AC76 /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881760C1802F3810077AC76 /* NSDate+Formatting.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
 		188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE417D876E9009531FA /* Foundation.framework */; };
 		188AAEE717D876E9009531FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE617D876E9009531FA /* CoreGraphics.framework */; };
@@ -96,6 +97,8 @@
 		182C0A8017F3C48A00DF1D78 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
 		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
+		1881760B1802F3810077AC76 /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
+		1881760C1802F3810077AC76 /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		188AAEE217D876E9009531FA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		188AAEE417D876E9009531FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -316,6 +319,8 @@
 				188AAF6D17D8C176009531FA /* UIViewController+Modal.m */,
 				18DEA44E17DA8DE400DCEC17 /* NSString+Formatting.h */,
 				18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */,
+				1881760B1802F3810077AC76 /* NSDate+Formatting.h */,
+				1881760C1802F3810077AC76 /* NSDate+Formatting.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -551,6 +556,7 @@
 				18AB525817F487250046AB13 /* PPDocumentTableViewCell+Processed.m in Sources */,
 				18AB527117F4CB130046AB13 /* PPQLPreviewController.m in Sources */,
 				18AB527617F4D8A50046AB13 /* PPProcessedDocumentView.m in Sources */,
+				1881760D1802F3810077AC76 /* NSDate+Formatting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

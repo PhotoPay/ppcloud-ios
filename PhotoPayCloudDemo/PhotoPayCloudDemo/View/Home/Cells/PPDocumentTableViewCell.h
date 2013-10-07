@@ -29,6 +29,8 @@
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+
 + (id)allocWithNibName:(NSString *)name;
 
 - (void)refreshWithDocument:(PPDocument*)document;

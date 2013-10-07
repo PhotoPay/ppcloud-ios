@@ -96,3 +96,33 @@
 
 /** Title of the previewed document */
 "PhotoPayPreviewDocumentTitle" = "Document";
+
+
+/** DATES */
+
+/** Yesterday */
+"PhotoPayYesterday" = "Yesterday";
+
+/** 2 days ago */
+"PhotoPay2DaysAgo" = "2 days ago";
+
+/** This week */
+"PhotoPayThisWeek" = "This week";
+
+/** Last week */
+"PhotoPayLastWeek" = "Last week";
+
+/** This month */
+"PhotoPayThisMonth" = "This month";
+
+/** Last month */
+"PhotoPayLastMonth" = "Last month";
+
+/** This year */
+"PhotoPayThisYear" = "This year";
+
+/** Last year */
+"PhotoPayLastYear" = "Last year";
+
+/** X years ago */
+"PhotoPayYearsAgo" = "%d years ago";
