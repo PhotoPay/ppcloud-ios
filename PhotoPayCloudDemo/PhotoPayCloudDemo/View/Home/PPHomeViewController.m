@@ -93,8 +93,6 @@
 }
 
 - (void)setupTableData {
-    NSLog(@"Setting up table data!");
-    
     // this view controller will receive all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
     
@@ -104,8 +102,6 @@
 }
 
 - (void)teardownTableData {
-    NSLog(@"Tearing down table data!");
-    
     // this view controller will stop receiving all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
 }

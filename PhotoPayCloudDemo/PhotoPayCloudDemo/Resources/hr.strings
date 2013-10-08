@@ -115,6 +115,9 @@
 
 /** DATES */
 
+/** Today */
+"PhotoPayToday" = "Danas";
+
 /** Yesterday */
 "PhotoPayYesterday" = "Jučer";
 
