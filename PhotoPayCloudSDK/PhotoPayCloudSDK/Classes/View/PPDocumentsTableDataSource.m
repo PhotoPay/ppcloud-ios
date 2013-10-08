@@ -106,6 +106,7 @@
         
     [remoteDocument setPreviewImage:[localDocument previewImage]];
     [remoteDocument setThumbnailImage:[localDocument thumbnailImage]];
+    [remoteDocument setCreationDate:[localDocument creationDate]];
     
     NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
     
