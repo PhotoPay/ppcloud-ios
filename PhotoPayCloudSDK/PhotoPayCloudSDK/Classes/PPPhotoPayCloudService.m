@@ -275,8 +275,6 @@
     // set document data
     [localDocument setOwnerIdHash:[[self user] userIdHash]];
     
-    NSLog(@"Document is %@", localDocument);
-    
     // create the upload request
     id<PPUploadRequestOperation> uploadRequest =
         [[self networkManager] createUploadRequestForUser:[self user]

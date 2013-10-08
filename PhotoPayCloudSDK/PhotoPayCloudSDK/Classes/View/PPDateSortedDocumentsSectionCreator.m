@@ -8,6 +8,7 @@
 
 #import "PPDateSortedDocumentsSectionCreator.h"
 #import "PPTableSection.h"
+#import "PPDocument.h"
 #import <UIKit/UIKit.h>
 
 @interface PPDateSortedDocumentsSectionCreator ()
@@ -34,11 +35,35 @@
 }
 
 - (NSIndexPath*)insertItem:(id)item {
+    // we always insert into first section
+    
+    PPDocument *insertingDocument = nil;
+    if ([item isKindOfClass:[PPDocument class]]) {
+        insertingDocument = (PPDocument *)item;
+    } else {
+        return nil;
+    }
+    
     PPTableSection *section = [[self sections] objectAtIndex:0];
     
-    [section addItem:item atIndex:0];
+    int i = 0;
+    for (; i < [section itemCount]; i++) {
+        
+        // we find the item with date larger than current
+        // and then break the loop
+        NSObject *obj = [[section items] objectAtIndex:i];
+        if ([obj isKindOfClass:[PPDocument class]]) {
+            PPDocument *document = (PPDocument *)obj;
+            
+            if ([[document creationDate] compare:[insertingDocument creationDate]] == NSOrderedAscending) {
+                break;
+            }
+        }
+    }
     
-    return [NSIndexPath indexPathForRow:0 inSection:0];
+    [section addItem:item atIndex:i];
+    
+    return [NSIndexPath indexPathForRow:i inSection:0];
 }
 
 - (NSIndexPath*)removeItem:(id)item {

@@ -148,7 +148,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  Exact date of the creation of the document
  */
-@property (nonatomic, strong, readonly) NSDate* creationDate;
+@property (nonatomic, strong) NSDate* creationDate;
 
 /** Delegate for state changed notifications */
 @property (nonatomic, weak) id<PPDocumentStateChangedDelegate> delegate;
