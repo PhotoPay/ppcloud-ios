@@ -61,7 +61,6 @@
 		18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04F017E1058500FF3CD3 /* PPAFUploadRequestOperation.m */; };
 		18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA052C17E24DC200FF3CD3 /* PPAlertView.m */; };
 		18CF2C1517F855D4008BAEE3 /* PhotoPayCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18CF2C1117F855D4008BAEE3 /* PhotoPayCloud.framework */; };
-		18CF2C1617F855D4008BAEE3 /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18CF2C1317F855D4008BAEE3 /* PhotoPayCloud.xcconfig */; };
 		18CF2C1717F855D4008BAEE3 /* PhotoPayCloudResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18CF2C1417F855D4008BAEE3 /* PhotoPayCloudResources.bundle */; };
 		18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44A17DA7B5C00DCEC17 /* hr.strings */; };
 		18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44C17DA7B6700DCEC17 /* en.strings */; };
@@ -437,7 +436,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PP;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = PhotoPay;
 			};
 			buildConfigurationList = 188AAEDA17D876E9009531FA /* Build configuration list for PBXProject "PhotoPayCloudDemo" */;
@@ -486,7 +485,6 @@
 				18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */,
 				1819982D17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib in Resources */,
 				18AB527317F4D7BA0046AB13 /* PPProcessedDocumentView_iPhone.xib in Resources */,
-				18CF2C1617F855D4008BAEE3 /* PhotoPayCloud.xcconfig in Resources */,
 				18CF2C1717F855D4008BAEE3 /* PhotoPayCloudResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

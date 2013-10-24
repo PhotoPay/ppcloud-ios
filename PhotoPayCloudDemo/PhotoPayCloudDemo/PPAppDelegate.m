@@ -120,7 +120,7 @@ static bool loggedIn = false;
     
     PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
     PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
-                                   organizationId:@"PhotoPay"];
+                                   organizationId:@"EBS"];
     
     [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
 }
@@ -151,8 +151,12 @@ static bool loggedIn = false;
     static AFHTTPClient* httpclient = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
+//        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://smartphonembankinguat.erstebank.rs:1027/"]];
+        
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
+        [httpclient setDefaultHeader:@"Accept-Encoding" value:@""];
+        
         [httpclient setDefaultHeader:@"X-OS" value:osString];
         
         NSString* buildNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];

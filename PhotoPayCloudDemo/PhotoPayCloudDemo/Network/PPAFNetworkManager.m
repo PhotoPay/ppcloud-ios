@@ -307,6 +307,8 @@
                                                             }
                                                         }
                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+                                                            NSLog(@"Failed to execute. Response %@", response);
+                                                            
                                                             if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
                                                                     NSLog(@"request canceled");
                                                                     if (canceled) {
@@ -314,9 +316,7 @@
                                                                     }
                                                                     return;
                                                                 }
-                                                                
-                                                                NSLog(@"failed to execute request %@", error.description);
-                                                                
+                                                            
                                                                 if (failure != nil) {
                                                                     failure(request, response, error);
                                                                 }
@@ -432,8 +432,6 @@
     NSMutableURLRequest *deleteRequest = [[self httpClient] requestWithMethod:@"GET"
                                                                          path:[PPNetworkManager apiPathDeleteDocument:remoteDocument]
                                                                    parameters:requestParams];
-    
-    NSLog(@"Request %@", deleteRequest);
     
     AFJSONRequestOperation *deleteOperation =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:deleteRequest
