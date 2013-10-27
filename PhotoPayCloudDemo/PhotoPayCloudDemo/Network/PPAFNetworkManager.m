@@ -38,6 +38,9 @@
     self = [super init];
     if (self) {
         httpClient = inHttpClient;
+#ifdef DEBUG
+        httpClient.allowsInvalidSSLCertificate = YES;
+#endif
     }
     return self;
 }
@@ -142,6 +145,10 @@
     
     // 3.create upload operation from multipart request and upload parameters object
     PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest];
+    
+#ifdef DEBUG
+    uploadRequestOperation.allowsInvalidSSLCertificate = YES;
+#endif
     
     // 4. check for errors
     if (uploadRequestOperation == nil) {
@@ -322,6 +329,10 @@
                                                                 }
                                                         }];
     
+#ifdef DEBUG
+    getRequestOperation.allowsInvalidSSLCertificate = YES;
+#endif
+    
     return getRequestOperation;
 }
 
@@ -353,6 +364,10 @@
                                                                 parameters:requestParams];
         
     AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
+    
+#ifdef DEBUG
+    requestOperation.allowsInvalidSSLCertificate = YES;
+#endif
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
@@ -393,6 +408,10 @@
                                                                 parameters:requestParams];
     
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+    
+#ifdef DEBUG
+    requestOperation.allowsInvalidSSLCertificate = YES;
+#endif
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
@@ -459,6 +478,10 @@
                                                             }
                                                         }];
     
+#ifdef DEBUG
+    deleteOperation.allowsInvalidSSLCertificate = YES;
+#endif
+    
     return deleteOperation;
 }
 
@@ -518,6 +541,10 @@
                                                             }
                                                         }];
     
+#ifdef DEBUG
+    confirmOperation.allowsInvalidSSLCertificate = YES;
+#endif
+    
     return confirmOperation;
 
 }
@@ -566,6 +593,10 @@
             failure(operation.request, operation.response, error);
         }
     }];
+    
+#ifdef DEBUG
+    requestOperation.allowsInvalidSSLCertificate = YES;
+#endif
     
     return requestOperation;
 }
