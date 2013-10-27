@@ -54,7 +54,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
 - (NSData*)bytes {
     if (self->bytes_ == nil && image != nil) {
         // if we don't have bytes property, but have local UIImage, create bytes from UIImage
-        self->bytes_ = [UIImage pp_jpegDataWithImage:[[self image] pp_fixOrientation]
+        self->bytes_ = [UIImage pp_jpegDataWithImage:[self image]
                                   scaledToResolution:finalResolution
                                     compressionLevel:0.9];
     } else if (self->bytes_ == nil) {
