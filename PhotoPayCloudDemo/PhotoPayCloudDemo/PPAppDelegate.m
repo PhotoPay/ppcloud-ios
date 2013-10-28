@@ -84,7 +84,7 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
         if (!loggedIn) {
             [self photoPayCloudLogin];
         }
-        PPLocalDocument *localDocument = [[PPLocalPdfDocument alloc] initWithLocalUrl:url processingType:PPDocumentProcessingTypeAustrianPDFInvoice];
+        PPLocalDocument *localDocument = [[PPLocalPdfDocument alloc] initWithLocalUrl:url processingType:PPDocumentProcessingTypeSerbianPDFInvoice];
         
         // send document to processing server
         [[PPPhotoPayCloudService sharedService] uploadDocument:localDocument
@@ -100,7 +100,7 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
 
 - (void)configureApp {
     [self configureLogger];
-    [[PPApp sharedApp] setLanguage:@"en"];
+    [[PPApp sharedApp] setLanguage:@"hr"];
 }
 
 - (void)configureLogger {
