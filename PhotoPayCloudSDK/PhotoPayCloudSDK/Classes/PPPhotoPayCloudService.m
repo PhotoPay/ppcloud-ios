@@ -412,6 +412,9 @@
                                      userInfo:nil];
     }
     
+    if (delegate == nil) {
+        delegate = [self uploadDelegate];
+    }
     
     if ([document state] == PPDocumentStateCreated) {
         // Save local document file do documents directory
