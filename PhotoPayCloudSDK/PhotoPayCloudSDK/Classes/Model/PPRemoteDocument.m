@@ -21,6 +21,7 @@
 @implementation PPRemoteDocument
 
 @synthesize expectedProcessingTime;
+
 - (id)initWithDictionary:(NSDictionary*)dictionary {
     self = [super initWithDictionary:dictionary];
     if (!self) {

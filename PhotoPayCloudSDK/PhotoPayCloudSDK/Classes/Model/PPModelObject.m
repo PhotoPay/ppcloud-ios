@@ -72,7 +72,7 @@
 + (NSNumber*)initNumber:(id)dictionaryObject
           defaultNumber:(NSNumber *)defaultNumber {
     
-    if (dictionaryObject == [NSNull null]) {
+    if (dictionaryObject == [NSNull null] || dictionaryObject == nil) {
         return defaultNumber;
     }
     
