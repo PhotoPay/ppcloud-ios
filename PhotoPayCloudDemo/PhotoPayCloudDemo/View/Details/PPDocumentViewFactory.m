@@ -59,8 +59,6 @@ NSUInteger stateGroupForState(PPDocumentState state) {
 - (PPDocumentDetailsView*)documentView {
     if (stateGroupForState(currentDocumentState) != stateGroupForState([document state]) || currentView == nil) {
         currentDocumentState = [document state];
-
-        NSLog(@"State is %@", [PPDocument objectForDocumentState:[document state]]);
         
         switch (currentDocumentState) {
             case PPDocumentStateUploadFailed:

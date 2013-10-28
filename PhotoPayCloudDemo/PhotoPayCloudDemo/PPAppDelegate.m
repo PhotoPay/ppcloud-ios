@@ -87,11 +87,7 @@
                                                        failure:nil
                                                       canceled:nil];
         
-        NSLog(@"Sending PDF!");
-        
         [rootNavigationViewController popToRootViewControllerAnimated:NO];
-        
-        NSLog(@"The file is: %@", localDocument);
     }
     return YES;
 }

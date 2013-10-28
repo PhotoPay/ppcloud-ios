@@ -455,7 +455,6 @@
     AFJSONRequestOperation *deleteOperation =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:deleteRequest
                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            NSLog(@"Deleting %@", JSON);
                                                             PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
                                                         
                                                             if (success) {
@@ -471,7 +470,7 @@
                                                                 return;
                                                             }
                                                             
-                                                            NSLog(@"failed to execute request %@", error.description);
+                                                            NSLog(@"failed to execute request %@\nError:%@", response, error.description);
                                                             
                                                             if (failure != nil) {
                                                                 failure(request, response, error);
