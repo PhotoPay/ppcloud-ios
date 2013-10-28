@@ -10,8 +10,10 @@
 
 @interface PPAutoUpdater () <UIAlertViewDelegate>
 
-@property (nonatomic, retain) NSString* distributionUrl;
-@property (nonatomic, retain) NSString* appName;
+@property (nonatomic, strong) NSString* distributionUrl;
+@property (nonatomic, strong) NSString* appName;
+@property (nonatomic, assign) BOOL shouldCheck;
+@property (nonatomic, strong) UIAlertView* noticeAlertView;
 
 - (BOOL)isUpdateAvailable;
 - (void)checkUpdate;
@@ -29,6 +31,8 @@
     @synchronized (self) {
         if (!sharedInstance) {
             sharedInstance = [[PPAutoUpdater alloc] init];
+            sharedInstance.shouldCheck = YES;
+            sharedInstance.noticeAlertView = nil;
         }
         
         return sharedInstance;
@@ -58,7 +62,8 @@
 }
 
 - (void)didEnterBackground:(NSNotification *)notification {
-    
+    self.shouldCheck = YES;
+    [self.noticeAlertView dismissWithClickedButtonIndex:0 animated:NO];
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {
@@ -87,12 +92,16 @@
 }
 
 - (void)checkUpdate {
+    if (!self.shouldCheck) {
+        return;
+    }
+    self.shouldCheck = NO;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         if ([self isUpdateAvailable]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *message = [NSString stringWithFormat:@"A new version of %@ is available. Would you like to install it?", [self appName]];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Update available" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-                [alert show];
+                self.noticeAlertView = [[UIAlertView alloc] initWithTitle:@"Update available" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+                [self.noticeAlertView show];
             });
         }
     });
@@ -103,6 +112,7 @@
         NSString *updateUrl = [NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@%@.plist", [self distributionUrl], [self appName]];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateUrl]];
     }
+    self.noticeAlertView = nil;
 }
 
 @end
