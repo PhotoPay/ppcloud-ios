@@ -53,7 +53,7 @@
 "PhotoPayHomeDocumentProcessingLabel" = "Račun je u obradi";
 
 /* Label for explaining how long will the processing take */
-"PhotoPayHomeDocumentProcessingTimeLabel" = "Očekivano vrijeme obrade";
+"PhotoPayHomeDocumentProcessingTimeLabel" = "Manje od %d %@ do kraja";
 
 /* Singular for minute */
 "PhotoPayHomeDocumentProcessingMinuteSingular" = "minuta";

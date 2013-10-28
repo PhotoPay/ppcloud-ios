@@ -50,10 +50,10 @@
 "PhotoPayHomeDocumentUploadFailedLabel" = "Sending failed";
 
 /* Label describing that document is in processing */
-"PhotoPayHomeDocumentProcessingLabel" = "Document is being processed…";
+"PhotoPayHomeDocumentProcessingLabel" = "Processing…";
 
 /* Label for explaining how long will the processing take */
-"PhotoPayHomeDocumentProcessingTimeLabel" = "Expected processing time";
+"PhotoPayHomeDocumentProcessingTimeLabel" = "Less than %d %@ remaining";
 
 /* Singular for minute */
 "PhotoPayHomeDocumentProcessingMinuteSingular" = "minute";

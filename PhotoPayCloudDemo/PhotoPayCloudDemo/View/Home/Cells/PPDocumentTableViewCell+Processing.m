@@ -27,7 +27,7 @@
     BOOL singular = (lastDigits >= 10 && lastDigits <= 19) || lastDigit > 5 || lastDigit < 2;
     NSString* expectedTimeString = singular ? _(@"PhotoPayHomeDocumentProcessingMinuteSingular") : _(@"PhotoPayHomeDocumentProcessingMinutePlural");
     
-    [self midLowerLabel].text = [NSString stringWithFormat:@"%@: %d %@", _(@"PhotoPayHomeDocumentProcessingTimeLabel"), (int)([[remoteDocument expectedProcessingTime] integerValue] + 0.5), expectedTimeString];
+    [self midLowerLabel].text = __(@"PhotoPayHomeDocumentProcessingTimeLabel", (int)([[remoteDocument expectedProcessingTime] integerValue] + 0.5), expectedTimeString);
 }
 
 @end
