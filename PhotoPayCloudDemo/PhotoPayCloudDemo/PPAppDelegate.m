@@ -12,6 +12,10 @@
 #import <PhotoPayCloud/PhotoPayCloud.h>
 #import <AFNetworking/AFNetworking.h>
 #import "PPAlertView.h"
+#import "PPAutoUpdater.h"
+
+static NSString* appName = @"PhotoPayCloudDemo";
+static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/aus-erste-cloud/";
 
 @interface PPAppDelegate ()
 
@@ -69,6 +73,8 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    [[PPAutoUpdater sharedInstance] scanUpdatesForAppName:appName distributionUrl:distributionUrl];
     
     return YES;
 }
@@ -168,6 +174,8 @@ static bool loggedIn = false;
     // call configure photopaycloud because it's possible
     // that PhotoPayCloudService was deallocated in the meantime
     [self photoPayCloudLogin];
+    
+    [[PPAutoUpdater sharedInstance] scanUpdatesForAppName:appName distributionUrl:distributionUrl];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

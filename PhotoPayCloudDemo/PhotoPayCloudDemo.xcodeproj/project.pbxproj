@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0FA954F2DE8A46DFA82D6F0D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8E8A97E55D4F8188890B7F /* libPods.a */; };
 		18181A30181EB22E0062565F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18181A2F181EB22E0062565F /* Images.xcassets */; };
+		18181A3D181EC85E0062565F /* PPAutoUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 18181A3C181EC85E0062565F /* PPAutoUpdater.m */; };
 		1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */; };
 		1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */; };
 		1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981417E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m */; };
@@ -70,6 +71,8 @@
 
 /* Begin PBXFileReference section */
 		18181A2F181EB22E0062565F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		18181A3B181EC85E0062565F /* PPAutoUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPAutoUpdater.h; sourceTree = "<group>"; };
+		18181A3C181EC85E0062565F /* PPAutoUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPAutoUpdater.m; sourceTree = "<group>"; };
 		1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentTableViewCell_iPhone.xib; sourceTree = "<group>"; };
 		1819981017E8BDB2001B66B1 /* PPDocumentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentTableViewCell.h; sourceTree = "<group>"; };
 		1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentTableViewCell.m; sourceTree = "<group>"; };
@@ -278,6 +281,8 @@
 				188AAEF217D876E9009531FA /* PPAppDelegate.m */,
 				188AAF4D17D89F69009531FA /* PPApp.h */,
 				188AAF4E17D89F69009531FA /* PPApp.m */,
+				18181A3B181EC85E0062565F /* PPAutoUpdater.h */,
+				18181A3C181EC85E0062565F /* PPAutoUpdater.m */,
 				188AAF6817D8C0DD009531FA /* Utils */,
 				188AAF4717D89F0A009531FA /* View */,
 				18BA04EB17E0A5E300FF3CD3 /* Network */,
@@ -539,6 +544,7 @@
 				1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */,
 				1819983617E9C443001B66B1 /* PPDocumentUploadingView.m in Sources */,
 				18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */,
+				18181A3D181EC85E0062565F /* PPAutoUpdater.m in Sources */,
 				18999B2D17DB178E009FA90A /* PPHomeViewController.m in Sources */,
 				188AAEEF17D876E9009531FA /* main.m in Sources */,
 				18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */,
