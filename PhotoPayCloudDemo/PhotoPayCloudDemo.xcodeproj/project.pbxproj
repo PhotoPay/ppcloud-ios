@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0FA954F2DE8A46DFA82D6F0D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8E8A97E55D4F8188890B7F /* libPods.a */; };
+		18181A30181EB22E0062565F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18181A2F181EB22E0062565F /* Images.xcassets */; };
 		1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */; };
 		1819981217E8BDB2001B66B1 /* PPDocumentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */; };
 		1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */ = {isa = PBXBuildFile; fileRef = 1819981417E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m */; };
@@ -68,6 +69,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18181A2F181EB22E0062565F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1819980E17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentTableViewCell_iPhone.xib; sourceTree = "<group>"; };
 		1819981017E8BDB2001B66B1 /* PPDocumentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentTableViewCell.h; sourceTree = "<group>"; };
 		1819981117E8BDB2001B66B1 /* PPDocumentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentTableViewCell.m; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				188AAF4717D89F0A009531FA /* View */,
 				18BA04EB17E0A5E300FF3CD3 /* Network */,
 				1811399C17D8CB690065AC3A /* Resources */,
+				18181A2F181EB22E0062565F /* Images.xcassets */,
 				188AAEE917D876E9009531FA /* Supporting Files */,
 			);
 			path = PhotoPayCloudDemo;
@@ -464,6 +467,7 @@
 				18999B3D17DB4057009FA90A /* camera@2x~iphone.png in Resources */,
 				18999B5A17DB866D009FA90A /* thumb.jpg in Resources */,
 				18999B2217DB136A009FA90A /* PPSignUpViewController_iPad.xib in Resources */,
+				18181A30181EB22E0062565F /* Images.xcassets in Resources */,
 				18999B3F17DB4057009FA90A /* camera~iphone.png in Resources */,
 				1829748D17E78EA200FAD137 /* redo.png in Resources */,
 				1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */,
@@ -634,6 +638,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B64EDE8E0894EA68DCAFF88 /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../PhotoPayCloud.embeddedframework,
@@ -653,6 +659,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B64EDE8E0894EA68DCAFF88 /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					../PhotoPayCloud.embeddedframework,
