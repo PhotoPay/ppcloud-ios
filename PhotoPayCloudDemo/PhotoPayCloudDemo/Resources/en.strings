@@ -94,8 +94,11 @@
 
 /** PREVIEW */
 
-/** Title of the previewed document */
-"PhotoPayPreviewDocumentTitle" = "Document";
+/** Title of the previewed PDF document */
+"PhotoPayPreviewDocumentTitlePdf" = "PDF";
+
+/** Title of the previewed image document */
+"PhotoPayPreviewDocumentTitleImage" = "Image";
 
 
 /** DATES */

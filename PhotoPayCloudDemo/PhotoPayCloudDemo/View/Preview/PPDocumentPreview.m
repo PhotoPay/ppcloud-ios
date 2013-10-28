@@ -22,19 +22,15 @@
         // fetch the document bytes and create a temporary file for quick look view controller
         [document documentBytesWithSuccess:^(NSData *bytes) {
             NSError * __autoreleasing error = nil;
-            NSLog(@"saving file");
             
             // use [[self document] qlPreviewUrl] as an url for documents for safe naming.
             [UIApplication pp_createFileWithData:bytes
                                              url:[[self document] qlPreviewUrl]
                                            error:&error];
             
-            NSLog(@"Created %@ from instance %p", [[self document] qlPreviewUrl], self);
-            
             if ([qlController currentPreviewItem] == self) {
                 [qlController reloadData];
                 [qlController refreshCurrentPreviewItem];
-                NSLog(@"Refreshing!");
             }
 
         } failure:nil];
@@ -45,7 +41,6 @@
 - (void)dealloc {
     [UIApplication pp_deleteFileWithUrl:[[self document] qlPreviewUrl]
                                   error:nil];
-    NSLog(@"Deleted %@ from instance %p", [[self document] qlPreviewUrl], self);
 }
 
 #pragma mark - QLPreviewItem
@@ -55,7 +50,20 @@
 }
 
 - (NSString *)previewItemTitle {
-    return _(@"PhotoPayPreviewDocumentTitle");
+    switch ([[self document] documentType]) {
+        case PPDocumentTypePDF:
+            return _(@"PhotoPayPreviewDocumentTitlePdf");
+            break;
+        case PPDocumentTypeGIF:
+        case PPDocumentTypePNG:
+        case PPDocumentTypeJPG:
+        case PPDocumentTypeTIFF:
+            return _(@"PhotoPayPreviewDocumentTitleImage");
+            break;
+        default:
+            return _(@"PhotoPayPreviewDocumentTitleImage");
+            break;
+    }
 }
 
 #pragma mark - QLPreviewControllerDataSource
