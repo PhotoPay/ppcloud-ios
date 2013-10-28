@@ -15,7 +15,7 @@
 #import "PPAutoUpdater.h"
 
 static NSString* appName = @"PhotoPayCloudDemo";
-static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/aus-erste-cloud/";
+static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/srb-erste-cloud/";
 
 @interface PPAppDelegate ()
 
