@@ -40,5 +40,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 // iPad/iPhone shortcuts
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (!IS_IPAD)
+#define IS_RETINA ([UIScreen mainScreen].scale == 2.0)
 
 

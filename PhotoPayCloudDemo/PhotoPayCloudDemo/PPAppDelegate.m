@@ -15,6 +15,8 @@
 
 @interface PPAppDelegate ()
 
+@property (nonatomic, strong) UINavigationController* rootNavigationViewController;
+
 - (void)configureApp;
 - (void)configureLogger;
 - (void)checkPhotoPayCloudUploads;
@@ -28,6 +30,8 @@
 
 @implementation PPAppDelegate
 
+@synthesize rootNavigationViewController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // These should be called before crearing view controllers, so that they have
@@ -39,6 +43,7 @@
                                                                                   bundle:nil];
     UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     
+    rootNavigationViewController = navigationController;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window setRootViewController:navigationController];
@@ -53,6 +58,12 @@
 #endif
     }
     
+    NSURL* url =  (NSURL *)[launchOptions valueForKey:UIApplicationLaunchOptionsURLKey];
+    if ([url isFileURL] && [[[url pathExtension] lowercaseString] isEqualToString:@"pdf"]) {
+        NSString *sourceApplication = (NSString *)[launchOptions valueForKey:UIApplicationLaunchOptionsSourceApplicationKey];
+        [self application:application openURL:url sourceApplication:sourceApplication annotation:nil];
+    }
+    
     // This is where registration for push notifications will be done.
     // For now, this is only a demonstration, push notifications still don't work in demo app
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
@@ -62,9 +73,32 @@
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if (url) {
+        if (!loggedIn) {
+            [self photoPayCloudLogin];
+        }
+        PPLocalDocument *localDocument = [[PPLocalPdfDocument alloc] initWithLocalUrl:url processingType:PPDocumentProcessingTypeAustrianPDFInvoice];
+        
+        // send document to processing server
+        [[PPPhotoPayCloudService sharedService] uploadDocument:localDocument
+                                                      delegate:nil
+                                                       success:nil
+                                                       failure:nil
+                                                      canceled:nil];
+        
+        NSLog(@"Sending PDF!");
+        
+        [rootNavigationViewController popToRootViewControllerAnimated:NO];
+        
+        NSLog(@"The file is: %@", localDocument);
+    }
+    return YES;
+}
+
 - (void)configureApp {
     [self configureLogger];
-    [[PPApp sharedApp] setLanguage:@"hr"];
+    [[PPApp sharedApp] setLanguage:@"en"];
 }
 
 - (void)configureLogger {
@@ -151,8 +185,8 @@ static bool loggedIn = false;
     static AFHTTPClient* httpclient = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-//        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://smartphonembankinguat.erstebank.rs:1027/"]];
+        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
+//        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://smartphonembankinguat.erstebank.rs:1027/"]];
         
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
         [httpclient setDefaultHeader:@"Accept-Encoding" value:@""];
