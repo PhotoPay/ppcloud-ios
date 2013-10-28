@@ -27,7 +27,7 @@
         if (diff.month == 0) {
             if (diff.week == 0) {
                 if (diff.day == 0) {
-                    result = [NSString stringWithFormat:@"%@ %@", _(@"PhotoPayToday"), time];
+                    result = time;
                 } else if (diff.day == 1) {
                     result = _(@"PhotoPayYesterday");
                 } else if (diff.day == 2) {
