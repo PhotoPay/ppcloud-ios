@@ -81,7 +81,8 @@ typedef NS_ENUM(NSUInteger, PPDocumentType) {
     PPDocumentTypeDOC, // word document
     PPDocumentTypeTXT, // textual document
     PPDocumentTypeXML, // xml document
-    PPDocumentTypeJSON // json document
+    PPDocumentTypeJSON, // json document
+    PPDocumentTypeUnknown, // Unknown document type
 };
 
 /**
@@ -136,7 +137,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
  
  @see PPDocumentType enum
  */
-@property (nonatomic, assign, readonly) PPDocumentType documentType;
+@property (nonatomic, assign) PPDocumentType documentType;
 
 /**
  Type of processing this document requires

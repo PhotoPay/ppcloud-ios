@@ -22,6 +22,10 @@
 
 /* Begin PBXBuildFile section */
 		181139A617D8CC0F0065AC3A /* PP_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 181139A517D8CC0F0065AC3A /* PP_background.jpg */; };
+		18181A29181DC9B80062565F /* PPLocalPdfDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18181A27181DC9B80062565F /* PPLocalPdfDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18181A2A181DC9B80062565F /* PPLocalPdfDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18181A28181DC9B80062565F /* PPLocalPdfDocument.m */; };
+		18181A2D181E65AC0062565F /* UIImage+PDF.h in Headers */ = {isa = PBXBuildFile; fileRef = 18181A2B181E65AC0062565F /* UIImage+PDF.h */; };
+		18181A2E181E65AC0062565F /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = 18181A2C181E65AC0062565F /* UIImage+PDF.m */; };
 		1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */; };
 		18722A1317F082260070DE00 /* PPBaseResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 18722A1117F082260070DE00 /* PPBaseResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,6 +89,10 @@
 
 /* Begin PBXFileReference section */
 		181139A517D8CC0F0065AC3A /* PP_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PP_background.jpg; sourceTree = "<group>"; };
+		18181A27181DC9B80062565F /* PPLocalPdfDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalPdfDocument.h; sourceTree = "<group>"; };
+		18181A28181DC9B80062565F /* PPLocalPdfDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalPdfDocument.m; sourceTree = "<group>"; };
+		18181A2B181E65AC0062565F /* UIImage+PDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PDF.h"; sourceTree = "<group>"; };
+		18181A2C181E65AC0062565F /* UIImage+PDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PDF.m"; sourceTree = "<group>"; };
 		1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentsTableDataSource.h; sourceTree = "<group>"; };
 		1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsTableDataSource.m; sourceTree = "<group>"; };
 		18722A1117F082260070DE00 /* PPBaseResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBaseResponse.h; sourceTree = "<group>"; };
@@ -260,6 +268,8 @@
 				18FE944F17DE545E0083F148 /* UIApplication+Documents.m */,
 				1883249217DEFD8A00EDE12B /* NSString+Factory.h */,
 				1883249317DEFD8A00EDE12B /* NSString+Factory.m */,
+				18181A2B181E65AC0062565F /* UIImage+PDF.h */,
+				18181A2C181E65AC0062565F /* UIImage+PDF.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -290,6 +300,8 @@
 				18999BBD17DC7A40009FA90A /* PPLocalDocument.m */,
 				18999BC217DC7B94009FA90A /* PPLocalImageDocument.h */,
 				18999BC317DC7B95009FA90A /* PPLocalImageDocument.m */,
+				18181A27181DC9B80062565F /* PPLocalPdfDocument.h */,
+				18181A28181DC9B80062565F /* PPLocalPdfDocument.m */,
 				18BA051817E1EC2900FF3CD3 /* PPRemoteDocument.h */,
 				18BA051917E1EC2900FF3CD3 /* PPRemoteDocument.m */,
 				18AB525E17F48C990046AB13 /* ScanResult */,
@@ -373,6 +385,7 @@
 				18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */,
 				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
 				18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */,
+				18181A29181DC9B80062565F /* PPLocalPdfDocument.h in Headers */,
 				18AAF6E517E4682600204B06 /* PPLocalDocumentUploadQueue.h in Headers */,
 				1896336C17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h in Headers */,
 				18722A1317F082260070DE00 /* PPBaseResponse.h in Headers */,
@@ -382,6 +395,7 @@
 				18BA051017E1D5BC00FF3CD3 /* PPTableLinearSectionCreator.h in Headers */,
 				18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */,
 				188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */,
+				18181A2D181E65AC0062565F /* UIImage+PDF.h in Headers */,
 				1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */,
 				18AB526117F48C990046AB13 /* PPScanResult.h in Headers */,
 				18AB526517F48CC60046AB13 /* PPElementCandidate.h in Headers */,
@@ -490,6 +504,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18181A2E181E65AC0062565F /* UIImage+PDF.m in Sources */,
 				1896336D17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m in Sources */,
 				1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */,
 				18999BC117DC7A40009FA90A /* PPLocalDocument.m in Sources */,
@@ -503,6 +518,7 @@
 				18AAF6E617E4682600204B06 /* PPLocalDocumentUploadQueue.m in Sources */,
 				18999BBF17DC7A40009FA90A /* PPDocument.m in Sources */,
 				18AAF6E417E4682600204B06 /* PPDocumentManager.m in Sources */,
+				18181A2A181DC9B80062565F /* PPLocalPdfDocument.m in Sources */,
 				18999BC517DC7B95009FA90A /* PPLocalImageDocument.m in Sources */,
 				18722A1417F082260070DE00 /* PPBaseResponse.m in Sources */,
 				18BA051517E1D5BC00FF3CD3 /* PPTableSectionCreator.m in Sources */,

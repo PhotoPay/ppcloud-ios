@@ -17,6 +17,7 @@
 #import "PPDocument.h"
 #import "PPLocalDocument.h"
 #import "PPLocalImageDocument.h"
+#import "PPLocalPdfDocument.h"
 #import "PPRemoteDocument.h"
 #import "PPUser.h"
 #import "PPDocumentManager.h"

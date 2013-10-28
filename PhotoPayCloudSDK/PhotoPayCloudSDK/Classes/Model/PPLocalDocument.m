@@ -40,6 +40,25 @@
     return self;
 }
 
+- (id)initWithURL:(NSURL*)inUrl
+     documentType:(PPDocumentType)inDocumentType
+   processingType:(PPDocumentProcessingType)inProcessingType {
+    
+    NSLog(@"Last path component! %@", [inUrl lastPathComponent]);
+    
+    self = [super initWithDocumentId:[inUrl lastPathComponent]
+                   cachedDocumentUrl:inUrl
+                       documentState:PPDocumentStateStored
+                        documentType:inDocumentType
+                      processingType:inProcessingType];
+    if (self) {
+        bytes_ = nil;
+        ownerIdHash = nil;
+        uploadRequest = nil;
+    }
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
     if (!self) {
@@ -132,6 +151,10 @@
     
     if (self.state != other.state) {
         self.state = other.state;
+    }
+    
+    if (self.documentType == PPDocumentTypeUnknown) {
+        self.documentType = otherLocalDocument.documentType;
     }
     
     if (self.bytes == nil && otherLocalDocument.bytes != nil) {

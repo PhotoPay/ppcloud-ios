@@ -124,9 +124,9 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
             previewImage_ = fullImage;
             
             dispatch_async(dispatch_get_main_queue(), ^() {
-                if (fullImage != nil) {
+                if (previewImage_ != nil) {
                     if (success) {
-                        success(fullImage);
+                        success(previewImage_);
                     };
                 } else {
                     if (failure) {

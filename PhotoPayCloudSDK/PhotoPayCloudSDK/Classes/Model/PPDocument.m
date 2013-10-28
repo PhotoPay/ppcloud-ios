@@ -273,8 +273,8 @@
 }
 
 + (NSDictionary *)documentProcessingTypeObjectTable {
-    return @{@(PPDocumentProcessingTypeAustrianPDFInvoice)      : @"RequestType_Austria_PDF",
-             @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria",
+    return @{@(PPDocumentProcessingTypeAustrianPDFInvoice)      : @"RequestType_Austria",
+             @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria_Photo",
              @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"RequestType_Serbia_PDF",
              @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"RequestType_Serbia"};
 }
@@ -297,7 +297,8 @@
                   @(PPDocumentTypeTIFF) : @"tiff",
                   @(PPDocumentTypeTXT) : @"txt",
                   @(PPDocumentTypeXLS) : @"xls",
-                  @(PPDocumentTypeXML) : @"xml"};
+                  @(PPDocumentTypeXML) : @"xml",
+                  @(PPDocumentTypeUnknown) : @"unknown"};
     });
     return table;
 }

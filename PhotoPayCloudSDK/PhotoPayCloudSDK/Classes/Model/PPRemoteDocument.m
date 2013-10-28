@@ -21,7 +21,6 @@
 @implementation PPRemoteDocument
 
 @synthesize expectedProcessingTime;
-
 - (id)initWithDictionary:(NSDictionary*)dictionary {
     self = [super initWithDictionary:dictionary];
     if (!self) {
@@ -32,7 +31,7 @@
     
     self->documentType_ = [PPModelObject initEnum:dictionary[@"documentType"]
                                         enumTable:[PPDocument documentTypeObjectTable]
-                                      defaultEnum:PPDocumentTypeJPG];
+                                      defaultEnum:PPDocumentTypeUnknown];
     
     self->cachedDocumentUrl_ = nil;
 
@@ -71,6 +70,10 @@
     if (self.state != other.state) {
         self.state = other.state;
         changed = YES;
+    }
+    
+    if (self.documentType == PPDocumentTypeUnknown) {
+        self.documentType = otherRemoteDocument.documentType;
     }
     
     if (expectedProcessingTime != otherRemoteDocument.expectedProcessingTime) {

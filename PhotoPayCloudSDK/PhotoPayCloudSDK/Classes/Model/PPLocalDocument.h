@@ -44,6 +44,13 @@
      processingType:(PPDocumentProcessingType)inProcessingType;
 
 /**
+ Initializes the local document with concrete URL to file
+ */
+- (id)initWithURL:(NSURL*)inUrl
+     documentType:(PPDocumentType)inDocumentType
+   processingType:(PPDocumentProcessingType)inProcessingType;
+
+/**
  Persists the local document
  */
 - (void)saveUsingDocumentManager:(PPDocumentManager*)documentManager
