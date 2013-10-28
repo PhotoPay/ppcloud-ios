@@ -44,8 +44,6 @@
      documentType:(PPDocumentType)inDocumentType
    processingType:(PPDocumentProcessingType)inProcessingType {
     
-    NSLog(@"Last path component! %@", [inUrl lastPathComponent]);
-    
     self = [super initWithDocumentId:[inUrl lastPathComponent]
                    cachedDocumentUrl:inUrl
                        documentState:PPDocumentStateStored

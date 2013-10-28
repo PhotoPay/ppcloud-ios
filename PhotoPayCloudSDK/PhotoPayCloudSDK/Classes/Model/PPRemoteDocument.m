@@ -189,9 +189,7 @@
                          failure:(void (^)(void))failure {
     [[PPPhotoPayCloudService sharedService] getDocumentData:self
                                                     success:^(NSData *bytes) {
-                                                        NSLog(@"Original Document obtained, cached");
                                                         dispatch_async(dispatch_get_main_queue(), ^(){
-                                                            NSLog(@"We have a document");
                                                             if (success) {
                                                                 success(bytes);
                                                             }

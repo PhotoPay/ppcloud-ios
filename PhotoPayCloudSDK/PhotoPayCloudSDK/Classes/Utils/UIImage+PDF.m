@@ -41,7 +41,6 @@
     }
     
     CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, pageNumber);
-    size_t numPages = CGPDFDocumentGetNumberOfPages(documentRef);
     
     CGFloat scale = 1.0f;
     if (IS_RETINA) {
@@ -59,12 +58,10 @@
     
     CGRect cropBox = CGPDFPageGetBoxRect(pageRef, kCGPDFCropBox);
     CGRect targetRect = pageRect;
-    NSLog(@"cropBox %f %f", cropBox.size.width, cropBox.size.height);
     CGFloat xScale = targetRect.size.width / cropBox.size.width;
     CGFloat yScale = targetRect.size.height / cropBox.size.height;
     CGFloat scaleToApply = xScale < yScale ? xScale : yScale;
     
-    NSLog(@"Scale %f", scaleToApply);
     CGContextConcatCTM(context, CGAffineTransformMakeScale(scaleToApply, scaleToApply));
     
     CGContextDrawPDFPage(context, pageRef);

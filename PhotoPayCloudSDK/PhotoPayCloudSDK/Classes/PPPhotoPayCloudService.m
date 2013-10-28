@@ -235,7 +235,6 @@
 }
 
 - (void)uninitialize {
-    NSLog(@"Uninitializing");
     user = nil;
     networkManager = nil;
     self.state = PPPhotoPayCloudServiceStateUninitialized;
