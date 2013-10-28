@@ -274,8 +274,8 @@
 
 + (NSDictionary *)documentProcessingTypeObjectTable {
     return @{@(PPDocumentProcessingTypeAustrianPDFInvoice)      : @"RequestType_Austria",
-             @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria_Photo",
-             @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"RequestType_Serbia_PDF",
+             @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria",
+             @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"RequestType_Serbia",
              @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"RequestType_Serbia"};
 }
 
