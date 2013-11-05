@@ -65,7 +65,8 @@
  
  Only one element can be reloaded, if there are duplicates, they will remain unchanged in the section.
  */
-- (NSUInteger)reloadItem:(id)item withOther:(id)other;
+- (NSUInteger)reloadItem:(id)item
+                withItem:(id)other;
 
 /**
  Helper method for obtaining section item count

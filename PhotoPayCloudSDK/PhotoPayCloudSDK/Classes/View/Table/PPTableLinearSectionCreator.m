@@ -55,11 +55,11 @@
     return nil;
 }
 
-- (NSIndexPath*)reloadItem:(id)item withOther:(id)other {
+- (NSIndexPath*)reloadItem:(id)item withItem:(id)other {
     for (int i = 0; i < [[self sections] count]; i++) {
         PPTableSection *section = [[self sections] objectAtIndex:i];
         
-        NSUInteger row = [section reloadItem:item withOther:other];
+        NSUInteger row = [section reloadItem:item withItem:other];
         
         if (row != NSNotFound) {
             return [NSIndexPath indexPathForRow:row inSection:i];

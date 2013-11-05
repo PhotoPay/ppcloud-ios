@@ -40,7 +40,6 @@ static const int INITIAL_CAPACITY = 20;
     [[self mutableItems] insertObject:item atIndex:index];
 }
 
-
 - (NSUInteger)removeItem:(id)item {
     NSUInteger index = [[self mutableItems] indexOfObject:item];
     if (index != NSNotFound) {
@@ -49,7 +48,7 @@ static const int INITIAL_CAPACITY = 20;
     return index;
 }
 
-- (NSUInteger)reloadItem:(id)item withOther:(id)other {
+- (NSUInteger)reloadItem:(id)item withItem:(id)other {
     NSUInteger index = [[self mutableItems] indexOfObject:item];
     if (index != NSNotFound) {
         [[self mutableItems] replaceObjectAtIndex:index withObject:other];
