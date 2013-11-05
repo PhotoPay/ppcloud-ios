@@ -52,6 +52,9 @@
     
     self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
     [self.documentsDataSource setDelegate:self];
+    self.documentsDataSource.sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
+//    self.documentsDataSource.sectionCreator = [[PPTableLinearSectionCreator alloc] init];
+//    self.documentsDataSource.sectionCreator = [[PPDateSortedDocumentsSectionCreator alloc] init];
     
     [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     [[self billsTable] setDataSource:[self documentsDataSource]];
@@ -234,9 +237,12 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
+    // disable animations because delete animation looks confusing
+    [UIView setAnimationsEnabled:NO];
     [[self billsTable] beginUpdates];
-    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     [[self billsTable] endUpdates];
+    [UIView setAnimationsEnabled:YES];
 }
 
 /**
@@ -247,6 +253,39 @@
   didReloadItemsAtIndexPath:(NSArray*)indexPaths {
     [[self billsTable] beginUpdates];
     [[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+/**
+ Called when new sections are inserted into table view.
+ Method passes the exact index set of the inserted sections
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didInsertSections:(NSIndexSet *)sections {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] insertSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+/**
+ Called when new sections are deleted into table view.
+ Method passes the exact index set of the inserted sections
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didDeleteSections:(NSIndexSet *)sections {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] deleteSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+/**
+ Called when new sections are reloaded inside the table view.
+ Method passes the exact index set of the inserted sections
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didReloadSections:(NSIndexSet *)sections {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self billsTable] endUpdates];
 }
 
