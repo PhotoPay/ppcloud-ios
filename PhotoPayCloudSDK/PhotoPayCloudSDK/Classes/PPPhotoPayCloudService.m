@@ -288,9 +288,12 @@
                                                       }
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
-                                                          [[self dataSource] swapLocalDocument:localDocument
-                                                                            withRemoteDocument:remoteDocument];
+                                                          [remoteDocument setPreviewImage:[localDocument previewImage]];
+                                                          [remoteDocument setThumbnailImage:[localDocument thumbnailImage]];
+                                                          [remoteDocument setCreationDate:[localDocument creationDate]];
                                                           
+                                                          [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
+                                                                               withItems:[[NSArray alloc] initWithObjects:remoteDocument, nil]];
                                                           [[localDocument delegate] documentDidChangeState:remoteDocument];
                                                       });
                                                       
@@ -311,7 +314,7 @@
                                                       }
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
-                                                          [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                           [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
                                                       });
                                                       
                                                       if (failure) {
@@ -603,7 +606,7 @@
         
         // these should be added
         dispatch_async(dispatch_get_main_queue(), ^() {
-            [[self dataSource] insertItems:documentsToAdd];
+             [[self dataSource] insertItems:documentsToAdd];
         });
     }
     

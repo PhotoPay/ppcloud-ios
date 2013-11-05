@@ -53,35 +53,107 @@
 - (void)insertItems:(NSArray*)itemsToAdd {
     NSIndexPath *indexPath = nil;
     
+    NSMutableIndexSet* insertedSectionSet = [[NSMutableIndexSet alloc] init];
     NSMutableArray* insertedIndexPaths = [[NSMutableArray alloc] init];
     NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
+    
+    int sectionCount = [[self sections] count];
     
     for (id item in itemsToAdd) {
         NSUInteger index = [[self items] indexOfObject:item];
         if (index == NSNotFound) {
+            /** Inserting the element */
             [[self items] addObject:item];
+            
+            // insert using the current section creator, get index path of the inserted element
             indexPath = [[self sectionCreator] insertItem:item];
             
-            // new object is inserted, compensate in index paths that were already inserted
-            for (int i = 0; i < [insertedIndexPaths count]; i++) {
-                NSIndexPath *ip = [insertedIndexPaths objectAtIndex:i];
-                if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
-                    NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];                    [insertedIndexPaths replaceObjectAtIndex:i withObject:newip];
+            // if section creator added a new section
+            if ([[self sections] count] > sectionCount) {
+                
+                // set the new section count
+                sectionCount = [[self sections] count];
+                
+                /** update the indexes of all inserted sections which appear after the currently added section */
+                NSMutableIndexSet* newInsertedSectionSet = [[NSMutableIndexSet alloc] init];
+                [insertedSectionSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                    if (idx >= indexPath.section) {
+                        [newInsertedSectionSet addIndex:idx+1];
+                    } else {
+                        [newInsertedSectionSet addIndex:idx];
+                    }
+                    
+                }];
+                [newInsertedSectionSet addIndex:indexPath.section];
+                insertedSectionSet = newInsertedSectionSet;
+                
+                /** update the section index of all inserted indexes which are in section equal to or greater than the new section */
+                NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
+                [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] >= [indexPath section]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section+1];
+                        [newInsertedIndexPaths addObject:newip];
+                    } else {
+                        [newInsertedIndexPaths addObject:ip];
+                    }
+                }];
+                insertedIndexPaths = newInsertedIndexPaths;
+                
+                /** update the section index of all reloaded indexes which are in section equal to or greater than the new section */
+                NSMutableArray* newReloadedIndexPaths = [[NSMutableArray alloc] init];
+                
+                [reloadedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] >= [indexPath section]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section+1];
+                        [newReloadedIndexPaths addObject:newip];
+                    } else {
+                        [newReloadedIndexPaths addObject:ip];
+                    }
+                }];
+                reloadedIndexPaths = newReloadedIndexPaths;
+            } else {
+                
+                // if inserted section set contains the section of current index, it will be reloaded anyway
+                if ([insertedSectionSet containsIndex:[indexPath section]]) {
+                    continue;
                 }
+                
+                /** Update the row index of all objects inserted in this section after the current item */
+                NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
+                [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
+                        [newInsertedIndexPaths addObject:newip];
+                    } else {
+                        [newInsertedIndexPaths addObject:ip];
+                    }
+                }];
+                [newInsertedIndexPaths addObject:indexPath];
+                insertedIndexPaths = newInsertedIndexPaths;
+                
+                /** Update the row index of all objects reloaded in this section after the current item */
+                NSMutableArray* newReloadedIndexPaths = [[NSMutableArray alloc] init];
+                
+                [reloadedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
+                        [newReloadedIndexPaths addObject:newip];
+                    } else {
+                        [newReloadedIndexPaths addObject:ip];
+                    }
+                }];
+                reloadedIndexPaths = newReloadedIndexPaths;
             }
-            
-            // new object is inserted, compensate in index paths that were already inserted
-            for (int i = 0; i < [reloadedIndexPaths count]; i++) {
-                NSIndexPath *ip = [reloadedIndexPaths objectAtIndex:i];
-                if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
-                    NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
-                    [reloadedIndexPaths replaceObjectAtIndex:i withObject:newip];
-                }
-            }
-            
-            [insertedIndexPaths addObject:indexPath];
         } else {
-            indexPath = [[self sectionCreator] reloadItem:item withOther:item];
+            indexPath = [[self sectionCreator] reloadItem:item withItem:item];
             [[self items] replaceObjectAtIndex:index withObject:item];
             if (indexPath != nil) {
                 [reloadedIndexPaths addObject:indexPath];
@@ -89,6 +161,9 @@
         }
     }
     
+    if ([insertedSectionSet count] > 0) {
+        [[self delegate] tableViewDataSource:self didInsertSections:insertedSectionSet];
+    }
     if ([insertedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
     }
@@ -100,19 +175,95 @@
 - (void)removeItems:(NSArray*)itemsToRemove {
     NSIndexPath *indexPath = nil;
     
+    NSMutableIndexSet* deletedSectionSet = [[NSMutableIndexSet alloc] init];
     NSMutableArray* removedIndexPaths = [[NSMutableArray alloc] init];
+    
+    NSUInteger sectionCount = [[self sections] count];
+    
     for (id item in itemsToRemove) {
+        
         if ([[self items] containsObject:item]) {
+            [[self items] removeObject:item];
+            
             indexPath = [[self sectionCreator] removeItem:item];
-            if (indexPath != nil) {
+            
+            if (sectionCount > [[self sections] count]) {
+                sectionCount = [[self sections] count];
+                // if the section is now empty add it to deleted sections set
+                [deletedSectionSet addIndex:indexPath.section];
+                
+                // now all removed index paths should be compensated for deleted section
+                // all index paths with section index higher than deleted section index should be decremented by 1
+                NSMutableArray* newRemovedIndexPaths = [[NSMutableArray alloc] init];
+                [removedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] >= [indexPath section]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section - 1];
+                        [newRemovedIndexPaths addObject:newip];
+                    } else {
+                        [newRemovedIndexPaths addObject:ip];
+                    }
+                }];
+                removedIndexPaths = newRemovedIndexPaths;
+            } else if (indexPath != nil) {
                 [removedIndexPaths addObject:indexPath];
             }
         }
     }
     
+    if ([deletedSectionSet count] > 0) {
+        [[self delegate] tableViewDataSource:self didDeleteSections:deletedSectionSet];
+    }
     if ([removedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didDeleteItemsAtIndexPaths:removedIndexPaths];
     }
+}
+
+- (void)reloadItems:(NSArray*)reloadingItems
+          withItems:(NSArray*)otherItems {
+    
+    if ([reloadingItems count] != [otherItems count]) {
+        NSLog(@"Items are not of the same length, some will be discarded!");
+    }
+    
+    NSUInteger numIterations = [reloadingItems count];
+    if ([otherItems count] < numIterations) {
+        numIterations = [otherItems count];
+    }
+    
+    NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
+    NSMutableArray* itemsToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray* itemsToAdd = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < numIterations; i++) {
+        // try to reload the two matching items
+        id first = [reloadingItems objectAtIndex:i];
+        id second = [otherItems objectAtIndex:i];
+        
+        // try reloading the item with section creator
+        NSIndexPath *indexPath = [[self sectionCreator] reloadItem:first withItem:second];
+        
+        if (indexPath != nil) {
+            /** If reload was successful, add the index path to reloading list */
+            [reloadedIndexPaths addObject:indexPath];
+            
+            // replace the object
+            NSUInteger index = [[self items] indexOfObject:first];
+            [[self items] replaceObjectAtIndex:index withObject:second];
+        } else {
+            /** If reload failed, remove the first and insert second object */
+            [itemsToAdd addObject:second];
+            [itemsToRemove addObject:first];
+        }
+    }
+    
+    if ([reloadedIndexPaths count] > 0) {
+        [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
+    }
+
+    [self insertItems:itemsToAdd];
+    [self removeItems:itemsToRemove];
 }
 
 - (id)itemForIndexPath:(NSIndexPath*)indexPath {

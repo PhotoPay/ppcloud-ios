@@ -61,6 +61,12 @@
  */
 - (void)removeItems:(NSArray*)items;
 
+/**
+ Reloads the items in the table view. Section creator decides how the reloading should be done.
+ */
+- (void)reloadItems:(NSArray*)items
+          withItems:(NSArray*)other;
+
 @end
 
 /**
@@ -92,5 +98,26 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
   didReloadItemsAtIndexPath:(NSArray*)indexPaths;
+
+/**
+ Called when new sections are inserted into table view.
+ Method passes the exact index set of the inserted sections
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didInsertSections:(NSIndexSet *)sections;
+
+/**
+ Called when new sections are deleted into table view.
+ Method passes the exact index set of the inserted sections
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didDeleteSections:(NSIndexSet *)sections;
+
+/**
+ Called when new sections are reloaded inside the table view.
+ Method passes the exact index set of the inserted sections
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didReloadSections:(NSIndexSet *)sections;
 
 @end

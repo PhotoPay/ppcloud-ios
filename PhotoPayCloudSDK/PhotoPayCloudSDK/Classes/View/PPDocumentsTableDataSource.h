@@ -9,12 +9,6 @@
 #import "PPTableViewDataSource.h"
 #import "PPDocument.h"
 
-@class PPLocalDocument;
-@class PPRemoteDocument;
-
 @interface PPDocumentsTableDataSource : PPTableViewDataSource
-
-- (void)swapLocalDocument:(PPLocalDocument*)localDocument
-       withRemoteDocument:(PPRemoteDocument*)remoteDocument;
 
 @end

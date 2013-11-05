@@ -11,7 +11,7 @@
 #import "PPLocalDocument.h"
 #import "PPRemoteDocument.h"
 #import "PPLocalDocumentUploadQueue.h"
-#import "PPDateSortedDocumentsSectionCreator.h"
+#import "PPDefaultDocumentsSectionCreator.h"
 #import <UIKit/UIKit.h>
 
 @interface PPDocumentsTableDataSource ()
@@ -20,11 +20,6 @@
  A list of all items currently in data source
  */
 @property (nonatomic, strong, readonly) NSMutableArray* items;
-
-/**
- A list of all items currently in data source, divided into section
- */
-@property (nonatomic, strong, readonly) NSArray* sections;
 
 @end
 
@@ -37,7 +32,7 @@
     self = [super init];
     if (self) {
         items = [[NSMutableArray alloc] init];
-        sectionCreator = [[PPDateSortedDocumentsSectionCreator alloc] init];
+        sectionCreator = [[PPDefaultDocumentsSectionCreator alloc] init];
     }
     return self;
 }
@@ -45,35 +40,108 @@
 - (void)insertItems:(NSArray*)itemsToAdd {
     NSIndexPath *indexPath = nil;
     
+    NSMutableIndexSet* insertedSectionSet = [[NSMutableIndexSet alloc] init];
     NSMutableArray* insertedIndexPaths = [[NSMutableArray alloc] init];
     NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
     
+    int sectionCount = [[self sections] count];
+    
     for (id item in itemsToAdd) {
         NSUInteger index = [[self items] indexOfObject:item];
+        
         if (index == NSNotFound) {
+            /** Inserting the element */
             [[self items] addObject:item];
+            
+            // insert using the current section creator, get index path of the inserted element
             indexPath = [[self sectionCreator] insertItem:item];
             
-            // new object is inserted, compensate in index paths that were already inserted
-            for (int i = 0; i < [insertedIndexPaths count]; i++) {
-                NSIndexPath *ip = [insertedIndexPaths objectAtIndex:i];
-                if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
-                    NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
-                    [insertedIndexPaths replaceObjectAtIndex:i withObject:newip];
+            // if section creator added a new section
+            if ([[self sections] count] > sectionCount) {
+                
+                // set the new section count
+                sectionCount = [[self sections] count];
+
+                /** update the indexes of all inserted sections which appear after the currently added section */
+                NSMutableIndexSet* newInsertedSectionSet = [[NSMutableIndexSet alloc] init];
+                [insertedSectionSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                    if (idx >= indexPath.section) {
+                        [newInsertedSectionSet addIndex:idx+1];
+                    } else {
+                        [newInsertedSectionSet addIndex:idx];
+                    }
+                    
+                }];
+                [newInsertedSectionSet addIndex:indexPath.section];
+                insertedSectionSet = newInsertedSectionSet;
+                
+                /** update the section index of all inserted indexes which are in section equal to or greater than the new section */
+                NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
+                [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] >= [indexPath section]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section+1];
+                        [newInsertedIndexPaths addObject:newip];
+                    } else {
+                        [newInsertedIndexPaths addObject:ip];
+                    }
+                }];
+                insertedIndexPaths = newInsertedIndexPaths;
+                
+                /** update the section index of all reloaded indexes which are in section equal to or greater than the new section */
+                NSMutableArray* newReloadedIndexPaths = [[NSMutableArray alloc] init];
+                
+                [reloadedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] >= [indexPath section]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section+1];
+                        [newReloadedIndexPaths addObject:newip];
+                    } else {
+                        [newReloadedIndexPaths addObject:ip];
+                    }
+                }];
+                reloadedIndexPaths = newReloadedIndexPaths;
+            } else {
+                
+                // if inserted section set contains the section of current index, it will be reloaded anyway
+                if ([insertedSectionSet containsIndex:[indexPath section]]) {
+                    continue;
                 }
+                
+                /** Update the row index of all objects inserted in this section after the current item */
+                NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
+                [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
+                        [newInsertedIndexPaths addObject:newip];
+                    } else {
+                        [newInsertedIndexPaths addObject:ip];
+                    }
+                }];
+                [newInsertedIndexPaths addObject:indexPath];
+                insertedIndexPaths = newInsertedIndexPaths;
+                
+                /** Update the row index of all objects reloaded in this section after the current item */
+                NSMutableArray* newReloadedIndexPaths = [[NSMutableArray alloc] init];
+                
+                [reloadedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    
+                    if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
+                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
+                        [newReloadedIndexPaths addObject:newip];
+                    } else {
+                        [newReloadedIndexPaths addObject:ip];
+                    }
+                }];
+                reloadedIndexPaths = newReloadedIndexPaths;
             }
-            
-            // new object is inserted, compensate in index paths that were already inserted
-            for (int i = 0; i < [reloadedIndexPaths count]; i++) {
-                NSIndexPath *ip = [reloadedIndexPaths objectAtIndex:i];
-                if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
-                    NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
-                    [reloadedIndexPaths replaceObjectAtIndex:i withObject:newip];
-                }
-            }
-            
-            [insertedIndexPaths addObject:indexPath];
         } else {
+            /** Reloading the element */
             id object = [[self items] objectAtIndex:index];
             if ([object isKindOfClass:[PPDocument class]] &&
                 [item isKindOfClass:[PPDocument class]]) {
@@ -83,46 +151,26 @@
                 BOOL changed = [document reloadWithDocument:newDocument];
                 
                 if (changed) {
-                    indexPath = [[self sectionCreator] reloadItem:object withOther:object];
+                    indexPath = [[self sectionCreator] reloadItem:object withItem:object];
                     [[self items] replaceObjectAtIndex:index withObject:object];
                     if (indexPath != nil) {
-                        [reloadedIndexPaths addObject:indexPath];
+                        
+                        // if inserted section set contains the section of current index, it will be reloaded anyway
+                        if (![insertedSectionSet containsIndex:[indexPath section]]) {
+                            [reloadedIndexPaths addObject:indexPath];
+                        }
                     }
                 }
             }
         }
     }
     
+    if ([insertedSectionSet count] > 0) {
+        [[self delegate] tableViewDataSource:self didInsertSections:insertedSectionSet];
+    }
     if ([insertedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
     }
-    if ([reloadedIndexPaths count] > 0) {
-        [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
-    }
-}
-
-- (void)swapLocalDocument:(PPLocalDocument*)localDocument
-       withRemoteDocument:(PPRemoteDocument*)remoteDocument {
-        
-    [remoteDocument setPreviewImage:[localDocument previewImage]];
-    [remoteDocument setThumbnailImage:[localDocument thumbnailImage]];
-    [remoteDocument setCreationDate:[localDocument creationDate]];
-    
-    NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
-    
-    NSUInteger index = [[self items] indexOfObject:localDocument];
-    
-    if (index != NSNotFound) {
-        NSIndexPath *indexPath = [[self sectionCreator] reloadItem:localDocument
-                                                         withOther:remoteDocument];
-        
-        [[self items] replaceObjectAtIndex:index withObject:remoteDocument];
-        
-        if (indexPath != nil) {
-            [reloadedIndexPaths addObject:indexPath];
-        }
-    }
-    
     if ([reloadedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }
