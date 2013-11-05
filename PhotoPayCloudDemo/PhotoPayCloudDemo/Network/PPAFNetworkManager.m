@@ -191,7 +191,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Response %@", operation.responseString);
+        NSLog(@"Upload failed with response %@", operation.responseString);
         
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
