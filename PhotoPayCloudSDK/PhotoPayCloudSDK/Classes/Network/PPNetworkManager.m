@@ -67,7 +67,7 @@ NSString* const kPPParameterStatus = @"status";
     if (self) {
         uploadOperationQueue = [[NSOperationQueue alloc] init];
         uploadOperationQueue.name = @"PhotoPay Cloud Upload Queue";
-        [uploadOperationQueue setMaxConcurrentOperationCount:2];
+        [uploadOperationQueue setMaxConcurrentOperationCount:1];
         
         imagesOperationQueue = [[NSOperationQueue alloc] init];
         imagesOperationQueue.name = @"PhotoPay Cloud Images Queue";
