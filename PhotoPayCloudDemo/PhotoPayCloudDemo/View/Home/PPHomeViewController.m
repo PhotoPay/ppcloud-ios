@@ -52,7 +52,13 @@
     
     self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
     [self.documentsDataSource setDelegate:self];
-    self.documentsDataSource.sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
+    
+    // Specify section creator object which splits the uploading documents into two sections
+    // One for uploading documents, one for those which are processing or done
+    PPSplitTypeDocumentsSectionCreator* sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
+    [sectionCreator setUploadingSectionTitle:_(@"PhotoPayHomeUploadingSectionTitle")];
+    [sectionCreator setProcessedSectionTitle:_(@"PhotoPayHomeProcessedSectionTitle")];
+    self.documentsDataSource.sectionCreator = sectionCreator;
     
     [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     [[self billsTable] setDataSource:[self documentsDataSource]];

@@ -34,11 +34,16 @@
 /** A command to abort uploading pending documents */
 "PhotoPayPendingUploadsAlertViewAbort" = "Prekini";
 
-
 /* HOME SCREEN */
 
 /* Title of the home screen */
 "PhotoPayHomeTitle" = "Moji računi";
+
+/** Title of the table section for uploading documents */
+"PhotoPayHomeUploadingSectionTitle" = "Slanje";
+
+/** Title of the table section for processed documents */
+"PhotoPayHomeProcessedSectionTitle" = "Računi";
 
 /** Label describing that document is currently stored on phone's flash drive */
 "PhotoPayHomeDocumentWaitingForUploadLabel" = "Dokument čeka na slanje";

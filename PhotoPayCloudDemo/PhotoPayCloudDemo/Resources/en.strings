@@ -40,6 +40,12 @@
 /* Title of the home screen */
 "PhotoPayHomeTitle" = "My Bills";
 
+/** Title of the table section for uploading documents */
+"PhotoPayHomeUploadingSectionTitle" = "Uploads";
+
+/** Title of the table section for processed documents */
+"PhotoPayHomeProcessedSectionTitle" = "Bills";
+
 /** Label describing that document is currently stored on phone's flash drive */
 "PhotoPayHomeDocumentWaitingForUploadLabel" = "Waiting…";
 
