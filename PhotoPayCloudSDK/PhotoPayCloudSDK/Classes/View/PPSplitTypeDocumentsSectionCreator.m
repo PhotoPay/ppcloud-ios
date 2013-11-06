@@ -28,16 +28,28 @@
     if (self) {
         sections = [[NSMutableArray alloc] init];
         
-        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:@"My invoices"];
+        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:_processedSectionTitle];
         
         [sections addObject:section];
     }
     return self;
 }
 
+- (void)setUploadingSectionTitle:(NSString *)uploadingSectionTitle {
+    _uploadingSectionTitle = uploadingSectionTitle;
+    if ([sections count] == 2) {
+        [[sections objectAtIndex:0] setName:uploadingSectionTitle];
+    }
+}
+
+- (void)setProcessedSectionTitle:(NSString *)processedSectionTitle {
+    _processedSectionTitle = processedSectionTitle;
+    [[sections objectAtIndex:([sections count] - 1)] setName:processedSectionTitle];
+}
+
 - (NSIndexPath*)insertLocalDocument:(PPLocalDocument*)localDocument {
     if ([sections count] == 1) {
-        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:@"Uploading"];
+        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:_uploadingSectionTitle];
         [sections insertObject:section atIndex:0];
     }
     

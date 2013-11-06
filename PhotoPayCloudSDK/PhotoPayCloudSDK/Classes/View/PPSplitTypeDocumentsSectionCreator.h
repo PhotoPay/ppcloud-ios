@@ -10,4 +10,8 @@
 
 @interface PPSplitTypeDocumentsSectionCreator : PPTableSectionCreator
 
+@property (nonatomic, strong) NSString* uploadingSectionTitle;
+
+@property (nonatomic, strong) NSString* processedSectionTitle;
+
 @end

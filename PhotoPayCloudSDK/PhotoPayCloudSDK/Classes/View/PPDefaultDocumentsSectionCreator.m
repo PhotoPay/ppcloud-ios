@@ -1,5 +1,5 @@
 //
-//  PPSeparateDateSortedDocumentsSectionCreator.m
+//  PPDefaultDocumentsSectionCreator.m
 //  PhotoPayCloudSDK
 //
 //  Created by Jurica Cerovec on 05/11/13.
