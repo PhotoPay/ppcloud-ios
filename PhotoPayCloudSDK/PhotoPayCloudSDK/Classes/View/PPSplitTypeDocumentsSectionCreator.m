@@ -131,7 +131,7 @@
     NSUInteger row = [section removeItem:remoteDocument];
     
     if (row != NSNotFound) {
-        return [NSIndexPath indexPathForRow:row inSection:0];
+        return [NSIndexPath indexPathForRow:row inSection:sectionIndex];
     }
     
     return nil;
