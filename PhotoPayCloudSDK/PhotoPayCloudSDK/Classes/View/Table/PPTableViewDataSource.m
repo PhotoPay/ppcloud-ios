@@ -253,7 +253,9 @@
             
             // replace the object
             NSUInteger index = [[self items] indexOfObject:first];
-            [[self items] replaceObjectAtIndex:index withObject:second];
+            if (index != NSNotFound) {
+                [[self items] replaceObjectAtIndex:index withObject:second];
+            }
         } else {
             /** If reload failed, remove the first and insert second object */
             [itemsToAdd addObject:second];

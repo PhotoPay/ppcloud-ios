@@ -318,7 +318,8 @@
                                                       }
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
-                                                           [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                          [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
+                                                                               withItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
                                                       });
                                                       
                                                       if (failure) {
@@ -338,7 +339,8 @@
                                                      }
                                                      
                                                      dispatch_async(dispatch_get_main_queue(), ^() {
-                                                         [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                         [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
+                                                                              withItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
                                                      });
                                                      
                                                      if (canceled) {
@@ -482,6 +484,8 @@
     if (localDocument != nil) {
         [[self documentManager] deleteDocument:localDocument error:error];
         [[self documentUploadQueue] remove:localDocument];
+        [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
+        [[localDocument uploadRequest] cancel];
     } else {
         PPRemoteDocument* remoteDocument = [document remoteDocument];
         [self deleteRemoteDocument:remoteDocument
