@@ -639,11 +639,25 @@
     }];
     
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
+        
+        // find all documents in data source which are remote, but not fetched in this poll
+        NSMutableArray* remoteDocumentsToRemove = [[NSMutableArray alloc] init];
+        [[[self dataSource] items] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if ([obj isKindOfClass:[PPRemoteDocument class]] && ![remoteDocuments containsObject:obj]) {
+                [remoteDocumentsToRemove addObject:obj];
+            }
+        }];
+        // remove those documents
+        [[self dataSource] removeItems:remoteDocumentsToRemove];
+        
+        // insert/reload all others
         [[self dataSource] insertItems:remoteDocuments];
+    
         if ([[self dataSource] delegate] != nil) {
             [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
         }
     } failure:^(NSError *error) {
+        
         if ([[self dataSource] delegate] != nil) {
             [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
         }
