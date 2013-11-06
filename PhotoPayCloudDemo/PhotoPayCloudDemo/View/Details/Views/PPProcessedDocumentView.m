@@ -95,8 +95,6 @@
                                                                   referenceNumber:referenceNumber
                                                                    referenceModel:referenceModel];
     
-    NSLog(@"Paid %@", values);
-    
     [[PPPhotoPayCloudService sharedService] confirmValues:values
                                               forDocument:[[self document] remoteDocument]
                                                   success:^{

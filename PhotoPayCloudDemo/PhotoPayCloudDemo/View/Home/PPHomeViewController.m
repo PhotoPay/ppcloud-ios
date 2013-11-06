@@ -53,8 +53,6 @@
     self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
     [self.documentsDataSource setDelegate:self];
     self.documentsDataSource.sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
-//    self.documentsDataSource.sectionCreator = [[PPTableLinearSectionCreator alloc] init];
-//    self.documentsDataSource.sectionCreator = [[PPDateSortedDocumentsSectionCreator alloc] init];
     
     [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     [[self billsTable] setDataSource:[self documentsDataSource]];

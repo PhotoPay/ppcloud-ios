@@ -526,6 +526,9 @@
                                                             }
                                                         }
                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+                                                            
+                                                            NSLog(@"Result confirm fail %@", JSON);
+                                                            
                                                             if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
                                                                 if (canceled) {
                                                                     canceled(request, response);
