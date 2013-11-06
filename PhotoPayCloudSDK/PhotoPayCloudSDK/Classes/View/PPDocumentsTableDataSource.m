@@ -152,14 +152,13 @@
                 
                 if (changed) {
                     indexPath = [[self sectionCreator] reloadItem:object withItem:object];
-                    [[self items] replaceObjectAtIndex:index withObject:object];
                     if (indexPath != nil) {
-                        
                         // if inserted section set contains the section of current index, it will be reloaded anyway
                         if (![insertedSectionSet containsIndex:[indexPath section]]) {
                             [reloadedIndexPaths addObject:indexPath];
                         }
                     }
+                    [[self items] replaceObjectAtIndex:index withObject:object];
                 }
             }
         }

@@ -154,10 +154,13 @@
             }
         } else {
             indexPath = [[self sectionCreator] reloadItem:item withItem:item];
-            [[self items] replaceObjectAtIndex:index withObject:item];
             if (indexPath != nil) {
-                [reloadedIndexPaths addObject:indexPath];
+                // if inserted section set contains the section of current index, it will be reloaded anyway
+                if (![insertedSectionSet containsIndex:[indexPath section]]) {
+                    [reloadedIndexPaths addObject:indexPath];
+                }
             }
+            [[self items] replaceObjectAtIndex:index withObject:item];
         }
     }
     
