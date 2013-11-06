@@ -237,12 +237,9 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
-    // disable animations because delete animation looks confusing
-    [UIView setAnimationsEnabled:NO];
     [[self billsTable] beginUpdates];
-    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [[self billsTable] endUpdates];
-    [UIView setAnimationsEnabled:YES];
 }
 
 /**

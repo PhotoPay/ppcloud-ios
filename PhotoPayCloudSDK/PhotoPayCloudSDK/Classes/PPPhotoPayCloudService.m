@@ -232,6 +232,8 @@
     state = PPPhotoPayCloudServiceStateReady;
     
     [self checkExistingUploadQueue];
+    
+    NSLog(@"PhotoPayCloud initialized");
 }
 
 - (void)uninitialize {
@@ -242,6 +244,8 @@
     for (int i = 0; i < [[[self documentUploadQueue] elements] count]; i++) {
         [[[[[[self documentUploadQueue] elements] objectAtIndex:i] localDocument] uploadRequest] cancel];
     }
+    
+    NSLog(@"PhotoPayCloud uninitialized");
 }
 
 - (void)checkExistingUploadQueue {
