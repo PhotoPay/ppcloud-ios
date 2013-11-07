@@ -211,7 +211,7 @@
 
 - (void)initializeForUser:(PPUser*)inUser withNetworkManager:(PPNetworkManager*)inNetworkManager {
     if (state != PPPhotoPayCloudServiceStateUninitialized) {
-        NSLog(@"PhotoPayCloudService is already initialized. Returining immediately.");
+        NSLog(@"PhotoPayCloudService is already initialized. Returning immediately.");
         return;
     }
     
@@ -244,6 +244,9 @@
     for (int i = 0; i < [[[self documentUploadQueue] elements] count]; i++) {
         [[[[[[self documentUploadQueue] elements] objectAtIndex:i] localDocument] uploadRequest] cancel];
     }
+    
+    
+    self.uploadDelegate = nil;
     
     NSLog(@"PhotoPayCloud uninitialized");
 }
@@ -282,8 +285,8 @@
     id<PPUploadRequestOperation> uploadRequest =
         [[self networkManager] createUploadRequestForUser:[self user]
                                             localDocument:localDocument
-                                                  success:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument) {
-                                                      
+                                                  success:^(id<PPUploadRequestOperation> operation, PPBaseResponse *response) {
+                                                      PPRemoteDocument* remoteDocument = [response document];
                                                       [[self documentUploadQueue] remove:localDocument];
                                                       [[self documentManager] deleteDocument:localDocument error:nil];
                                                       
@@ -309,9 +312,7 @@
                                                       } else {
                                                           [localDocument setUploadRequest:nil];
                                                       }
-                                                  }
-                                                  failure:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument, NSError *error) {
-                                                      
+                                                  } failure:^(id<PPUploadRequestOperation> operation, PPBaseResponse *response, NSError *error) {
                                                       localDocument.state = PPDocumentStateUploadFailed;
                                                       if ([[self documentUploadQueue] count] == 0) {
                                                           state = PPPhotoPayCloudServiceStateReady;
@@ -330,28 +331,26 @@
                                                       } else {
                                                           [localDocument setUploadRequest:nil];
                                                       }
-                                                  }
-                                                 canceled:^(id<PPUploadRequestOperation> request, PPLocalDocument* localDocument) {
-                                                     
-                                                     localDocument.state = PPDocumentStateUploadFailed;
-                                                     if ([[self documentUploadQueue] count] == 0) {
-                                                         state = PPPhotoPayCloudServiceStateReady;
-                                                     }
-                                                     
-                                                     dispatch_async(dispatch_get_main_queue(), ^() {
-                                                         [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
-                                                                              withItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
-                                                     });
-                                                     
-                                                     if (canceled) {
-                                                         dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
-                                                             canceled(localDocument);
-                                                             [localDocument setUploadRequest:nil];
-                                                         });
-                                                     } else {
-                                                         [localDocument setUploadRequest:nil];
-                                                     }
-                                                 }];
+                                                  } canceled:^(id<PPUploadRequestOperation> operation) {
+                                                      localDocument.state = PPDocumentStateUploadFailed;
+                                                      if ([[self documentUploadQueue] count] == 0) {
+                                                          state = PPPhotoPayCloudServiceStateReady;
+                                                      }
+                                                      
+                                                      dispatch_async(dispatch_get_main_queue(), ^() {
+                                                          [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
+                                                                               withItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                      });
+                                                      
+                                                      if (canceled) {
+                                                          dispatch_async(self.failureDispatchQueue ?: dispatch_get_main_queue(), ^{
+                                                              canceled(localDocument);
+                                                              [localDocument setUploadRequest:nil];
+                                                          });
+                                                      } else {
+                                                          [localDocument setUploadRequest:nil];
+                                                      }
+                                                  }];
     
     [uploadRequest setDelegate:delegate];
     [localDocument setUploadRequest:uploadRequest];
@@ -377,7 +376,7 @@
     
     state = PPPhotoPayCloudServiceStateUploading;
     
-    dispatch_async(dispatch_get_main_queue(), ^(){
+    dispatch_async(dispatch_get_main_queue(), ^() {
         [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
     });
     
@@ -484,23 +483,23 @@
     if (localDocument != nil) {
         [[self documentManager] deleteDocument:localDocument error:error];
         [[self documentUploadQueue] remove:localDocument];
-        [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
+        });
         [[localDocument uploadRequest] cancel];
     } else {
         PPRemoteDocument* remoteDocument = [document remoteDocument];
         [self deleteRemoteDocument:remoteDocument
                         withSuccess:^{
-                            ;
+                            dispatch_async(dispatch_get_main_queue(), ^() {
+                                [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
+                            });
                         } failure:^(NSError *error) {
                             ;
                         } canceled:^{
                             ;
                         }];
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^() {
-        [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
-    });
 }
 
 - (void)deleteRemoteDocument:(PPRemoteDocument*)remoteDocument
@@ -511,20 +510,19 @@
     NSOperation* deleteDocumentOperation =
         [[self networkManager] createDeleteDocumentRequest:remoteDocument
                                                       user:[self user]
-                                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse* baseReponse) {
-                                                        if (success) {
-                                                            success();
-                                                        }
-                                                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                        if (failure) {
-                                                            failure(error);
-                                                        }
-                                                    } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
-                                                        if (canceled) {
-                                                            canceled();
-                                                        }
-                                                    }];
-    
+                                                   success:^(NSOperation *operation, PPBaseResponse *response) {
+                                                       if (success) {
+                                                           success();
+                                                       }
+                                                   } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
+                                                       if (failure) {
+                                                           failure(error);
+                                                       }
+                                                   } canceled:^(NSOperation *operation) {
+                                                       if (canceled) {
+                                                           canceled();
+                                                       }
+                                                   }];
     [deleteDocumentOperation start];
 
 }
@@ -541,15 +539,15 @@
                                                            user:[self user]
                                                       imageSize:imageSize
                                                     imageFormat:imageFormat
-                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                        success:^(NSOperation *operation, UIImage *image) {
                                                             if (success) {
                                                                 success(image);
                                                             }
-                                                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                        } failure:^(NSOperation *operation, NSError *error) {
                                                             if (failure) {
                                                                 failure(error);
                                                             }
-                                                        } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                        } canceled:^(NSOperation *operation) {
                                                             if (canceled) {
                                                                 canceled();
                                                             }
@@ -563,16 +561,21 @@
                 success:(void (^)(NSData* data))success
                 failure:(void (^)(NSError* error))failure
                canceled:(void (^)())canceled {
-    NSOperation* getDataOperation =
-        [[self networkManager] createGetDocumentData:document
-                                                user:[self user]
-                                             success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data) {
-                                                 success(data);
-                                             } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                 ;
-                                             } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
-                                                 ;
-                                             }];
+    NSOperation* getDataOperation = [[self networkManager] createGetDocumentData:document
+                                                                            user:[self user]
+                                                                         success:^(NSOperation *operation, NSData *data) {
+                                                                             if (success) {
+                                                                                 success(data);
+                                                                             }
+                                                                         } failure:^(NSOperation *operation, NSError *error) {
+                                                                             if (failure) {
+                                                                                 failure(error);
+                                                                             }
+                                                                         } canceled:^(NSOperation *operation) {
+                                                                             if (canceled) {
+                                                                                 canceled();
+                                                                             }
+                                                                         }];
     
     // add it to the operation queue
     [[[self networkManager] documentDataOperationQueue] cancelAllOperations];
@@ -585,18 +588,23 @@
 
 - (void)requestDocuments:(PPDocumentState)documentStates
             pollInterval:(NSTimeInterval)timeInterval {
-    // find all documents currently in data source which aren't in the state given by documentStates
-    NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
-    for (PPDocument* document in [[self dataSource] items]) {
-        if (([document state] & documentStates) == 0) {
-            [documentsToRemove addObject:document];
-        }
-    }
     
     // these should be removed
     
     dispatch_async(dispatch_get_main_queue(), ^() {
-        [[self dataSource] removeItems:documentsToRemove];
+        
+        // find all documents currently in data source which aren't in the state given by documentStates
+        NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
+
+        for (PPDocument* document in [[self dataSource] items]) {
+            if (([document state] & documentStates) == 0) {
+                [documentsToRemove addObject:document];
+            }
+        }
+        
+        if ([documentsToRemove count] > 0) {
+            [[self dataSource] removeItems:documentsToRemove];
+        }
     });
     
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
@@ -604,17 +612,18 @@
     if (documentStates != lastDocumentStates) {
         // document states are not the same as last presented, so recheck all existing documents
         
-        // find all documents currently in document upload queue which are in the state given by document states
-        NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];
-        for (PPDocument* document in [[self documentUploadQueue] elements]) {
-            if ([document state] & documentStates) {
-                [documentsToAdd addObject:document];
-            }
-        }
-        
         // these should be added
         dispatch_async(dispatch_get_main_queue(), ^() {
-             [[self dataSource] insertItems:documentsToAdd];
+            // find all documents currently in document upload queue which are in the state given by document states
+            NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];
+            for (PPDocument* document in [[self documentUploadQueue] elements]) {
+                if ([document state] & documentStates) {
+                    [documentsToAdd addObject:document];
+                }
+            }
+            if ([documentsToAdd count]) {
+                [[self dataSource] insertItems:documentsToAdd];
+            }
         });
     }
     
@@ -624,7 +633,6 @@
         [self requestRemoteDocuments:@(documentStates)
                         pollInterval:timeInterval];
     }];
-    
 }
 
 - (void)requestRemoteDocuments:(NSNumber*)documentStatesObject
@@ -643,19 +651,29 @@
     }];
     
     [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
-        
-        // find all documents in data source which are remote, but not fetched in this poll
-        NSMutableArray* remoteDocumentsToRemove = [[NSMutableArray alloc] init];
-        [[[self dataSource] items] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if ([obj isKindOfClass:[PPRemoteDocument class]] && ![remoteDocuments containsObject:obj]) {
-                [remoteDocumentsToRemove addObject:obj];
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            // find all documents in data source which are remote, but not fetched in this poll
+            NSMutableArray* remoteDocumentsToRemove = [[NSMutableArray alloc] init];
+            [[[self dataSource] items] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ([obj isKindOfClass:[PPRemoteDocument class]]) {
+                    PPRemoteDocument* remoteDocument = [obj remoteDocument];
+                    if (!([remoteDocument state] & documentStates)) {
+                        [remoteDocumentsToRemove addObject:obj];
+                    };
+                }
+                
+            }];
+            
+            // remove those documents
+            if ([remoteDocumentsToRemove count] > 0) {
+                [[self dataSource] removeItems:remoteDocumentsToRemove];
             }
-        }];
-        // remove those documents
-        [[self dataSource] removeItems:remoteDocumentsToRemove];
         
-        // insert/reload all others
-        [[self dataSource] insertItems:remoteDocuments];
+            // insert/reload all others
+            if ([remoteDocuments count]) {
+                [[self dataSource] insertItems:remoteDocuments];
+            }
+        });
     
         if ([[self dataSource] delegate] != nil) {
             [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
@@ -713,16 +731,15 @@
                                                         endDate:nil
                                                 startsWithIndex:[NSNumber numberWithLong:0]
                                                   endsWithIndex:[NSNumber numberWithLong:1234567]
-                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *remoteDocuments) {
+                                                        success:^(NSOperation *operation, PPBaseResponse *response) {
                                                             if (success) {
-                                                                success(remoteDocuments);
+                                                                success([response documentsList]);
                                                             }
-                                                        }
-                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                        } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
                                                             if (failure) {
                                                                 failure(error);
                                                             }
-                                                        } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
+                                                        } canceled:^(NSOperation *operation) {
                                                             if (canceled) {
                                                                 canceled();
                                                             }
@@ -741,12 +758,25 @@
         [[self networkManager] createConfirmValuesRequest:values
                                                  document:document
                                                      user:[self user]
-                                                  success:^(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse) {
-                                                      ;
-                                                  } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                      ;
-                                                  } canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
-                                                      ;
+                                                  success:^(NSOperation *operation, PPBaseResponse *response) {
+                                                      dispatch_async(dispatch_get_main_queue(), ^() {
+                                                          [document setState:PPDocumentStatePaid];
+                                                          [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:document, nil]
+                                                                               withItems:[[NSArray alloc] initWithObjects:document, nil]];
+                                                          [[document delegate] documentDidChangeState:document];
+                                                      });
+
+                                                      if (success) {
+                                                          success();
+                                                      }
+                                                  } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
+                                                      if (failure) {
+                                                          failure(error);
+                                                      }
+                                                  } canceled:^(NSOperation *operation) {
+                                                      if (canceled) {
+                                                          canceled();
+                                                      };
                                                   }];
     
     [confirmValuesOperation start];
@@ -755,15 +785,14 @@
 - (void)registerPushNotificationToken:(NSString*)token {
     NSOperation* registerPushOperation =
         [[self networkManager] createRegisterPushNotificationToken:token
-                                                           forUser:[self user] success:^(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse) {
+                                                           forUser:[self user]
+                                                           success:^(NSOperation *operation, PPBaseResponse *response) {
                                                                ;
-                                                           }
-                                                           failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                           } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
                                                                ;
-                                                           }
-                                                          canceled:^(NSURLRequest *request, NSHTTPURLResponse *response) {
-                                                              ;
-                                                          }];
+                                                           } canceled:^(NSOperation *operation) {
+                                                               ;
+                                                           }];
     [registerPushOperation start];
 }
 
