@@ -61,6 +61,9 @@
     [sectionCreator setProcessedSectionTitle:_(@"PhotoPayHomeProcessedSectionTitle")];
     self.documentsDataSource.sectionCreator = sectionCreator;
     
+//    PPDateSortedDocumentsSectionCreator* sectionCreator = [[PPDateSortedDocumentsSectionCreator alloc] init];
+//    self.documentsDataSource.sectionCreator = sectionCreator;
+    
     [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
     [[self billsTable] setDataSource:[self documentsDataSource]];
     [[self billsTable] setDelegate:self];
