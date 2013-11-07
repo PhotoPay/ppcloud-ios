@@ -19,6 +19,11 @@
  */
 - (id)initWithRequestOperationManager:(AFHTTPRequestOperationManager*)inRequestOperationManager;
 
+/** 
+ Convenience method for building default AFHTTPRequestOperationManager object
+ */
++ (AFHTTPRequestOperationManager*)defaultOperationManagerForBaseURLString:(NSString*)URLString;
+
 /**
  Custom http client object 
  */

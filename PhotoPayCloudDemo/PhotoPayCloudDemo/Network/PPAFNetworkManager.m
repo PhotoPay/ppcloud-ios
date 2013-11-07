@@ -45,6 +45,37 @@
 @synthesize requestOperationManager;
 @synthesize baseURLString;
 
++ (AFHTTPRequestOperationManager*)defaultOperationManagerForBaseURLString:(NSString*)URLString {
+    AFHTTPRequestOperationManager* manager =  [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:URLString]];
+    
+    /** Default request serializer */
+    AFHTTPRequestSerializer* requestSerializer = [AFHTTPRequestSerializer serializer];
+    [requestSerializer setValue:@"" forHTTPHeaderField:@"Accept-Encoding"];
+    NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
+    [requestSerializer setValue:osString forHTTPHeaderField:@"X-OS"];
+    NSString* buildNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString* versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString* appVersion = [NSString stringWithFormat:@"Build: %@, Version: %@", buildNumber, versionNumber];
+    [requestSerializer setValue:appVersion forHTTPHeaderField:@"X-app-version"];
+    manager.requestSerializer = requestSerializer;
+    
+    /** Default response serializer, solves the issue with acceptableContentTypes on Erste bank server */
+    AFHTTPResponseSerializer* responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSMutableSet *acceptableContentTypes = [[responseSerializer acceptableContentTypes] mutableCopy];
+    [acceptableContentTypes addObject:@"text/plain"];
+    [responseSerializer setAcceptableContentTypes:acceptableContentTypes];
+    manager.responseSerializer = responseSerializer;
+    
+    /** Default security policy, allows invalid certificates */
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+#ifdef DEBUG
+    securityPolicy.allowInvalidCertificates = YES;
+#endif
+    manager.securityPolicy = securityPolicy;
+    
+    return manager;
+}
+
 /**
  Initializes network managet with a custom AFHTTPRequestOperationManager object
  */
