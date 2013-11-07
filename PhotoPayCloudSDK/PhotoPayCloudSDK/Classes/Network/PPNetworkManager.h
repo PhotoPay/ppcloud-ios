@@ -206,6 +206,11 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
 + (NSString*)apiPathDeleteDocument:(PPDocument*)document;
 
 /**
+ Sets the max number of uploads which can be performed concurrently
+ */
+- (void)setMaxConcurrentUploadsCount:(NSInteger)count;
+
+/**
  Abstract.
  Factory method for creating UploadRequestOperations.
  

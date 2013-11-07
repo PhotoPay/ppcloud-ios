@@ -84,6 +84,10 @@ NSString* const kPPParameterStatus = @"status";
     return self;
 }
 
+- (void)setMaxConcurrentUploadsCount:(NSInteger)count {
+    [uploadOperationQueue setMaxConcurrentOperationCount:count];
+}
+
 + (NSDictionary*)imageFormatObjectTable {
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
