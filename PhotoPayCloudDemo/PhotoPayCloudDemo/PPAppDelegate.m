@@ -199,18 +199,16 @@ static bool loggedIn = false;
 //        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://smartphonembankinguat.erstebank.rs:1027/"]];
         
         AFHTTPRequestSerializer* requestSerializer = [AFHTTPRequestSerializer serializer];
-        
         [requestSerializer setValue:@"" forHTTPHeaderField:@"Accept-Encoding"];
-        
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
         [requestSerializer setValue:osString forHTTPHeaderField:@"X-OS"];
-
         NSString* buildNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         NSString* versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString* appVersion = [NSString stringWithFormat:@"Build: %@, Version: %@", buildNumber, versionNumber];
         [requestSerializer setValue:appVersion forHTTPHeaderField:@"X-app-version"];
-        
         manager.requestSerializer = requestSerializer;
+        
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
 #ifdef DEBUG
