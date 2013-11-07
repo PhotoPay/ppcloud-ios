@@ -236,7 +236,8 @@
                   @(PPDocumentTypeTIFF) : @"TIFF",
                   @(PPDocumentTypeTXT) : @"TXT",
                   @(PPDocumentTypeXLS) : @"XLS",
-                  @(PPDocumentTypeXML) : @"XML"};
+                  @(PPDocumentTypeXML) : @"XML",
+                  @(PPDocumentTypeUnknown) : @"UNKNOWN"}; // Unknown document type
     });
     return table;
 }
