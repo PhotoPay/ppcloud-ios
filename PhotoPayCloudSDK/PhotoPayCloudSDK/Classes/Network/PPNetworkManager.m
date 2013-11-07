@@ -84,13 +84,6 @@ NSString* const kPPParameterStatus = @"status";
     return self;
 }
 
-- (id)httpClient {
-    // this method must be overriden by the application
-    @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
-                                 userInfo:nil];
-}
-
 + (NSDictionary*)imageFormatObjectTable {
     static NSDictionary *table = nil;
     static dispatch_once_t pred;
@@ -181,9 +174,9 @@ NSString* const kPPParameterStatus = @"status";
 
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
                                              localDocument:(PPLocalDocument*)document
-                                                   success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
-                                                   failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
-                                                  canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled {
+                                                   success:(void (^)(id<PPUploadRequestOperation>, PPBaseResponse*))success
+                                                   failure:(void (^)(id<PPUploadRequestOperation>, PPBaseResponse*, NSError *))failure
+                                                  canceled:(void (^)(id<PPUploadRequestOperation>))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -202,11 +195,11 @@ NSString* const kPPParameterStatus = @"status";
                                   documentStates:(NSArray*)documentStates
                                        startDate:(NSDate*)startDate
                                          endDate:(NSDate*)endDate
-                                 startsWithIndex:(NSNumber*)startsWith
-                                   endsWithIndex:(NSNumber*)endsWith
-                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *))success
-                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                 startsWithIndex:(NSNumber*)startsWithIndex
+                                   endsWithIndex:(NSNumber*)numElements
+                                         success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                         failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                        canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -218,9 +211,9 @@ NSString* const kPPParameterStatus = @"status";
                                             user:(PPUser *)user
                                        imageSize:(PPImageSize)imageSize
                                      imageFormat:(PPImageFormat)imageFormat
-                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
-                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                         success:(void (^)(NSOperation*, UIImage*))success
+                                         failure:(void (^)(NSOperation*, NSError*))failure
+                                        canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -230,9 +223,9 @@ NSString* const kPPParameterStatus = @"status";
 
 - (NSOperation*)createGetDocumentData:(PPRemoteDocument*)remoteDocument
                                  user:(PPUser *)user
-                              success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
-                              failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                             canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                              success:(void (^)(NSOperation*, NSData*))success
+                              failure:(void (^)(NSOperation*, NSError*))failure
+                             canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -242,9 +235,9 @@ NSString* const kPPParameterStatus = @"status";
 
 - (NSOperation*)createDeleteDocumentRequest:(PPRemoteDocument*)remoteDocument
                                        user:(PPUser *)user
-                                    success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResponse))success
-                                    failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                   canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                    success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                    failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                   canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
@@ -255,9 +248,9 @@ NSString* const kPPParameterStatus = @"status";
 - (NSOperation*)createConfirmValuesRequest:(PPUserConfirmedValues*)values
                                   document:(PPRemoteDocument*)remoteDocument
                                       user:(PPUser *)user
-                                   success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
-                                   failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                  canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                   success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                   failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                  canceled:(void (^)(NSOperation*))canceled {
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
                                    reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
@@ -266,9 +259,9 @@ NSString* const kPPParameterStatus = @"status";
 
 - (NSOperation*)createRegisterPushNotificationToken:(NSString*)token
                                             forUser:(PPUser *)user
-                                            success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
-                                            failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                           canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                            success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                            failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                           canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException
