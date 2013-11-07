@@ -13,6 +13,7 @@
 #import "PPAlertView.h"
 #import "PPDocumentTableViewCell+Uploading.h"
 #import "PPDocumentDetailsViewController.h"
+#import <DDLog.h>
 
 @interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPTableViewDataSourceDelegate>
 
@@ -105,7 +106,7 @@
     
     // request all local documents and remote unconfirmed to be seen inside table view
     [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
-                                                pollInterval:5.0f];
+                                                pollInterval:1.0f];
 }
 
 - (void)teardownTableData {
