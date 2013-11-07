@@ -11,7 +11,7 @@
 #import "PPLocalDocument.h"
 #import "PPRemoteDocument.h"
 #import "PPLocalDocumentUploadQueue.h"
-#import "PPDefaultDocumentsSectionCreator.h"
+#import "PPSplitTypeDocumentsSectionCreator.h"
 #import <UIKit/UIKit.h>
 
 @interface PPDocumentsTableDataSource ()
@@ -32,7 +32,7 @@
     self = [super init];
     if (self) {
         items = [[NSMutableArray alloc] init];
-        sectionCreator = [[PPDefaultDocumentsSectionCreator alloc] init];
+        sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
     }
     return self;
 }
