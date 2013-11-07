@@ -141,7 +141,8 @@ static bool loggedIn = false;
 - (void)photoPayCloudLogin {
     loggedIn = true;
 
-    PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithRequestOperationManager:[PPAppDelegate requestOperationManager]];
+    PPAFNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithRequestOperationManager:[PPAppDelegate requestOperationManager]];
+    [networkManager setMaxConcurrentUploadsCount:1];
     
     PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
                                    organizationId:@"EBS"];
