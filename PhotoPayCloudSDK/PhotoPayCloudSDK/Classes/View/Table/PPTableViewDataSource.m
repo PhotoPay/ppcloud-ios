@@ -267,8 +267,8 @@
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }
 
-    [self insertItems:itemsToAdd];
     [self removeItems:itemsToRemove];
+    [self insertItems:itemsToAdd];
 }
 
 - (id)itemForIndexPath:(NSIndexPath*)indexPath {
