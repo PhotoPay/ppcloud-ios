@@ -56,6 +56,7 @@
             cell.mediumLabel.text = _(@"PhotoPayHomeDocumentUploadFailedLabel");
             break;
         }
+        case PPDocumentStatePaid:
         case PPDocumentStateProcessed: {
             cell = [PPDocumentsDataSource cellForDocumentStateProcessed:[document remoteDocument]
                                                               tableView:tableView];
