@@ -159,6 +159,7 @@
     // 3. create upload operation from multipart request
     PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest];
     uploadRequestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    uploadRequestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     // 4. check for errors
     if (uploadRequestOperation == nil) {
@@ -320,6 +321,7 @@
     
     AFHTTPRequestOperation *getRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:getRequest];
     getRequestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    getRequestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [getRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
@@ -379,6 +381,7 @@
         
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
     requestOperation.responseSerializer = [AFImageResponseSerializer serializer];
+    requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
@@ -423,6 +426,7 @@
                                                                        parameters:requestParams];
     
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+    requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
@@ -468,6 +472,7 @@
     
     AFHTTPRequestOperation *deleteOperation = [[AFHTTPRequestOperation alloc] initWithRequest:deleteRequest];
     deleteOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    deleteOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [deleteOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
@@ -532,6 +537,7 @@
     
     AFHTTPRequestOperation *confirmOperation = [[AFHTTPRequestOperation alloc] initWithRequest:confirmRequest];
     confirmOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    confirmOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [confirmOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
@@ -587,6 +593,7 @@
     
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:pushRegisterRequest];
     requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
