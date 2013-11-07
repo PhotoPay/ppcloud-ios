@@ -11,8 +11,12 @@
 #import "PPAFNetworkManager.h"
 #import <PhotoPayCloud/PhotoPayCloud.h>
 #import <AFNetworking/AFNetworking.h>
+#import <AFNetworkActivityIndicatorManager.h>
 #import "PPAlertView.h"
 #import "PPAutoUpdater.h"
+#import <DDASLLogger.h>
+#import <DDTTYLogger.h>
+#import <DDLog.h>
 
 static NSString* appName = @"PhotoPayCloudDemo";
 static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/srb-erste-cloud/";
@@ -28,7 +32,7 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
 - (void)photoPayCloudLogin;
 - (void)photoPayCloudLogout;
 
-+ (AFHTTPClient*)httpclient;
++ (AFHTTPRequestOperationManager*)requestOperationManager;
 
 @end
 
@@ -124,6 +128,29 @@ static bool loggedIn = false;
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)photoPayCloudLogout {
+    if (!loggedIn) {
+        [[PPPhotoPayCloudService sharedService] uninitialize];
+    }
+}
+
+- (void)photoPayCloudLogin {
+    loggedIn = true;
+
+    PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithRequestOperationManager:[PPAppDelegate requestOperationManager]];
+    
+    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+                                   organizationId:@"EBS"];
+    
+    [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
     static NSTimeInterval logoutInterval = 8.0f;
     __block UIBackgroundTaskIdentifier bgTask;
     bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
@@ -141,28 +168,6 @@ static bool loggedIn = false;
         bgTask = UIBackgroundTaskInvalid;
     });
     
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)photoPayCloudLogout {
-    if (!loggedIn) {
-        [[PPPhotoPayCloudService sharedService] uninitialize];
-    }
-}
-
-- (void)photoPayCloudLogin {
-    loggedIn = true;
-    
-    PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
-    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
-                                   organizationId:@"EBS"];
-    
-    [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -185,24 +190,37 @@ static bool loggedIn = false;
     [self checkPhotoPayCloudUploads];
 }
 
-+ (AFHTTPClient*)httpclient {
-    static AFHTTPClient* httpclient = nil;
++ (AFHTTPRequestOperationManager*)requestOperationManager {
+    static AFHTTPRequestOperationManager* manager = nil;
+    
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
-//        httpclient = [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://smartphonembankinguat.erstebank.rs:1027/"]];
+        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://cloudbeta.photopay.net/"]];
+//        manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://smartphonembankinguat.erstebank.rs:1027/"]];
+        
+        AFHTTPRequestSerializer* requestSerializer = [AFHTTPRequestSerializer serializer];
+        
+        [requestSerializer setValue:@"" forHTTPHeaderField:@"Accept-Encoding"];
         
         NSString* osString = [NSString stringWithFormat:@"%@: %@", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
-        [httpclient setDefaultHeader:@"Accept-Encoding" value:@""];
-        
-        [httpclient setDefaultHeader:@"X-OS" value:osString];
-        
+        [requestSerializer setValue:osString forHTTPHeaderField:@"X-OS"];
+
         NSString* buildNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         NSString* versionNumber = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString* appVersion = [NSString stringWithFormat:@"Build: %@, Version: %@", buildNumber, versionNumber];
-        [httpclient setDefaultHeader:@"X-app-version" value:appVersion];
+        [requestSerializer setValue:appVersion forHTTPHeaderField:@"X-app-version"];
+        
+        manager.requestSerializer = requestSerializer;
+        
+        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+#ifdef DEBUG
+        securityPolicy.allowInvalidCertificates = YES;
+#endif
+        manager.securityPolicy = securityPolicy;
+        
     });
-    return httpclient;
+    
+    return manager;
 }
 
 - (void)checkPhotoPayCloudUploads {

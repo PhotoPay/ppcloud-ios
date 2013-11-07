@@ -15,13 +15,13 @@
 @interface PPAFNetworkManager : PPNetworkManager
 
 /**
- Initializes network managet with a custom httpClient object
+ Initializes network manager with a custom AFHTTPRequestOperationManager object
  */
-- (id)initWithHttpClient:(AFHTTPClient*)httpClient;
+- (id)initWithRequestOperationManager:(AFHTTPRequestOperationManager*)inRequestOperationManager;
 
 /**
  Custom http client object 
  */
-@property (nonatomic, strong, readonly) AFHTTPClient* httpClient;
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager* requestOperationManager;
 
 @end

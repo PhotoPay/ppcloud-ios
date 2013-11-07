@@ -13,6 +13,16 @@
 @interface PPAFNetworkManager ()
 
 /**
+ Getter for request serializer which retrieves the object from AFHTTPRequestOperationManager
+ */
+@property (nonatomic, readonly) AFHTTPRequestSerializer* requestSerializer;
+
+/**
+ Base URL string to PhotoPayCloud web services
+ */
+@property (nonatomic, strong) NSString* baseURLString;
+
+/**
  Prepares the request parameters for a given user.
  
  Error checking is performed.
@@ -32,21 +42,23 @@
 
 @implementation PPAFNetworkManager
 
-@synthesize httpClient;
+@synthesize requestOperationManager;
+@synthesize baseURLString;
 
-- (id)initWithHttpClient:(AFHTTPClient *)inHttpClient {
+/**
+ Initializes network managet with a custom AFHTTPRequestOperationManager object
+ */
+- (id)initWithRequestOperationManager:(AFHTTPRequestOperationManager*)inRequestOperationManager {
     self = [super init];
     if (self) {
-        httpClient = inHttpClient;
-#ifdef DEBUG
-        httpClient.allowsInvalidSSLCertificate = YES;
-#endif
+        baseURLString = [[inRequestOperationManager baseURL] absoluteString];
+        requestOperationManager = inRequestOperationManager;
     }
     return self;
 }
 
-- (id)httpClient {
-    return httpClient;
+- (AFHTTPRequestSerializer*)requestSerializer {
+    return [[self requestOperationManager] requestSerializer];
 }
 
 - (NSMutableDictionary*)requestParametersForUser:(PPUser*)user
@@ -117,9 +129,9 @@
 
 - (id<PPUploadRequestOperation>)createUploadRequestForUser:(PPUser *)user
                                              localDocument:(PPLocalDocument*)document
-                                                   success:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, PPRemoteDocument *))success
-                                                   failure:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *, NSError *))failure
-                                                  canceled:(void (^)(id<PPUploadRequestOperation>, PPLocalDocument *))canceled {
+                                                   success:(void (^)(id<PPUploadRequestOperation>, PPBaseResponse*))success
+                                                   failure:(void (^)(id<PPUploadRequestOperation>, PPBaseResponse*, NSError *))failure
+                                                  canceled:(void (^)(id<PPUploadRequestOperation>))canceled {
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
     NSDictionary *uploadRequestParameters = [self uploadRequestParametersForUser:user
@@ -127,28 +139,26 @@
                                                                            error:&error];
     if (error != nil) {
         NSLog(@"%@", [NSString stringWithFormat:@"Error creating request: %@", [error localizedDescription]]);
-        failure(nil, document, error);
+        failure(nil, nil, error);
         return nil;
     }
     
     // 2. create multipart request
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathUpload]];
     NSMutableURLRequest *multipartRequest =
-        [[self httpClient] multipartFormRequestWithMethod:@"POST"
-                                                     path:[PPNetworkManager apiPathUpload]
-                                               parameters:uploadRequestParameters
-                                constructingBodyWithBlock:^(id <AFMultipartFormData>formData) {
-                                    [formData appendPartWithFileData:[document bytes]
-                                                                name:kPPParameterData
-                                                            fileName:[[document cachedDocumentUrl] lastPathComponent]
-                                                            mimeType:[document mimeType]];
-                                }];
+        [[self requestSerializer] multipartFormRequestWithMethod:@"POST"
+                                                       URLString:urlString
+                                                      parameters:uploadRequestParameters
+                                       constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                           [formData appendPartWithFileData:[document bytes]
+                                                                       name:kPPParameterData
+                                                                   fileName:[[document cachedDocumentUrl] lastPathComponent]
+                                                                   mimeType:[document mimeType]];
+                                       }];
     
-    // 3.create upload operation from multipart request and upload parameters object
+    // 3. create upload operation from multipart request
     PPAFUploadRequestOperation* uploadRequestOperation = [[PPAFUploadRequestOperation alloc] initWithRequest:multipartRequest];
-    
-#ifdef DEBUG
-    uploadRequestOperation.allowsInvalidSSLCertificate = YES;
-#endif
+    uploadRequestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
     
     // 4. check for errors
     if (uploadRequestOperation == nil) {
@@ -158,7 +168,7 @@
         NSError *error = [NSError errorWithDomain:domain
                                              code:2002
                                          userInfo:userInfo];
-        failure(nil, document, error);
+        failure(nil, nil, error);
         
         return nil;
     }
@@ -179,24 +189,26 @@
     // 6. add success, failure and cancellation blocks
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
-        PPRemoteDocument* remoteDocument = [baseResponse document];
         
         if (success) {
-            success(_uploadRequestOperation, document, remoteDocument);
+            success(_uploadRequestOperation, baseResponse);
         }
         
         if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didFinishUploadWithResult:)]) {
             [_uploadRequestOperation.delegate localDocument:document
-                              didFinishUploadWithResult:remoteDocument];
+                              didFinishUploadWithResult:[baseResponse document]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Upload failed with response %@", operation.responseString);
         
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
+            NSLog(@"Canceled");
             if (canceled) {
-                canceled(_uploadRequestOperation, document);
+                canceled(_uploadRequestOperation);
             }
             
             if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocumentDidCancelUpload:)]) {
@@ -206,8 +218,9 @@
             return;
         } else {
             
+            NSLog(@"Error! %@", error);
             if (failure) {
-                failure((id<PPUploadRequestOperation>)operation, document, error);
+                failure((id<PPUploadRequestOperation>)operation, baseResponse, error);
             }
             
             if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didFailToUploadWithError:)]) {
@@ -226,7 +239,7 @@
                                              code:2005
                                          userInfo:userInfo];
         
-        failure(_uploadRequestOperation, document, error);
+        failure(_uploadRequestOperation, nil, error);
     }];
     
     // 7. done
@@ -239,9 +252,9 @@
                                          endDate:(NSDate*)endDate
                                  startsWithIndex:(NSNumber*)startsWithIndex
                                    endsWithIndex:(NSNumber*)numElements
-                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSArray *))success
-                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                         success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                         failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                        canceled:(void (^)(NSOperation*))canceled {
     
     // 1. create parameters dictionary
     NSMutableDictionary *requestParams = [[NSMutableDictionary alloc] init];
@@ -300,38 +313,38 @@
                       forKey:kPPParameterStatus];
     
     // 2. create request
-    NSMutableURLRequest *getRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                      path:[PPNetworkManager apiPathDocumentsForUser:user]
-                                                                parameters:requestParams];
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathDocumentsForUser:user]];
+    NSMutableURLRequest *getRequest = [[self requestSerializer] requestWithMethod:@"GET"
+                                                                        URLString:urlString
+                                                                       parameters:requestParams];
     
-    AFJSONRequestOperation *getRequestOperation =
-        [AFJSONRequestOperation JSONRequestOperationWithRequest:getRequest
-                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
-                                                            
-                                                            if (success) {
-                                                                success(request, response, [baseResponse documentsList]);
-                                                            }
-                                                        }
-                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                                                            NSLog(@"Failed to execute. Response %@", response);
-                                                            
-                                                            if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-                                                                    NSLog(@"request canceled");
-                                                                    if (canceled) {
-                                                                        canceled(request, response);
-                                                                    }
-                                                                    return;
-                                                                }
-                                                            
-                                                                if (failure != nil) {
-                                                                    failure(request, response, error);
-                                                                }
-                                                        }];
+    AFHTTPRequestOperation *getRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:getRequest];
+    getRequestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
     
-#ifdef DEBUG
-    getRequestOperation.allowsInvalidSSLCertificate = YES;
-#endif
+    [getRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        
+        if (success) {
+            success(operation, baseResponse);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Get documents failed with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            NSLog(@"Canceled");
+            if (canceled) {
+                canceled(operation);
+            }
+            return;
+        }
+        
+        NSLog(@"Error! %@", error);
+        if (failure != nil) {
+            failure(operation, baseResponse, error);
+        }
+    }];
     
     return getRequestOperation;
 }
@@ -340,9 +353,9 @@
                                             user:(PPUser *)user
                                        imageSize:(PPImageSize)imageSize
                                      imageFormat:(PPImageFormat)imageFormat
-                                         success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
-                                         failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                        canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                         success:(void (^)(NSOperation*, UIImage*))success
+                                         failure:(void (^)(NSOperation*, NSError*))failure
+                                        canceled:(void (^)(NSOperation*))canceled {
     
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
@@ -359,31 +372,32 @@
     [requestParams setObject:[PPNetworkManager objectForImageSize:imageSize]
                             forKey:kPPParameterHeight];
     
-    NSMutableURLRequest *urlRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                      path:[PPNetworkManager apiPathImageForDocument:remoteDocument]
-                                                                parameters:requestParams];
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathImageForDocument:remoteDocument]];
+    NSMutableURLRequest *urlRequest = [[self requestSerializer] requestWithMethod:@"GET"
+                                                                        URLString:urlString
+                                                                       parameters:requestParams];
         
-    AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
-    
-#ifdef DEBUG
-    requestOperation.allowsInvalidSSLCertificate = YES;
-#endif
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+    requestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
-            success(operation.request, operation.response, responseObject);
+            success(operation, responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Fail! %@", error);
+        NSLog(@"Get image failed with response %@", operation.responseString);
+        
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            NSLog(@"Canceled");
             if (canceled) {
-               canceled(operation.request, operation.response);
+                canceled(operation);
             }
             return;
         }
         
+        NSLog(@"Error! %@", error);
         if (failure != nil) {
-            failure(operation.request, operation.response, error);
+            failure(operation, error);
         }
     }];
 
@@ -392,9 +406,9 @@
 
 - (NSOperation*)createGetDocumentData:(PPRemoteDocument*)remoteDocument
                                  user:(PPUser *)user
-                              success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSData *image))success
-                              failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                             canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                              success:(void (^)(NSOperation*, NSData*))success
+                              failure:(void (^)(NSOperation*, NSError*))failure
+                             canceled:(void (^)(NSOperation*))canceled {
     
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
@@ -403,32 +417,31 @@
         return nil;
     }
     
-    NSMutableURLRequest *urlRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                      path:[PPNetworkManager apiPathDataForDocument:remoteDocument]
-                                                                parameters:requestParams];
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathDataForDocument:remoteDocument]];
+    NSMutableURLRequest *urlRequest = [[self requestSerializer] requestWithMethod:@"GET"
+                                                                        URLString:urlString
+                                                                       parameters:requestParams];
     
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
     
-#ifdef DEBUG
-    requestOperation.allowsInvalidSSLCertificate = YES;
-#endif
-    
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
-            success(operation.request, operation.response, responseObject);
+            success(operation, operation.responseData);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Get document data failed with response %@", operation.responseString);
+        
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            NSLog(@"Canceled");
             if (canceled) {
-                canceled(operation.request, operation.response);
+                canceled(operation);
             }
             return;
         }
         
+        NSLog(@"Fail! %@", error);
         if (failure != nil) {
-            NSLog(@"Fail! %@", error);
-            
-            failure(operation.request, operation.response, error);
+            failure(operation, error);
         }
     }];
     
@@ -437,9 +450,9 @@
 
 - (NSOperation*)createDeleteDocumentRequest:(PPRemoteDocument*)remoteDocument
                                        user:(PPUser *)user
-                                    success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
-                                    failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                   canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                    success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                    failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                   canceled:(void (^)(NSOperation*))canceled {
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
     NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
@@ -448,38 +461,38 @@
     }
     
     // 2. create request
-    NSMutableURLRequest *deleteRequest = [[self httpClient] requestWithMethod:@"GET"
-                                                                         path:[PPNetworkManager apiPathDeleteDocument:remoteDocument]
-                                                                   parameters:requestParams];
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathDeleteDocument:remoteDocument]];
+    NSMutableURLRequest *deleteRequest = [[self requestSerializer] requestWithMethod:@"GET"
+                                                                           URLString:urlString
+                                                                          parameters:requestParams];
     
-    AFJSONRequestOperation *deleteOperation =
-        [AFJSONRequestOperation JSONRequestOperationWithRequest:deleteRequest
-                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
-                                                        
-                                                            if (success) {
-                                                                success(request, response, baseResponse);
-                                                            }
-                                                        }
-                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                                                            if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-                                                                NSLog(@"request canceled");
-                                                                if (canceled) {
-                                                                    canceled(request, response);
-                                                                }
-                                                                return;
-                                                            }
-                                                            
-                                                            NSLog(@"failed to execute request %@\nError:%@", response, error.description);
-                                                            
-                                                            if (failure != nil) {
-                                                                failure(request, response, error);
-                                                            }
-                                                        }];
+    AFHTTPRequestOperation *deleteOperation = [[AFHTTPRequestOperation alloc] initWithRequest:deleteRequest];
+    deleteOperation.responseSerializer = [AFJSONResponseSerializer serializer];
     
-#ifdef DEBUG
-    deleteOperation.allowsInvalidSSLCertificate = YES;
-#endif
+    [deleteOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        
+        if (success) {
+            success(operation, baseResponse);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Delete document failed with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            NSLog(@"Canceled");
+            if (canceled) {
+                canceled(operation);
+            }
+            return;
+        }
+        
+        NSLog(@"Error:%@", error);
+        if (failure != nil) {
+            failure(operation, baseResponse, error);
+        }
+    }];
     
     return deleteOperation;
 }
@@ -487,9 +500,9 @@
 - (NSOperation*)createConfirmValuesRequest:(PPUserConfirmedValues*)values
                                   document:(PPRemoteDocument*)remoteDocument
                                       user:(PPUser *)user
-                                   success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
-                                   failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                  canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                   success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                   failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                  canceled:(void (^)(NSOperation*))canceled {
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
     NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
@@ -497,65 +510,62 @@
         return nil;
     }
     
-    NSStringEncoding encoding = NSUTF8StringEncoding;
-    
     // 2. create request
-    NSString* path = [PPNetworkManager apiPathConfirmDataForDocument:remoteDocument];
-    NSMutableURLRequest *confirmRequest = [[self httpClient] requestWithMethod:@"POST"
-                                                                          path:path
-                                                                   parameters:nil];
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathConfirmDataForDocument:remoteDocument]];
     
-    // set query string in url
-    NSURL* url = [NSURL URLWithString:[[[confirmRequest URL] absoluteString] stringByAppendingFormat:[path rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AFQueryStringFromParametersWithEncoding(requestParams, encoding)]];
-    [confirmRequest setURL:url];
+    // create URL with URL encoded request parameters
+    NSMutableURLRequest *confirmRequestUrl = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET"
+                                                                                           URLString:urlString
+                                                                                          parameters:requestParams];
     
+    NSMutableURLRequest *confirmRequestBody = [[AFJSONRequestSerializer serializer] requestWithMethod:@"POST"
+                                                                                            URLString:[confirmRequestUrl.URL absoluteString]
+                                                                                           parameters:[values dictionaryWithModelObject]];
     
-    NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding));
-    [confirmRequest setValue:[NSString stringWithFormat:@"application/json; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
-    [confirmRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:[values dictionaryWithModelObject]
-                                                                options:(NSJSONWritingOptions)0 error:&error]];
+    NSMutableURLRequest *confirmRequest = [[self requestSerializer] requestWithMethod:@"POST"
+                                                                            URLString:[confirmRequestUrl.URL absoluteString]
+                                                                           parameters:nil];
     
-    // 3. Create confirm opreation based on request
-    AFJSONRequestOperation *confirmOperation =
-        [AFJSONRequestOperation JSONRequestOperationWithRequest:confirmRequest
-                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                            PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:JSON];
-                                                            
-                                                            if (success) {
-                                                                success(request, response, baseResponse);
-                                                            }
-                                                        }
-                                                        failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                                                            
-                                                            NSLog(@"Result confirm fail %@", JSON);
-                                                            
-                                                            if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-                                                                if (canceled) {
-                                                                    canceled(request, response);
-                                                                }
-                                                                return;
-                                                            }
-                                                            
-                                                            NSLog(@"failed to execute request %@", error.description);
-                                                            
-                                                            if (failure != nil) {
-                                                                failure(request, response, error);
-                                                            }
-                                                        }];
+    confirmRequest.HTTPBody = confirmRequestBody.HTTPBody;
+    NSString* contentTypeHeader = @"Content-Type";
+    [confirmRequest setValue:[confirmRequestBody.allHTTPHeaderFields valueForKey:contentTypeHeader] forHTTPHeaderField:contentTypeHeader];
     
-#ifdef DEBUG
-    confirmOperation.allowsInvalidSSLCertificate = YES;
-#endif
+    AFHTTPRequestOperation *confirmOperation = [[AFHTTPRequestOperation alloc] initWithRequest:confirmRequest];
+    confirmOperation.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    return confirmOperation;
+    [confirmOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        
+        if (success) {
+            success(operation, baseResponse);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Confirm values failed with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            NSLog(@"Canceled");
+            if (canceled) {
+                canceled(operation);
+            }
+            return;
+        }
+        
+        NSLog(@"Error:%@", error);
+        if (failure != nil) {
+            failure(operation, baseResponse, error);
+        }
+    }];
 
+    return confirmOperation;
 }
 
 - (NSOperation*)createRegisterPushNotificationToken:(NSString*)token
                                             forUser:(PPUser *)user
-                                            success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, PPBaseResponse *baseResonse))success
-                                            failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *))failure
-                                           canceled:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response))canceled {
+                                            success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                            failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                           canceled:(void (^)(NSOperation*))canceled {
     
     // 1. create parameters dictionary
     NSError * __autoreleasing error = nil;
@@ -566,39 +576,42 @@
     
     [requestParams setObject:token forKey:kPPParameterDeviceToken];
     
-    NSString* path = [PPNetworkManager apiPathPushRegistrationForUser:user];
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathPushRegistrationForUser:user]];
+    NSMutableURLRequest *pushRegisterRequestUrlRequest = [[self requestSerializer] requestWithMethod:@"GET"
+                                                                                           URLString:urlString
+                                                                                          parameters:requestParams];
     
-    NSMutableURLRequest *pushRegisterRequest = [[self httpClient] requestWithMethod:@"POST"
-                                                                      path:path
-                                                                parameters:nil];
-    
-    NSURL* url = [NSURL URLWithString:[[pushRegisterRequest.URL absoluteString] stringByAppendingFormat:[path rangeOfString:@"?"].location == NSNotFound ? @"?%@" : @"&%@", AFQueryStringFromParametersWithEncoding(requestParams, NSUTF8StringEncoding)]];
-    [pushRegisterRequest setURL:url];
+    NSMutableURLRequest *pushRegisterRequest = [[self requestSerializer] requestWithMethod:@"POST"
+                                                                                 URLString:[pushRegisterRequestUrlRequest.URL absoluteString]
+                                                                                parameters:nil];
     
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:pushRegisterRequest];
+    requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        
         if (success) {
-            success(operation.request, operation.response, responseObject);
+            success(operation, baseResponse);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Push notify registration failed with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            NSLog(@"Canceled");
             if (canceled) {
-                canceled(operation.request, operation.response);
+                canceled(operation);
             }
             return;
         }
         
+        NSLog(@"Error:%@", error);
         if (failure != nil) {
-            NSLog(@"Fail! %@", error);
-            
-            failure(operation.request, operation.response, error);
+            failure(operation, baseResponse, error);
         }
     }];
-    
-#ifdef DEBUG
-    requestOperation.allowsInvalidSSLCertificate = YES;
-#endif
     
     return requestOperation;
 }

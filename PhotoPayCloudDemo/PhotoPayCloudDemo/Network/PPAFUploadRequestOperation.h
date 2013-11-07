@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
-#import "AFJSONRequestOperation.h"
+#import <AFHTTPRequestOperation.h>
 #import <PhotoPayCloud/PhotoPayCloud.h>
 
-@interface PPAFUploadRequestOperation : AFJSONRequestOperation <PPUploadRequestOperation>
+@interface PPAFUploadRequestOperation : AFHTTPRequestOperation <PPUploadRequestOperation>
 
 /**
  Delegate is also requred. Could be nil.
