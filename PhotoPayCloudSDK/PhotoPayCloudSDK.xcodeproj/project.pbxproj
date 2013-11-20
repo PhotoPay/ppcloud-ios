@@ -89,6 +89,8 @@
 		18E04A721829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */; };
 		18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944E17DE545E0083F148 /* UIApplication+Documents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE944F17DE545E0083F148 /* UIApplication+Documents.m */; };
+		C95612FC183CFA8400BA6969 /* NSData+DeviceToken.h in Headers */ = {isa = PBXBuildFile; fileRef = C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */; };
+		C95612FD183CFA8400BA6969 /* NSData+DeviceToken.m in Sources */ = {isa = PBXBuildFile; fileRef = C95612FB183CFA8400BA6969 /* NSData+DeviceToken.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,6 +167,8 @@
 		18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSplitTypeDocumentsSectionCreator.m; sourceTree = "<group>"; };
 		18FE944E17DE545E0083F148 /* UIApplication+Documents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Documents.h"; sourceTree = "<group>"; };
 		18FE944F17DE545E0083F148 /* UIApplication+Documents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Documents.m"; sourceTree = "<group>"; };
+		C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DeviceToken.h"; sourceTree = "<group>"; };
+		C95612FB183CFA8400BA6969 /* NSData+DeviceToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DeviceToken.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +282,8 @@
 				1883249317DEFD8A00EDE12B /* NSString+Factory.m */,
 				18181A2B181E65AC0062565F /* UIImage+PDF.h */,
 				18181A2C181E65AC0062565F /* UIImage+PDF.m */,
+				C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */,
+				C95612FB183CFA8400BA6969 /* NSData+DeviceToken.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -412,6 +418,7 @@
 				1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */,
 				18AB526117F48C990046AB13 /* PPScanResult.h in Headers */,
 				18AB526517F48CC60046AB13 /* PPElementCandidate.h in Headers */,
+				C95612FC183CFA8400BA6969 /* NSData+DeviceToken.h in Headers */,
 				18E04A711829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h in Headers */,
 				18AB526917F48D0D0046AB13 /* PPElementPosition.h in Headers */,
 				18AB526D17F497420046AB13 /* PPElementCandidateList.h in Headers */,
@@ -548,6 +555,7 @@
 				18AB526A17F48D0D0046AB13 /* PPElementPosition.m in Sources */,
 				18AB526E17F497420046AB13 /* PPElementCandidateList.m in Sources */,
 				18AB528217F51B3F0046AB13 /* PPUserConfirmedValues.m in Sources */,
+				C95612FD183CFA8400BA6969 /* NSData+DeviceToken.m in Sources */,
 				18AB528B17F51D380046AB13 /* PPScanResult+Serbia.m in Sources */,
 				18AB528F17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m in Sources */,
 			);

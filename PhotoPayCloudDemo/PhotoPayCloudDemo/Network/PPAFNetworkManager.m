@@ -296,6 +296,8 @@
         [requestParams setObject:[PPUser objectForUserType:[user userType]] forKey:kPPParameterCustomerType];
     }
     
+    [requestParams setObject:[user userId] forKey:kPPParameterCustomerId];
+    
     // set organization id if specified (if not specified, server default will be used
     if ([user organizationId] != nil && [[user organizationId] length] != 0) {
         [requestParams setObject:[user organizationId] forKey:kPPParameterOrganizationId];
@@ -612,6 +614,7 @@
     }
     
     [requestParams setObject:token forKey:kPPParameterDeviceToken];
+    [requestParams setObject:[user userId] forKey:kPPParameterCustomerId];
     
     NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathPushRegistrationForUser:user]];
     NSMutableURLRequest *pushRegisterRequestUrlRequest = [[self requestSerializer] requestWithMethod:@"GET"

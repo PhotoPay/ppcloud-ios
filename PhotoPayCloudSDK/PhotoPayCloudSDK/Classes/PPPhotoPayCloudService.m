@@ -16,6 +16,7 @@
 #import "PPDocumentsTableDataSource.h"
 #import "UIApplication+Documents.h"
 #import "PPBaseResponse.h"
+#import "Utils/NSData+DeviceToken.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
@@ -96,6 +97,18 @@
     });
     
     return sharedService;
+}
+
+- (void)setDeviceToken:(NSData*)data {
+    _deviceToken = data;
+    if(_deviceToken!=nil) {
+        NSString* deviceTokenString = [_deviceToken stringFromDeviceToken];
+        if(deviceTokenString!=nil) {
+            [self registerPushNotificationToken:deviceTokenString];
+        } else {
+            NSLog(@"Device token is null!");
+        }
+    }
 }
 
 - (id)init {
@@ -234,6 +247,15 @@
     [self checkExistingUploadQueue];
     
     NSLog(@"PhotoPayCloud initialized");
+    
+    if([self deviceToken] != nil) {
+        NSString* tmp = [[self deviceToken] stringFromDeviceToken];
+        if(tmp!=nil) {
+            [self registerPushNotificationToken:tmp];
+        } else {
+            NSLog(@"Device token is null!");
+        }
+    }
 }
 
 - (void)uninitialize {
@@ -787,10 +809,12 @@
         [[self networkManager] createRegisterPushNotificationToken:token
                                                            forUser:[self user]
                                                            success:^(NSOperation *operation, PPBaseResponse *response) {
-                                                               ;
+                                                               NSLog(@"Registration successful");
                                                            } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
+                                                                                                                              NSLog(@"Registration failed");
                                                                ;
                                                            } canceled:^(NSOperation *operation) {
+                                                                                                                              NSLog(@"Registration canceled");
                                                                ;
                                                            }];
     [registerPushOperation start];

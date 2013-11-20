@@ -142,10 +142,7 @@ NSString* const kPPParameterStatus = @"status";
 }
 
 + (NSString*)apiPathDocumentsForUser:(PPUser*)user {
-    NSString *userId = [PPNetworkUtils percentEscapedStringKeyFromString:[user userId]
-                                                            withEncoding:NSUTF8StringEncoding];
-    
-    return [NSString stringWithFormat:@"cloud/customer/documents/%@", userId];
+    return @"cloud/customer/documents/";
 }
 
 + (NSString*)apiPathImageForDocument:(PPDocument*)document {
@@ -163,10 +160,7 @@ NSString* const kPPParameterStatus = @"status";
 }
 
 + (NSString*)apiPathPushRegistrationForUser:(PPUser*)user {
-    NSString *userId = [PPNetworkUtils percentEscapedStringKeyFromString:[user userId]
-                                                            withEncoding:NSUTF8StringEncoding];
-    
-    return [NSString stringWithFormat:@"cloud/customer/pushNotificationRegistration/%@", userId];
+    return @"cloud/customer/pushNotificationRegistration/";
 }
 
 + (NSString*)apiPathDeleteDocument:(PPDocument*)document {
