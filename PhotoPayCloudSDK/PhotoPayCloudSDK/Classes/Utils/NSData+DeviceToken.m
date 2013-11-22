@@ -11,7 +11,7 @@
 @implementation NSData (DeviceToken)
 
 // dummy implementation that just returns string built from NSData
--(NSString*)stringFromDeviceToken {
+- (NSString*)stringFromDeviceToken {
     return [NSString stringWithUTF8String:[self bytes]];
 }
 

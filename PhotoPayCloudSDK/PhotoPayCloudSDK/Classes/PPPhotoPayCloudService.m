@@ -101,9 +101,9 @@
 
 - (void)setDeviceToken:(NSData*)data {
     _deviceToken = data;
-    if(_deviceToken!=nil) {
+    if (_deviceToken != nil) {
         NSString* deviceTokenString = [_deviceToken stringFromDeviceToken];
-        if(deviceTokenString!=nil) {
+        if (deviceTokenString != nil) {
             [self registerPushNotificationToken:deviceTokenString];
         } else {
             NSLog(@"Device token is null!");
@@ -248,9 +248,9 @@
     
     NSLog(@"PhotoPayCloud initialized");
     
-    if([self deviceToken] != nil) {
+    if ([self deviceToken] != nil) {
         NSString* tmp = [[self deviceToken] stringFromDeviceToken];
-        if(tmp!=nil) {
+        if (tmp != nil) {
             [self registerPushNotificationToken:tmp];
         } else {
             NSLog(@"Device token is null!");

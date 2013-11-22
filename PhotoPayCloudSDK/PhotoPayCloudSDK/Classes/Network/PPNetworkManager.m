@@ -142,7 +142,7 @@ NSString* const kPPParameterStatus = @"status";
 }
 
 + (NSString*)apiPathDocumentsForUser:(PPUser*)user {
-    return @"cloud/customer/documents/";
+    return @"cloud/customer/documents";
 }
 
 + (NSString*)apiPathImageForDocument:(PPDocument*)document {
@@ -160,7 +160,7 @@ NSString* const kPPParameterStatus = @"status";
 }
 
 + (NSString*)apiPathPushRegistrationForUser:(PPUser*)user {
-    return @"cloud/customer/pushNotificationRegistration/";
+    return @"cloud/customer/pushNotificationRegistration";
 }
 
 + (NSString*)apiPathDeleteDocument:(PPDocument*)document {
