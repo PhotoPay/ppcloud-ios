@@ -108,6 +108,9 @@
 
 /** HELP */
 
+/** Title of the button used to open Help */
+"PhotoPayHelpButtonTitle" = "Upute";
+
 /** Title of the button which closes Help */
 "PhotoPayHelpClose" = "Zatvori";
 

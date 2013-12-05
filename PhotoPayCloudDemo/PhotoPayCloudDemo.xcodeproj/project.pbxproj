@@ -277,7 +277,7 @@
 			path = Preview;
 			sourceTree = "<group>";
 		};
-		183B7E63184F65EB00B811B1 /* Instructions */ = {
+		183B7E63184F65EB00B811B1 /* Help */ = {
 			isa = PBXGroup;
 			children = (
 				183B7E64184F65F600B811B1 /* PPPagedContentViewController.h */,
@@ -286,7 +286,7 @@
 				183B7E6C184F6C7D00B811B1 /* PPHelpViewController.m */,
 				183B7E6D184F6C7D00B811B1 /* PPHelpViewController.xib */,
 			);
-			path = Instructions;
+			path = Help;
 			sourceTree = "<group>";
 		};
 		183B7F641850BC5200B811B1 /* Images */ = {
@@ -379,7 +379,7 @@
 				18999B1617DB136A009FA90A /* Home */,
 				1819981C17E9AC9A001B66B1 /* Details */,
 				182C0A7C17F3A91B00DF1D78 /* Preview */,
-				183B7E63184F65EB00B811B1 /* Instructions */,
+				183B7E63184F65EB00B811B1 /* Help */,
 			);
 			path = View;
 			sourceTree = "<group>";

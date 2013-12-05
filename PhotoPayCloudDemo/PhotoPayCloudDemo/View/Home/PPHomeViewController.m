@@ -71,6 +71,13 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
         [[self cameraButton] setEnabled:NO];
     }
+    
+    // Add help button
+    UIBarButtonItem *helpBarItem = [[UIBarButtonItem alloc] initWithTitle:_(@"PhotoPayHelpButtonTitle")
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(openHelp)];
+    self.navigationItem.rightBarButtonItem = helpBarItem;
 }
 
 - (void)viewDidUnload {
@@ -154,31 +161,7 @@
 }
 
 - (IBAction)cameraButtonPressed:(id)sender {
-    if ([[PPApp sharedApp] shouldDisplayHelp]) {
-        [self openHelp];
-    } else {
-        [self openCamera];
-    }
-}
-
-- (void)openHelp {
-    PPPagedContentViewController *helpController = [[PPPagedContentViewController alloc] initWithContentsFile:@"helpContent"];
-    helpController.delegate = self;
-    helpController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    helpController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:helpController animated:YES completion:nil];
-}
-
-#pragma mark - PPPagedContentViewControllerDelegate
-
-/**
- On help close, disable additional help showing and open camera
- */
-- (void)pagedViewControllerDidClose:(id)pagedViewController {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[PPApp sharedApp] setShouldDisplayHelp:NO];
-        [self openCamera];
-    }];
+    [self openCamera];
 }
 
 #pragma mark - PPHomeViewControllerProtocol
@@ -346,5 +329,23 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self openDocumentDetailsView:(PPDocument*) [[self documentsDataSource] itemForIndexPath:indexPath]];
 }
+
+#pragma mark - Opening help and callback which closes help
+
+- (void)openHelp {
+    PPPagedContentViewController *helpController = [[PPPagedContentViewController alloc] initWithContentsFile:@"helpContent"];
+    helpController.delegate = self;
+    helpController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    helpController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:helpController animated:YES completion:nil];
+}
+
+/**
+ Dismiss help
+ */
+- (void)pagedViewControllerDidClose:(id)pagedViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end
