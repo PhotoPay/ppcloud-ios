@@ -36,7 +36,6 @@
 		1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249217DEFD8A00EDE12B /* NSString+Factory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883249317DEFD8A00EDE12B /* NSString+Factory.m */; };
 		1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249B17DF162200EDE12B /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		188D522B183CEE4900B1FFBE /* PP_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 188D522A183CEE4900B1FFBE /* PP_background.jpg */; };
 		1896336C17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1896336A17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1896336D17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1896336B17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m */; };
 		18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -114,7 +113,6 @@
 		188AAEB917D75ADB009531FA /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPayCloudResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		188AAEBA17D75ADB009531FA /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
-		188D522A183CEE4900B1FFBE /* PP_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PP_background.jpg; sourceTree = "<group>"; };
 		1896336A17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDateSortedDocumentsSectionCreator.h; sourceTree = "<group>"; };
 		1896336B17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDateSortedDocumentsSectionCreator.m; sourceTree = "<group>"; };
 		18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHomeViewControllerProtocol.h; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 		188AAED317D87485009531FA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				188D522A183CEE4900B1FFBE /* PP_background.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -498,7 +495,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				188D522B183CEE4900B1FFBE /* PP_background.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
