@@ -809,7 +809,6 @@
         [[self networkManager] createRegisterPushNotificationToken:token
                                                            forUser:[self user]
                                                            success:^(NSOperation *operation, PPBaseResponse *response) {
-                                                               NSLog(@"Registration successful");
                                                            } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
                                                                                                                               NSLog(@"Registration failed");
                                                                ;
