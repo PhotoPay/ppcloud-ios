@@ -40,6 +40,7 @@ NSString *uuid() {
         sharedInstance = [[self alloc] init];
         if (sharedInstance.userId == nil) {
             sharedInstance.userId = uuid();
+            [sharedInstance setShouldDisplayHelp:YES];
         }
     });
     
@@ -130,6 +131,20 @@ NSString *uuid() {
     UIStatusBarStyle style = [[statusBarStack lastObject] intValue];
     [[UIApplication sharedApplication] setStatusBarStyle:style animated:YES];
     [statusBarStack removeLastObject];
+}
+
+NSString* const shouldShowHelp = @"shouldShowHelp";
+
+- (void)setShouldDisplayHelp:(BOOL)shouldDisplayHelp {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:shouldDisplayHelp forKey:shouldShowHelp];
+    [defaults synchronize];
+}
+
+- (BOOL)shouldDisplayHelp {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    id val = [defaults objectForKey:shouldShowHelp];
+    return (val == nil || [val boolValue]);
 }
 
 @end

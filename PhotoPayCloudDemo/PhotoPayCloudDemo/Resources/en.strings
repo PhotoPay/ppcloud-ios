@@ -107,6 +107,24 @@
 "PhotoPayPreviewDocumentTitleImage" = "Image";
 
 
+/** HELP */
+
+/** Title of the button which closes Help */
+"PhotoPayHelpClose" = "Close";
+
+/** Title of the button for next page of Help */
+"PhotoPayHelpContinue" = "Continue";
+
+/** Text on the first help screen */
+"PhotoPayHelpScreenOne" = "Place the payment slip on a flat surface and take a photo of the slip part that contains payment information";
+
+/** Text on the second help screen */
+"PhotoPayHelpScreenTwo" = "Precise positioning of the slip in the screen box improves results. Photo of the slip must not be blurred!";
+
+/** Text on the third help screen */
+"PhotoPayHelpScreenThree" = "The payment slip should not be positioned at an angle and should be well lit.";
+
+
 /** DATES */
 
 "PhotoPayToday" = "Today";

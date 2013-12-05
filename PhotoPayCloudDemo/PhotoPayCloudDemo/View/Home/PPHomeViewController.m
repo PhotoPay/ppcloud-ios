@@ -8,14 +8,14 @@
 
 #import "PPHomeViewController.h"
 #import "PPDocumentsDataSource.h"
-#import "UIViewController+Modal.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PPAlertView.h"
 #import "PPDocumentTableViewCell+Uploading.h"
 #import "PPDocumentDetailsViewController.h"
 #import <DDLog.h>
+#import "PPPagedContentViewController.h"
 
-@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPTableViewDataSourceDelegate>
+@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPTableViewDataSourceDelegate, PPPagedContentViewControllerDelegate>
 
 @property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
 
@@ -154,7 +154,31 @@
 }
 
 - (IBAction)cameraButtonPressed:(id)sender {
-    [self openCamera];
+    if ([[PPApp sharedApp] shouldDisplayHelp]) {
+        [self openHelp];
+    } else {
+        [self openCamera];
+    }
+}
+
+- (void)openHelp {
+    PPPagedContentViewController *helpController = [[PPPagedContentViewController alloc] initWithContentsFile:@"helpContent"];
+    helpController.delegate = self;
+    helpController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    helpController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:helpController animated:YES completion:nil];
+}
+
+#pragma mark - PPPagedContentViewControllerDelegate
+
+/**
+ On help close, disable additional help showing and open camera
+ */
+- (void)pagedViewControllerDidClose:(id)pagedViewController {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[PPApp sharedApp] setShouldDisplayHelp:NO];
+        [self openCamera];
+    }];
 }
 
 #pragma mark - PPHomeViewControllerProtocol
@@ -183,7 +207,7 @@
     // in iOS7 (as of DP6) this shows a bugged status bar (see https://devforums.apple.com/message/861462#861462)
     // TODO: iOS 6 should be tested
     // iOS5 works OK, just like Facebook app
-    [self presentModalViewController:cameraUI animated:YES completion:nil];
+    [self presentViewController:cameraUI animated:YES completion:nil];
 }
 
 - (void)openDocumentDetailsView:(PPDocument*)document {
@@ -219,11 +243,11 @@
         [self uploadDocument:document];
 
     }
-    [self dismissModalViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissModalViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - PPTableViewDataSourceDelegate

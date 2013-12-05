@@ -27,6 +27,22 @@
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
 		182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */; };
 		182C0A8117F3C48A00DF1D78 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C0A8017F3C48A00DF1D78 /* QuickLook.framework */; };
+		183B7E69184F663F00B811B1 /* PPStyledPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B7E68184F663F00B811B1 /* PPStyledPageControl.m */; };
+		183B7E6A184F675300B811B1 /* PPPagedContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B7E65184F65F600B811B1 /* PPPagedContentViewController.m */; };
+		183B7E6E184F6C7D00B811B1 /* PPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B7E6C184F6C7D00B811B1 /* PPHelpViewController.m */; };
+		183B7E6F184F6C7D00B811B1 /* PPHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 183B7E6D184F6C7D00B811B1 /* PPHelpViewController.xib */; };
+		183B7E72184F727600B811B1 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B7E71184F727600B811B1 /* NSString+Size.m */; };
+		183B7F6B1850BC5200B811B1 /* helpContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F631850BC5200B811B1 /* helpContent.plist */; };
+		183B7F761850BFB100B811B1 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F721850BFB100B811B1 /* left.png */; };
+		183B7F771850BFB100B811B1 /* left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F731850BFB100B811B1 /* left@2x.png */; };
+		183B7F781850BFB100B811B1 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F741850BFB100B811B1 /* right.png */; };
+		183B7F791850BFB100B811B1 /* right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F751850BFB100B811B1 /* right@2x.png */; };
+		183B7F861850D0E800B811B1 /* SrHelp1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F821850D0E800B811B1 /* SrHelp1.jpg */; };
+		183B7F871850D0E800B811B1 /* SrHelp1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F831850D0E800B811B1 /* SrHelp1@2x.jpg */; };
+		183B7F8E1850D7A600B811B1 /* SrHelp2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F8A1850D7A600B811B1 /* SrHelp2.jpg */; };
+		183B7F8F1850D7A600B811B1 /* SrHelp2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F8B1850D7A600B811B1 /* SrHelp2@2x.jpg */; };
+		183B7F961850DB3A00B811B1 /* SrHelp3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F921850DB3A00B811B1 /* SrHelp3.jpg */; };
+		183B7F971850DB3A00B811B1 /* SrHelp3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F931850DB3A00B811B1 /* SrHelp3@2x.jpg */; };
 		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
 		1881760D1802F3810077AC76 /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881760C1802F3810077AC76 /* NSDate+Formatting.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
@@ -39,7 +55,6 @@
 		188AAEF717D876E9009531FA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 188AAEF617D876E9009531FA /* Default@2x.png */; };
 		188AAEF917D876E9009531FA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 188AAEF817D876E9009531FA /* Default-568h@2x.png */; };
 		188AAF4F17D89F69009531FA /* PPApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF4E17D89F69009531FA /* PPApp.m */; };
-		188AAF6E17D8C176009531FA /* UIViewController+Modal.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AAF6D17D8C176009531FA /* UIViewController+Modal.m */; };
 		18999B2117DB136A009FA90A /* PPSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B1C17DB136A009FA90A /* PPSignUpViewController.m */; };
 		18999B2217DB136A009FA90A /* PPSignUpViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18999B1D17DB136A009FA90A /* PPSignUpViewController_iPad.xib */; };
 		18999B2317DB136A009FA90A /* PPSignUpViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18999B1E17DB136A009FA90A /* PPSignUpViewController_iPhone.xib */; };
@@ -99,6 +114,26 @@
 		182C0A7D17F3AA8400DF1D78 /* PPDocumentPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentPreview.h; sourceTree = "<group>"; };
 		182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentPreview.m; sourceTree = "<group>"; };
 		182C0A8017F3C48A00DF1D78 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		183B7E64184F65F600B811B1 /* PPPagedContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPPagedContentViewController.h; sourceTree = "<group>"; };
+		183B7E65184F65F600B811B1 /* PPPagedContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPPagedContentViewController.m; sourceTree = "<group>"; };
+		183B7E67184F663F00B811B1 /* PPStyledPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStyledPageControl.h; sourceTree = "<group>"; };
+		183B7E68184F663F00B811B1 /* PPStyledPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStyledPageControl.m; sourceTree = "<group>"; };
+		183B7E6B184F6C7D00B811B1 /* PPHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHelpViewController.h; sourceTree = "<group>"; };
+		183B7E6C184F6C7D00B811B1 /* PPHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPHelpViewController.m; sourceTree = "<group>"; };
+		183B7E6D184F6C7D00B811B1 /* PPHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPHelpViewController.xib; sourceTree = "<group>"; };
+		183B7E70184F727600B811B1 /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Size.h"; sourceTree = "<group>"; };
+		183B7E71184F727600B811B1 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
+		183B7F631850BC5200B811B1 /* helpContent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = helpContent.plist; sourceTree = "<group>"; };
+		183B7F721850BFB100B811B1 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
+		183B7F731850BFB100B811B1 /* left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left@2x.png"; sourceTree = "<group>"; };
+		183B7F741850BFB100B811B1 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
+		183B7F751850BFB100B811B1 /* right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right@2x.png"; sourceTree = "<group>"; };
+		183B7F821850D0E800B811B1 /* SrHelp1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp1.jpg; sourceTree = "<group>"; };
+		183B7F831850D0E800B811B1 /* SrHelp1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp1@2x.jpg"; sourceTree = "<group>"; };
+		183B7F8A1850D7A600B811B1 /* SrHelp2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp2.jpg; sourceTree = "<group>"; };
+		183B7F8B1850D7A600B811B1 /* SrHelp2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp2@2x.jpg"; sourceTree = "<group>"; };
+		183B7F921850DB3A00B811B1 /* SrHelp3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp3.jpg; sourceTree = "<group>"; };
+		183B7F931850DB3A00B811B1 /* SrHelp3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp3@2x.jpg"; sourceTree = "<group>"; };
 		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
 		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
 		1881760B1802F3810077AC76 /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
@@ -118,8 +153,6 @@
 		188AAEF817D876E9009531FA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		188AAF4D17D89F69009531FA /* PPApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPApp.h; sourceTree = "<group>"; };
 		188AAF4E17D89F69009531FA /* PPApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPApp.m; sourceTree = "<group>"; };
-		188AAF6C17D8C176009531FA /* UIViewController+Modal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Modal.h"; sourceTree = "<group>"; };
-		188AAF6D17D8C176009531FA /* UIViewController+Modal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Modal.m"; sourceTree = "<group>"; };
 		18999B1B17DB136A009FA90A /* PPSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSignUpViewController.h; sourceTree = "<group>"; };
 		18999B1C17DB136A009FA90A /* PPSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSignUpViewController.m; sourceTree = "<group>"; };
 		18999B1D17DB136A009FA90A /* PPSignUpViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPSignUpViewController_iPad.xib; sourceTree = "<group>"; };
@@ -184,6 +217,8 @@
 		1811399C17D8CB690065AC3A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				183B7F631850BC5200B811B1 /* helpContent.plist */,
+				183B7F641850BC5200B811B1 /* Images */,
 				18999B3417DB4057009FA90A /* camera@2x~ipad.png */,
 				18999B3517DB4057009FA90A /* camera@2x~iphone.png */,
 				18999B3617DB4057009FA90A /* camera~ipad.png */,
@@ -240,6 +275,35 @@
 				18AB527017F4CB130046AB13 /* PPQLPreviewController.m */,
 			);
 			path = Preview;
+			sourceTree = "<group>";
+		};
+		183B7E63184F65EB00B811B1 /* Instructions */ = {
+			isa = PBXGroup;
+			children = (
+				183B7E64184F65F600B811B1 /* PPPagedContentViewController.h */,
+				183B7E65184F65F600B811B1 /* PPPagedContentViewController.m */,
+				183B7E6B184F6C7D00B811B1 /* PPHelpViewController.h */,
+				183B7E6C184F6C7D00B811B1 /* PPHelpViewController.m */,
+				183B7E6D184F6C7D00B811B1 /* PPHelpViewController.xib */,
+			);
+			path = Instructions;
+			sourceTree = "<group>";
+		};
+		183B7F641850BC5200B811B1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				183B7F721850BFB100B811B1 /* left.png */,
+				183B7F731850BFB100B811B1 /* left@2x.png */,
+				183B7F741850BFB100B811B1 /* right.png */,
+				183B7F751850BFB100B811B1 /* right@2x.png */,
+				183B7F821850D0E800B811B1 /* SrHelp1.jpg */,
+				183B7F831850D0E800B811B1 /* SrHelp1@2x.jpg */,
+				183B7F8A1850D7A600B811B1 /* SrHelp2.jpg */,
+				183B7F8B1850D7A600B811B1 /* SrHelp2@2x.jpg */,
+				183B7F921850DB3A00B811B1 /* SrHelp3.jpg */,
+				183B7F931850DB3A00B811B1 /* SrHelp3@2x.jpg */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		188AAED617D876E9009531FA = {
@@ -315,6 +379,7 @@
 				18999B1617DB136A009FA90A /* Home */,
 				1819981C17E9AC9A001B66B1 /* Details */,
 				182C0A7C17F3A91B00DF1D78 /* Preview */,
+				183B7E63184F65EB00B811B1 /* Instructions */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -322,12 +387,12 @@
 		188AAF6817D8C0DD009531FA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				188AAF6C17D8C176009531FA /* UIViewController+Modal.h */,
-				188AAF6D17D8C176009531FA /* UIViewController+Modal.m */,
 				18DEA44E17DA8DE400DCEC17 /* NSString+Formatting.h */,
 				18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */,
 				1881760B1802F3810077AC76 /* NSDate+Formatting.h */,
 				1881760C1802F3810077AC76 /* NSDate+Formatting.m */,
+				183B7E70184F727600B811B1 /* NSString+Size.h */,
+				183B7E71184F727600B811B1 /* NSString+Size.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -392,6 +457,8 @@
 			children = (
 				18BA052B17E24DC200FF3CD3 /* PPAlertView.h */,
 				18BA052C17E24DC200FF3CD3 /* PPAlertView.m */,
+				183B7E67184F663F00B811B1 /* PPStyledPageControl.h */,
+				183B7E68184F663F00B811B1 /* PPStyledPageControl.m */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -472,28 +539,40 @@
 				18999B3D17DB4057009FA90A /* camera@2x~iphone.png in Resources */,
 				18999B5A17DB866D009FA90A /* thumb.jpg in Resources */,
 				18999B2217DB136A009FA90A /* PPSignUpViewController_iPad.xib in Resources */,
+				183B7F6B1850BC5200B811B1 /* helpContent.plist in Resources */,
 				18181A30181EB22E0062565F /* Images.xcassets in Resources */,
 				18999B3F17DB4057009FA90A /* camera~iphone.png in Resources */,
+				183B7F871850D0E800B811B1 /* SrHelp1@2x.jpg in Resources */,
 				1829748D17E78EA200FAD137 /* redo.png in Resources */,
 				1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */,
 				188AAEED17D876E9009531FA /* InfoPlist.strings in Resources */,
+				183B7F861850D0E800B811B1 /* SrHelp1.jpg in Resources */,
 				1819983C17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib in Resources */,
 				188AAEF517D876E9009531FA /* Default.png in Resources */,
+				183B7E6F184F6C7D00B811B1 /* PPHelpViewController.xib in Resources */,
+				183B7F781850BFB100B811B1 /* right.png in Resources */,
+				183B7F8F1850D7A600B811B1 /* SrHelp2@2x.jpg in Resources */,
 				188AAEF717D876E9009531FA /* Default@2x.png in Resources */,
 				18999B3E17DB4057009FA90A /* camera~ipad.png in Resources */,
+				183B7F961850DB3A00B811B1 /* SrHelp3.jpg in Resources */,
 				1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */,
 				18A6316917F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib in Resources */,
 				1819984617EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib in Resources */,
+				183B7F791850BFB100B811B1 /* right@2x.png in Resources */,
 				188AAEF917D876E9009531FA /* Default-568h@2x.png in Resources */,
+				183B7F771850BFB100B811B1 /* left@2x.png in Resources */,
 				18999B4117DB40D6009FA90A /* PPHomeViewController_iPad.xib in Resources */,
 				18999B2317DB136A009FA90A /* PPSignUpViewController_iPhone.xib in Resources */,
 				18999B3C17DB4057009FA90A /* camera@2x~ipad.png in Resources */,
+				183B7F761850BFB100B811B1 /* left.png in Resources */,
 				18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */,
 				18999B2E17DB178E009FA90A /* PPHomeViewController_iPhone.xib in Resources */,
 				1829748E17E78EA200FAD137 /* redo@2x.png in Resources */,
 				18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */,
 				1819982D17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib in Resources */,
 				18AB527317F4D7BA0046AB13 /* PPProcessedDocumentView_iPhone.xib in Resources */,
+				183B7F8E1850D7A600B811B1 /* SrHelp2.jpg in Resources */,
+				183B7F971850DB3A00B811B1 /* SrHelp3@2x.jpg in Resources */,
 				18CF2C1717F855D4008BAEE3 /* PhotoPayCloudResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,15 +626,17 @@
 				18181A3D181EC85E0062565F /* PPAutoUpdater.m in Sources */,
 				18999B2D17DB178E009FA90A /* PPHomeViewController.m in Sources */,
 				188AAEEF17D876E9009531FA /* main.m in Sources */,
+				183B7E72184F727600B811B1 /* NSString+Size.m in Sources */,
 				18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */,
 				1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */,
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
 				182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */,
+				183B7E6A184F675300B811B1 /* PPPagedContentViewController.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
 				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
-				188AAF6E17D8C176009531FA /* UIViewController+Modal.m in Sources */,
 				1819984017E9D6B6001B66B1 /* PPDocumentViewFactory.m in Sources */,
 				18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */,
+				183B7E69184F663F00B811B1 /* PPStyledPageControl.m in Sources */,
 				1819981B17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m in Sources */,
 				18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */,
 				1819982017E9ACB2001B66B1 /* PPDocumentDetailsViewController.m in Sources */,
@@ -563,6 +644,7 @@
 				18999B4B17DB4DC2009FA90A /* PPDocumentsDataSource.m in Sources */,
 				18AB525817F487250046AB13 /* PPDocumentTableViewCell+Processed.m in Sources */,
 				18AB527117F4CB130046AB13 /* PPQLPreviewController.m in Sources */,
+				183B7E6E184F6C7D00B811B1 /* PPHelpViewController.m in Sources */,
 				18AB527617F4D8A50046AB13 /* PPProcessedDocumentView.m in Sources */,
 				1881760D1802F3810077AC76 /* NSDate+Formatting.m in Sources */,
 			);

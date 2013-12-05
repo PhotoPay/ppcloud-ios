@@ -72,4 +72,14 @@
  */
 - (void)popStatusBarStyle;
 
+/** 
+ Sets the key that the help should be shown on next camera run 
+ */
+- (void)setShouldDisplayHelp:(BOOL)shouldDisplayHelp;
+
+/** 
+ Returns true if help should be shown 
+ */
+- (BOOL)shouldDisplayHelp;
+
 @end

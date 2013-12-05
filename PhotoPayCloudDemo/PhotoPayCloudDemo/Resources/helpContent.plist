@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>nameKey</key>
+		<string>PhotoPayHelpScreenOne</string>
+		<key>imageKey</key>
+		<string>SrHelp1.jpg</string>
+	</dict>
+	<dict>
+		<key>nameKey</key>
+		<string>PhotoPayHelpScreenTwo</string>
+		<key>imageKey</key>
+		<string>SrHelp2.jpg</string>
+	</dict>
+	<dict>
+		<key>nameKey</key>
+		<string>PhotoPayHelpScreenThree</string>
+		<key>imageKey</key>
+		<string>SrHelp3.jpg</string>
+	</dict>
+</array>
+</plist>

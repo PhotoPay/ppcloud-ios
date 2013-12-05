@@ -7,7 +7,6 @@
 //
 
 #import "PPSignUpViewController.h"
-#import "UIViewController+Modal.h"
 #import "NSString+Formatting.h"
 
 #ifdef IS_IOS7_SDK
@@ -106,7 +105,7 @@
                  success:^(){
                      [[self statusLabel] setHidden:YES];
                      [[PPApp sharedApp] setUserId:[self userIdTextField].text];
-                     [self dismissModalViewControllerAnimated:YES completion:nil];
+                     [self dismissViewControllerAnimated:YES completion:nil];
                  }
                  failure:^(){
                      [[self statusLabel] setHidden:NO];

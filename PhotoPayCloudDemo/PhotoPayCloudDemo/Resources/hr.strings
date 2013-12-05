@@ -105,20 +105,23 @@
 /** Title of the previewed image document */
 "PhotoPayPreviewDocumentTitleImage" = "Slika";
 
-// Library todo:
 
-/** Error code 1001. Cannot access application documents directory */
-"PhotoPayErrorDocumentsUnavailable" = "PhotoPayErrorDocumentsUnavailable";
-/** Error code 2001. Cannot upload document because user ID is not set */
-"PhotoPayErrorUploadUserIdNotSet" = "PhotoPayErrorUploadUserIdNotSet";
-/** Error code 2002. Cannot create request for upload */
-"PhotoPayErrorUploadCannotCreateRequest" = "PhotoPayErrorUploadCannotCreateRequest";
-/** Error code 2003. Cannot store upload request with NSKeyedArchiver */
-"PhotoPayErrorUploadCannotStoreRequest" = "PhotoPayErrorUploadCannotStoreRequest";
-/** Error code 2004. Cannot upload document because user ID is not set */
-"PhotoPayErrorUploadOrganisationIdNotSet" = "PhotoPayErrorUploadOrganisationIdNotSet";
-/** Error code 2005. Cannot upload, the operation takes too long */
-"PhotoPayErrorUploadOperationTooLong" = "PhotoPayErrorUploadOperationTooLong";
+/** HELP */
+
+/** Title of the button which closes Help */
+"PhotoPayHelpClose" = "Zatvori";
+
+/** Title of the button for next page of Help */
+"PhotoPayHelpContinue" = "Dalje";
+
+/** Text on the first help screen */
+"PhotoPayHelpScreenOne" = "Stavite uplatnicu na stol i fotografirajte dio računa koji sadrži podatke za plaćanje.";
+
+/** Text on the second help screen */
+"PhotoPayHelpScreenTwo" = "Što točnije pozicionirajte uplatnicu u okvir na ekranu. Slika ne smije biti mutna.";
+
+/** Text on the third help screen */
+"PhotoPayHelpScreenThree" = "Uplatnica ne smije biti nakošena te treba biti dobro osvijetljena.";
 
 
 /** DATES */
