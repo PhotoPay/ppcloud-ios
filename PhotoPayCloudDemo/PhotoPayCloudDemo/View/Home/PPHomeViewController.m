@@ -15,7 +15,7 @@
 #import <DDLog.h>
 #import "PPPagedContentViewController.h"
 
-@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPTableViewDataSourceDelegate, PPPagedContentViewControllerDelegate>
+@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPDocumentsFetchDelegate, PPTableViewDataSourceDelegate, PPPagedContentViewControllerDelegate>
 
 @property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
 
@@ -52,7 +52,6 @@
     [self setTitle:_(@"PhotoPayHomeTitle")];
     
     self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
-    [self.documentsDataSource setDelegate:self];
     
     // Specify section creator object which splits the uploading documents into two sections
     // One for uploading documents, one for those which are processing or done
@@ -114,6 +113,12 @@
     // this view controller will receive all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
     
+    // this view controller will also receive document fetch events
+    [[PPPhotoPayCloudService sharedService] setDocumentsFetchDelegate:self];
+    
+    // set the delegate for data source object
+    [self.documentsDataSource setDelegate:self];
+    
     // request all local documents and remote unconfirmed to be seen inside table view
     [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
                                                 pollInterval:1.0f];
@@ -122,6 +127,9 @@
 - (void)teardownTableData {
     // this view controller will stop receiving all news about the upload status
     [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+    
+    // reset the delegate for data source object
+    [self.documentsDataSource setDelegate:nil];
 }
 
 - (void)setupNotifications {
@@ -318,6 +326,26 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 
 - (void)localDocumentDidCancelUpload:(PPLocalDocument *)localDocument {
     DDLogInfo(@"Document upload is canceled!");
+}
+
+#pragma mark - PPDocumentsFetchDelegate
+
+- (void)cloudServiceDidStartFetchingDocuments:(PPPhotoPayCloudService*)service {
+    NSLog(@"Did start fetching");
+}
+
+- (void)cloudService:(PPPhotoPayCloudService*)service
+didFailedFetchingWithError:(NSError*)error {
+    NSLog(@"Did failed fetching with error");
+}
+
+- (void)cloudServiceDidCancelFetchingDocuments:(PPPhotoPayCloudService*)service {
+    NSLog(@"Did cancel fetching");
+}
+
+- (void)cloudService:(PPPhotoPayCloudService*)service
+didFinishFetchingWithDocuments:(NSArray*)documents {
+    NSLog(@"Did finish fetching with %u documents", [documents count]);
 }
 
 #pragma mark - UITableViewDelegate
