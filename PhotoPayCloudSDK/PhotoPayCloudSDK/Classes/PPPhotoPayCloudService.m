@@ -7,6 +7,7 @@
 //
 
 #import "PPPhotoPayCloudService.h"
+#import "PPDocumentsFetchDelegate.h"
 #import "PPLocalDocument.h"
 #import "PPRemoteDocument.h"
 #import "PPUser.h"
@@ -56,24 +57,6 @@
                 error:(NSError*)error
               failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure;
 
-
-/**
- A method responsible for updating the list of remote documents
- 
- Specifies the time intervall between consecutive polls
- */
-- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject
-                  pollInterval:(NSTimeInterval)timeInterval;
-
-/**
- Method which retrieves all remote documents for the current user with states that match
- those in given input list
- */
-- (void)getRemoteDocuments:(PPDocumentState)documentStateList
-                   success:(void (^)(NSArray* remoteDocuments))success
-                   failure:(void (^)(NSError* error))failure
-                  canceled:(void (^)())canceled;
-
 @end
 
 @implementation PPPhotoPayCloudService
@@ -115,6 +98,9 @@
     self = [super init];
     if (self) {
         documentManager = [[PPDocumentManager alloc] init];
+        
+        // create a default data source
+        _dataSource = [[PPDocumentsTableDataSource alloc] init];
         
         // network manager is not set in the beginning
         networkManager = nil;
@@ -605,13 +591,66 @@
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates {
-    [self requestDocuments:documentStates pollInterval:5.0];
+    NSLog(@"The behaviour of this method changed. It now performs only one document fetch request");
+    NSLog(@"To get the same behaviour as before, call requestDocuments:pollInterval with poll interval 5.0");
+    
+    [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+    
+    [self requestDocuments:documentStates
+                   success:^(NSArray *documents) {
+                       [[self documentsFetchDelegate] cloudService:self
+                                    didFinishFetchingWithDocuments:documents];
+                   } failure:^(NSError *error) {
+                       [[self documentsFetchDelegate] cloudService:self
+                                        didFailedFetchingWithError:error];
+                   } canceled:^{
+                       [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                   }];
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates
             pollInterval:(NSTimeInterval)timeInterval {
     
-    // these should be removed
+    NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
+    NSBlockOperation * __weak _blockOperation = blockOperation;
+    [blockOperation addExecutionBlock:^{
+        sleep(timeInterval);
+        if (![_blockOperation isCancelled]) {
+            [self requestDocuments:documentStates
+                      pollInterval:timeInterval];
+        }
+    }];
+    
+    [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+    
+    [self requestDocuments:documentStates
+                   success:^(NSArray *documents) {
+                       [[self documentsFetchDelegate] cloudService:self
+                                    didFinishFetchingWithDocuments:documents];
+                       
+                       if ([[self dataSource] delegate] != nil) {
+                           [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
+                       }
+                   } failure:^(NSError *error) {
+                       [[self documentsFetchDelegate] cloudService:self
+                                        didFailedFetchingWithError:error];
+                       
+                       if ([[self dataSource] delegate] != nil) {
+                           [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
+                       }
+                   } canceled:^{
+                       [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                       
+                       if ([[self dataSource] delegate] != nil) {
+                           [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
+                       }
+                   }];
+}
+
+- (void)requestDocuments:(PPDocumentState)documentStates
+                 success:(void (^)(NSArray* documents))success
+                 failure:(void (^)(NSError* error))failure
+                canceled:(void (^)())canceled {
     
     dispatch_async(dispatch_get_main_queue(), ^() {
         
@@ -652,27 +691,21 @@
     [[[self networkManager] fetchDocumentsOperationQueue] cancelAllOperations];
     
     [[[self networkManager] fetchDocumentsOperationQueue] addOperationWithBlock:^{
-        [self requestRemoteDocuments:@(documentStates)
-                        pollInterval:timeInterval];
+        [self requestRemoteDocuments:documentStates
+                             success:success
+                             failure:failure
+                            canceled:canceled];
     }];
 }
 
-- (void)requestRemoteDocuments:(NSNumber*)documentStatesObject
-                  pollInterval:(NSTimeInterval)timeInterval {
+- (void)requestRemoteDocuments:(PPDocumentState)documentStates
+                       success:(void (^)(NSArray* documents))success
+                       failure:(void (^)(NSError* error))failure
+                      canceled:(void (^)())canceled {
     
-    NSUInteger documentStates = [documentStatesObject longValue];
-    
-    NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
-    NSBlockOperation * __weak _blockOperation = blockOperation;
-    [blockOperation addExecutionBlock:^{
-        sleep(timeInterval);
-        if (![_blockOperation isCancelled]) {
-            [self requestRemoteDocuments:documentStatesObject
-                            pollInterval:timeInterval];
-        }
-    }];
-    
-    [self getRemoteDocuments:documentStates success:^(NSArray *remoteDocuments) {
+    [self getRemoteDocuments:documentStates
+                     success:^(NSArray *remoteDocuments) {
+                         
         dispatch_async(dispatch_get_main_queue(), ^(){
             // find all documents in data source which are remote, but not fetched in this poll
             NSMutableArray* remoteDocumentsToRemove = [[NSMutableArray alloc] init];
@@ -683,7 +716,6 @@
                         [remoteDocumentsToRemove addObject:obj];
                     };
                 }
-                
             }];
             
             // remove those documents
@@ -696,16 +728,19 @@
                 [[self dataSource] insertItems:remoteDocuments];
             }
         });
-    
-        if ([[self dataSource] delegate] != nil) {
-            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
+                         
+        if (success) {
+            success([[self dataSource] items]);
         }
     } failure:^(NSError *error) {
-        
-        if ([[self dataSource] delegate] != nil) {
-            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
+        if (failure) {
+            failure(error);
         }
-    } canceled:nil];
+    } canceled:^{
+        if (canceled) {
+            canceled();
+        }
+    }];
 }
 
 - (NSArray*)getStatesArrayForDocumentStates:(PPDocumentState)documentStateList {

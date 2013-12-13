@@ -46,6 +46,7 @@
 /** Network */
 #import "PPNetworkManager.h"
 #import "PPUploadRequestOperation.h"
+#import "PPDocumentsFetchDelegate.h"
 
 /** PhotoPayCloudService */
 #import "PPPhotoPayCloudService.h"

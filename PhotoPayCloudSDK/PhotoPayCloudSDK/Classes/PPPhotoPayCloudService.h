@@ -11,6 +11,7 @@
 #import "PPNetworkManager.h"
 
 @protocol PPDocumentUploadDelegate;
+@protocol PPDocumentsFetchDelegate;
 @protocol PPUploadRequestOperation;
 @class PPLocalDocument;
 @class PPRemoteDocument;
@@ -150,6 +151,9 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
 
 /** Upload delegate for all upload requests currently in queue */
 @property (nonatomic, weak) id<PPDocumentUploadDelegate> uploadDelegate;
+
+/** Delegate object for document fetch requests */
+@property (nonatomic, weak) id<PPDocumentsFetchDelegate> documentsFetchDelegate;
 
 /** Data source object for any uitableviews in charge of displaying documents */
 @property (nonatomic, strong) PPDocumentsTableDataSource* dataSource;

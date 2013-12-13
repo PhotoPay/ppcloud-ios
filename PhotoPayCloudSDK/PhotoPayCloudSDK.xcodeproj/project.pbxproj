@@ -84,6 +84,7 @@
 		18BA051717E1D5BC00FF3CD3 /* PPTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA050F17E1D5BC00FF3CD3 /* PPTableViewDataSource.m */; };
 		18BA051A17E1EC2900FF3CD3 /* PPRemoteDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA051817E1EC2900FF3CD3 /* PPRemoteDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18BA051B17E1EC2900FF3CD3 /* PPRemoteDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA051917E1EC2900FF3CD3 /* PPRemoteDocument.m */; };
+		18D935A2185A3D6000B82079 /* PPDocumentsFetchDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 18D935A1185A3D6000B82079 /* PPDocumentsFetchDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18E04A711829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18E04A721829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */; };
 		18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944E17DE545E0083F148 /* UIApplication+Documents.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -161,6 +162,7 @@
 		18BA050F17E1D5BC00FF3CD3 /* PPTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPTableViewDataSource.m; sourceTree = "<group>"; };
 		18BA051817E1EC2900FF3CD3 /* PPRemoteDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRemoteDocument.h; sourceTree = "<group>"; };
 		18BA051917E1EC2900FF3CD3 /* PPRemoteDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRemoteDocument.m; sourceTree = "<group>"; };
+		18D935A1185A3D6000B82079 /* PPDocumentsFetchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentsFetchDelegate.h; sourceTree = "<group>"; };
 		18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSplitTypeDocumentsSectionCreator.h; sourceTree = "<group>"; };
 		18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSplitTypeDocumentsSectionCreator.m; sourceTree = "<group>"; };
 		18FE944E17DE545E0083F148 /* UIApplication+Documents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Documents.h"; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */,
 				188175F517FC4C5B0077AC76 /* PPNetworkUtils.h */,
 				188175F617FC4C5B0077AC76 /* PPNetworkUtils.m */,
+				18D935A1185A3D6000B82079 /* PPDocumentsFetchDelegate.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */,
 				18BA051A17E1EC2900FF3CD3 /* PPRemoteDocument.h in Headers */,
 				18999BC017DC7A40009FA90A /* PPLocalDocument.h in Headers */,
+				18D935A2185A3D6000B82079 /* PPDocumentsFetchDelegate.h in Headers */,
 				18BA04F817E1D4A200FF3CD3 /* PPUser.h in Headers */,
 				18BA04F417E1B36300FF3CD3 /* PPModelObject.h in Headers */,
 				18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */,
