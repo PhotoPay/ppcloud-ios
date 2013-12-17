@@ -621,25 +621,33 @@
         }
     }];
     
-    [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+    });
     
     [self requestDocuments:documentStates
                    success:^(NSArray *documents) {
-                       [[self documentsFetchDelegate] cloudService:self
+                       dispatch_async(dispatch_get_main_queue(), ^(){
+                           [[self documentsFetchDelegate] cloudService:self
                                     didFinishFetchingWithDocuments:documents];
+                       });
                        
                        if ([[self dataSource] delegate] != nil) {
                            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
                        }
                    } failure:^(NSError *error) {
-                       [[self documentsFetchDelegate] cloudService:self
-                                        didFailedFetchingWithError:error];
+                       dispatch_async(dispatch_get_main_queue(), ^(){
+                           [[self documentsFetchDelegate] cloudService:self
+                                            didFailedFetchingWithError:error];
+                       });
                        
                        if ([[self dataSource] delegate] != nil) {
                            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
                        }
                    } canceled:^{
-                       [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                       dispatch_async(dispatch_get_main_queue(), ^(){
+                           [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                       });
                        
                        if ([[self dataSource] delegate] != nil) {
                            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
@@ -727,11 +735,12 @@
             if ([remoteDocuments count]) {
                 [[self dataSource] insertItems:remoteDocuments];
             }
+            
+            if (success) {
+                success([[self dataSource] items]);
+            }
         });
                          
-        if (success) {
-            success([[self dataSource] items]);
-        }
     } failure:^(NSError *error) {
         if (failure) {
             failure(error);
