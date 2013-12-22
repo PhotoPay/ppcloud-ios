@@ -363,18 +363,17 @@
             success(operation, baseResponse);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Get documents failed with response %@", operation.responseString);
-        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Canceled");
+            NSLog(@"Get documents was canceled with response %@", operation.responseString);
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
+        NSLog(@"Get documents failed with response %@", operation.responseString);
         NSLog(@"Error! %@", error);
         if (failure != nil) {
             failure(operation, baseResponse, error);
