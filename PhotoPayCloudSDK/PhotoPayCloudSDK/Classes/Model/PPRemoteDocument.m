@@ -77,7 +77,7 @@
         self.documentType = otherRemoteDocument.documentType;
     }
     
-    if (expectedProcessingTime != otherRemoteDocument.expectedProcessingTime) {
+    if (![expectedProcessingTime isEqual:otherRemoteDocument.expectedProcessingTime]) {
         self.expectedProcessingTime = otherRemoteDocument.expectedProcessingTime;
         changed = YES;
     }
