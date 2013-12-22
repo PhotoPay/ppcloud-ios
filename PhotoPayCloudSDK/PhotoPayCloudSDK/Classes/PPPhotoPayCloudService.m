@@ -594,17 +594,33 @@
     NSLog(@"The behaviour of this method changed. It now performs only one document fetch request");
     NSLog(@"To get the same behaviour as before, call requestDocuments:pollInterval with poll interval 5.0");
     
-    [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+    if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudServiceDidStartFetchingDocuments:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+        });
+    }
     
     [self requestDocuments:documentStates
                    success:^(NSArray *documents) {
-                       [[self documentsFetchDelegate] cloudService:self
-                                    didFinishFetchingWithDocuments:documents];
+                       if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudService:didFinishFetchingWithDocuments:)]) {
+                           dispatch_async(dispatch_get_main_queue(), ^(){
+                               [[self documentsFetchDelegate] cloudService:self
+                                            didFinishFetchingWithDocuments:documents];
+                           });
+                       }
                    } failure:^(NSError *error) {
-                       [[self documentsFetchDelegate] cloudService:self
-                                        didFailedFetchingWithError:error];
+                       if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudService:didFailedFetchingWithError:)]) {
+                           dispatch_async(dispatch_get_main_queue(), ^(){
+                               [[self documentsFetchDelegate] cloudService:self
+                                                didFailedFetchingWithError:error];
+                           });
+                       }
                    } canceled:^{
-                       [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                       if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudServiceDidCancelFetchingDocuments:)]) {
+                           dispatch_async(dispatch_get_main_queue(), ^(){
+                               [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                           });
+                       }
                    }];
 }
 
@@ -621,33 +637,41 @@
         }
     }];
     
-    dispatch_async(dispatch_get_main_queue(), ^(){
-        [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
-    });
+    if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudServiceDidStartFetchingDocuments:)]) {
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
+        });
+    }
     
     [self requestDocuments:documentStates
                    success:^(NSArray *documents) {
-                       dispatch_async(dispatch_get_main_queue(), ^(){
-                           [[self documentsFetchDelegate] cloudService:self
-                                    didFinishFetchingWithDocuments:documents];
-                       });
+                       if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudService:didFinishFetchingWithDocuments:)]) {
+                           dispatch_async(dispatch_get_main_queue(), ^(){
+                               [[self documentsFetchDelegate] cloudService:self
+                                            didFinishFetchingWithDocuments:documents];
+                           });
+                       }
                        
                        if ([[self dataSource] delegate] != nil) {
                            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
                        }
                    } failure:^(NSError *error) {
-                       dispatch_async(dispatch_get_main_queue(), ^(){
-                           [[self documentsFetchDelegate] cloudService:self
-                                            didFailedFetchingWithError:error];
-                       });
+                       if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudService:didFailedFetchingWithError:)]) {
+                           dispatch_async(dispatch_get_main_queue(), ^(){
+                               [[self documentsFetchDelegate] cloudService:self
+                                                didFailedFetchingWithError:error];
+                           });
+                       }
                        
                        if ([[self dataSource] delegate] != nil) {
                            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
                        }
                    } canceled:^{
-                       dispatch_async(dispatch_get_main_queue(), ^(){
-                           [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
-                       });
+                       if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudServiceDidCancelFetchingDocuments:)]) {
+                           dispatch_async(dispatch_get_main_queue(), ^(){
+                               [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
+                           });
+                       }
                        
                        if ([[self dataSource] delegate] != nil) {
                            [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
