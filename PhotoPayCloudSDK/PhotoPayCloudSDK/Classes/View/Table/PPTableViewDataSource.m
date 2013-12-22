@@ -190,9 +190,11 @@
             
             indexPath = [[self sectionCreator] removeItem:item];
             
+            // check if we deleted a section
             if (sectionCount > [[self sections] count]) {
                 sectionCount = [[self sections] count];
-                // if the section is now empty add it to deleted sections set
+                
+                // if the section is now empty, add it to deleted sections set
                 [deletedSectionSet addIndex:indexPath.section];
                 
                 // now all removed index paths should be compensated for deleted section
@@ -210,7 +212,16 @@
                 }];
                 removedIndexPaths = newRemovedIndexPaths;
             } else if (indexPath != nil) {
-                [removedIndexPaths addObject:indexPath];
+                NSIndexPath __block *nip = [NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section];
+                [removedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    NSIndexPath *ip = (NSIndexPath*)obj;
+                    // if we already deleted element at index path prior to current index path
+                    if ([ip section] == [nip section] && [ip row] <= [nip row]) {
+                        nip = [NSIndexPath indexPathForRow:nip.row+1 inSection:nip.section];
+                    }
+                }];
+                
+                [removedIndexPaths addObject:nip];
             }
         }
     }
