@@ -594,6 +594,8 @@
     NSLog(@"The behaviour of this method changed. It now performs only one document fetch request");
     NSLog(@"To get the same behaviour as before, call requestDocuments:pollInterval with poll interval 5.0");
     
+    [[[self networkManager] fetchDocumentsOperationQueue] cancelAllOperations];
+    
     if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudServiceDidStartFetchingDocuments:)]) {
         dispatch_async(dispatch_get_main_queue(), ^(){
             [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
@@ -637,6 +639,8 @@
         }
     }];
     
+    [[[self networkManager] fetchDocumentsOperationQueue] cancelAllOperations];
+    
     if ([[self documentsFetchDelegate] respondsToSelector:@selector(cloudServiceDidStartFetchingDocuments:)]) {
         dispatch_async(dispatch_get_main_queue(), ^(){
             [[self documentsFetchDelegate] cloudServiceDidStartFetchingDocuments:self];
@@ -671,10 +675,6 @@
                            dispatch_async(dispatch_get_main_queue(), ^(){
                                [[self documentsFetchDelegate] cloudServiceDidCancelFetchingDocuments:self];
                            });
-                       }
-                       
-                       if ([[self dataSource] delegate] != nil) {
-                           [[[self networkManager] fetchDocumentsOperationQueue] addOperation:blockOperation];
                        }
                    }];
 }
@@ -719,8 +719,6 @@
             }
         });
     }
-    
-    [[[self networkManager] fetchDocumentsOperationQueue] cancelAllOperations];
     
     [[[self networkManager] fetchDocumentsOperationQueue] addOperationWithBlock:^{
         [self requestRemoteDocuments:documentStates
@@ -835,7 +833,7 @@
                                                             }
                                                         }];
     
-    [getDocumentsOperation start];
+    [[[self networkManager] fetchDocumentsOperationQueue] addOperation:getDocumentsOperation];
 }
 
 - (void)confirmValues:(PPUserConfirmedValues*)values
