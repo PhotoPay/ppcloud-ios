@@ -69,6 +69,11 @@
                 withItem:(id)other;
 
 /**
+ Returns the index of a item in the section if it exists. NSNotFound is returned if it doesn't exist.
+ */
+- (NSUInteger)indexOfObject:(id)item;
+
+/**
  Helper method for obtaining section item count
  
  Faster than [[self items] count];

@@ -16,9 +16,15 @@
  
  This object enables reuse of often similar methods of populating UITableView with items.
  */
-@interface PPTableSectionCreator : NSObject
+@interface PPTableSectionCreator : NSObject <NSCopying>
 
-@property (nonatomic, strong, readonly) NSArray* sections;
+@property (nonatomic, strong) NSMutableArray* sections;
+
+- (NSUInteger)sectionCount;
+
+- (NSIndexPath*)indexPathForObject:(id)item;
+
+- (NSUInteger)indexForSection:(id)item;
 
 - (NSIndexPath*)insertItem:(id)item;
 

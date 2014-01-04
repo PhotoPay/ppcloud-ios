@@ -11,27 +11,21 @@
 #import "PPDocument.h"
 #import <UIKit/UIKit.h>
 
-@interface PPDateSortedDocumentsSectionCreator ()
-
-@property (nonatomic, strong) NSMutableArray* sections;
-
-@end
-
-
 @implementation PPDateSortedDocumentsSectionCreator
-
-@synthesize sections;
 
 - (id)init {
     self = [super init];
     if (self) {
-        sections = [[NSMutableArray alloc] init];
-        
         PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:nil];
-        
-        [sections addObject:section];
+        [[self sections] addObject:section];
     }
     return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    PPDateSortedDocumentsSectionCreator *another = [[PPDateSortedDocumentsSectionCreator alloc] init];
+    [another setSections:[[NSMutableArray alloc] initWithArray:[self sections] copyItems:YES]];
+    return another;
 }
 
 - (NSIndexPath*)insertItem:(id)item {
@@ -64,33 +58,6 @@
     [section addItem:item atIndex:i];
     
     return [NSIndexPath indexPathForRow:i inSection:0];
-}
-
-- (NSIndexPath*)removeItem:(id)item {
-    for (int i = 0; i < [[self sections] count]; i++) {
-        PPTableSection *section = [[self sections] objectAtIndex:i];
-        
-        NSUInteger row = [section removeItem:item];
-        
-        if (row != NSNotFound) {
-            return [NSIndexPath indexPathForRow:row inSection:i];
-        }
-    }
-    return nil;
-}
-
-- (NSIndexPath*)reloadItem:(id)item withItem:(id)other {
-    
-    for (int i = 0; i < [[self sections] count]; i++) {
-        PPTableSection *section = [[self sections] objectAtIndex:i];
-        
-        NSUInteger row = [section reloadItem:item withItem:other];
-        
-        if (row != NSNotFound) {
-            return [NSIndexPath indexPathForRow:row inSection:i];
-        }
-    }
-    return nil;
 }
 
 @end

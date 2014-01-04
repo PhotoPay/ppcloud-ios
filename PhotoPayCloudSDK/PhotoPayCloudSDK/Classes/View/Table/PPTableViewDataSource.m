@@ -175,60 +175,107 @@
     }
 }
 
-- (void)removeItems:(NSArray*)itemsToRemove {
-    NSIndexPath *indexPath = nil;
+- (NSArray*)sortedItems:(NSArray*)unsortedItems {
     
+    // sort items according to position in sections
+    NSArray* sortedItems = [unsortedItems sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSIndexPath* ip1 = [[self sectionCreator] indexPathForObject:obj1];
+        NSIndexPath* ip2 = [[self sectionCreator] indexPathForObject:obj2];
+        return [ip1 compare:ip2];
+    }];
+    
+    return sortedItems;
+}
+
+- (void)removeItems:(NSArray*)itemsToRemove {
     NSMutableIndexSet* deletedSectionSet = [[NSMutableIndexSet alloc] init];
     NSMutableArray* removedIndexPaths = [[NSMutableArray alloc] init];
     
-    NSUInteger sectionCount = [[self sections] count];
+    NSArray* sortedItemsToRemove = [self sortedItems:itemsToRemove];
+    NSMutableArray* sortedIndexPaths = [[NSMutableArray alloc] init];
+    [sortedItemsToRemove enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSIndexPath* indexPath = [[self sectionCreator] indexPathForObject:obj];
+        if (indexPath != nil) {
+            [sortedIndexPaths addObject:indexPath];
+        } else {
+            [sortedIndexPaths addObject:[NSNull null]];
+        }
+    }];
     
-    for (id item in itemsToRemove) {
-        
-        if ([[self items] containsObject:item]) {
-            [[self items] removeObject:item];
+    PPTableSectionCreator *sectionCreatorCopy = [[self sectionCreator] copy];
+    NSUInteger currentSectionCount = [sectionCreatorCopy sectionCount];
+    
+    // for each section, find if it is completely removed. Theese loops go in O(number_of_items_to_remove)
+    int itemIndex = 0;
+    for (int sectionIndex = 0; sectionIndex < [sectionCreatorCopy sectionCount]; sectionIndex++) {
+        for (; itemIndex < [sortedItemsToRemove count];) {
+            id item = [sortedItemsToRemove objectAtIndex:itemIndex];
+            id indexPath = [sortedIndexPaths objectAtIndex:itemIndex];
             
-            indexPath = [[self sectionCreator] removeItem:item];
+            if ([indexPath isEqual:[NSNull null]]) {
+                itemIndex++;
+                continue;
+            }
             
-            // check if we deleted a section
-            if (sectionCount > [[self sections] count]) {
-                sectionCount = [[self sections] count];
-                
-                // if the section is now empty, add it to deleted sections set
-                [deletedSectionSet addIndex:indexPath.section];
-                
-                // now all removed index paths should be compensated for deleted section
-                // all index paths with section index higher than deleted section index should be decremented by 1
-                NSMutableArray* newRemovedIndexPaths = [[NSMutableArray alloc] init];
-                [removedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSIndexPath *ip = (NSIndexPath*)obj;
-                    
-                    if ([ip section] >= [indexPath section]) {
-                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section - 1];
-                        [newRemovedIndexPaths addObject:newip];
-                    } else {
-                        [newRemovedIndexPaths addObject:ip];
-                    }
-                }];
-                removedIndexPaths = newRemovedIndexPaths;
-            } else if (indexPath != nil) {
-                NSIndexPath __block *nip = [NSIndexPath indexPathForItem:indexPath.row inSection:indexPath.section];
-                [removedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSIndexPath *ip = (NSIndexPath*)obj;
-                    // if we already deleted element at index path prior to current index path
-                    if ([ip section] == [nip section] && [ip row] <= [nip row]) {
-                        nip = [NSIndexPath indexPathForRow:nip.row+1 inSection:nip.section];
-                    }
-                }];
-                
-                [removedIndexPaths addObject:nip];
+            // skip if section of the current item is larger than sectionIndex
+            if ([indexPath section] > sectionIndex) {
+                break;
+            } else {
+                itemIndex++; // move to the next item
+            }
+            
+            // remove the item to see if it collapses the section
+            [sectionCreatorCopy removeItem:item];
+            if ([sectionCreatorCopy sectionCount] < currentSectionCount) {
+                // section is collapsed
+                currentSectionCount = [sectionCreatorCopy sectionCount];
+                [deletedSectionSet addIndex:sectionIndex];
             }
         }
     }
     
+    // now, for each item which is in one of the deleted sections, remove it from the data source
+    for (int itemIndex = 0; itemIndex < [sortedItemsToRemove count]; itemIndex++) {
+        id item = [sortedItemsToRemove objectAtIndex:itemIndex];
+        
+        id indexPath = [sortedIndexPaths objectAtIndex:itemIndex];
+        if ([indexPath isEqual:[NSNull null]]) {
+            itemIndex++;
+            continue;
+        }
+        
+        if ([deletedSectionSet containsIndex:[indexPath section]]) {
+            [[self sectionCreator] removeItem:item];
+        }
+    }
+    
+    // notify delegate about removed sections
     if ([deletedSectionSet count] > 0) {
         [[self delegate] tableViewDataSource:self didDeleteSections:deletedSectionSet];
     }
+    
+    // delete the rest of items, from the last to the first
+    for (int itemIndex = [sortedItemsToRemove count] - 1; itemIndex >= 0; itemIndex--) {
+        id item = [sortedItemsToRemove objectAtIndex:itemIndex];
+        
+        id indexPath = [sortedIndexPaths objectAtIndex:itemIndex];
+        if ([indexPath isEqual:[NSNull null]]) {
+            itemIndex--;
+            continue;
+        }
+        
+        if (![deletedSectionSet containsIndex:[indexPath section]]) {
+            NSIndexPath* indexPath = [[self sectionCreator] removeItem:item];
+            [removedIndexPaths addObject:indexPath];
+        }
+    }
+    
+    // remove items from data source
+    for (id item in itemsToRemove) {
+        [[self items] removeObject:item];
+    }
+    
+    // inform delegate
     if ([removedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didDeleteItemsAtIndexPaths:removedIndexPaths];
     }

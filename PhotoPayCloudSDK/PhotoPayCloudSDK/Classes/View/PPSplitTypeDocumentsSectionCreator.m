@@ -13,44 +13,43 @@
 #import "PPRemoteDocument.h"
 #import <UIKit/UIKit.h>
 
-@interface PPSplitTypeDocumentsSectionCreator ()
-
-@property (nonatomic, strong) NSMutableArray* sections;
-
-@end
-
 @implementation PPSplitTypeDocumentsSectionCreator
-
-@synthesize sections;
 
 - (id)init {
     self = [super init];
     if (self) {
-        sections = [[NSMutableArray alloc] init];
+        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:1 name:_processedSectionTitle];
         
-        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:_processedSectionTitle];
-        
-        [sections addObject:section];
+        [[self sections] addObject:section];
     }
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPSplitTypeDocumentsSectionCreator *another = [[PPSplitTypeDocumentsSectionCreator alloc] init];
+    [another setSections:[[NSMutableArray alloc] initWithArray:[self sections] copyItems:YES]];
+    another.uploadingSectionTitle = self.uploadingSectionTitle;
+    another.processedSectionTitle = self.processedSectionTitle;
+    return another;
+}
+
 - (void)setUploadingSectionTitle:(NSString *)uploadingSectionTitle {
     _uploadingSectionTitle = uploadingSectionTitle;
-    if ([sections count] == 2) {
-        [[sections objectAtIndex:0] setName:uploadingSectionTitle];
+    
+    if ([self sectionCount] == 2) {
+        [[[self sections] objectAtIndex:0] setName:uploadingSectionTitle];
     }
 }
 
 - (void)setProcessedSectionTitle:(NSString *)processedSectionTitle {
     _processedSectionTitle = processedSectionTitle;
-    [[sections objectAtIndex:([sections count] - 1)] setName:processedSectionTitle];
+    [[[self sections] objectAtIndex:([self sectionCount] - 1)] setName:processedSectionTitle];
 }
 
 - (NSIndexPath*)insertLocalDocument:(PPLocalDocument*)localDocument {
-    if ([sections count] == 1) {
+    if ([self sectionCount] == 1) {
         PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:_uploadingSectionTitle];
-        [sections insertObject:section atIndex:0];
+        [[self sections] insertObject:section atIndex:0];
     }
     
     NSUInteger sectionIndex = 0;
@@ -74,7 +73,7 @@
 }
 
 - (NSIndexPath*)insertRemoteDocument:(PPRemoteDocument*)remoteDocument {
-    NSUInteger sectionIndex = [sections count] - 1;
+    NSUInteger sectionIndex = [self sectionCount] - 1;
     
     PPTableSection *section = [[self sections] objectAtIndex:sectionIndex];
     
@@ -124,7 +123,7 @@
     NSUInteger row = [section removeItem:localDocument];
     
     if ([section itemCount] == 0) {
-         [sections removeObjectAtIndex:sectionIndex];
+         [[self sections] removeObjectAtIndex:sectionIndex];
     }
     
     if (row != NSNotFound) {
@@ -136,7 +135,7 @@
 
 - (NSIndexPath*)removeRemoteDocument:(PPRemoteDocument*)remoteDocument {
     // local document is in section with index [sections count] - 1
-    NSUInteger sectionIndex = [sections count] - 1;
+    NSUInteger sectionIndex = [self sectionCount] - 1;
     
     PPTableSection *section = [[self sections] objectAtIndex:sectionIndex];
     

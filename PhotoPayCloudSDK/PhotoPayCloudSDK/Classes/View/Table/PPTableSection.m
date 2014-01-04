@@ -32,6 +32,13 @@ static const int INITIAL_CAPACITY = 20;
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPTableSection *another = [[PPTableSection alloc] initWithSectionId:[self sectionId] name:[self name]];
+    [another setMutableItems:[[NSMutableArray alloc] initWithArray:[self items] copyItems:NO]];
+    
+    return another;
+}
+
 - (void)addItem:(id)item {
     [[self mutableItems] addObject:item];
 }
@@ -54,6 +61,13 @@ static const int INITIAL_CAPACITY = 20;
         [[self mutableItems] replaceObjectAtIndex:index withObject:other];
     }
     return index;
+}
+
+/**
+ Returns the index of a item in the section if it exists. NSNotFound is returned if it doesn't exist.
+ */
+- (NSUInteger)indexOfObject:(id)item {
+    return [[self mutableItems] indexOfObject:item];
 }
 
 - (NSArray *)items {
