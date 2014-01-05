@@ -78,4 +78,14 @@ static const int INITIAL_CAPACITY = 20;
     return [[self mutableItems] count];
 }
 
+- (BOOL)isEqual:(id)other {
+    if (self == other) {
+        return true;
+    }
+    if ([self class] != [other class]) {
+        return false;
+    }
+    return ([self sectionId] == [other sectionId]);
+}
+
 @end
