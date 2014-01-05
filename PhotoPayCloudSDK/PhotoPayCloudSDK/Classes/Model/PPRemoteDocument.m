@@ -50,6 +50,9 @@
     
     self.expectedProcessingTime = [PPModelObject initNumber:dictionary[@"estimatedMinutesLeft"]
                                               defaultNumber:@(1.0)];
+    if ([self.expectedProcessingTime doubleValue] < 1.0) {
+        self.expectedProcessingTime = @(1.0);
+    }
     
     self.scanResult = [[PPScanResult alloc] initWithDictionary:dictionary[@"candidateList"]];
     
