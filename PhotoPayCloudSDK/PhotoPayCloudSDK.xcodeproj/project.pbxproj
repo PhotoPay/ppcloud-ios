@@ -27,8 +27,8 @@
 		18181A2E181E65AC0062565F /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = 18181A2C181E65AC0062565F /* UIImage+PDF.m */; };
 		1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */; };
-		184144F91829285100E9C64F /* PPDefaultDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 184144F71829285100E9C64F /* PPDefaultDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		184144FA1829285100E9C64F /* PPDefaultDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 184144F81829285100E9C64F /* PPDefaultDocumentsSectionCreator.m */; };
+		1839920D18784AA6004DB954 /* PPRandomSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1839920B18784AA6004DB954 /* PPRandomSectionCreator.h */; };
+		1839920E18784AA6004DB954 /* PPRandomSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1839920C18784AA6004DB954 /* PPRandomSectionCreator.m */; };
 		18722A1317F082260070DE00 /* PPBaseResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 18722A1117F082260070DE00 /* PPBaseResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18722A1417F082260070DE00 /* PPBaseResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 18722A1217F082260070DE00 /* PPBaseResponse.m */; };
 		188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 188175F517FC4C5B0077AC76 /* PPNetworkUtils.h */; };
@@ -100,8 +100,8 @@
 		18181A2C181E65AC0062565F /* UIImage+PDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PDF.m"; sourceTree = "<group>"; };
 		1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentsTableDataSource.h; sourceTree = "<group>"; };
 		1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsTableDataSource.m; sourceTree = "<group>"; };
-		184144F71829285100E9C64F /* PPDefaultDocumentsSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDefaultDocumentsSectionCreator.h; sourceTree = "<group>"; };
-		184144F81829285100E9C64F /* PPDefaultDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDefaultDocumentsSectionCreator.m; sourceTree = "<group>"; };
+		1839920B18784AA6004DB954 /* PPRandomSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRandomSectionCreator.h; sourceTree = "<group>"; };
+		1839920C18784AA6004DB954 /* PPRandomSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRandomSectionCreator.m; sourceTree = "<group>"; };
 		18722A1117F082260070DE00 /* PPBaseResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPBaseResponse.h; sourceTree = "<group>"; };
 		18722A1217F082260070DE00 /* PPBaseResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPBaseResponse.m; sourceTree = "<group>"; };
 		188175F517FC4C5B0077AC76 /* PPNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNetworkUtils.h; sourceTree = "<group>"; };
@@ -296,8 +296,6 @@
 				1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */,
 				1896336A17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h */,
 				1896336B17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m */,
-				184144F71829285100E9C64F /* PPDefaultDocumentsSectionCreator.h */,
-				184144F81829285100E9C64F /* PPDefaultDocumentsSectionCreator.m */,
 				18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */,
 				18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */,
 				18BA050717E1D5BC00FF3CD3 /* Table */,
@@ -378,6 +376,8 @@
 				18BA050D17E1D5BC00FF3CD3 /* PPTableSectionCreator.m */,
 				18BA050817E1D5BC00FF3CD3 /* PPTableLinearSectionCreator.h */,
 				18BA050917E1D5BC00FF3CD3 /* PPTableLinearSectionCreator.m */,
+				1839920B18784AA6004DB954 /* PPRandomSectionCreator.h */,
+				1839920C18784AA6004DB954 /* PPRandomSectionCreator.m */,
 			);
 			path = Table;
 			sourceTree = "<group>";
@@ -404,7 +404,6 @@
 				18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */,
 				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
 				18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */,
-				184144F91829285100E9C64F /* PPDefaultDocumentsSectionCreator.h in Headers */,
 				18181A29181DC9B80062565F /* PPLocalPdfDocument.h in Headers */,
 				18AAF6E517E4682600204B06 /* PPLocalDocumentUploadQueue.h in Headers */,
 				1896336C17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h in Headers */,
@@ -417,6 +416,7 @@
 				188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */,
 				18181A2D181E65AC0062565F /* UIImage+PDF.h in Headers */,
 				1829748317E71C7900FAD137 /* PPDocumentsTableDataSource.h in Headers */,
+				1839920D18784AA6004DB954 /* PPRandomSectionCreator.h in Headers */,
 				18AB526117F48C990046AB13 /* PPScanResult.h in Headers */,
 				18AB526517F48CC60046AB13 /* PPElementCandidate.h in Headers */,
 				C95612FC183CFA8400BA6969 /* NSData+DeviceToken.h in Headers */,
@@ -532,10 +532,10 @@
 				18E04A721829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m in Sources */,
 				18BA051717E1D5BC00FF3CD3 /* PPTableViewDataSource.m in Sources */,
 				18BA04F917E1D4A200FF3CD3 /* PPUser.m in Sources */,
-				184144FA1829285100E9C64F /* PPDefaultDocumentsSectionCreator.m in Sources */,
 				18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */,
 				188175F817FC4C5B0077AC76 /* PPNetworkUtils.m in Sources */,
 				1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */,
+				1839920E18784AA6004DB954 /* PPRandomSectionCreator.m in Sources */,
 				18BA051317E1D5BC00FF3CD3 /* PPTableSection.m in Sources */,
 				18999BC917DD0F45009FA90A /* UIImage+Processing.m in Sources */,
 				18AAF6E617E4682600204B06 /* PPLocalDocumentUploadQueue.m in Sources */,
