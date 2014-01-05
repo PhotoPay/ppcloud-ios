@@ -22,12 +22,6 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-    PPDateSortedDocumentsSectionCreator *another = [[PPDateSortedDocumentsSectionCreator alloc] init];
-    [another setSections:[[NSMutableArray alloc] initWithArray:[self sections] copyItems:YES]];
-    return another;
-}
-
 - (NSIndexPath*)insertItem:(id)item {
     // we always insert into first section
     

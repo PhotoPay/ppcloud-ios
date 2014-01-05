@@ -20,6 +20,12 @@
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPTableSectionCreator *another = [[[self class] allocWithZone:zone] init];
+    [another setSections:[[NSMutableArray alloc] initWithArray:[self sections] copyItems:YES]];
+    return another;
+}
+
 - (NSString*)description {
     NSString *desc = [NSString stringWithFormat:@"Section creator with %u sections", [self sectionCount]];
     for (int i = 0; i < [self sectionCount]; i++) {

@@ -26,8 +26,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    PPSplitTypeDocumentsSectionCreator *another = [[PPSplitTypeDocumentsSectionCreator alloc] init];
-    [another setSections:[[NSMutableArray alloc] initWithArray:[self sections] copyItems:YES]];
+    PPSplitTypeDocumentsSectionCreator *another = [super copyWithZone:zone];
     another.uploadingSectionTitle = self.uploadingSectionTitle;
     another.processedSectionTitle = self.processedSectionTitle;
     return another;

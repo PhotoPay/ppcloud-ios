@@ -21,12 +21,6 @@
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-    PPTableLinearSectionCreator *another = [[PPTableLinearSectionCreator alloc] init];
-    [another setSections:[[NSMutableArray alloc] initWithArray:[self sections] copyItems:YES]];
-    return another;
-}
-
 - (NSIndexPath*)insertItem:(id)item {
     // always place in section 0
     PPTableSection *section = [[self sections] objectAtIndex:0];
