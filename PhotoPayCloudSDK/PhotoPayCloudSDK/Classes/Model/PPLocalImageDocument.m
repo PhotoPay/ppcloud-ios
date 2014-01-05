@@ -47,6 +47,12 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPLocalImageDocument *another = [super copyWithZone:zone];
+    another->image = self->image;
+    return another;
+}
+
 /**
  Bytes array can be generated from the imate, if it exists
  Othewise, it's loaded as any stored local document - from a file in documents folders

@@ -82,6 +82,12 @@
     [encoder encodeObject:self.ownerIdHash forKey:@"ownerIdHash"];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPLocalDocument *another = [super copyWithZone:zone];
+    another->bytes_ = self->bytes_;
+    return another;
+}
+
 - (NSString*)description {
     NSString* result = [super description];
     result = [result stringByAppendingFormat:@"Owner ID HASH: %@\n", [self ownerIdHash]];

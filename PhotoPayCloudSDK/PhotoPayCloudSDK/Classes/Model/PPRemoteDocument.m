@@ -59,6 +59,13 @@
     return self;
 };
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPRemoteDocument *another = [super copyWithZone:zone];
+    another->expectedProcessingTime = self->expectedProcessingTime;
+    another->_scanResult = self->_scanResult;
+    return another;
+}
+
 - (BOOL)reloadWithDocument:(PPDocument*)other {
     PPRemoteDocument* otherRemoteDocument = [other remoteDocument];
     

@@ -103,7 +103,7 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
 /**
  Abstract document class
  */
-@interface PPDocument : PPModelObject <NSCoding> {
+@interface PPDocument : PPModelObject <NSCoding, NSCopying> {
     
 @protected
     NSString* documentId_;

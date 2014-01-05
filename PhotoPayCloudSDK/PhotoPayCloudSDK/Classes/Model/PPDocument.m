@@ -83,6 +83,19 @@
     [encoder encodeObject:self.creationDate forKey:@"creationDate"];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    PPDocument *another = [[[self class] allocWithZone:zone] initWithDocumentId:self.documentId
+                                                              cachedDocumentUrl:self.cachedDocumentUrl
+                                                                  documentState:self.state
+                                                                   documentType:self.documentType
+                                                                 processingType:self.processingType];
+    another->creationDate_ = self->creationDate_;
+    another->_delegate = self->_delegate;
+    another->thumbnailImage_ = self->thumbnailImage_;
+    another->previewImage_ = self->previewImage_;
+    return another;
+}
+
 - (void)setState:(PPDocumentState)inState {
     if (state != inState) {
         state = inState;
