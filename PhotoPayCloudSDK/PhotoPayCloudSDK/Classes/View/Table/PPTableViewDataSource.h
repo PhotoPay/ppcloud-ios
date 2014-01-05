@@ -30,14 +30,11 @@
 @property (nonatomic, weak) id<PPTableViewDataSourceDelegate> delegate;
 
 /** 
- A list of all items currently in data source 
+ A list of all items in the data source
+ 
+ Accessing this property is O(number_of_items), so use it sparingly
  */
-@property (nonatomic, strong, readonly) NSMutableArray* items;
-
-/**
- A list of all items currently in data source, divided into section
- */
-@property (nonatomic, strong, readonly) NSArray* sections;
+- (NSArray*)items;
 
 /**
  Initializes the data source with given section creator

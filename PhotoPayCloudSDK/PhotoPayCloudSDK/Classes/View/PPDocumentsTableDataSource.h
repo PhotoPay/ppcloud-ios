@@ -11,4 +11,8 @@
 
 @interface PPDocumentsTableDataSource : PPTableViewDataSource
 
+@property (nonatomic, assign) PPDocumentState documentStates;
+
+- (void)removeItemsWithUnallowedStates;
+
 @end

@@ -16,163 +16,139 @@
 
 @interface PPDocumentsTableDataSource ()
 
-/**
- A list of all items currently in data source
- */
-@property (nonatomic, strong, readonly) NSMutableArray* items;
-
 @end
 
 @implementation PPDocumentsTableDataSource
 
-@synthesize items;
 @synthesize sectionCreator;
 
 - (id)init {
     self = [super init];
     if (self) {
-        items = [[NSMutableArray alloc] init];
         sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
+        _documentStates = PPDocumentStateUnknown;
     }
     return self;
 }
 
-- (void)insertItems:(NSArray*)itemsToAdd {
-    NSIndexPath *indexPath = nil;
+- (void)removeItemsWithUnallowedStates {
+    // find all documents currently in data source which aren't in the state given by documentStates
+    NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
     
-    NSMutableIndexSet* insertedSectionSet = [[NSMutableIndexSet alloc] init];
-    NSMutableArray* insertedIndexPaths = [[NSMutableArray alloc] init];
-    NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
+    for (PPDocument* document in [self items]) {
+        if (([document state] & [self documentStates]) == 0) {
+            [documentsToRemove addObject:document];
+        }
+    }
     
-    int sectionCount = [[self sections] count];
-    
-    for (id item in itemsToAdd) {
-        NSUInteger index = [[self items] indexOfObject:item];
-        
-        if (index == NSNotFound) {
-            /** Inserting the element */
-            [[self items] addObject:item];
-            
-            // insert using the current section creator, get index path of the inserted element
-            indexPath = [[self sectionCreator] insertItem:item];
-            
-            // if section creator added a new section
-            if ([[self sections] count] > sectionCount) {
-                
-                // set the new section count
-                sectionCount = [[self sections] count];
+    if ([documentsToRemove count] > 0) {
+        [self removeItems:documentsToRemove];
+    }
+}
 
-                /** update the indexes of all inserted sections which appear after the currently added section */
-                NSMutableIndexSet* newInsertedSectionSet = [[NSMutableIndexSet alloc] init];
-                [insertedSectionSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-                    if (idx >= indexPath.section) {
-                        [newInsertedSectionSet addIndex:idx+1];
-                    } else {
-                        [newInsertedSectionSet addIndex:idx];
-                    }
-                    
-                }];
-                [newInsertedSectionSet addIndex:indexPath.section];
-                insertedSectionSet = newInsertedSectionSet;
-                
-                /** update the section index of all inserted indexes which are in section equal to or greater than the new section */
-                NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
-                [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSIndexPath *ip = (NSIndexPath*)obj;
-                    
-                    if ([ip section] >= [indexPath section]) {
-                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section+1];
-                        [newInsertedIndexPaths addObject:newip];
-                    } else {
-                        [newInsertedIndexPaths addObject:ip];
-                    }
-                }];
-                insertedIndexPaths = newInsertedIndexPaths;
-                
-                /** update the section index of all reloaded indexes which are in section equal to or greater than the new section */
-                NSMutableArray* newReloadedIndexPaths = [[NSMutableArray alloc] init];
-                
-                [reloadedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSIndexPath *ip = (NSIndexPath*)obj;
-                    
-                    if ([ip section] >= [indexPath section]) {
-                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row inSection:ip.section+1];
-                        [newReloadedIndexPaths addObject:newip];
-                    } else {
-                        [newReloadedIndexPaths addObject:ip];
-                    }
-                }];
-                reloadedIndexPaths = newReloadedIndexPaths;
-            } else {
-                
-                // if inserted section set contains the section of current index, it will be reloaded anyway
-                if ([insertedSectionSet containsIndex:[indexPath section]]) {
-                    continue;
-                }
-                
-                /** Update the row index of all objects inserted in this section after the current item */
-                NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
-                [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSIndexPath *ip = (NSIndexPath*)obj;
-                    
-                    if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
-                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
-                        [newInsertedIndexPaths addObject:newip];
-                    } else {
-                        [newInsertedIndexPaths addObject:ip];
-                    }
-                }];
-                [newInsertedIndexPaths addObject:indexPath];
-                insertedIndexPaths = newInsertedIndexPaths;
-                
-                /** Update the row index of all objects reloaded in this section after the current item */
-                NSMutableArray* newReloadedIndexPaths = [[NSMutableArray alloc] init];
-                
-                [reloadedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                    NSIndexPath *ip = (NSIndexPath*)obj;
-                    
-                    if ([ip section] == [indexPath section] && [ip row] >= [indexPath row]) {
-                        NSIndexPath *newip = [NSIndexPath indexPathForRow:ip.row+1 inSection:ip.section];
-                        [newReloadedIndexPaths addObject:newip];
-                    } else {
-                        [newReloadedIndexPaths addObject:ip];
-                    }
-                }];
-                reloadedIndexPaths = newReloadedIndexPaths;
-            }
-        } else {
+- (void)reloadExistingItems:(NSArray*)reloadItems {
+    NSArray* currentItems = [self items];
+    NSMutableArray* reloadedIndexPaths = [[NSMutableArray alloc] init];
+
+    [reloadItems enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
+        NSUInteger index = [currentItems indexOfObject:item];
+        if (index != NSNotFound) {
             /** Reloading the element */
             id object = [[self items] objectAtIndex:index];
             if ([object isKindOfClass:[PPDocument class]] &&
                 [item isKindOfClass:[PPDocument class]]) {
+                
                 PPDocument *document = (PPDocument*)object;
                 PPDocument *newDocument = (PPDocument*)item;
                 
                 BOOL changed = [document reloadWithDocument:newDocument];
                 
                 if (changed) {
-                    indexPath = [[self sectionCreator] reloadItem:object withItem:object];
+                    NSIndexPath* indexPath = [[self sectionCreator] reloadItem:object withItem:object];
                     if (indexPath != nil) {
-                        // if inserted section set contains the section of current index, it will be reloaded anyway
-                        if (![insertedSectionSet containsIndex:[indexPath section]]) {
-                            [reloadedIndexPaths addObject:indexPath];
-                        }
+                        [reloadedIndexPaths addObject:indexPath];
                     }
-                    [[self items] replaceObjectAtIndex:index withObject:object];
                 }
             }
+        } else {
+            NSLog(@"Reloading new element??! This should not happen.");
         }
-    }
+    }];
     
-    if ([insertedSectionSet count] > 0) {
-        [[self delegate] tableViewDataSource:self didInsertSections:insertedSectionSet];
-    }
-    if ([insertedIndexPaths count] > 0) {
-        [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:insertedIndexPaths];
-    }
     if ([reloadedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }
+
+}
+
+- (void)insertItems:(NSArray*)allItemsToAdd {
+    // filter out all items which are not in the allowed states
+    NSMutableArray *itemsToAdd = [[NSMutableArray alloc] init];
+    for (PPDocument* document in allItemsToAdd) {
+        if ([document state] & [self documentStates]) {
+            [itemsToAdd addObject:document];
+        }
+    }
+    
+    NSMutableSet *currentItemsSet = [[NSMutableSet alloc] initWithArray:[self items]];
+    
+    NSMutableSet *allItemsSet = [[NSMutableSet alloc] initWithArray:itemsToAdd];
+    [allItemsSet intersectSet:currentItemsSet];
+    [self reloadExistingItems:[allItemsSet allObjects]];
+     
+    allItemsSet = [[NSMutableSet alloc] initWithArray:itemsToAdd];
+    [allItemsSet minusSet:currentItemsSet];
+    [super insertItems:[allItemsSet allObjects]];
+}
+
+- (void)reloadItems:(NSArray*)allReloadingItems
+          withItems:(NSArray*)allOtherItems {
+    
+    if ([allReloadingItems count] != [allOtherItems count]) {
+        NSLog(@"Items are not of the same length, some will be discarded!");
+    }
+    
+    NSUInteger numIterations = [allReloadingItems count];
+    if ([allOtherItems count] < numIterations) {
+        numIterations = [allOtherItems count];
+    }
+    
+    NSMutableArray *reloadingItems = [[NSMutableArray alloc] init];
+    NSMutableArray *otherItems = [[NSMutableArray alloc] init];
+    NSMutableArray *itemsToRemove = [[NSMutableArray alloc] init];
+    NSMutableArray *itemsToAdd = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < numIterations; i++) {
+        // try to reload the two matching items
+        id first = [allReloadingItems objectAtIndex:i];
+        id second = [allOtherItems objectAtIndex:i];
+        
+        if ([first isKindOfClass:[PPDocument class]] &&
+            [second isKindOfClass:[PPDocument class]]) {
+            PPDocument *document = (PPDocument*)first;
+            PPDocument *newDocument = (PPDocument*)second;
+            
+            if (([document state] & [self documentStates]) && ([newDocument state] & [self documentStates])) {
+                [reloadingItems addObject:document];
+                [otherItems addObject:newDocument];
+                NSLog(@"Reloading");
+            } else if (([document state] & [self documentStates]) && !([newDocument state] & [self documentStates])) {
+                [itemsToRemove addObject:document];
+                NSLog(@"Removing first");
+            } else if (!([document state] & [self documentStates]) && ([newDocument state] & [self documentStates])) {
+                [itemsToAdd addObject:newDocument];
+                NSLog(@"Deleting second");
+            } else {
+                NSLog(@"skipping");
+            }
+        } else {
+            NSLog(@"Reloading items are not documents. Check your reloading logic.");
+        }
+    }
+    
+    [super removeItems:itemsToRemove];
+    [super insertItems:itemsToAdd];
+    [super reloadItems:reloadingItems withItems:otherItems];
 }
 
 @end

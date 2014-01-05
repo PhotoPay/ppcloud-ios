@@ -366,7 +366,7 @@
     
     // enqueue upload parameters queue;
     // also serializes upload parameters object to documents directory
-    BOOL saveSuccessful = [[self documentUploadQueue] insert:localDocument];
+    BOOL saveSuccessful = [[self documentUploadQueue] insert:[localDocument copy]];
     if (!saveSuccessful) {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
         NSString *desc = @"PhotoPayErrorUploadCannotStoreRequest";
@@ -684,39 +684,22 @@
                  failure:(void (^)(NSError* error))failure
                 canceled:(void (^)())canceled {
     
+    self.dataSource.documentStates = documentStates;
+    
     dispatch_async(dispatch_get_main_queue(), ^() {
-        
-        // find all documents currently in data source which aren't in the state given by documentStates
-        NSMutableArray *documentsToRemove = [[NSMutableArray alloc] init];
-
-        for (PPDocument* document in [[self dataSource] items]) {
-            if (([document state] & documentStates) == 0) {
-                [documentsToRemove addObject:document];
-            }
-        }
-        
-        if ([documentsToRemove count] > 0) {
-            [[self dataSource] removeItems:documentsToRemove];
-        }
+        // remove all documents from the data source which are not in allowed states
+        [self.dataSource removeItemsWithUnallowedStates];
     });
     
     static PPDocumentState lastDocumentStates = PPDocumentStateUnknown;
     
     if (documentStates != lastDocumentStates) {
-        // document states are not the same as last presented, so recheck all existing documents
         
-        // these should be added
+        // document states are not the same as last presented, so recheck all existing documents in the documentUploadQueue
         dispatch_async(dispatch_get_main_queue(), ^() {
-            // find all documents currently in document upload queue which are in the state given by document states
-            NSMutableArray *documentsToAdd = [[NSMutableArray alloc] init];
-            for (PPDocument* document in [[self documentUploadQueue] elements]) {
-                if ([document state] & documentStates) {
-                    [documentsToAdd addObject:document];
-                }
-            }
-            if ([documentsToAdd count]) {
-                [[self dataSource] insertItems:documentsToAdd];
-            }
+            
+            // add all documents currently in document upload queue which are in the state given by document states
+            [[self dataSource] insertItems:[[NSArray alloc] initWithArray:[[self documentUploadQueue] elements] copyItems:YES]];
         });
     }
     
@@ -736,24 +719,8 @@
     [self getRemoteDocuments:documentStates
                      success:^(NSArray *remoteDocuments) {
                          
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            // find all documents in data source which are remote, but not fetched in this poll
-            NSMutableArray* remoteDocumentsToRemove = [[NSMutableArray alloc] init];
-            [[[self dataSource] items] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if ([obj isKindOfClass:[PPRemoteDocument class]]) {
-                    PPRemoteDocument* remoteDocument = [obj remoteDocument];
-                    if (!([remoteDocument state] & documentStates)) {
-                        [remoteDocumentsToRemove addObject:obj];
-                    };
-                }
-            }];
-            
-            // remove those documents
-            if ([remoteDocumentsToRemove count] > 0) {
-                [[self dataSource] removeItems:remoteDocumentsToRemove];
-            }
-        
-            // insert/reload all others
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            // insert/reload all documents
             if ([remoteDocuments count]) {
                 [[self dataSource] insertItems:remoteDocuments];
             }
