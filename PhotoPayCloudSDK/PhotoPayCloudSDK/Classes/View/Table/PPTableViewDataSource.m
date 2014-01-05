@@ -13,6 +13,8 @@
 
 @interface PPTableViewDataSource ()
 
+@property (nonatomic, strong) NSMutableArray* sectionsBeforeLastDelegateUpdate;
+
 @end
 
 @implementation PPTableViewDataSource
@@ -21,6 +23,7 @@
     self = [super init];
     if (self) {
         _sectionCreator = [[PPTableLinearSectionCreator alloc] init];
+        _sectionsBeforeLastDelegateUpdate = nil;
     }
     return self;
 }
@@ -37,8 +40,58 @@
     self = [super init];
     if (self) {
         _sectionCreator = inSectionCreator;
+        _sectionsBeforeLastDelegateUpdate = nil;
     }
     return self;
+}
+
+- (void)setDelegate:(id<PPTableViewDataSourceDelegate>)delegate {
+    _delegate = delegate;
+    
+    if (delegate == nil) {
+        if ([self sectionsBeforeLastDelegateUpdate] == nil) {
+            [self setSectionsBeforeLastDelegateUpdate:[[self sectionCreator] sections]];
+        }
+        return;
+    }
+    
+    NSMutableArray* currentSections = [[self sectionCreator] sections];
+    
+    NSMutableIndexSet *deletedSectionSet = [[NSMutableIndexSet alloc] init];
+    NSMutableArray* newSections = [[self sectionsBeforeLastDelegateUpdate] mutableCopy];
+    [[self sectionsBeforeLastDelegateUpdate] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (![currentSections containsObject:obj]) {
+            [deletedSectionSet addIndex:idx];
+            [newSections removeObject:obj];
+        }
+    }];
+    [[self sectionCreator] setSections:newSections];
+    if ([deletedSectionSet count] > 0) {
+        [[self delegate] tableViewDataSource:self didDeleteSections:deletedSectionSet];
+    }
+    
+    NSMutableIndexSet *insertedSectionSet = [[NSMutableIndexSet alloc] init];
+    NSMutableIndexSet *reloadedSectionSet = [[NSMutableIndexSet alloc] init];
+    [currentSections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (![[self sectionsBeforeLastDelegateUpdate] containsObject:obj]) {
+            [insertedSectionSet addIndex:idx];
+        } else {
+            [reloadedSectionSet addIndex:idx];
+            [newSections insertObject:obj atIndex:idx];
+        }
+    }];
+    
+    [[self sectionCreator] setSections:newSections];
+    if ([insertedSectionSet count] > 0) {
+        [[self delegate] tableViewDataSource:self didInsertSections:insertedSectionSet];
+    }
+    
+    [[self sectionCreator] setSections:currentSections];
+    if ([reloadedSectionSet count] > 0) {
+        [[self delegate] tableViewDataSource:self didReloadSections:reloadedSectionSet];
+    }
+    
+    [self setSectionsBeforeLastDelegateUpdate:nil];
 }
 
 - (void)insertItems:(NSArray*)itemsToAdd {
@@ -212,7 +265,6 @@
         // try to reload the two matching items
         id first = [reloadingItems objectAtIndex:i];
         id second = [otherItems objectAtIndex:i];
-        NSLog(@"Reloading %@ with %@", first, second);
         
         // try reloading the item with section creator
         NSIndexPath *indexPath = [[self sectionCreator] reloadItem:first withItem:second];
