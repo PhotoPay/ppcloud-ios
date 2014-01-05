@@ -153,19 +153,24 @@
         return NO;
     }
     
+    BOOL changed = NO;
+    
     if (self.state != other.state) {
         self.state = other.state;
+        changed = YES;
     }
     
     if (self.documentType == PPDocumentTypeUnknown) {
         self.documentType = otherLocalDocument.documentType;
+        changed = YES;
     }
     
     if (self.bytes == nil && otherLocalDocument.bytes != nil) {
         bytes_ = otherLocalDocument.bytes;
+        changed = YES;
     }
     
-    return YES; // local documents are always reloaded
+    return changed;
 }
 
 + (NSString*)generateUniqueFilenameForType:(PPDocumentType)type {
