@@ -346,8 +346,10 @@
                                                       }
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
-                                                          [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
-                                                                               withItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                          if ([[[self dataSource] items] containsObject:localDocument]) {
+                                                              [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
+                                                                                   withItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
+                                                          }
                                                       });
                                                       
                                                       if (canceled) {
