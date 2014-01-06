@@ -131,15 +131,10 @@
             if (([document state] & [self documentStates]) && ([newDocument state] & [self documentStates])) {
                 [reloadingItems addObject:document];
                 [otherItems addObject:newDocument];
-                NSLog(@"Reloading");
             } else if (([document state] & [self documentStates]) && !([newDocument state] & [self documentStates])) {
                 [itemsToRemove addObject:document];
-                NSLog(@"Removing first");
             } else if (!([document state] & [self documentStates]) && ([newDocument state] & [self documentStates])) {
                 [itemsToAdd addObject:newDocument];
-                NSLog(@"Deleting second");
-            } else {
-                NSLog(@"skipping");
             }
         } else {
             NSLog(@"Reloading items are not documents. Check your reloading logic.");

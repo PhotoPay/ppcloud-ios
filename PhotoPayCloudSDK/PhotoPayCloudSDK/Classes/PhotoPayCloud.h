@@ -40,7 +40,6 @@
 #import "PPTableSectionCreator.h"
 #import "PPTableLinearSectionCreator.h"
 #import "PPDateSortedDocumentsSectionCreator.h"
-#import "PPDefaultDocumentsSectionCreator.h"
 #import "PPSplitTypeDocumentsSectionCreator.h"
 
 /** Network */
