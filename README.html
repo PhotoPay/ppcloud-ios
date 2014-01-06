@@ -55,6 +55,12 @@ pod install
 
 <p>The easiest way to use PhotoPayCloudSDK with your Xcode project is to add it into your Xcode workspace. Simply drag and drop PhotoPayCloudSDK.xcodeproj file to your workspace, below your project, on the same hierarchy level. </p>
 
+<figure>
+<img src="Docs/xcode-add-sdkproject.png" alt="Adding PhotoPayCloudSDK to your Xcode workspace" />
+<figcaption>Adding PhotoPayCloudSDK to your Xcode workspace</figcaption></figure>
+
+
+
 <p>After that, edit the sceme for building your application. Add <strong>PhotoPayCloudFramework</strong> build target into your scheme, and set it to be built before your application&#8217;s target. Also, disable &#8220;Parallelize Build&#8221; option. This will ensure PhotoPayCloudSDK is always rebuilt with the lastest updates before running your application. </p>
 
 <figure>
@@ -79,9 +85,7 @@ pod install
 
 <h3 id="ppphotopaycloudservice">PPPhotoPayCloudService</h3>
 
-<p>A singleton object responsible for performing all high level requests. </p>
-
-<p>PPPhotoPayCloudService is a singleton object responsible for performing all high level requests. It can be accessed by using:</p>
+<p>PPPhotoPayCloudService is a singleton object responsible for performing all high level requests. It can be accessed using:</p>
 
 <pre><code>[PPPhotoPayCloudService sharedService] 
 </code></pre>
@@ -140,12 +144,12 @@ pod install
                  error:(NSError**)error;
 </code></pre>
 
-<p>Requesting documents with a given status which should populate PPDocumentsTableDataSource object. Population is then scheduled to perform each 5 seconds</p>
+<p>Requesting documents with a given status which should populate PPDocumentsTableDataSource object. Only a single request is made.</p>
 
 <pre><code>- (void)requestDocuments:(PPDocumentState)documentStateList;
 </code></pre>
 
-<p>Requesting documents which should populate PPDocumentsTableDataSource object with custom poll interval</p>
+<p>Requesting documents which should populate PPDocumentsTableDataSource object. After that call, polling is used each <em>timeInterval</em> seconds. </p>
 
 <pre><code>- (void)requestDocuments:(PPDocumentState)documentStateList
             pollInterval:(NSTimeInterval)timeInterval;
@@ -158,6 +162,8 @@ pod install
 <p>PPNetworkManager is an abstract class for creating web requests for communicating with PhotoPayCloud Web API. It defines the interface which a concrete implementation must provide so that it can be used with PPPhotoPayCloudService object.</p>
 
 <p>For example, PhotoPayCloudDemo application defines a concrete implementation of PPNetworkManager interface which uses AFNetworking library for managing network communication. If you use AFNetworking inside your application, consider using those classes. </p>
+
+<p>If you don&#8217;t use AFNetworking, consider switching to it (it&#8217;s an impressive library), or contact us so we can come up with some other option.</p>
 
 <figure>
 <img src="Docs/afppnetworkmanager.png" alt="Implementation of PPNetworkManager which uses AFNetworking" />
@@ -176,8 +182,6 @@ pod install
 </ul>
 
 <p>userId must be unique for each user of your app. Organisation ID is the unique string ID of the organization which uses your app. User type can be <em>Person</em>, <em>Business</em> or <em>Craft</em>, but <em>Person</em> is typically used if not specified otherwise.</p>
-
-<p>In example, for Erste Bank Serbia, use <em>Matični broj klijenta</em> as userId, string &#8220;EBS&#8221; as organizationId, and leave userType to default value.</p>
 
 <p>It&#8217;s important to note that userId is never stored locally on the mobile device. The only user&#8217;s data which is stored on the user&#8217;s phone is MD5 hash of the userId, and it&#8217;s only used for identifying documents which need to be uploaded until upload finishes, or until user deletes the document.</p>
 
@@ -256,17 +260,20 @@ pod install
 <p>The initialization method like the following should be called whenever a user logs in to the application. The method should specify specific data about the current user, as well as an object reposnsible for making network requests (PPNetworkManager object). For example, if you use AFNetworking, you can use PPAFNetworkManager class provided in the PhotoPayCloudDemo application, but you have to provide your own AFHTTPClient object.</p>
 
 <pre><code>- (void)photoPayCloudLogin {
-    PPNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithHttpClient:[PPAppDelegate httpclient]];
-    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
-                                   organizationId:@&quot;EBS&quot;];
+    PPAFNetworkManager* networkManager = [[PPAFNetworkManager alloc] initWithRequestOperationManager:[PPAppDelegate requestOperationManager]];
+    [networkManager setMaxConcurrentUploadsCount:1];
 
-    [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
+    PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
+                                   organizationId:@&quot;Your_organisation_name&quot;]; // e.g. @&quot;EBS&quot;
+
+    [[PPPhotoPayCloudService sharedService] initializeForUser:user 
+                                           withNetworkManager:networkManager];
 }
 </code></pre>
 
 <h3 id="uninitializingppphotopaycloudserviceobject">2. Uninitializing PPPhotoPayCloudService object</h3>
 
-<p>Inverse method to initializatio should be performed every time the user logs out from the application. </p>
+<p>Inverse method to initialization should be performed every time the user logs out from the application. </p>
 
 <pre><code>- (void)photoPayCloudLogout {
     [[PPPhotoPayCloudService sharedService] uninitialize];
@@ -315,9 +322,9 @@ pod install
 PPDocument *document = [self itemForIndexPath:indexPath];
 </code></pre>
 
-<p>By default, this PPDocumentsTableDataSource object will automatically create one Table view section, and documents will be placed in this object sorted from the newest to the oldest. This behaviour can be overridden, but we&#8217;ll cover that later.</p>
+<p>By default, this PPDocumentsTableDataSource object will automatically create two Table view sections. One for uploading documents, and the other for documents which are received by PhotoPayCloud server. Documents are sorted from the newest to the oldest. This behaviour can be overridden, but we&#8217;ll cover that later.</p>
 
-<p>After your Documents table data source was created, you can initialize UITableView object. For example, your viewDidLoad: and viewDidUnload: methods might look like this:</p>
+<p>After your Documents table data source was created, you can initialize UITableView object. For example, your UIViewController initialization methods might look like this:</p>
 
 <pre><code>- (void)viewDidLoad {
     [super viewDidLoad];
@@ -350,9 +357,9 @@ PPDocument *document = [self itemForIndexPath:indexPath];
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
  didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
     [[self billsTable] beginUpdates];
-    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [[self billsTable] endUpdates];
- }
+}
 
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
   didReloadItemsAtIndexPath:(NSArray*)indexPaths {
@@ -360,28 +367,73 @@ PPDocument *document = [self itemForIndexPath:indexPath];
     [[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
     [[self billsTable] endUpdates];
 }
+
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didInsertSections:(NSIndexSet *)sections {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] insertSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didDeleteSections:(NSIndexSet *)sections {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] deleteSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
+
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+          didReloadSections:(NSIndexSet *)sections {
+    [[self billsTable] beginUpdates];
+    [[self billsTable] reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self billsTable] endUpdates];
+}
 </code></pre>
 
 <h3 id="preparinghomeviewforappearingonscreen">6. Preparing Home view for appearing on screen</h3>
 
-<p>Before presented to the user, Home view must specify which type of documents should be presented in UITable View. Example implementation of viewWillAppear: method is as follows:</p>
+<p>Before presented to the user, Home view must specify which type of documents should be presented in UITable View. Example implementation of viewWillAppear: method is as follows. We also give implementation of viewWillDissapear: method which reverses the actions:</p>
 
 <pre><code>- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    // this view controller will receive all news about the upload status
-    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+    [self setupTableData];
 
     // To clear any selection in the table view before it’s displayed
     [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    [self teardownTableData];
+}
+
+- (void)setupTableData {
+    // this view controller will receive all news about the upload status
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
+
+    // this view controller will also receive document fetch events
+    [[PPPhotoPayCloudService sharedService] setDocumentsFetchDelegate:self];
+
+    // set the delegate for data source object
+    [self.documentsDataSource setDelegate:self];
 
     // request all local documents and remote unconfirmed to be seen inside table view
     [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
-                                                pollInterval:5.0f];
-} 
+                                            pollInterval:1.0f];
+}
+
+- (void)teardownTableData {
+    // this view controller will stop receiving all news about the upload status
+    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
+
+    // reset the delegate for data source object
+    [self.documentsDataSource setDelegate:nil];
+}
 </code></pre>
 
-<p>In this method, it&#8217;s also specified that Home view controller is the delegate for upload progress. For this usage, it should implement PPDocumentUploadDelegate protocol. This protocol has all methods optional, but typically, for providing progress for uploads, it&#8217;s enough to implement just the following:</p>
+<p>In ´setupTableData´ method, it&#8217;s also specified that Home view controller is the delegate for upload progress. For this usage, it should implement PPDocumentUploadDelegate protocol. This protocol has all methods optional, but typically, for providing progress for uploads, it&#8217;s enough to implement just the following:</p>
 
 <pre><code>- (void)localDocument:(PPLocalDocument *)localDocument
     didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
