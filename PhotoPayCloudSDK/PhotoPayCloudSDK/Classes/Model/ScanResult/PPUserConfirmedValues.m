@@ -16,6 +16,10 @@
         return nil;
     }
     
+    if ([dictionary isEqual:[NSNull null]]) {
+        return self;
+    }
+    
     self.values = [dictionary mutableCopy];
     
     return self;

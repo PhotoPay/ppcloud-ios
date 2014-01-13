@@ -18,19 +18,25 @@
         return nil;
     }
     
-    self.documentType = [PPModelObject initString:dictionary[@"document"]];
-    
-    NSDictionary* dictinaryElements = dictionary[@"elements"];
-    NSArray* keys = [dictinaryElements allKeys];
-    
-    NSMutableDictionary *newElements = [[NSMutableDictionary alloc] init];
-    
-    for (NSString *key in keys) {
-        PPElementCandidateList* list = [[PPElementCandidateList alloc] initWithDictionary:dictinaryElements[key]];
-        [newElements setObject:list forKey:key];
+    if ([dictionary isEqual:[NSNull null]]) {
+        return self;
     }
     
-    self.elements = newElements;
+    self.documentType = [PPModelObject initString:dictionary[@"document"]];
+    
+    NSDictionary* dictionaryElements = dictionary[@"elements"];
+    if (![dictionaryElements isEqual:[NSNull null]]) {
+        NSArray* keys = [dictionaryElements allKeys];
+    
+        NSMutableDictionary *newElements = [[NSMutableDictionary alloc] init];
+    
+        for (NSString *key in keys) {
+            PPElementCandidateList* list = [[PPElementCandidateList alloc] initWithDictionary:dictionaryElements[key]];
+            [newElements setObject:list forKey:key];
+        }
+    
+        self.elements = newElements;
+    }
     
     return self;
 }

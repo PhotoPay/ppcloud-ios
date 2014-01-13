@@ -28,6 +28,10 @@
         return nil;
     }
     
+    if ([dictionary isEqual:[NSNull null]]) {
+        return self;
+    }
+    
     self->documentId_ = [PPModelObject initString:dictionary[@"id"]];
     
     self->documentType_ = [PPModelObject initEnum:dictionary[@"documentType"]

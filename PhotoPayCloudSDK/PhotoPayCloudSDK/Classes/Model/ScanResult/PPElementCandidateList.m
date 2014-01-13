@@ -17,6 +17,10 @@
         return nil;
     }
     
+    if ([dictionary isEqual:[NSNull null]]) {
+        return self;
+    }
+    
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
     for (NSDictionary *element in dictionary) {

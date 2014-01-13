@@ -17,6 +17,10 @@
         return nil;
     }
     
+    if ([dictionary isEqual:[NSNull null]]) {
+        return self;
+    }
+    
     self.totalCount = [PPModelObject initNumber:dictionary[@"totalCount"] defaultNumber:0];
     self.documentsList = [PPModelObject initArray:dictionary[@"documentList"] className:NSStringFromClass([PPRemoteDocument class])];
     self.document = [[PPRemoteDocument alloc] initWithDictionary:dictionary[@"document"]];

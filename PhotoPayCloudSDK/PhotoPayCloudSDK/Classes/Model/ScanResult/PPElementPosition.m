@@ -16,6 +16,10 @@
         return nil;
     }
     
+    if ([dictionary isEqual:[NSNull null]]) {
+        return self;
+    }
+    
     self.height = [PPModelObject initNumber:dictionary[@"height"]];
     self.page = [PPModelObject initNumber:dictionary[@"page"]];
     self.width = [PPModelObject initNumber:dictionary[@"width"]];
