@@ -79,7 +79,7 @@ NSString* const kPPParameterStatus = @"status";
         
         fetchDocumentsOperationQueue = [[NSOperationQueue alloc] init];
         fetchDocumentsOperationQueue.name = @"PhotoPay Cloud Fetch Documents Queue";
-        [fetchDocumentsOperationQueue setMaxConcurrentOperationCount:1];
+        [fetchDocumentsOperationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
     }
     return self;
 }
