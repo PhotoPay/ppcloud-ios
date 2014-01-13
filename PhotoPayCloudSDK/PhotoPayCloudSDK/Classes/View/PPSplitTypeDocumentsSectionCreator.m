@@ -13,14 +13,19 @@
 #import "PPRemoteDocument.h"
 #import <UIKit/UIKit.h>
 
+const NSInteger uploadingSectionId = 0;
+const NSInteger processedSectionId = 1;
+
+@interface PPSplitTypeDocumentsSectionCreator ()
+
+@end
+
 @implementation PPSplitTypeDocumentsSectionCreator
 
 - (id)init {
     self = [super init];
     if (self) {
-        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:1 name:_processedSectionTitle];
-        
-        [[self sections] addObject:section];
+        //
     }
     return self;
 }
@@ -35,25 +40,35 @@
 - (void)setUploadingSectionTitle:(NSString *)uploadingSectionTitle {
     _uploadingSectionTitle = uploadingSectionTitle;
     
-    if ([self sectionCount] == 2) {
-        [[[self sections] objectAtIndex:0] setName:uploadingSectionTitle];
+    if ([self sectionCount] > 0) {
+        PPTableSection* section = [self findSectionWithId:uploadingSectionId];
+        if (section != nil) {
+            [section setName:_uploadingSectionTitle];
+        }
     }
 }
 
 - (void)setProcessedSectionTitle:(NSString *)processedSectionTitle {
     _processedSectionTitle = processedSectionTitle;
-    [[[self sections] objectAtIndex:([self sectionCount] - 1)] setName:processedSectionTitle];
+    
+    if ([self sectionCount] > 0) {
+        PPTableSection* section = [self findSectionWithId:processedSectionId];
+        if (section != nil) {
+            [section setName:_processedSectionTitle];
+        }
+    }
 }
 
 - (NSIndexPath*)insertLocalDocument:(PPLocalDocument*)localDocument {
-    if ([self sectionCount] == 1) {
-        PPTableSection *section = [[PPTableSection alloc] initWithSectionId:0 name:_uploadingSectionTitle];
-        [[self sections] insertObject:section atIndex:0];
-    }
-    
+    PPTableSection* section = [self findSectionWithId:uploadingSectionId];
     NSUInteger sectionIndex = 0;
     
-    PPTableSection *section = [[self sections] objectAtIndex:sectionIndex];
+    if (section == nil) {
+        section = [[PPTableSection alloc] initWithSectionId:uploadingSectionId name:_uploadingSectionTitle];
+        [[self sections] insertObject:section atIndex:0];
+    } else {
+        sectionIndex = [[self sections] indexOfObject:section];
+    }
     
     int i = 0;
     for (; i < [section itemCount]; i++) {
@@ -72,9 +87,15 @@
 }
 
 - (NSIndexPath*)insertRemoteDocument:(PPRemoteDocument*)remoteDocument {
-    NSUInteger sectionIndex = [self sectionCount] - 1;
+    PPTableSection* section = [self findSectionWithId:processedSectionId];
+    NSUInteger sectionIndex = [self sectionCount];
     
-    PPTableSection *section = [[self sections] objectAtIndex:sectionIndex];
+    if (section == nil) {
+        section = [[PPTableSection alloc] initWithSectionId:processedSectionId name:_processedSectionTitle];
+        [[self sections] insertObject:section atIndex:[self sectionCount]];
+    } else {
+        sectionIndex = [[self sections] indexOfObject:section];
+    }
     
     int i = 0;
     for (; i < [section itemCount]; i++) {
@@ -114,11 +135,9 @@
 }
 
 - (NSIndexPath*)removeLocalDocument:(PPLocalDocument*)localDocument {
-    // local document is in section with index 0
-    NSUInteger sectionIndex = 0;
+    PPTableSection* section = [self findSectionWithId:uploadingSectionId];
     
-    PPTableSection *section = [[self sections] objectAtIndex:sectionIndex];
-    
+    NSUInteger sectionIndex = [[self sections] indexOfObject:section];
     NSUInteger row = [section removeItem:localDocument];
     
     if ([section itemCount] == 0) {
@@ -133,12 +152,14 @@
 }
 
 - (NSIndexPath*)removeRemoteDocument:(PPRemoteDocument*)remoteDocument {
-    // local document is in section with index [sections count] - 1
-    NSUInteger sectionIndex = [self sectionCount] - 1;
+    PPTableSection* section = [self findSectionWithId:processedSectionId];
     
-    PPTableSection *section = [[self sections] objectAtIndex:sectionIndex];
-    
+    NSUInteger sectionIndex = [[self sections] indexOfObject:section];
     NSUInteger row = [section removeItem:remoteDocument];
+    
+    if ([section itemCount] == 0) {
+        [[self sections] removeObjectAtIndex:sectionIndex];
+    }
     
     if (row != NSNotFound) {
         return [NSIndexPath indexPathForRow:row inSection:sectionIndex];
