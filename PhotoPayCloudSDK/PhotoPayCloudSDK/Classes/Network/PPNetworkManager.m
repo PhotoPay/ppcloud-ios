@@ -110,6 +110,7 @@ NSString* const kPPParameterStatus = @"status";
                   @(PPImageSizeUIHdpi) : @"UI_HDPI",
                   @(PPImageSizeUIXHdpi) : @"UI_XHDPI",
                   @(PPImageSizeUIXXHdpi) : @"UI_XXHDPI",
+                  @(PPImageSizeUIXXXHdpi) : @"UI_XXXHDPI",
                   @(PPImageSizeFull) : @"FULL_IMAGE"};
     });
     return table;

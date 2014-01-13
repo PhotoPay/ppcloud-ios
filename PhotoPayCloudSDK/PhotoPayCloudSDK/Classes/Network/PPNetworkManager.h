@@ -105,6 +105,8 @@ typedef NS_ENUM(NSUInteger, PPImageSize) {
     PPImageSizeUIXHdpi,
     /** UI image size on XXHDPI devices */
     PPImageSizeUIXXHdpi,
+    /** UI image size on XXHDPI devices (900px) */
+    PPImageSizeUIXXXHdpi,
     /** Full image */
     PPImageSizeFull
 };
