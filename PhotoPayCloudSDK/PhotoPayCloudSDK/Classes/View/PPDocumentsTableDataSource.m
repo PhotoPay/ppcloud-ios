@@ -78,7 +78,6 @@
     if ([reloadedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didReloadItemsAtIndexPath:reloadedIndexPaths];
     }
-
 }
 
 - (void)insertItems:(NSArray*)allItemsToAdd {

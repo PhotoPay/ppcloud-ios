@@ -45,6 +45,12 @@
     return self;
 }
 
+- (void)updateDelegate {
+    if ([[self delegate] respondsToSelector:@selector(tableViewDataSource:didModifyItemsList:)]) {
+        [[self delegate] tableViewDataSource:self didModifyItemsList:[self items]];
+    }
+}
+
 - (void)setDelegate:(id<PPTableViewDataSourceDelegate>)delegate {
     _delegate = delegate;
     
@@ -55,7 +61,11 @@
         return;
     }
     
-    NSMutableArray* currentSections = [[self sectionCreator] sections];
+    if ([self sectionsBeforeLastDelegateUpdate] == nil) {
+        return;
+    }
+    
+    NSMutableArray* currentSections = [[[self sectionCreator] sections] mutableCopy];
     
     NSMutableIndexSet *deletedSectionSet = [[NSMutableIndexSet alloc] init];
     NSMutableArray* newSections = [[self sectionsBeforeLastDelegateUpdate] mutableCopy];
@@ -75,9 +85,9 @@
     [currentSections enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if (![[self sectionsBeforeLastDelegateUpdate] containsObject:obj]) {
             [insertedSectionSet addIndex:idx];
+            [newSections insertObject:obj atIndex:idx];
         } else {
             [reloadedSectionSet addIndex:idx];
-            [newSections insertObject:obj atIndex:idx];
         }
     }];
     
@@ -92,13 +102,15 @@
     }
     
     [self setSectionsBeforeLastDelegateUpdate:nil];
+    
+    [self updateDelegate];
 }
 
 - (void)insertItems:(NSArray*)itemsToAdd {
     PPTableSectionCreator *sectionCreatorCopy = [[self sectionCreator] copy];
     NSUInteger __block currentSectionCount = [sectionCreatorCopy sectionCount];
     
-    NSMutableArray* insertedIndexPaths = [[NSMutableArray alloc] init];
+    NSMutableArray* __block insertedIndexPaths = [[NSMutableArray alloc] init];
     NSMutableIndexSet* indexSetOfItemsWhichInsertedSections = [[NSMutableIndexSet alloc] init];
 
     // first insert all items into section creator copy
@@ -114,19 +126,22 @@
             sectionInserted = YES;
         }
         
+        NSMutableArray* newInsertedIndexPaths = [[NSMutableArray alloc] init];
         [insertedIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSIndexPath *ip = (NSIndexPath *)obj;
             if (sectionInserted && ip.section >= indexPath.section) {
                 // if we had previously inserted element at section 2, row 1, and now we inserted new section at 1
                 // we move that element to section 3 row 1
-                [insertedIndexPaths replaceObjectAtIndex:idx withObject:[NSIndexPath indexPathForRow:ip.row inSection:ip.section + 1]];
+                [newInsertedIndexPaths addObject:[NSIndexPath indexPathForRow:ip.row inSection:ip.section + 1]];
             } else if (ip.section == indexPath.section && ip.row >= indexPath.row) {
                 // if we had previously inserted element at section 2, row 1, and now we inserted element at section 2, row 0
                 // we move that element to section 2 row 2
-                [insertedIndexPaths replaceObjectAtIndex:idx withObject:[NSIndexPath indexPathForRow:ip.row + 1 inSection:ip.section]];
+                [newInsertedIndexPaths addObject:[NSIndexPath indexPathForRow:ip.row + 1 inSection:ip.section]];
+            } else {
+                [newInsertedIndexPaths addObject:ip];
             }
         }];
-        
+        insertedIndexPaths = newInsertedIndexPaths;
         [insertedIndexPaths addObject:indexPath];
         if (sectionInserted) {
             [indexSetOfItemsWhichInsertedSections addIndex:idx];
@@ -160,6 +175,8 @@
     if ([otherInsertedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didInsertItemsAtIndexPaths:otherInsertedIndexPaths];
     }
+    
+    [self updateDelegate];
 }
 
 - (void)removeItems:(NSArray*)itemsToRemove {
@@ -243,6 +260,8 @@
     if ([removedIndexPaths count] > 0) {
         [[self delegate] tableViewDataSource:self didDeleteItemsAtIndexPaths:removedIndexPaths];
     }
+    
+    [self updateDelegate];
 }
 
 - (void)reloadItems:(NSArray*)reloadingItems

@@ -71,7 +71,7 @@
  
  It contains callback methods on which the table view should update the UI
  */
-@protocol PPTableViewDataSourceDelegate
+@protocol PPTableViewDataSourceDelegate <NSObject>
 
 @required
 
@@ -116,5 +116,13 @@
  */
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
           didReloadSections:(NSIndexSet *)sections;
+
+@optional
+
+/**
+ Called when there was update to data source items
+ */
+- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
+         didModifyItemsList:(NSArray*)items;
 
 @end
