@@ -35,6 +35,15 @@
     return desc;
 }
 
+- (PPTableSection*)findSectionWithId:(NSInteger)sectionId {
+    for (PPTableSection* section in _sections) {
+        if ([section sectionId] == sectionId) {
+            return section;
+        }
+    }
+    return nil;
+}
+
 - (NSUInteger)sectionCount {
     return [[self sections] count];
 }

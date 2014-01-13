@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class PPTableSection;
+
 /**
  Abstract class.
  
@@ -21,6 +23,8 @@
 @property (nonatomic, strong) NSMutableArray* sections;
 
 - (NSUInteger)sectionCount;
+
+- (PPTableSection*)findSectionWithId:(NSInteger)sectionId;
 
 - (NSIndexPath*)indexPathForObject:(id)item;
 
