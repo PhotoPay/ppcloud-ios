@@ -31,10 +31,15 @@
 @property (nonatomic, strong) NSNumber* progress;
 
 /**
+ Estimated remaining upload time in seconds
+ */
+@property (nonatomic, strong) NSNumber* remaining;
+
+/**
  Cancels the operation
  */
 - (void)cancel;
-
+	
 @end
 
 /**
