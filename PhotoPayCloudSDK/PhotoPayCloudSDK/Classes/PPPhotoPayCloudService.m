@@ -869,7 +869,6 @@
                                                           [document setState:PPDocumentStatePaid];
                                                           [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:document, nil]
                                                                                withItems:[[NSArray alloc] initWithObjects:document, nil]];
-                                                          [[document delegate] documentDidChangeState:document];
                                                       });
 
                                                       if (success) {
