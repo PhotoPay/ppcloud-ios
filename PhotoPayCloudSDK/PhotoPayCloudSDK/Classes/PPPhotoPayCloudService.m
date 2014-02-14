@@ -265,7 +265,19 @@
     NSLog(@"PhotoPayCloud uninitialized");
 }
 
+- (BOOL)isServiceUnavailable {
+    if (self.state == PPPhotoPayCloudServiceStateUninitialized) {
+        NSLog(@"PPCloud service is uninitialized!");
+        return YES;
+    }
+    return NO;
+}
+
 - (void)checkExistingUploadQueue {
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     // deserialize the request queue for this user
     NSString* userIdHash = [[self user] userIdHash];
     documentUploadQueue = [PPLocalDocumentUploadQueue queueForUserIdHash:userIdHash];
@@ -290,7 +302,12 @@
                      success:(void (^)(PPLocalDocument* localDocument, PPRemoteDocument* remoteDocument))success
                      failure:(void (^)(PPLocalDocument* localDocument, NSError* error))failure
                     canceled:(void (^)(PPLocalDocument* localDocument))canceled {
+    
     // called in upload dispatch queue which makes main free for UI
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
     
     // set document data
     [localDocument setOwnerIdHash:[[self user] userIdHash]];
@@ -486,6 +503,10 @@
 }
 
 - (void)deletePendingDocumentsWithError:(NSError**)error {
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     for (int i = [[self documentUploadQueue] count] - 1; i >= 0 ; i--) {
         PPLocalDocument *localDocument = [[[self documentUploadQueue] elements] objectAtIndex:i];
         [self deleteDocument:localDocument error:error];
@@ -495,6 +516,10 @@
 
 - (void)deleteDocument:(PPDocument*)document
                  error:(NSError**)error {
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     PPLocalDocument* localDocument = [document localDocument];
     if (localDocument != nil) {
         [[self documentManager] deleteDocument:localDocument error:error];
@@ -523,6 +548,10 @@
                      failure:(void (^)(NSError* error))failure
                     canceled:(void (^)())canceled {
     
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     NSOperation* deleteDocumentOperation =
         [[self networkManager] createDeleteDocumentRequest:remoteDocument
                                                       user:[self user]
@@ -549,6 +578,10 @@
                     success:(void (^)(UIImage* image))success
                     failure:(void (^)(NSError* error))failure
                    canceled:(void (^)())canceled {
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
     
     NSOperation* getImageOperation =
         [[self networkManager] createGetImageRequestForDocument:document
@@ -577,6 +610,11 @@
                 success:(void (^)(NSData* data))success
                 failure:(void (^)(NSError* error))failure
                canceled:(void (^)())canceled {
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     NSOperation* getDataOperation = [[self networkManager] createGetDocumentData:document
                                                                             user:[self user]
                                                                          success:^(NSOperation *operation, NSData *data) {
@@ -599,6 +637,10 @@
 }
 
 - (void)requestDocuments:(PPDocumentState)documentStates {
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     NSLog(@"The behaviour of this method changed. It now performs only one document fetch request");
     NSLog(@"To get the same behaviour as before, call requestDocuments:pollInterval with poll interval 5.0");
     
@@ -636,6 +678,10 @@
 
 - (void)requestDocuments:(PPDocumentState)documentStates
             pollInterval:(NSTimeInterval)timeInterval {
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
     
     NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
     NSBlockOperation * __weak _blockOperation = blockOperation;
@@ -785,6 +831,10 @@
                    failure:(void (^)(NSError* error))failure
                   canceled:(void (^)())canceled {
     
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     NSArray* states = [self getStatesArrayForDocumentStates:documentStateList];
     
     NSOperation* getDocumentsOperation =
@@ -817,6 +867,10 @@
               failure:(void (^)(NSError* error))failure
              canceled:(void (^)(void))canceled {
     
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     NSOperation* confirmValuesOperation =
         [[self networkManager] createConfirmValuesRequest:values
                                                  document:document
@@ -846,6 +900,11 @@
 }
 
 - (void)registerPushNotificationToken:(NSString*)token {
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
     NSOperation* registerPushOperation =
         [[self networkManager] createRegisterPushNotificationToken:token
                                                            forUser:[self user]
