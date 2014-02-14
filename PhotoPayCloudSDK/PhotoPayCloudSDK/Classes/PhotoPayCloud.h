@@ -25,10 +25,14 @@
 
 /** Scan results */
 #import "PPScanResult.h"
+#import "PPScanResultSerbia.h"
+#import "PPScanResultAustria.h"
 #import "PPElementCandidateList.h"
 #import "PPElementCandidate.h"
 #import "PPElementPosition.h"
 #import "PPUserConfirmedValues.h"
+#import "PPUserConfirmedValuesSerbia.h"
+#import "PPUserConfirmedValuesAustria.h"
 
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"
