@@ -11,6 +11,8 @@
 #import "PPDocumentManager.h"
 #import "UIApplication+Documents.h"
 #import "PPScanResult.h"
+#import "PPScanResultAustria.h"
+#import "PPScanResultSerbia.h"
 
 @interface PPRemoteDocument ()
 
@@ -58,7 +60,19 @@
         self.expectedProcessingTime = @(1.0);
     }
     
-    self.scanResult = [[PPScanResult alloc] initWithDictionary:dictionary[@"candidateList"]];
+    Class scanResultClass = [PPScanResult class];
+    switch (processingType_) {
+        case PPDocumentProcessingTypeAustrianPDFInvoice:
+        case PPDocumentProcessingTypeAustrianPhotoInvoice:
+            scanResultClass = [PPScanResultAustria class];
+            break;
+        case PPDocumentProcessingTypeSerbianPhotoInvoice:
+        case PPDocumentProcessingTypeSerbianPDFInvoice:
+        default:
+            scanResultClass = [PPScanResultSerbia class];
+            break;
+    }
+    self.scanResult = [[scanResultClass alloc] initWithDictionary:dictionary[@"candidateList"]];
     
     thumbnailImage_ = nil;
     previewImage_ = nil;
@@ -90,6 +104,8 @@
     if (self.documentType == PPDocumentTypeUnknown) {
         self.documentType = otherRemoteDocument.documentType;
     }
+    
+    self->processingType_ = otherRemoteDocument.processingType;
     
     if (![expectedProcessingTime isEqual:otherRemoteDocument.expectedProcessingTime]) {
         self.expectedProcessingTime = otherRemoteDocument.expectedProcessingTime;
