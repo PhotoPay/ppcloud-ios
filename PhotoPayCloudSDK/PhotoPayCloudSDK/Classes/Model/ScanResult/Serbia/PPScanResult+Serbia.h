@@ -7,12 +7,7 @@
 //
 
 #import "PPScanResult.h"
-
-extern NSString* const kPPSerbianAmountKey;
-extern NSString* const kPPSerbianAccountNumberKey;
-extern NSString* const kPPSerbianReferenceNumberKey;
-extern NSString* const kPPSerbianReferenceModelKey;
-extern NSString* const kPPSerbianRecipientNameKey;
+#import "PPScanResultSerbia.h"
 
 @interface PPScanResult (Serbia)
 

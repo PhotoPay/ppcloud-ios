@@ -8,12 +8,6 @@
 
 #import "PPScanResult+Serbia.h"
 
-NSString* const kPPSerbianAmountKey = @"Amount";
-NSString* const kPPSerbianAccountNumberKey = @"Account";
-NSString* const kPPSerbianReferenceNumberKey = @"Reference";
-NSString* const kPPSerbianReferenceModelKey = @"ReferenceModel";
-NSString* const kPPSerbianRecipientNameKey = @"RecipientName";
-
 @implementation PPScanResult (Serbia)
 
 - (PPElementCandidateList*)amountCandidateList {
