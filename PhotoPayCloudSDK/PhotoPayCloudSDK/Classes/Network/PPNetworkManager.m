@@ -17,8 +17,13 @@
 NSString* const kPPParameterData = @"data";
 NSString* const kPPParameterCustomerId = @"customerId";
 NSString* const kPPParameterOrganizationId = @"organizationId";
+NSString* const kPPParameterFirstName = @"firstName";
+NSString* const kPPParameterLastName = @"lastName";
+NSString* const kPPParameterEmail = @"email";
+NSString* const kPPParameterEmails = @"emails";
 NSString* const kPPParameterRequestType = @"requestType";
 NSString* const kPPParameterFileType = @"fileType";
+NSString* const kPPParameterDeviceType = @"deviceType";
 NSString* const kPPParameterDeviceToken = @"deviceToken";
 NSString* const kPPParameterPushNotify = @"pushNotify";
 NSString* const kPPParameterCustomerType = @"customerType";
@@ -164,6 +169,14 @@ NSString* const kPPParameterStatus = @"status";
     return @"cloud/customer/pushNotificationRegistration";
 }
 
++ (NSString*)apiPathUpdateUser:(PPUser*)user {
+    return @"cloud/customer/update";
+}
+
++ (NSString*)apiPathRegisterUser:(PPUser*)user {
+    return @"cloud/customer/registration";
+}
+
 + (NSString*)apiPathDeleteDocument:(PPDocument*)document {
     NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
                                                                 withEncoding:NSUTF8StringEncoding];
@@ -261,6 +274,38 @@ NSString* const kPPParameterStatus = @"status";
                                             success:(void (^)(NSOperation*, PPBaseResponse*))success
                                             failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
                                            canceled:(void (^)(NSOperation*))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for updating user
+ */
+- (NSOperation*)createRegisterUserRequest:(PPUser *)user
+                                  success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                  failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                 canceled:(void (^)(NSOperation*))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for updating user
+ */
+- (NSOperation*)createUpdateUserRequest:(PPUser *)user
+                                success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                               canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException

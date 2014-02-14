@@ -860,4 +860,74 @@
     [registerPushOperation start];
 }
 
+- (void)registerUser:(PPUser*)registeredUser
+             success:(void (^)(void))success
+             failure:(void (^)(NSError* error))failure
+            canceled:(void (^)(void))canceled {
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
+    NSOperation* registerUserRequestOperation = [[self networkManager] createRegisterUserRequest:registeredUser
+                                                                                         success:^(NSOperation *operation, PPBaseResponse *response) {
+                                                                                             [self registerPushNotification];
+                                                                                             if (success) {
+                                                                                                 success();
+                                                                                             }
+                                                                                         }
+                                                                                         failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
+                                                                                             NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+                                                                                             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [response errorMessage]};                                                                                             NSError *detailedError = [[NSError alloc] initWithDomain:domain
+                                                                                                                                                 code:[response errorCode]
+                                                                                                                                             userInfo:userInfo];
+                                                                                             if (failure) {
+                                                                                                 failure(detailedError);
+                                                                                             }
+                                                                                         } canceled:^(NSOperation *operation) {
+                                                                                             if (canceled) {
+                                                                                                 canceled();
+                                                                                             }
+                                                                                         }];
+    [registerUserRequestOperation start];
+}
+
+- (void)updateUser:(PPUser*)updatedUser
+           success:(void (^)(void))success
+           failure:(void (^)(NSError* error))failure
+          canceled:(void (^)(void))canceled {
+    
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
+    NSOperation* updateUserRequestOperation = [[self networkManager] createUpdateUserRequest:updatedUser
+                                                                                     success:^(NSOperation *operation, PPBaseResponse *response) {
+                                                                                         [self registerPushNotification];
+                                                                                         if (success) {
+                                                                                             success();
+                                                                                         }
+                                                                                     }
+                                                                                     failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
+                                                                                         if ([response errorMessage] != nil) {
+                                                                                             NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+                                                                                             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [response errorMessage]};                                                                                             NSError *detailedError = [[NSError alloc] initWithDomain:domain
+                                                                                                                                                                                                                                                                                                                          code:[response errorCode]
+                                                                                                                                                                                                                                                                                                                      userInfo:userInfo];
+                                                                                             if (failure) {
+                                                                                                 failure(detailedError);
+                                                                                             }
+                                                                                         } else {
+                                                                                             if (failure) {
+                                                                                                 failure(error);
+                                                                                             }
+                                                                                         }
+                                                                                     } canceled:^(NSOperation *operation) {
+                                                                                         if (canceled) {
+                                                                                             canceled();
+                                                                                         }
+                                                                                     }];
+    [updateUserRequestOperation start];
+}
+
 @end

@@ -28,6 +28,18 @@ extern NSString* const kPPParameterCustomerId;
 /** parameter that contains organizationId */
 extern NSString* const kPPParameterOrganizationId;
 
+/** parameter that contains first name of the user */
+extern NSString* const kPPParameterFirstName;
+
+/** parameter that contains last name of the user */
+extern NSString* const kPPParameterLastName;
+
+/** parameter that contains main email of the user */
+extern NSString* const kPPParameterEmail;
+
+/** parameter that contains all emails of the user, spearated with commas */
+extern NSString* const kPPParameterEmails;
+
 /**
  * parameter that defines request type on upload (what kind of document
  * processing is required)
@@ -36,6 +48,11 @@ extern NSString* const kPPParameterRequestType;
 
 /** parameter that defines the type of file being uploaded */
 extern NSString* const kPPParameterFileType;
+
+/**
+ * parameter that defines the type of device used for push notifications
+ */
+extern NSString* const kPPParameterDeviceType;
 
 /**
  * parameter that defines token of the device used for sending push
@@ -198,9 +215,19 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
 + (NSString*)apiPathConfirmDataForDocument:(PPDocument*)document;
 
 /**
- PI path for registering device token for push notifications
+ API path for registering device token for push notifications
  */
 + (NSString*)apiPathPushRegistrationForUser:(PPUser*)user;
+
+/**
+ API path for registering user
+ */
++ (NSString*)apiPathRegisterUser:(PPUser*)user;
+
+/**
+ API path for updating user
+ */
++ (NSString*)apiPathUpdateUser:(PPUser*)user;
 
 /**
  API path for deleting the document
@@ -301,5 +328,25 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
                                             success:(void (^)(NSOperation*, PPBaseResponse*))success
                                             failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
                                            canceled:(void (^)(NSOperation*))canceled;
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for updating user
+ */
+- (NSOperation*)createRegisterUserRequest:(PPUser *)user
+                                  success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                  failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                 canceled:(void (^)(NSOperation*))canceled;
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for updating user
+ */
+- (NSOperation*)createUpdateUserRequest:(PPUser *)user
+                                success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                               canceled:(void (^)(NSOperation*))canceled;
 
 @end

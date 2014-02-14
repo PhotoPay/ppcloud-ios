@@ -257,6 +257,22 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
  */
 - (void)registerPushNotificationToken:(NSString*)token;
 
+/**
+ Register the user
+ */
+- (void)registerUser:(PPUser*)updatedUser
+             success:(void (^)(void))success
+             failure:(void (^)(NSError* error))failure
+            canceled:(void (^)(void))canceled;
+
+/**
+ Update the user
+ */
+- (void)updateUser:(PPUser*)updatedUser
+           success:(void (^)(void))success
+           failure:(void (^)(NSError* error))failure
+          canceled:(void (^)(void))canceled;
+
 @end
 
 

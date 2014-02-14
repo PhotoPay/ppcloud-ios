@@ -11,7 +11,7 @@
 /**
  Encapsulates all data PhotoPay Cloud service needs for a certain user
  */
-@interface PPUser : NSObject
+@interface PPUser : NSObject <NSCoding>
 
 /**
  All possible user types.
@@ -33,6 +33,18 @@ typedef NS_ENUM(NSUInteger, PPUserType) {
 
 /** Type of the user */
 @property (nonatomic, readonly) PPUserType userType;
+
+/** Main email address for the user */
+@property (nonatomic, strong) NSString* email;
+
+/** All email adresses used by the user */
+@property (nonatomic, strong) NSSet* allEmailAddresses;
+
+/** First name of the user */
+@property (nonatomic, strong) NSString* firstName;
+
+/** Last name of the user */
+@property (nonatomic, strong) NSString* lastName;
 
 /**
  Initializer.
@@ -57,8 +69,16 @@ typedef NS_ENUM(NSUInteger, PPUserType) {
 - (NSString*)userIdHash;
 
 /**
+ Description of user object
+ */
+- (NSString*)description;
+
+/**
  Returns object representation of the user type enum value
  */
 + (id)objectForUserType:(PPUserType)type;
+
+/** Generates a random UID for a user */
++ (NSString*)uuid;
 
 @end
