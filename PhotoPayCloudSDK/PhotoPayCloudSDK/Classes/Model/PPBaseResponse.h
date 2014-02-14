@@ -12,6 +12,10 @@
 
 @interface PPBaseResponse : PPModelObject
 
+@property (nonatomic, assign) NSInteger errorCode;
+
+@property (nonatomic, strong) NSString* errorMessage;
+
 @property (nonatomic, strong) NSNumber* totalCount;
 
 @property (nonatomic, strong) NSArray* documentsList;
