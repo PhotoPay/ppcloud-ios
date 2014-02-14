@@ -795,29 +795,21 @@
 - (NSArray*)getStatesArrayForDocumentStates:(PPDocumentState)documentStateList {
     NSMutableArray *res = [[NSMutableArray alloc] init];
     
-    if (documentStateList & PPDocumentStateDeleted) {
-        [res addObject:@"USER_DELETED"];
+    for (NSNumber* state in [[PPDocument documentStateObjectTable] allKeys]) {
+        if ([state longValue] & PPDocumentStateLocal) {
+            continue;
+        }
+        
+        if (documentStateList & [state longValue]) {
+            [res addObject:[PPDocument objectForDocumentState:[state longValue]]];
+            documentStateList &= ~[state longValue];
+        }
     }
-    if (documentStateList & PPDocumentStateReceived) {
-        [res addObject:@"NEW"];
-    }
-    if (documentStateList & PPDocumentStatePending) {
-        [res addObject:@"PENDING"];
-    }
-    if (documentStateList & PPDocumentStateProcessing) {
-        [res addObject:@"WIP"];
-    }
-    if (documentStateList & PPDocumentStateProcessed) {
-        [res addObject:@"DONE"];
-    }
-    if (documentStateList & PPDocumentStateProcessingError) {
-        [res addObject:@"ERROR"];
-    }
-    if (documentStateList & PPDocumentStateProcessedWithError) {
-        [res addObject:@"FORCED_ERROR"];
-    }
-    if (documentStateList & PPDocumentStatePaid) {
-        [res addObject:@"RESULTS_ACK"];
+    
+    if ((documentStateList & PPDocumentStateRemote) != kNilOptions) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:[NSString stringWithFormat:@"%@ Encountered unknown state.", NSStringFromClass([self class])]
+                                     userInfo:nil];
     }
     
     return res;
