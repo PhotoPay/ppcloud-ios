@@ -220,6 +220,8 @@
     
     // 6. add success, failure and cancellation blocks
     [uploadRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Upload success string %@", operation.responseString);
+        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
         
         if (success) {
@@ -232,13 +234,13 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Upload failed with response %@", operation.responseString);
+        DDLogVerbose(@"Upload failed with response %@", operation.responseString);
         
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
         
         if (error != nil && error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             
-            NSLog(@"Canceled");
+            DDLogVerbose(@"Canceled");
             if (canceled) {
                 canceled(_uploadRequestOperation);
             }
@@ -250,7 +252,7 @@
             return;
         } else {
             
-            NSLog(@"Error! %@", error);
+            DDLogVerbose(@"Error! %@", error);
             if (failure) {
                 failure((id<PPUploadRequestOperation>)operation, baseResponse, error);
             }
@@ -357,24 +359,27 @@
     getRequestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [getRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Get documents success string %@", operation.responseString);
+        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
         
         if (success) {
             success(operation, baseResponse);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        DDLogVerbose(@"Get documents failure string %@", operation.responseString);
+        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Get documents was canceled with response %@", operation.responseString);
+            DDLogVerbose(@"Get documents was canceled with response %@", operation.responseString);
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
-        NSLog(@"Get documents failed with response %@", operation.responseString);
-        NSLog(@"Error! %@", error);
+        DDLogVerbose(@"Error! %@", error);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
@@ -416,21 +421,23 @@
     requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Get Image Success string %@", operation.responseString);
+        
         if (success) {
             success(operation, responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Get image failed with response %@", operation.responseString);
+        DDLogVerbose(@"Get image failed with response %@", operation.responseString);
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Canceled");
+            DDLogVerbose(@"Canceled");
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
-        NSLog(@"Error! %@", error);
+        DDLogVerbose(@"Error! %@", error);
         if (failure != nil) {
             failure(operation, error);
         }
@@ -461,21 +468,23 @@
     requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Get document data success %@", operation.responseString);
+        
         if (success) {
             success(operation, operation.responseData);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Get document data failed with response %@", operation.responseString);
+        DDLogVerbose(@"Get document data failed with response %@", operation.responseString);
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Canceled");
+            DDLogVerbose(@"Canceled");
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
-        NSLog(@"Fail! %@", error);
+        DDLogVerbose(@"Fail! %@", error);
         if (failure != nil) {
             failure(operation, error);
         }
@@ -507,25 +516,27 @@
     deleteOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [deleteOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Delete document success %@", operation.responseString);
+        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
         
         if (success) {
             success(operation, baseResponse);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Delete document failed with response %@", operation.responseString);
+        DDLogVerbose(@"Delete document failed with response %@", operation.responseString);
         
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Canceled");
+            DDLogVerbose(@"Canceled");
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
-        NSLog(@"Error:%@", error);
+        DDLogVerbose(@"Error:%@", error);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
@@ -572,25 +583,27 @@
     confirmOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [confirmOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Confirm values success %@", operation.responseString);
+        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
         
         if (success) {
             success(operation, baseResponse);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Confirm values failed with response %@", operation.responseString);
+        DDLogVerbose(@"Confirm values failed with response %@", operation.responseString);
         
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Canceled");
+            DDLogVerbose(@"Canceled");
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
-        NSLog(@"Error:%@", error);
+        DDLogVerbose(@"Error:%@", error);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
@@ -629,25 +642,27 @@
     requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
     
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DDLogVerbose(@"Push notify registration success with response %@", operation.responseString);
+        
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
         
         if (success) {
             success(operation, baseResponse);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Push notify registration failed with response %@", operation.responseString);
+        DDLogVerbose(@"Push notify registration failed with response %@", operation.responseString);
         
         PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
-            NSLog(@"Canceled");
+            DDLogVerbose(@"Canceled");
             if (canceled) {
                 canceled(operation);
             }
             return;
         }
         
-        NSLog(@"Error:%@", error);
+        DDLogVerbose(@"Error:%@", error);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
