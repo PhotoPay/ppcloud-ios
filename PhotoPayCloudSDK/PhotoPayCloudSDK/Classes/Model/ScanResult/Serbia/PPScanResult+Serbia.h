@@ -7,7 +7,6 @@
 //
 
 #import "PPScanResult.h"
-#import "PPScanResultSerbia.h"
 
 @interface PPScanResult (Serbia)
 

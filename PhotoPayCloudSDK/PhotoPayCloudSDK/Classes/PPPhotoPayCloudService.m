@@ -898,11 +898,9 @@
                                                            forUser:[self user]
                                                            success:^(NSOperation *operation, PPBaseResponse *response) {
                                                            } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
-                                                                                                                              NSLog(@"Registration failed");
-                                                               ;
+                                                               NSLog(@"Registration failed");
                                                            } canceled:^(NSOperation *operation) {
-                                                                                                                              NSLog(@"Registration canceled");
-                                                               ;
+                                                               NSLog(@"Registration canceled");
                                                            }];
     [registerPushOperation start];
 }

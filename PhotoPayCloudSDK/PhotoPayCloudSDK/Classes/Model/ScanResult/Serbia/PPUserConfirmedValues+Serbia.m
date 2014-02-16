@@ -7,7 +7,7 @@
 //
 
 #import "PPUserConfirmedValues+Serbia.h"
-#import "PPScanResult+Serbia.h"
+#import "PPScanResultSerbia.h"
 
 @implementation PPUserConfirmedValues (Serbia)
 
