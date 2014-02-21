@@ -56,7 +56,7 @@
     
     if (delegate == nil) {
         if ([self sectionsBeforeLastDelegateUpdate] == nil) {
-            [self setSectionsBeforeLastDelegateUpdate:[[self sectionCreator] sections]];
+            [self setSectionsBeforeLastDelegateUpdate:[[[self sectionCreator] sections] copy]];
         }
         return;
     }
