@@ -159,29 +159,8 @@
 
 #pragma mark - PPDocumentsTableViewControllerDelegate
 
-- (void)tableViewControllerDidStartFetchingDocuments:(id)controller {
-    DDLogInfo(@"Did start fetching!");
-}
-
-- (void)tableViewController:(id)controller didFailedFetchingWithError:(NSError*)error {
-    DDLogInfo(@"Did failed fetching with error!");
-}
-
-- (void)tableViewControllerDidCancelFetchingDocuments:(id)controller {
-    DDLogInfo(@"Did cancel fetching!");
-}
-
-- (void)tableViewController:(id)controller didFinishFetchingWithDocuments:(NSArray*)documents {
-    DDLogInfo(@"Did finish fetching with success!");
-}
-
 - (void)tableViewController:(id)controller willOpenDetailsForDocument:(PPDocument*)document {
     [self openDocumentDetailsView:document];
 }
-
-- (void)tableViewController:(id)controller didModifyItemsList:(NSArray*)items {
-    
-}
-
 
 @end

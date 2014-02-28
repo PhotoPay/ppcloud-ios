@@ -92,7 +92,7 @@
     NSIndexPath* indexPath = [[self dataSource] indexPathForItem:document];
     if (indexPath != nil) {
         [[self tableView] selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        [[[self tableView] delegate] tableView:[self tableView] didSelectRowAtIndexPath:indexPath];
+        [self tableView:[self tableView] didSelectRowAtIndexPath:indexPath];
     } else {
         NSLog(@"Cannot find document");
     }
@@ -105,7 +105,7 @@
             NSLog(@"No document at index path %@", indexPath);
         } else {
             [[self tableView] selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-            [[[self tableView] delegate] tableView:[self tableView] didSelectRowAtIndexPath:indexPath];
+            [self tableView:[self tableView] didSelectRowAtIndexPath:indexPath];
         }
     } else {
         NSLog(@"No index path given");
@@ -115,19 +115,27 @@
 #pragma mark - PPDocumentsFetchDelegate
 
 - (void)cloudServiceDidStartFetchingDocuments:(PPPhotoPayCloudService*)service {
-    [[self delegate] tableViewControllerDidStartFetchingDocuments:self];
+    if ([[self delegate] respondsToSelector:@selector(tableViewControllerDidStartFetchingDocuments:)]) {
+        [[self delegate] tableViewControllerDidStartFetchingDocuments:self];
+    }
 }
 
 - (void)cloudService:(PPPhotoPayCloudService*)service didFailedFetchingWithError:(NSError*)error {
-    [[self delegate] tableViewController:self didFailedFetchingWithError:error];
+    if ([[self delegate] respondsToSelector:@selector(tableViewController:didFailedFetchingWithError:)]) {
+        [[self delegate] tableViewController:self didFailedFetchingWithError:error];
+    }
 }
 
 - (void)cloudServiceDidCancelFetchingDocuments:(PPPhotoPayCloudService*)service {
-    [[self delegate] tableViewControllerDidCancelFetchingDocuments:self];
+    if ([[self delegate] respondsToSelector:@selector(tableViewControllerDidCancelFetchingDocuments:)]) {
+        [[self delegate] tableViewControllerDidCancelFetchingDocuments:self];
+    }
 }
 
 - (void)cloudService:(PPPhotoPayCloudService*)service didFinishFetchingWithDocuments:(NSArray*)documents {
-    [[self delegate] tableViewController:self didFinishFetchingWithDocuments:documents];
+    if ([[self delegate] respondsToSelector:@selector(tableViewController:didFinishFetchingWithDocuments:)]) {
+        [[self delegate] tableViewController:self didFinishFetchingWithDocuments:documents];
+    }
 }
 
 #pragma mark - PPTableViewDataSourceDelegate
@@ -135,8 +143,11 @@
 - (void)tableViewDataSource:(PPTableViewDataSource *)dataSource
          didModifyItemsList:(NSArray *)documents {
     
-    [[self delegate] tableViewController:self
-                      didModifyItemsList:documents];
+    if ([[self delegate] respondsToSelector:@selector(tableViewController:didModifyItemsList:)]) {
+        [[self delegate] tableViewController:self
+                          didModifyItemsList:documents];
+    }
+    
 }
 
 #pragma mark - PPDocumentUploadDelegate

@@ -59,6 +59,15 @@
  */
 @protocol PPDocumentsTableViewControllerDelegate <NSObject>
 
+@required
+
+/**
+ Called when table view controller wants to open details for a specific document
+ */
+- (void)tableViewController:(id)controller willOpenDetailsForDocument:(PPDocument*)document;
+
+@optional
+
 /**
  Called when table view controller starts fetching remote documents
  */
@@ -84,13 +93,9 @@
 didFinishFetchingWithDocuments:(NSArray*)documents;
 
 /**
- Called when table view controller wants to open details for a specific document
- */
-- (void)tableViewController:(id)controller willOpenDetailsForDocument:(PPDocument*)document;
-
-/**
  Called when table view controller's data source document list was modified.
  */
-- (void)tableViewController:(id)controller didModifyItemsList:(NSArray*)items;
+- (void)tableViewController:(id)controller
+         didModifyItemsList:(NSArray*)items;
 
 @end
