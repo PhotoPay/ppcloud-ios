@@ -47,6 +47,11 @@
 - (id)itemForIndexPath:(NSIndexPath*)indexPath;
 
 /**
+ Retrieves an index path under which the item is shown
+ */
+- (NSIndexPath*)indexPathForItem:(id)item;
+
+/**
  Inserts the items into table view. Depending on the section creators, 
  inserted items will appear in different sections
  */

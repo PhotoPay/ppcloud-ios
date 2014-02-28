@@ -322,6 +322,20 @@
     }
 }
 
+- (NSIndexPath*)indexPathForItem:(id)item {
+    NSInteger section;
+    NSInteger row;
+    
+    for (section = 0; section < [[[self sectionCreator] sections] count]; section++) {
+        row = [[[[self sectionCreator] sections] objectAtIndex:section] indexOfObject:item];
+        if (row != NSNotFound) {
+            break;
+        }
+    }
+    
+    return (row != NSNotFound) ? [NSIndexPath indexPathForRow:row inSection:section] : nil;
+}
+
 - (NSArray*)sections {
     return [[self sectionCreator] sections];
 }
