@@ -331,21 +331,21 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 #pragma mark - PPDocumentsFetchDelegate
 
 - (void)cloudServiceDidStartFetchingDocuments:(PPPhotoPayCloudService*)service {
-    NSLog(@"Did start fetching");
+    DDLogVerbose(@"Did start fetching");
 }
 
 - (void)cloudService:(PPPhotoPayCloudService*)service
 didFailedFetchingWithError:(NSError*)error {
-    NSLog(@"Did failed fetching with error");
+    DDLogVerbose(@"Did failed fetching with error");
 }
 
 - (void)cloudServiceDidCancelFetchingDocuments:(PPPhotoPayCloudService*)service {
-    NSLog(@"Did cancel fetching");
+    DDLogVerbose(@"Did cancel fetching");
 }
 
 - (void)cloudService:(PPPhotoPayCloudService*)service
 didFinishFetchingWithDocuments:(NSArray*)documents {
-    NSLog(@"Did finish fetching with %u documents", [documents count]);
+    DDLogVerbose(@"Did finish fetching with %u documents", [documents count]);
 }
 
 #pragma mark - UITableViewDelegate
