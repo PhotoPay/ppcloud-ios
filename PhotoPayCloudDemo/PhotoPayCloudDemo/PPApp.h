@@ -27,6 +27,11 @@
 + (PPApp*)sharedApp;
 
 /**
+ Retrieve global photopay tint color
+ */
++ (UIColor*)tintColor;
+
+/**
  Language used in the App
  */
 @property (nonatomic, strong, setter=setLanguage:) NSString* language;

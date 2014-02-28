@@ -47,6 +47,18 @@ NSString *uuid() {
     return sharedInstance;
 }
 
++ (UIColor*)tintColor {
+    static UIColor* tintColor = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        tintColor = [UIColor colorWithRed:190.0f/255.0f
+                                    green:30.0f/255.0f
+                                     blue:45.0f/255.0f
+                                    alpha:1.0];
+    });
+    return tintColor;
+}
+
 - (id)init {
     self = [super init];
     if (self) {
