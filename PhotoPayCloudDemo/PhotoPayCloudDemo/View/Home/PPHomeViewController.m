@@ -7,66 +7,40 @@
 //
 
 #import "PPHomeViewController.h"
-#import "PPDocumentsDataSource.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PPAlertView.h"
 #import "PPDocumentTableViewCell+Uploading.h"
 #import "PPDocumentDetailsViewController.h"
 #import <DDLog.h>
 #import "PPPagedContentViewController.h"
+#import "PPDocumentsTableViewController.h"
+#import "UIViewController+ContainerViewController.h"
 
-@interface PPHomeViewController () <UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentUploadDelegate, PPDocumentsFetchDelegate, PPTableViewDataSourceDelegate, PPPagedContentViewControllerDelegate>
+@interface PPHomeViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentsTableViewControllerDelegate, PPPagedContentViewControllerDelegate>
 
-@property (nonatomic, strong) PPDocumentsDataSource* documentsDataSource;
+@property (nonatomic, strong) PPDocumentsTableViewController* tableViewController;
 
 - (void)uploadDocument:(PPLocalDocument*)document;
-
-- (void)setupTableData;
-
-- (void)teardownTableData;
-
-- (void)setupNotifications;
-
-- (void)didEnterBackground:(NSNotification*)notification;
-
-- (void)willEnterForeground:(NSNotification*)notification;
 
 @end
 
 @implementation PPHomeViewController
-
-@synthesize documentsDataSource;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setTitle:_(@"PhotoPayHomeTitle")];
     
-    self.documentsDataSource = [[PPDocumentsDataSource alloc] init];
+    // Add table view controller
+    _tableViewController = [[PPDocumentsTableViewController alloc] initWithNibName:@"PPDocumentsTableViewController" bundle:nil];
+    [_tableViewController setDocumentStates:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed];
+    [_tableViewController setDelegate:self];
+    [_tableViewController setPollInterval:@(10.0f)];
     
-    // Specify section creator object which splits the uploading documents into two sections
-    // One for uploading documents, one for those which are processing or done
-    PPSplitTypeDocumentsSectionCreator* sectionCreator = [[PPSplitTypeDocumentsSectionCreator alloc] init];
-    [sectionCreator setUploadingSectionTitle:_(@"PhotoPayHomeUploadingSectionTitle")];
-    [sectionCreator setProcessedSectionTitle:_(@"PhotoPayHomeProcessedSectionTitle")];
-    self.documentsDataSource.sectionCreator = sectionCreator;
+    // Display it as a child view controller
+    [self pp_displayContentController:[self tableViewController]];
     
-//    PPDateSortedDocumentsSectionCreator* sectionCreator = [[PPDateSortedDocumentsSectionCreator alloc] init];
-//    self.documentsDataSource.sectionCreator = sectionCreator;
-    
-    [[PPPhotoPayCloudService sharedService] setDataSource:documentsDataSource];
-    [[self billsTable] setDataSource:[self documentsDataSource]];
-    [[self billsTable] setDelegate:self];
-    
+    // disable take picture button if camera not available (e.g. Simulator)
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] == NO) {
         [[self cameraButton] setEnabled:NO];
     }
@@ -79,85 +53,12 @@
     self.navigationItem.rightBarButtonItem = helpBarItem;
 }
 
-- (void)viewDidUnload {
-    self.documentsDataSource = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self setupTableData];
-    
-    // To clear any selection in the table view before it’s displayed
-    [[self billsTable] deselectRowAtIndexPath:[[self billsTable] indexPathForSelectedRow] animated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    // flash the scroll view’s scroll indicators
-    [[self billsTable] flashScrollIndicators];
-    
-    [self setupNotifications];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [self teardownTableData];
-}
-
-- (void)setupTableData {
-    // this view controller will receive all news about the upload status
-    [[PPPhotoPayCloudService sharedService] setUploadDelegate:self];
-    
-    // this view controller will also receive document fetch events
-    [[PPPhotoPayCloudService sharedService] setDocumentsFetchDelegate:self];
-    
-    // set the delegate for data source object
-    [self.documentsDataSource setDelegate:self];
-    
-    // request all local documents and remote unconfirmed to be seen inside table view
-    [[PPPhotoPayCloudService sharedService] requestDocuments:PPDocumentStateLocal | PPDocumentStateRemoteUnconfirmed
-                                                pollInterval:1.0f];
-}
-
-- (void)teardownTableData {
-    // this view controller will stop receiving all news about the upload status
-    [[PPPhotoPayCloudService sharedService] setUploadDelegate:nil];
-    
-    // reset the delegate for data source object
-    [self.documentsDataSource setDelegate:nil];
-}
-
-- (void)setupNotifications {
-    // watch for did enter background event
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didEnterBackground:)
-                                                 name:UIApplicationDidEnterBackgroundNotification
-                                               object:nil];
-    
-    // watch for will enter foreground event
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(willEnterForeground:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-}
-
-- (void)didEnterBackground:(NSNotification *)notification {
-    [self teardownTableData];
-}
-
-- (void)willEnterForeground:(NSNotification *)notification {
-    [self setupTableData];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)pp_displayContentController:(UIViewController *)content {
+    [super pp_displayContentController:content];
+    // besides regular adding of content view to this view-controllers view
+    // we want to send the content view to back
+    // because Camera Button needs to be in front of everything
+    [self.view sendSubviewToBack:content.view];
 }
 
 + (NSString*)defaultXibName {
@@ -172,7 +73,7 @@
     [self openCamera];
 }
 
-#pragma mark - PPHomeViewControllerProtocol
+#pragma mark - Basic functionality
 
 - (void)openCamera {
     UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
@@ -202,9 +103,10 @@
 }
 
 - (void)openDocumentDetailsView:(PPDocument*)document {
-    PPDocumentDetailsViewController* documentDetails = [[PPDocumentDetailsViewController alloc] initWithNibName:[PPDocumentDetailsViewController defaultXibName]
-                                                                                                         bundle:nil
-                                                                                                       document:document];
+    PPDocumentDetailsViewController* documentDetails =
+        [[PPDocumentDetailsViewController alloc] initWithNibName:[PPDocumentDetailsViewController defaultXibName]
+                                                          bundle:nil
+                                                        document:document];
     
     [[self navigationController] pushViewController:documentDetails animated:YES];
 }
@@ -212,7 +114,7 @@
 - (void)uploadDocument:(PPLocalDocument *)document {
     // send document to processing server
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
-                                                  delegate:self
+                                                  delegate:[self tableViewController]
                                                    success:nil
                                                    failure:nil
                                                   canceled:nil];
@@ -241,123 +143,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - PPTableViewDataSourceDelegate
-
-/**
- Called when new items are inserted into table view.
- Method passes the exact index paths of the inserted elements
- */
-- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
- didInsertItemsAtIndexPaths:(NSArray*)indexPaths {
-    [[self billsTable] beginUpdates];
-    [[self billsTable] insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self billsTable] endUpdates];
-}
-
-/**
- Called when items are deleted from table view.
- Method passes the exact index paths of the deleted elements
- */
-- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
- didDeleteItemsAtIndexPaths:(NSArray*)indexPaths {
-    [[self billsTable] beginUpdates];
-    [[self billsTable] deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-    [[self billsTable] endUpdates];
-}
-
-/**
- Called when items are reloaded inside the table view.
- Method passes the exact index paths of the reloaded elements
- */
-- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
-  didReloadItemsAtIndexPath:(NSArray*)indexPaths {
-    [[self billsTable] beginUpdates];
-    [[self billsTable] reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self billsTable] endUpdates];
-}
-
-/**
- Called when new sections are inserted into table view.
- Method passes the exact index set of the inserted sections
- */
-- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
-          didInsertSections:(NSIndexSet *)sections {
-    [[self billsTable] beginUpdates];
-    [[self billsTable] insertSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self billsTable] endUpdates];
-}
-
-/**
- Called when new sections are deleted into table view.
- Method passes the exact index set of the inserted sections
- */
-- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
-          didDeleteSections:(NSIndexSet *)sections {
-    [[self billsTable] beginUpdates];
-    [[self billsTable] deleteSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self billsTable] endUpdates];
-}
-
-/**
- Called when new sections are reloaded inside the table view.
- Method passes the exact index set of the inserted sections
- */
-- (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
-          didReloadSections:(NSIndexSet *)sections {
-    [[self billsTable] beginUpdates];
-    [[self billsTable] reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
-    [[self billsTable] endUpdates];
-}
-
-
-#pragma mark - PPDocumentUploadDelegate
-
-- (void)localDocument:(PPLocalDocument *)localDocument
-didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
-    totalBytesToWrite:(long long)totalBytesToWrite {
-    
-    // instead of requesting the whole table to update, we just find the potential cell among visible cells
-    for (PPDocumentTableViewCell* cell in self.billsTable.visibleCells) {
-        if (cell.document.state == PPDocumentStateUploading) {
-            [cell refreshProgress];
-        }
-    }
-}
-
-- (void)localDocumentDidCancelUpload:(PPLocalDocument *)localDocument {
-    DDLogInfo(@"Document upload is canceled!");
-}
-
-#pragma mark - PPDocumentsFetchDelegate
-
-- (void)cloudServiceDidStartFetchingDocuments:(PPPhotoPayCloudService*)service {
-    DDLogVerbose(@"Did start fetching");
-}
-
-- (void)cloudService:(PPPhotoPayCloudService*)service
-didFailedFetchingWithError:(NSError*)error {
-    DDLogVerbose(@"Did failed fetching with error");
-}
-
-- (void)cloudServiceDidCancelFetchingDocuments:(PPPhotoPayCloudService*)service {
-    DDLogVerbose(@"Did cancel fetching");
-}
-
-- (void)cloudService:(PPPhotoPayCloudService*)service
-didFinishFetchingWithDocuments:(NSArray*)documents {
-    DDLogVerbose(@"Did finish fetching with %u documents", [documents count]);
-}
-
-#pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [PPDocumentTableViewCell defaultHeight];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self openDocumentDetailsView:(PPDocument*) [[self documentsDataSource] itemForIndexPath:indexPath]];
-}
-
 #pragma mark - Opening help and callback which closes help
 
 - (void)openHelp {
@@ -368,11 +153,34 @@ didFinishFetchingWithDocuments:(NSArray*)documents {
     [self presentViewController:helpController animated:YES completion:nil];
 }
 
-/**
- Dismiss help
- */
 - (void)pagedViewControllerDidClose:(id)pagedViewController {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - PPDocumentsTableViewControllerDelegate
+
+- (void)tableViewControllerDidStartFetchingDocuments:(id)controller {
+    DDLogInfo(@"Did start fetching!");
+}
+
+- (void)tableViewController:(id)controller didFailedFetchingWithError:(NSError*)error {
+    DDLogInfo(@"Did failed fetching with error!");
+}
+
+- (void)tableViewControllerDidCancelFetchingDocuments:(id)controller {
+    DDLogInfo(@"Did cancel fetching!");
+}
+
+- (void)tableViewController:(id)controller didFinishFetchingWithDocuments:(NSArray*)documents {
+    DDLogInfo(@"Did finish fetching with success!");
+}
+
+- (void)tableViewController:(id)controller willOpenDetailsForDocument:(PPDocument*)document {
+    [self openDocumentDetailsView:document];
+}
+
+- (void)tableViewController:(id)controller didModifyItemsList:(NSArray*)items {
+    
 }
 
 

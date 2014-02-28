@@ -46,7 +46,6 @@
 		1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249B17DF162200EDE12B /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1896336C17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1896336A17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1896336D17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1896336B17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m */; };
-		18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18999BA717DC762F009FA90A /* PPPhotoPayCloudService.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BA517DC762F009FA90A /* PPPhotoPayCloudService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18999BA817DC762F009FA90A /* PPPhotoPayCloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BBA17DC7A40009FA90A /* PPDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,7 +135,6 @@
 		188AAF1517D887BB009531FA /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
 		1896336A17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDateSortedDocumentsSectionCreator.h; sourceTree = "<group>"; };
 		1896336B17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDateSortedDocumentsSectionCreator.m; sourceTree = "<group>"; };
-		18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHomeViewControllerProtocol.h; sourceTree = "<group>"; };
 		18999BA517DC762F009FA90A /* PPPhotoPayCloudService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPPhotoPayCloudService.h; sourceTree = "<group>"; };
 		18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPPhotoPayCloudService.m; sourceTree = "<group>"; };
 		18999BBA17DC7A40009FA90A /* PPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocument.h; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 		188AAF3817D89B92009531FA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				18999B5017DB549E009FA90A /* PPHomeViewControllerProtocol.h */,
 				1829748117E71C7900FAD137 /* PPDocumentsTableDataSource.h */,
 				1829748217E71C7900FAD137 /* PPDocumentsTableDataSource.m */,
 				1896336A17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h */,
@@ -449,7 +446,6 @@
 				18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */,
 				18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */,
 				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
-				18999B5117DB549E009FA90A /* PPHomeViewControllerProtocol.h in Headers */,
 				18181A29181DC9B80062565F /* PPLocalPdfDocument.h in Headers */,
 				18AAF6E517E4682600204B06 /* PPLocalDocumentUploadQueue.h in Headers */,
 				1896336C17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.h in Headers */,

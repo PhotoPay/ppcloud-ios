@@ -8,6 +8,9 @@
 
 #import "PPTableViewController.h"
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define IS_IOS7_DEVICE (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+
 @interface PPTableViewController ()
 
 @end
@@ -55,6 +58,10 @@
     
     // initialize table data
     [self setupTableData];
+    
+    if (IS_IOS7_DEVICE) {
+        self.automaticallyAdjustsScrollViewInsets = YES;
+    }
     
     // To clear any selection in the table view before it’s displayed
     [[self tableView] deselectRowAtIndexPath:[[self tableView] indexPathForSelectedRow] animated:YES];

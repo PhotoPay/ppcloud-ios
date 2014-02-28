@@ -12,17 +12,12 @@
 /**
  When opening PhotoPay, user sees view controlled by this view controller
  */
-@interface PPHomeViewController : UIViewController<PPHomeViewControllerProtocol>
+@interface PPHomeViewController : UIViewController
 
 /**
  Loads the default XIB file for this view controller
  */
 + (NSString*)defaultXibName;
-
-/**
- List of all scanned bills
- */
-@property (weak, nonatomic) IBOutlet UITableView *billsTable;
 
 /**
  Button which starts the photo capture

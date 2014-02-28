@@ -79,6 +79,9 @@
 		18BA052D17E24DC200FF3CD3 /* PPAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA052C17E24DC200FF3CD3 /* PPAlertView.m */; };
 		18CF2C1517F855D4008BAEE3 /* PhotoPayCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18CF2C1117F855D4008BAEE3 /* PhotoPayCloud.framework */; };
 		18CF2C1717F855D4008BAEE3 /* PhotoPayCloudResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18CF2C1417F855D4008BAEE3 /* PhotoPayCloudResources.bundle */; };
+		18DA70CC18C0D311000A3A5C /* PPDocumentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA70CA18C0D311000A3A5C /* PPDocumentsTableViewController.m */; };
+		18DA70CD18C0D311000A3A5C /* PPDocumentsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18DA70CB18C0D311000A3A5C /* PPDocumentsTableViewController.xib */; };
+		18DA70D018C0D442000A3A5C /* UIViewController+ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA70CF18C0D442000A3A5C /* UIViewController+ContainerViewController.m */; };
 		18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44A17DA7B5C00DCEC17 /* hr.strings */; };
 		18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44C17DA7B6700DCEC17 /* en.strings */; };
 		18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */; };
@@ -188,6 +191,11 @@
 		18CF2C1117F855D4008BAEE3 /* PhotoPayCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhotoPayCloud.framework; sourceTree = "<group>"; };
 		18CF2C1317F855D4008BAEE3 /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
 		18CF2C1417F855D4008BAEE3 /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PhotoPayCloudResources.bundle; sourceTree = "<group>"; };
+		18DA70C918C0D311000A3A5C /* PPDocumentsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentsTableViewController.h; sourceTree = "<group>"; };
+		18DA70CA18C0D311000A3A5C /* PPDocumentsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsTableViewController.m; sourceTree = "<group>"; };
+		18DA70CB18C0D311000A3A5C /* PPDocumentsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPDocumentsTableViewController.xib; sourceTree = "<group>"; };
+		18DA70CE18C0D442000A3A5C /* UIViewController+ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ContainerViewController.h"; sourceTree = "<group>"; };
+		18DA70CF18C0D442000A3A5C /* UIViewController+ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ContainerViewController.m"; sourceTree = "<group>"; };
 		18DEA44A17DA7B5C00DCEC17 /* hr.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = hr.strings; sourceTree = "<group>"; };
 		18DEA44C17DA7B6700DCEC17 /* en.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en.strings; sourceTree = "<group>"; };
 		18DEA44E17DA8DE400DCEC17 /* NSString+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Formatting.h"; sourceTree = "<group>"; };
@@ -393,6 +401,8 @@
 				1881760C1802F3810077AC76 /* NSDate+Formatting.m */,
 				183B7E70184F727600B811B1 /* NSString+Size.h */,
 				183B7E71184F727600B811B1 /* NSString+Size.m */,
+				18DA70CE18C0D442000A3A5C /* UIViewController+ContainerViewController.h */,
+				18DA70CF18C0D442000A3A5C /* UIViewController+ContainerViewController.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -406,6 +416,9 @@
 				18999B4017DB40D6009FA90A /* PPHomeViewController_iPad.xib */,
 				18999B4917DB4DC2009FA90A /* PPDocumentsDataSource.h */,
 				18999B4A17DB4DC2009FA90A /* PPDocumentsDataSource.m */,
+				18DA70C918C0D311000A3A5C /* PPDocumentsTableViewController.h */,
+				18DA70CA18C0D311000A3A5C /* PPDocumentsTableViewController.m */,
+				18DA70CB18C0D311000A3A5C /* PPDocumentsTableViewController.xib */,
 				18AAF6F117E50BAF00204B06 /* Cells */,
 			);
 			path = Home;
@@ -538,6 +551,7 @@
 			files = (
 				18999B3D17DB4057009FA90A /* camera@2x~iphone.png in Resources */,
 				18999B5A17DB866D009FA90A /* thumb.jpg in Resources */,
+				18DA70CD18C0D311000A3A5C /* PPDocumentsTableViewController.xib in Resources */,
 				18999B2217DB136A009FA90A /* PPSignUpViewController_iPad.xib in Resources */,
 				183B7F6B1850BC5200B811B1 /* helpContent.plist in Resources */,
 				18181A30181EB22E0062565F /* Images.xcassets in Resources */,
@@ -617,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18DA70CC18C0D311000A3A5C /* PPDocumentsTableViewController.m in Sources */,
 				18A6316717F2655B00C14A51 /* PPDocumentProcessingView.m in Sources */,
 				1819984417EA108F001B66B1 /* PPDocumentDetailsView.m in Sources */,
 				18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */,
@@ -631,6 +646,7 @@
 				1819984917EA1F9F001B66B1 /* PPDocumentUploadFailedView.m in Sources */,
 				188AAEF317D876E9009531FA /* PPAppDelegate.m in Sources */,
 				182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */,
+				18DA70D018C0D442000A3A5C /* UIViewController+ContainerViewController.m in Sources */,
 				183B7E6A184F675300B811B1 /* PPPagedContentViewController.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
 				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
