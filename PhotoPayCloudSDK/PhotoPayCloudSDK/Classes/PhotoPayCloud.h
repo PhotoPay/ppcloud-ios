@@ -37,6 +37,8 @@
 /** View controller headers */
 #import "PPHomeViewControllerProtocol.h"
 #import "PPDocumentsTableDataSource.h"
+#import "PPTableViewController.h"
+#import "PPBaseDocumentsTableViewController.h"
 
 /** Utility headers */
 #import "PPTableSection.h"
