@@ -51,11 +51,6 @@
 
 #pragma mark - Setup / Teardown table data
 
-- (void)setDataSource:(PPTableViewDataSource *)dataSource {
-    _dataSource = dataSource;
-    [[self tableView] setDataSource:[self dataSource]];
-}
-
 - (void)setupTableData {
     // set the delegate for data source object
     [self.dataSource setDelegate:self];
