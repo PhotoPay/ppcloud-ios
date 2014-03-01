@@ -34,7 +34,7 @@
 
 - (NSString*)description {
     NSString *result = @"";
-    result = [result stringByAppendingFormat:@"PPElementCandidateList length %d:\n", [[self candidates] count]];
+    result = [result stringByAppendingFormat:@"PPElementCandidateList length %u:\n", (unsigned int)[[self candidates] count]];
     
     for (id object in self.candidates) {
         result = [result stringByAppendingFormat:@"%@", object];

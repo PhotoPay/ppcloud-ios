@@ -184,7 +184,7 @@
         default:
             // invalid document type
             @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:[NSString stringWithFormat:@"%u is not a valid document type", [self documentType]]
+                                           reason:[NSString stringWithFormat:@"%u is not a valid document type", (unsigned int)[self documentType]]
                                          userInfo:nil];
             break;
     }

@@ -215,7 +215,7 @@
     if (_state != PPPhotoPayCloudServiceStateUninitialized) {
         _state = state;
     } else {
-        NSLog(@"PhotoPayCloudService State transition from %u to %u is not allowed.", _state, state);
+        NSLog(@"PhotoPayCloudService State transition from %u to %u is not allowed.", (unsigned int) _state, (unsigned int) state);
     }
 }
 
@@ -504,7 +504,7 @@
         return;
     }
     
-    for (int i = [[self documentUploadQueue] count] - 1; i >= 0 ; i--) {
+    for (int i = ((int)[[self documentUploadQueue] count]) - 1; i >= 0 ; i--) {
         PPLocalDocument *localDocument = [[[self documentUploadQueue] elements] objectAtIndex:i];
         [self deleteDocument:localDocument error:error];
     }

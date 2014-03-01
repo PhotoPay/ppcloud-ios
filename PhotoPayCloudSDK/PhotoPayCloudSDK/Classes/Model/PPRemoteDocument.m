@@ -60,7 +60,7 @@
         self.expectedProcessingTime = @(1.0);
     }
     
-    Class scanResultClass = [PPScanResult class];
+    Class scanResultClass;
     switch (processingType_) {
         case PPDocumentProcessingTypeAustrianPDFInvoice:
         case PPDocumentProcessingTypeAustrianPhotoInvoice:

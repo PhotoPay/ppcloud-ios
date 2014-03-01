@@ -34,7 +34,7 @@
 }
 
 - (NSString*)description {
-    NSString *result = [NSString stringWithFormat:@"User confirmed data size %d\n", [self.values count]];
+    NSString *result = [NSString stringWithFormat:@"User confirmed data size %u\n", (unsigned int) [self.values count]];
     NSArray *keys = [self.values allKeys];
     
     for (NSString* key in keys) {

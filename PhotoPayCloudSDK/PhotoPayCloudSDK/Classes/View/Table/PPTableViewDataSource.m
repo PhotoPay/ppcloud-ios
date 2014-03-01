@@ -324,7 +324,7 @@
 
 - (NSIndexPath*)indexPathForItem:(id)item {
     NSInteger section;
-    NSInteger row;
+    NSInteger row = NSNotFound;
     
     for (section = 0; section < [[[self sectionCreator] sections] count]; section++) {
         row = [[[[self sectionCreator] sections] objectAtIndex:section] indexOfObject:item];

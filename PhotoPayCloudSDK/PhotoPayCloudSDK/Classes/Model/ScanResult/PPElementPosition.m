@@ -31,11 +31,11 @@
 
 - (NSString*)description {
     NSString* result = @"PPElementPosition:\n";
-    result = [result stringByAppendingFormat:@"Height %d\n", [[self height] integerValue]];
-    result = [result stringByAppendingFormat:@"Page %d\n", [[self page] integerValue]];
-    result = [result stringByAppendingFormat:@"Width %d\n", [[self width] integerValue]];
-    result = [result stringByAppendingFormat:@"X %d\n", [[self x] integerValue]];
-    result = [result stringByAppendingFormat:@"Y %d\n", [[self y] integerValue]];
+    result = [result stringByAppendingFormat:@"Height %d\n", (int) [[self height] integerValue]];
+    result = [result stringByAppendingFormat:@"Page %d\n", (int) [[self page] integerValue]];
+    result = [result stringByAppendingFormat:@"Width %d\n", (int) [[self width] integerValue]];
+    result = [result stringByAppendingFormat:@"X %d\n", (int) [[self x] integerValue]];
+    result = [result stringByAppendingFormat:@"Y %d\n", (int) [[self y] integerValue]];
     return result;
 }
 

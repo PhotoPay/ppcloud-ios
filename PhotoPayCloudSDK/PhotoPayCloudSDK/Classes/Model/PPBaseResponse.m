@@ -34,7 +34,7 @@
     NSString* ret = @"Base response:\n";
     
     if (self.errorCode > 0) {
-        ret = [ret stringByAppendingFormat:@"errorCode %d\n", self.errorCode];
+        ret = [ret stringByAppendingFormat:@"errorCode %d\n", (int) self.errorCode];
     }
     if (self.errorMessage != nil) {
         ret = [ret stringByAppendingFormat:@"errorMessage %@\n", self.errorMessage];
