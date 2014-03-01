@@ -235,7 +235,7 @@ static NSString *imageKey   = @"imageKey";
 
 #pragma mark - Scrolling
 
-- (void)loadScrollViewWithPage:(int)page {
+- (void)loadScrollViewWithPage:(NSInteger)page {
     if (page < 0) {
         return;
     }
@@ -367,7 +367,7 @@ static NSString *imageKey   = @"imageKey";
 }
 
 - (void)changePage:(id)sender {
-    int page = _pageControl.currentPage;
+    NSInteger page = _pageControl.currentPage;
 	
     // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
     [self loadScrollViewWithPage:page - 1];
@@ -390,7 +390,7 @@ static NSString *imageKey   = @"imageKey";
 
 #pragma mark - button design
 
-- (void)setupBackButtonForPage:(int)page {
+- (void)setupBackButtonForPage:(NSInteger)page {
     [_backButton removeTarget:nil
                        action:NULL
              forControlEvents:UIControlEventAllEvents];
@@ -433,7 +433,7 @@ static NSString *imageKey   = @"imageKey";
     [UIView commitAnimations];
 }
 
-- (void)setupForwardButtonForPage:(int)page {
+- (void)setupForwardButtonForPage:(NSInteger)page {
     [_forwardButton removeTarget:nil
                           action:NULL
                 forControlEvents:UIControlEventAllEvents];

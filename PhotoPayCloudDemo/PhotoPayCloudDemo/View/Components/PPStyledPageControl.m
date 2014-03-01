@@ -326,13 +326,13 @@ static const CGFloat marginWrap = 0.0f;
     [self setNeedsDisplay];
 }
 
-- (void)setCurrentPage:(int)page
+- (void)setCurrentPage:(NSInteger)page
 {
     _currentPage = page;
     [self setNeedsDisplay];
 }
 
-- (void)setNumberOfPages:(int)numOfPages
+- (void)setNumberOfPages:(NSInteger)numOfPages
 {
     _numberOfPages = numOfPages;
     [self setNeedsDisplay];
