@@ -169,7 +169,7 @@
 - (void)tableViewDataSource:(PPTableViewDataSource*)dataSource
           didDeleteSections:(NSIndexSet *)sections {
     [[self tableView] beginUpdates];
-    [[self tableView] deleteSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[self tableView] deleteSections:sections withRowAnimation:UITableViewRowAnimationFade];
     [[self tableView] endUpdates];
 }
 
