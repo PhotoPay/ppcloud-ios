@@ -27,10 +27,10 @@
 }
 
 - (NSString*)description {
-    NSString *desc = [NSString stringWithFormat:@"Section creator with %u sections", [self sectionCount]];
+    NSString *desc = [NSString stringWithFormat:@"Section creator with %u sections", (unsigned int)[self sectionCount]];
     for (int i = 0; i < [self sectionCount]; i++) {
         id section = [[self sections] objectAtIndex:i];
-        desc = [desc stringByAppendingString:[NSString stringWithFormat:@", section %d, items: %d", i, [section itemCount]]];
+        desc = [desc stringByAppendingString:[NSString stringWithFormat:@", section %d, items: %d", i, (unsigned int)[section itemCount]]];
     }
     return desc;
 }

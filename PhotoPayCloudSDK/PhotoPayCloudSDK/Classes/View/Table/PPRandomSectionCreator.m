@@ -34,22 +34,22 @@
 - (NSIndexPath*)insertItem:(id)item {
     static NSUInteger insertedIndex = 0;
     
-    NSUInteger sectionIndex = arc4random_uniform(MIN([self sectionCount] + 1, [self maxSectionCount]));
+    NSUInteger sectionIndex = arc4random_uniform((uint32_t) MIN([self sectionCount] + 1, [self maxSectionCount]));
     
     if (sectionIndex >= [self sectionCount]) {
         insertedIndex++;
         
         PPTableSection *insertedSection = [[PPTableSection alloc] initWithSectionId:insertedIndex
-                                                                               name:[NSString stringWithFormat:@"Section %u", insertedIndex]];
+                                                                               name:[NSString stringWithFormat:@"Section %u", (unsigned int)insertedIndex]];
         
         // insert in random place
-        sectionIndex = arc4random_uniform([self sectionCount] + 1);
+        sectionIndex = arc4random_uniform((uint32_t) [self sectionCount] + 1);
         [[self sections] insertObject:insertedSection atIndex:sectionIndex];
     }
     
     PPTableSection* section = [[self sections] objectAtIndex:sectionIndex];
     
-    NSUInteger elementIndex = arc4random_uniform([section itemCount] + 1);
+    NSUInteger elementIndex = arc4random_uniform((uint32_t) [section itemCount] + 1);
     
     [section addItem:item atIndex:elementIndex];
     
