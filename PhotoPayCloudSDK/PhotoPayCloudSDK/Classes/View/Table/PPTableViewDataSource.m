@@ -7,7 +7,7 @@
 //
 
 #import "PPTableViewDataSource.h"
-#import "PPTableLinearSectionCreator.h"
+#import "PPLinearTableSectionCreator.h"
 #import "PPTableSection.h"
 #import <UIKit/UIKit.h>
 
@@ -22,7 +22,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _sectionCreator = [[PPTableLinearSectionCreator alloc] init];
+        _sectionCreator = [[PPLinearTableSectionCreator alloc] init];
         _sectionsBeforeLastDelegateUpdate = nil;
     }
     return self;

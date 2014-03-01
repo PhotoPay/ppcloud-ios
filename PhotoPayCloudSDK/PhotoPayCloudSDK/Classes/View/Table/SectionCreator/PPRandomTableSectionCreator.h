@@ -8,6 +8,6 @@
 
 #import "PPTableSectionCreator.h"
 
-@interface PPRandomSectionCreator : PPTableSectionCreator
+@interface PPRandomTableSectionCreator : PPTableSectionCreator
 
 @end

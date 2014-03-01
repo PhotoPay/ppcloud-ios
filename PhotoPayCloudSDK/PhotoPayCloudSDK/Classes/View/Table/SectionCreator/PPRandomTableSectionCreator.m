@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 PhotoPay. All rights reserved.
 //
 
-#import "PPRandomSectionCreator.h"
+#import "PPRandomTableSectionCreator.h"
 #import "PPTableSection.h"
 #import <UIKit/UIKit.h>
 
-@interface PPRandomSectionCreator ()
+@interface PPRandomTableSectionCreator ()
 
 @property (nonatomic) NSUInteger maxSectionCount;
 @end
 
-@implementation PPRandomSectionCreator
+@implementation PPRandomTableSectionCreator
 
 - (id)init {
     self = [super init];
@@ -26,7 +26,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    PPRandomSectionCreator *another = [super copyWithZone:zone];
+    PPRandomTableSectionCreator *another = [super copyWithZone:zone];
     another->_maxSectionCount = self->_maxSectionCount;
     return another;
 }

@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 PhotoPay. All rights reserved.
 //
 
-#import "PPTableLinearSectionCreator.h"
+#import "PPLinearTableSectionCreator.h"
 #import "PPTableSection.h"
 #import <UIKit/UIKit.h>
 
-@implementation PPTableLinearSectionCreator
+@implementation PPLinearTableSectionCreator
 
 - (id)init {
     self = [super init];

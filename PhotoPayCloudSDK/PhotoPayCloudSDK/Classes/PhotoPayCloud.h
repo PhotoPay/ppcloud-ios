@@ -34,18 +34,19 @@
 #import "PPUserConfirmedValuesSerbia.h"
 #import "PPUserConfirmedValuesAustria.h"
 
-/** View controller headers */
+/** Documents table headers */
 #import "PPDocumentsTableDataSource.h"
-#import "PPTableViewController.h"
-#import "PPBaseDocumentsTableViewController.h"
-
-/** Utility headers */
-#import "PPTableSection.h"
-#import "PPTableViewDataSource.h"
-#import "PPTableSectionCreator.h"
-#import "PPTableLinearSectionCreator.h"
 #import "PPDateSortedDocumentsSectionCreator.h"
 #import "PPSplitTypeDocumentsSectionCreator.h"
+#import "PPBaseDocumentsTableViewController.h"
+
+/** Abstract table headers */
+#import "PPTableSection.h"
+#import "PPTableSectionCreator.h"
+#import "PPTableViewDataSource.h"
+#import "PPTableViewController.h"
+#import "PPLinearTableSectionCreator.h"
+#import "PPRandomTableSectionCreator.h"
 
 /** Network */
 #import "PPNetworkManager.h"
