@@ -8,60 +8,25 @@
 
 #import "PPTableViewController.h"
 
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define IS_IOS7_DEVICE (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-
 @interface PPTableViewController ()
 
 @end
 
 @implementation PPTableViewController
 
-#pragma mark - Initializers
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        _dataSource = [[PPTableViewDataSource alloc] init];
-    }
-    return self;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        _dataSource = [[PPTableViewDataSource alloc] init];
-    }
-    return self;
-}
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        _dataSource = [[PPTableViewDataSource alloc] init];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        _dataSource = [[PPTableViewDataSource alloc] init];
-    }
-    return self;
-}
-
 #pragma mark - Lifecycle
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (self.dataSource == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:@"Data source must be set in PPTableViewController subclass"
+                                     userInfo:nil];
+    }
+    
     // initialize table data
     [self setupTableData];
-    
-    if (IS_IOS7_DEVICE) {
-        self.automaticallyAdjustsScrollViewInsets = YES;
-    }
     
     // To clear any selection in the table view before it’s displayed
     [[self tableView] deselectRowAtIndexPath:[[self tableView] indexPathForSelectedRow] animated:YES];
@@ -85,6 +50,11 @@
 }
 
 #pragma mark - Setup / Teardown table data
+
+- (void)setDataSource:(PPTableViewDataSource *)dataSource {
+    _dataSource = dataSource;
+    [[self tableView] setDataSource:[self dataSource]];
+}
 
 - (void)setupTableData {
     // set the delegate for data source object
@@ -145,7 +115,7 @@
 #pragma mark - PPTableViewDataSourceDelegate
 
 - (void)tableViewDataSource:(PPTableViewDataSource *)dataSource didModifyItemsList:(NSArray *)documents {
-
+    // empty implementation, enabled for override
 }
 
 /**
