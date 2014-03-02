@@ -8,6 +8,9 @@
 
 #import <PhotoPayCloud/PhotoPayCloud.h>
 
+/**
+ Logger implementation which uses CocoaLumberjack for it's logging backend
+ */
 @interface PPLumberjackLogger : PPLogger
 
 @end
