@@ -627,6 +627,7 @@
     
     [requestParams setObject:token forKey:kPPParameterDeviceToken];
     [requestParams setObject:[user userId] forKey:kPPParameterCustomerId];
+    [requestParams setObject:@"NOTIFICATION_DEVICE_TYPE_APNS" forKey:kPPParameterDeviceType];
     
     NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathPushRegistrationForUser:user]];
     NSMutableURLRequest *pushRegisterRequestUrlRequest = [[self requestSerializer] requestWithMethod:@"GET"
