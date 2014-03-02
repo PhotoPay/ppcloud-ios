@@ -44,7 +44,7 @@
             break;
     }
     
-    if (flag & [self logLevel]) {
+    if (ddflag & ddLogLevel) {
         va_list args;
         if (format) {
             va_start(args, format);
