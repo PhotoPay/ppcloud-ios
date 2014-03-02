@@ -253,6 +253,7 @@
         } else {
             
             PPLogError(@"Error! %@", error);
+            PPLogError(@"Request object was: %@", operation.request);
             if (failure) {
                 failure((id<PPUploadRequestOperation>)operation, baseResponse, error);
             }
@@ -380,6 +381,7 @@
         }
         
         PPLogError(@"Error! %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
@@ -438,6 +440,7 @@
         }
         
         PPLogError(@"Error! %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
         if (failure != nil) {
             failure(operation, error);
         }
@@ -485,6 +488,7 @@
         }
         
         PPLogError(@"Error! %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
         if (failure != nil) {
             failure(operation, error);
         }
@@ -537,6 +541,7 @@
         }
         
         PPLogError(@"Error: %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
@@ -604,6 +609,7 @@
         }
         
         PPLogError(@"Error: %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
         if (failure != nil) {
             failure(operation, baseResponse, error);
         }
