@@ -679,4 +679,167 @@
     return requestOperation;
 }
 
+- (NSString*)allEmailsStringForSet:(NSSet*)allEmails {
+    NSString* allEmailsString = @"";
+    [allEmails enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        if ([allEmailsString length] > 0) {
+            [allEmailsString stringByAppendingFormat:@",%@", obj];
+        } else {
+            [allEmailsString stringByAppendingString:obj];
+        }
+    }];
+    return allEmailsString;
+}
+
+- (NSOperation*)createRegisterUserRequest:(PPUser *)user
+                                  success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                  failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                                 canceled:(void (^)(NSOperation*))canceled {
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        PPLogError(@"Error creating register user request %@", error);
+        return nil;
+    }
+    
+    // set first name
+    if ([user firstName] != nil && [[user firstName] length] != 0) {
+        [requestParams setObject:[user firstName] forKey:kPPParameterFirstName];
+    }
+    
+    // set last name
+    if ([user lastName] != nil && [[user lastName] length] != 0) {
+        [requestParams setObject:[user lastName] forKey:kPPParameterLastName];
+    }
+    
+    // set email
+    if ([user email] != nil && [[user email] length] != 0) {
+        [requestParams setObject:[user email] forKey:kPPParameterEmail];
+    }
+    
+    // set all emails
+    if ([user allEmailAddresses] != nil && [[user allEmailAddresses] count] != 0) {
+        NSString *emails = [self allEmailsStringForSet:[user allEmailAddresses]];
+        [requestParams setObject:emails forKey:kPPParameterEmails];
+    }
+    
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathRegisterUser:user]];
+    
+    NSMutableURLRequest *registerUserRequest = [[self requestSerializer] requestWithMethod:@"POST"
+                                                                                 URLString:urlString
+                                                                                parameters:requestParams];
+    
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:registerUserRequest];
+    requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
+    
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPLogVerbose(@"Register user success with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        if (success) {
+            success(operation, baseResponse);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        PPLogError(@"Register user failed with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            PPLogInfo(@"Register user request canceled");
+            if (canceled) {
+                canceled(operation);
+            }
+            return;
+        }
+        
+        PPLogError(@"Error: %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
+        if (failure != nil) {
+            failure(operation, baseResponse, error);
+        }
+    }];
+    
+    return requestOperation;
+}
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for updating user
+ */
+- (NSOperation*)createUpdateUserRequest:(PPUser *)user
+                                success:(void (^)(NSOperation*, PPBaseResponse*))success
+                                failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
+                               canceled:(void (^)(NSOperation*))canceled {
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        PPLogError(@"Error creating register user request %@", error);
+        return nil;
+    }
+    
+    // set first name
+    if ([user firstName] != nil && [[user firstName] length] != 0) {
+        [requestParams setObject:[user firstName] forKey:kPPParameterFirstName];
+    }
+    
+    // set last name
+    if ([user lastName] != nil && [[user lastName] length] != 0) {
+        [requestParams setObject:[user lastName] forKey:kPPParameterLastName];
+    }
+    
+    // set email
+    if ([user email] != nil && [[user email] length] != 0) {
+        [requestParams setObject:[user email] forKey:kPPParameterEmail];
+    }
+    
+    // set all emails
+    if ([user allEmailAddresses] != nil && [[user allEmailAddresses] count] != 0) {
+        NSString *emails = [self allEmailsStringForSet:[user allEmailAddresses]];
+        [requestParams setObject:emails forKey:kPPParameterEmails];
+    }
+    
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathUpdateUser:user]];
+    
+    NSMutableURLRequest *updateUserRequest = [[self requestSerializer] requestWithMethod:@"POST"
+                                                                               URLString:urlString
+                                                                              parameters:requestParams];
+    
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:updateUserRequest];
+    requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
+    
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPLogVerbose(@"Update user success with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:responseObject];
+        if (success) {
+            success(operation, baseResponse);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        PPLogError(@"Update user failed with response %@", operation.responseString);
+        
+        PPBaseResponse* baseResponse = [[PPBaseResponse alloc] initWithDictionary:operation.responseObject];
+        
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            PPLogInfo(@"Update user request canceled");
+            if (canceled) {
+                canceled(operation);
+            }
+            return;
+        }
+        
+        PPLogError(@"Error: %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
+        if (failure != nil) {
+            failure(operation, baseResponse, error);
+        }
+    }];
+    
+    return requestOperation;
+}
+
 @end
