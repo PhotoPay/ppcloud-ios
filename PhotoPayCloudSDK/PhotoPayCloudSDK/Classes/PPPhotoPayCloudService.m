@@ -18,6 +18,7 @@
 #import "UIApplication+Documents.h"
 #import "PPBaseResponse.h"
 #import "Utils/NSData+DeviceToken.h"
+#import "PPSdk.h"
 
 /** Private extensions to PhotoPayCloud Service */
 @interface PPPhotoPayCloudService ()
@@ -215,7 +216,7 @@
     if (_state != PPPhotoPayCloudServiceStateUninitialized) {
         _state = state;
     } else {
-        NSLog(@"PhotoPayCloudService State transition from %u to %u is not allowed.", (unsigned int) _state, (unsigned int) state);
+        PPLogWarn(@"PhotoPayCloudService State transition from %u to %u is not allowed.", (unsigned int) _state, (unsigned int) state);
     }
 }
 

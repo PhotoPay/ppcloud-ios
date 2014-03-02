@@ -11,6 +11,14 @@
 
 #import <Foundation/Foundation.h>
 
+/** PhotoPayCloudService */
+#import "PPPhotoPayCloudService.h"
+
+/** SDK */
+#import "PPSdk.h"
+#import "PPLogger.h"
+#import "PPLocalizer.h"
+
 /** model headers */
 #import "PPModelObject.h"
 #import "PPBaseResponse.h"
@@ -52,9 +60,6 @@
 #import "PPNetworkManager.h"
 #import "PPUploadRequestOperation.h"
 #import "PPDocumentsFetchDelegate.h"
-
-/** PhotoPayCloudService */
-#import "PPPhotoPayCloudService.h"
 
 /** Utils */
 #import "UIImage+Processing.h"

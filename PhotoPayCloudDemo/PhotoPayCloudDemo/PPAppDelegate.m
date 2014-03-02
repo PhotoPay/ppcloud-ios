@@ -14,6 +14,7 @@
 #import <AFNetworkActivityIndicatorManager.h>
 #import "PPAlertView.h"
 #import "PPAutoUpdater.h"
+#import "PPLumberjackLogger.h"
 #import <DDASLLogger.h>
 #import <DDTTYLogger.h>
 #import <DDLog.h>
@@ -111,6 +112,11 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
     // we're using cocoa lumberjack
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    
+    // Enable Colors
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    
+    [[PPSdk sharedSdk] setLogger:[[PPLumberjackLogger alloc] init]];
 }
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

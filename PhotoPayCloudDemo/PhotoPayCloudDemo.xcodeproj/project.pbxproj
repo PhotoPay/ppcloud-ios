@@ -85,6 +85,7 @@
 		18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44A17DA7B5C00DCEC17 /* hr.strings */; };
 		18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18DEA44C17DA7B6700DCEC17 /* en.strings */; };
 		18DEA45017DA8DE400DCEC17 /* NSString+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */; };
+		18FC662F18C2B55500162198 /* PPLumberjackLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC662E18C2B55500162198 /* PPLumberjackLogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -200,6 +201,8 @@
 		18DEA44C17DA7B6700DCEC17 /* en.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = en.strings; sourceTree = "<group>"; };
 		18DEA44E17DA8DE400DCEC17 /* NSString+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Formatting.h"; sourceTree = "<group>"; };
 		18DEA44F17DA8DE400DCEC17 /* NSString+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Formatting.m"; sourceTree = "<group>"; };
+		18FC662D18C2B55500162198 /* PPLumberjackLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLumberjackLogger.h; sourceTree = "<group>"; };
+		18FC662E18C2B55500162198 /* PPLumberjackLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLumberjackLogger.m; sourceTree = "<group>"; };
 		3B64EDE8E0894EA68DCAFF88 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		EE8E8A97E55D4F8188890B7F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -403,6 +406,8 @@
 				183B7E71184F727600B811B1 /* NSString+Size.m */,
 				18DA70CE18C0D442000A3A5C /* UIViewController+ContainerViewController.h */,
 				18DA70CF18C0D442000A3A5C /* UIViewController+ContainerViewController.m */,
+				18FC662D18C2B55500162198 /* PPLumberjackLogger.h */,
+				18FC662E18C2B55500162198 /* PPLumberjackLogger.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -648,6 +653,7 @@
 				182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */,
 				18DA70D018C0D442000A3A5C /* UIViewController+ContainerViewController.m in Sources */,
 				183B7E6A184F675300B811B1 /* PPPagedContentViewController.m in Sources */,
+				18FC662F18C2B55500162198 /* PPLumberjackLogger.m in Sources */,
 				188AAF4F17D89F69009531FA /* PPApp.m in Sources */,
 				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
 				1819984017E9D6B6001B66B1 /* PPDocumentViewFactory.m in Sources */,

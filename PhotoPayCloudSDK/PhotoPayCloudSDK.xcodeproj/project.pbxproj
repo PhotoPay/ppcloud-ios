@@ -96,6 +96,12 @@
 		18DA711218C21378000A3A5C /* PPRandomTableSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA710618C21378000A3A5C /* PPRandomTableSectionCreator.m */; };
 		18DA711318C21378000A3A5C /* PPLinearTableSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA710718C21378000A3A5C /* PPLinearTableSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18DA711418C21378000A3A5C /* PPLinearTableSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA710818C21378000A3A5C /* PPLinearTableSectionCreator.m */; };
+		18DA714218C25203000A3A5C /* PPSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA714018C25203000A3A5C /* PPSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18DA714318C25203000A3A5C /* PPSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA714118C25203000A3A5C /* PPSdk.m */; };
+		18DA715218C254D2000A3A5C /* PPLocalizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA714D18C254D2000A3A5C /* PPLocalizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18DA715318C254D2000A3A5C /* PPLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA714E18C254D2000A3A5C /* PPLocalizer.m */; };
+		18DA715418C254D2000A3A5C /* PPLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA715018C254D2000A3A5C /* PPLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18DA715518C254D2000A3A5C /* PPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA715118C254D2000A3A5C /* PPLogger.m */; };
 		18E04A711829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18E04A721829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */; };
 		18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944E17DE545E0083F148 /* UIApplication+Documents.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,6 +191,12 @@
 		18DA710618C21378000A3A5C /* PPRandomTableSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRandomTableSectionCreator.m; sourceTree = "<group>"; };
 		18DA710718C21378000A3A5C /* PPLinearTableSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLinearTableSectionCreator.h; sourceTree = "<group>"; };
 		18DA710818C21378000A3A5C /* PPLinearTableSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLinearTableSectionCreator.m; sourceTree = "<group>"; };
+		18DA714018C25203000A3A5C /* PPSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSdk.h; sourceTree = "<group>"; };
+		18DA714118C25203000A3A5C /* PPSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSdk.m; sourceTree = "<group>"; };
+		18DA714D18C254D2000A3A5C /* PPLocalizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalizer.h; sourceTree = "<group>"; };
+		18DA714E18C254D2000A3A5C /* PPLocalizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLocalizer.m; sourceTree = "<group>"; };
+		18DA715018C254D2000A3A5C /* PPLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLogger.h; sourceTree = "<group>"; };
+		18DA715118C254D2000A3A5C /* PPLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLogger.m; sourceTree = "<group>"; };
 		18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSplitTypeDocumentsSectionCreator.h; sourceTree = "<group>"; };
 		18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSplitTypeDocumentsSectionCreator.m; sourceTree = "<group>"; };
 		18FE944E17DE545E0083F148 /* UIApplication+Documents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Documents.h"; sourceTree = "<group>"; };
@@ -267,6 +279,7 @@
 				18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */,
 				18BA04F617E1D4A200FF3CD3 /* PPUser.h */,
 				18BA04F717E1D4A200FF3CD3 /* PPUser.m */,
+				18DA713F18C251EF000A3A5C /* Sdk */,
 				18999BB917DC7A40009FA90A /* Model */,
 				188AAF3817D89B92009531FA /* View */,
 				18AAF6DC17E4682600204B06 /* Storage */,
@@ -431,6 +444,35 @@
 			path = SectionCreator;
 			sourceTree = "<group>";
 		};
+		18DA713F18C251EF000A3A5C /* Sdk */ = {
+			isa = PBXGroup;
+			children = (
+				18DA714018C25203000A3A5C /* PPSdk.h */,
+				18DA714118C25203000A3A5C /* PPSdk.m */,
+				18DA714F18C254D2000A3A5C /* Logger */,
+				18DA714C18C254D2000A3A5C /* Localizer */,
+			);
+			path = Sdk;
+			sourceTree = "<group>";
+		};
+		18DA714C18C254D2000A3A5C /* Localizer */ = {
+			isa = PBXGroup;
+			children = (
+				18DA714D18C254D2000A3A5C /* PPLocalizer.h */,
+				18DA714E18C254D2000A3A5C /* PPLocalizer.m */,
+			);
+			path = Localizer;
+			sourceTree = "<group>";
+		};
+		18DA714F18C254D2000A3A5C /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				18DA715018C254D2000A3A5C /* PPLogger.h */,
+				18DA715118C254D2000A3A5C /* PPLogger.m */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -453,6 +495,7 @@
 				18BA04F817E1D4A200FF3CD3 /* PPUser.h in Headers */,
 				18BA04F417E1B36300FF3CD3 /* PPModelObject.h in Headers */,
 				18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */,
+				18DA715418C254D2000A3A5C /* PPLogger.h in Headers */,
 				18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */,
 				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
 				18181A29181DC9B80062565F /* PPLocalPdfDocument.h in Headers */,
@@ -462,8 +505,10 @@
 				18722A1317F082260070DE00 /* PPBaseResponse.h in Headers */,
 				18DA710918C21378000A3A5C /* PPTableSection.h in Headers */,
 				1832B62218AE50D600BF0777 /* PPUserConfirmedValuesAustria.h in Headers */,
+				18DA714218C25203000A3A5C /* PPSdk.h in Headers */,
 				18999BA717DC762F009FA90A /* PPPhotoPayCloudService.h in Headers */,
 				18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */,
+				18DA715218C254D2000A3A5C /* PPLocalizer.h in Headers */,
 				18DA711118C21378000A3A5C /* PPRandomTableSectionCreator.h in Headers */,
 				188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */,
 				18181A2D181E65AC0062565F /* UIImage+PDF.h in Headers */,
@@ -579,6 +624,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18DA714318C25203000A3A5C /* PPSdk.m in Sources */,
 				18DA710A18C21378000A3A5C /* PPTableSection.m in Sources */,
 				18181A2E181E65AC0062565F /* UIImage+PDF.m in Sources */,
 				1896336D17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m in Sources */,
@@ -609,6 +655,7 @@
 				18DA70C318C0CB3A000A3A5C /* PPBaseDocumentsTableViewController.m in Sources */,
 				1832B62B18AE50FE00BF0777 /* PPUserConfirmedValuesSerbia.m in Sources */,
 				18AB526217F48C990046AB13 /* PPScanResult.m in Sources */,
+				18DA715318C254D2000A3A5C /* PPLocalizer.m in Sources */,
 				18AB526617F48CC60046AB13 /* PPElementCandidate.m in Sources */,
 				18DA711218C21378000A3A5C /* PPRandomTableSectionCreator.m in Sources */,
 				18AB526A17F48D0D0046AB13 /* PPElementPosition.m in Sources */,
@@ -618,6 +665,7 @@
 				18AB528B17F51D380046AB13 /* PPScanResult+Serbia.m in Sources */,
 				18DA711418C21378000A3A5C /* PPLinearTableSectionCreator.m in Sources */,
 				18AB528F17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m in Sources */,
+				18DA715518C254D2000A3A5C /* PPLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

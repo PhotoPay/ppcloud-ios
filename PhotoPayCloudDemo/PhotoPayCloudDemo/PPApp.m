@@ -7,6 +7,7 @@
 //
 
 #import "PPApp.h"
+#import <PhotoPayCloud/PhotoPayCloud.h>
 
 NSString* const keyUserId = @"keyUserID";
 NSString* const keyLanguage = @"keyLanguage";
@@ -21,7 +22,6 @@ NSString* const keyLanguage = @"keyLanguage";
 
 @implementation PPApp
 
-@synthesize language;
 @synthesize supportedLanguages;
 @synthesize statusBarStack;
 
@@ -42,6 +42,13 @@ NSString *uuid() {
             sharedInstance.userId = uuid();
             [sharedInstance setShouldDisplayHelp:YES];
         }
+        
+#ifdef DEBUG
+        PPSetLogLevel(PPLoggerLevelDebug);
+#else
+        PPSetLogLevel(PPLoggerLevelWarn);
+#endif
+        
     });
     
     return sharedInstance;
@@ -105,12 +112,14 @@ NSString *uuid() {
     }
 
     if ([[self supportedLanguages] containsObject:inLanguage]) {
-        language = inLanguage; // replace cached value
+        _language = inLanguage; // replace cached value
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:inLanguage forKey:keyLanguage];
         [defaults synchronize];
     }
+    
+    [[[PPSdk sharedSdk] localizer] setLanguage:[self language]];
 }
 
 - (void)setDefaultLanguage {
@@ -119,7 +128,10 @@ NSString *uuid() {
     NSString* storedLanguage = [defaults stringForKey:keyLanguage];
     
     if (storedLanguage != nil) {
-        language = storedLanguage;
+        _language = storedLanguage;
+        
+        PPSetLanguage([self language]);
+        
         return;
     }
     
@@ -131,7 +143,9 @@ NSString *uuid() {
     [defaults setObject:defaultLanguage forKey:keyLanguage];
     [defaults synchronize];
     
-    language = defaultLanguage;
+    _language = defaultLanguage;
+    
+    PPSetLanguage([self language]);
 }
 
 - (void)pushStatusBarStyle:(UIStatusBarStyle)statusBarStyle {
