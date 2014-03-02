@@ -9,6 +9,7 @@
 #import "PPLocalDocument.h"
 #import "PPDocumentManager.h"
 #import "NSString+Factory.h"
+#import "PPSdk.h"
 
 @interface PPLocalDocument ()
 
@@ -106,7 +107,7 @@
                                                    options:NSDataReadingMappedIfSafe
                                                      error:&error];
             if (error != nil) {
-                NSLog(@"Bytes cannot be read! %@", [error localizedDescription]);
+                PPLogError(@"Bytes cannot be read! %@", [error localizedDescription]);
                 bytes_ = nil;
             }
         } else {

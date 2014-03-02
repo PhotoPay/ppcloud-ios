@@ -94,7 +94,7 @@
         [[self tableView] selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
         [self tableView:[self tableView] didSelectRowAtIndexPath:indexPath];
     } else {
-        NSLog(@"Cannot find document");
+        PPLogError(@"Cannot find document");
     }
 }
 
@@ -102,13 +102,13 @@
     if (indexPath != nil) {
         PPDocument* document = [[self dataSource] itemForIndexPath:indexPath];
         if (document == nil) {
-            NSLog(@"No document at index path %@", indexPath);
+            PPLogError(@"No document at index path %@", indexPath);
         } else {
             [[self tableView] selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             [self tableView:[self tableView] didSelectRowAtIndexPath:indexPath];
         }
     } else {
-        NSLog(@"No index path given");
+        PPLogError(@"No index path given");
     }
 }
 

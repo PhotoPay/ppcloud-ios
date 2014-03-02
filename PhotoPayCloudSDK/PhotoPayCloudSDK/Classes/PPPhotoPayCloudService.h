@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PPDocument.h"
 #import "PPNetworkManager.h"
+#import "PPSdk.h"
 
 @protocol PPDocumentUploadDelegate;
 @protocol PPDocumentsFetchDelegate;

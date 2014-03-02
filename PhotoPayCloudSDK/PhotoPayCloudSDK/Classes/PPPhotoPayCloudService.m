@@ -93,7 +93,7 @@
         if (deviceTokenString != nil) {
             [self registerPushNotificationToken:deviceTokenString];
         } else {
-            NSLog(@"Device token is null!");
+            PPLogWarn(@"Registering for push notification, but device token is null!");
         }
     }
 }
@@ -222,17 +222,17 @@
 
 - (void)initializeForUser:(PPUser*)inUser withNetworkManager:(PPNetworkManager*)inNetworkManager {
     if ([self state] != PPPhotoPayCloudServiceStateUninitialized) {
-        NSLog(@"PhotoPayCloudService is already initialized. Returning immediately.");
+        PPLogWarn(@"PhotoPayCloudService is already initialized. Returning immediately.");
         return;
     }
     
     if (inUser == nil) {
-        NSLog(@"Valid user must be specified for initialization. This one is nil. Returining immediately.");
+        PPLogError(@"Valid user must be specified for initialization. This one is nil. Returining immediately.");
         return;
     }
     
     if (inNetworkManager == nil) {
-        NSLog(@"Valid user network manager be specified for initialization. This one is nil. Returining immediately.");
+        PPLogError(@"Valid user network manager be specified for initialization. This one is nil. Returining immediately.");
         return;
     }
     
@@ -244,7 +244,7 @@
     
     [self checkExistingUploadQueue];
     
-    NSLog(@"PhotoPayCloud initialized");
+    PPLogInfo(@"PhotoPayCloud initialized");
 
     [self registerPushNotification];
 }
@@ -260,12 +260,12 @@
     
     self.uploadDelegate = nil;
     
-    NSLog(@"PhotoPayCloud uninitialized");
+    PPLogInfo(@"PhotoPayCloud uninitialized");
 }
 
 - (BOOL)isServiceUnavailable {
     if (self.state == PPPhotoPayCloudServiceStateUninitialized) {
-        NSLog(@"PPCloud service is uninitialized!");
+        PPLogInfo(@"PPCloud service is uninitialized and currently unavailable!");
         return YES;
     }
     return NO;
@@ -433,7 +433,7 @@
     
     if (document == nil) {
         // invalid document
-        NSLog(@"Trying to upload NIL document, returning immediately");
+        PPLogError(@"Trying to upload nil document?");
         return;
     }
     
@@ -639,8 +639,8 @@
         return;
     }
     
-    NSLog(@"The behaviour of this method changed. It now performs only one document fetch request");
-    NSLog(@"To get the same behaviour as before, call requestDocuments:pollInterval with poll interval 5.0");
+    PPLogInfo(@"The behaviour of this method changed. It now performs only one document fetch request");
+    PPLogInfo(@"To get the same behaviour as before, call requestDocuments:pollInterval with poll interval 5.0");
     
     [[[self networkManager] fetchDocumentsOperationQueue] cancelAllOperations];
     
@@ -899,9 +899,9 @@
                                                            forUser:[self user]
                                                            success:^(NSOperation *operation, PPBaseResponse *response) {
                                                            } failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
-                                                               NSLog(@"Registration failed");
+                                                               PPLogError(@"Registration failed");
                                                            } canceled:^(NSOperation *operation) {
-                                                               NSLog(@"Registration canceled");
+                                                               PPLogInfo(@"Registration canceled");
                                                            }];
     [registerPushOperation start];
 }

@@ -267,10 +267,6 @@
 - (void)reloadItems:(NSArray*)reloadingItems
           withItems:(NSArray*)otherItems {
     
-    if ([reloadingItems count] != [otherItems count]) {
-        NSLog(@"Items are not of the same length, some will be discarded!");
-    }
-    
     NSUInteger numIterations = [reloadingItems count];
     if ([otherItems count] < numIterations) {
         numIterations = [otherItems count];

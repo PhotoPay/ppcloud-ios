@@ -12,6 +12,7 @@
 #import "PPRemoteDocument.h"
 #import "PPLocalDocumentUploadQueue.h"
 #import "PPSplitTypeDocumentsSectionCreator.h"
+#import "PPSdk.h"
 #import <UIKit/UIKit.h>
 
 @interface PPDocumentsTableDataSource ()
@@ -71,7 +72,7 @@
                 }
             }
         } else {
-            NSLog(@"Reloading new element??! This should not happen.");
+            PPLogError(@"Reloading element not in the data source?");
         }
     }];
     
@@ -104,7 +105,7 @@
           withItems:(NSArray*)allOtherItems {
     
     if ([allReloadingItems count] != [allOtherItems count]) {
-        NSLog(@"Items are not of the same length, some will be discarded!");
+        PPLogWarn(@"Items are not of the same length, some will be discarded!");
     }
     
     NSUInteger numIterations = [allReloadingItems count];
@@ -136,7 +137,7 @@
                 [itemsToRemove addObject:document];
             }
         } else {
-            NSLog(@"Reloading items are not documents. Check your reloading logic.");
+            PPLogError(@"Reloading items are not documents! You inserted something else in the data source.");
         }
     }
     
