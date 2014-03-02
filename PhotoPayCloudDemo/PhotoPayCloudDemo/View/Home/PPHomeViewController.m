@@ -12,7 +12,6 @@
 #import "PPDocumentTableViewCell+Uploading.h"
 #import "PPDocumentDetailsViewController.h"
 #import <DDLog.h>
-#import "PPPagedContentViewController.h"
 #import "PPDocumentsTableViewController.h"
 #import "UIViewController+ContainerViewController.h"
 

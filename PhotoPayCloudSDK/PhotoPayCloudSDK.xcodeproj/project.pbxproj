@@ -96,6 +96,13 @@
 		18DA711218C21378000A3A5C /* PPRandomTableSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA710618C21378000A3A5C /* PPRandomTableSectionCreator.m */; };
 		18DA711318C21378000A3A5C /* PPLinearTableSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA710718C21378000A3A5C /* PPLinearTableSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18DA711418C21378000A3A5C /* PPLinearTableSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA710818C21378000A3A5C /* PPLinearTableSectionCreator.m */; };
+		18DA712E18C23E80000A3A5C /* PPHelpViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA712918C23E80000A3A5C /* PPHelpViewController.h */; };
+		18DA712F18C23E80000A3A5C /* PPHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA712A18C23E80000A3A5C /* PPHelpViewController.m */; };
+		18DA713018C23E80000A3A5C /* PPPagedContentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA712C18C23E80000A3A5C /* PPPagedContentViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18DA713118C23E80000A3A5C /* PPPagedContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA712D18C23E80000A3A5C /* PPPagedContentViewController.m */; };
+		18DA713218C23E8B000A3A5C /* PPHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18DA712B18C23E80000A3A5C /* PPHelpViewController.xib */; };
+		18DA713518C23F67000A3A5C /* NSString+Size.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA713318C23F67000A3A5C /* NSString+Size.h */; };
+		18DA713618C23F67000A3A5C /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA713418C23F67000A3A5C /* NSString+Size.m */; };
 		18DA714218C25203000A3A5C /* PPSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA714018C25203000A3A5C /* PPSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18DA714318C25203000A3A5C /* PPSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA714118C25203000A3A5C /* PPSdk.m */; };
 		18DA715218C254D2000A3A5C /* PPLocalizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA714D18C254D2000A3A5C /* PPLocalizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -104,6 +111,8 @@
 		18DA715518C254D2000A3A5C /* PPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA715118C254D2000A3A5C /* PPLogger.m */; };
 		18E04A711829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18E04A721829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */; };
+		18FC662818C2A5CB00162198 /* PPStyledPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FC662618C2A5CB00162198 /* PPStyledPageControl.h */; };
+		18FC662918C2A5CB00162198 /* PPStyledPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC662718C2A5CB00162198 /* PPStyledPageControl.m */; };
 		18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944E17DE545E0083F148 /* UIApplication+Documents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE944F17DE545E0083F148 /* UIApplication+Documents.m */; };
 		C95612FC183CFA8400BA6969 /* NSData+DeviceToken.h in Headers */ = {isa = PBXBuildFile; fileRef = C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */; };
@@ -191,6 +200,13 @@
 		18DA710618C21378000A3A5C /* PPRandomTableSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRandomTableSectionCreator.m; sourceTree = "<group>"; };
 		18DA710718C21378000A3A5C /* PPLinearTableSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLinearTableSectionCreator.h; sourceTree = "<group>"; };
 		18DA710818C21378000A3A5C /* PPLinearTableSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLinearTableSectionCreator.m; sourceTree = "<group>"; };
+		18DA712918C23E80000A3A5C /* PPHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPHelpViewController.h; sourceTree = "<group>"; };
+		18DA712A18C23E80000A3A5C /* PPHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPHelpViewController.m; sourceTree = "<group>"; };
+		18DA712B18C23E80000A3A5C /* PPHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPHelpViewController.xib; sourceTree = "<group>"; };
+		18DA712C18C23E80000A3A5C /* PPPagedContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPPagedContentViewController.h; sourceTree = "<group>"; };
+		18DA712D18C23E80000A3A5C /* PPPagedContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPPagedContentViewController.m; sourceTree = "<group>"; };
+		18DA713318C23F67000A3A5C /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Size.h"; sourceTree = "<group>"; };
+		18DA713418C23F67000A3A5C /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
 		18DA714018C25203000A3A5C /* PPSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSdk.h; sourceTree = "<group>"; };
 		18DA714118C25203000A3A5C /* PPSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSdk.m; sourceTree = "<group>"; };
 		18DA714D18C254D2000A3A5C /* PPLocalizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPLocalizer.h; sourceTree = "<group>"; };
@@ -199,6 +215,8 @@
 		18DA715118C254D2000A3A5C /* PPLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPLogger.m; sourceTree = "<group>"; };
 		18E04A6F1829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPSplitTypeDocumentsSectionCreator.h; sourceTree = "<group>"; };
 		18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPSplitTypeDocumentsSectionCreator.m; sourceTree = "<group>"; };
+		18FC662618C2A5CB00162198 /* PPStyledPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStyledPageControl.h; sourceTree = "<group>"; };
+		18FC662718C2A5CB00162198 /* PPStyledPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStyledPageControl.m; sourceTree = "<group>"; };
 		18FE944E17DE545E0083F148 /* UIApplication+Documents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Documents.h"; sourceTree = "<group>"; };
 		18FE944F17DE545E0083F148 /* UIApplication+Documents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Documents.m"; sourceTree = "<group>"; };
 		C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DeviceToken.h"; sourceTree = "<group>"; };
@@ -326,6 +344,8 @@
 				18FE944F17DE545E0083F148 /* UIApplication+Documents.m */,
 				1883249217DEFD8A00EDE12B /* NSString+Factory.h */,
 				1883249317DEFD8A00EDE12B /* NSString+Factory.m */,
+				18DA713318C23F67000A3A5C /* NSString+Size.h */,
+				18DA713418C23F67000A3A5C /* NSString+Size.m */,
 				18181A2B181E65AC0062565F /* UIImage+PDF.h */,
 				18181A2C181E65AC0062565F /* UIImage+PDF.m */,
 				C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */,
@@ -345,6 +365,7 @@
 				18E04A701829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m */,
 				18DA70BF18C0CB3A000A3A5C /* PPBaseDocumentsTableViewController.h */,
 				18DA70C018C0CB3A000A3A5C /* PPBaseDocumentsTableViewController.m */,
+				18DA712818C23E80000A3A5C /* Help */,
 				18DA70FB18C21378000A3A5C /* Table */,
 			);
 			path = View;
@@ -444,6 +465,20 @@
 			path = SectionCreator;
 			sourceTree = "<group>";
 		};
+		18DA712818C23E80000A3A5C /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				18DA712918C23E80000A3A5C /* PPHelpViewController.h */,
+				18DA712A18C23E80000A3A5C /* PPHelpViewController.m */,
+				18DA712B18C23E80000A3A5C /* PPHelpViewController.xib */,
+				18FC662618C2A5CB00162198 /* PPStyledPageControl.h */,
+				18FC662718C2A5CB00162198 /* PPStyledPageControl.m */,
+				18DA712C18C23E80000A3A5C /* PPPagedContentViewController.h */,
+				18DA712D18C23E80000A3A5C /* PPPagedContentViewController.m */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
 		18DA713F18C251EF000A3A5C /* Sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,7 +519,9 @@
 				1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */,
 				18DA710D18C21378000A3A5C /* PPTableViewController.h in Headers */,
 				18DA710F18C21378000A3A5C /* PPTableViewDataSource.h in Headers */,
+				18DA713518C23F67000A3A5C /* NSString+Size.h in Headers */,
 				1832B62018AE50D600BF0777 /* PPScanResultAustria.h in Headers */,
+				18FC662818C2A5CB00162198 /* PPStyledPageControl.h in Headers */,
 				18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */,
 				18AAF6E317E4682600204B06 /* PPDocumentManager.h in Headers */,
 				18BA04E917E09A0300FF3CD3 /* PPUploadRequestOperation.h in Headers */,
@@ -510,6 +547,7 @@
 				18999BC817DD0F45009FA90A /* UIImage+Processing.h in Headers */,
 				18DA715218C254D2000A3A5C /* PPLocalizer.h in Headers */,
 				18DA711118C21378000A3A5C /* PPRandomTableSectionCreator.h in Headers */,
+				18DA713018C23E80000A3A5C /* PPPagedContentViewController.h in Headers */,
 				188175F717FC4C5B0077AC76 /* PPNetworkUtils.h in Headers */,
 				18181A2D181E65AC0062565F /* UIImage+PDF.h in Headers */,
 				1832B62618AE50F600BF0777 /* PPScanResultSerbia.h in Headers */,
@@ -520,6 +558,7 @@
 				C95612FC183CFA8400BA6969 /* NSData+DeviceToken.h in Headers */,
 				18E04A711829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.h in Headers */,
 				1832B62A18AE50FE00BF0777 /* PPUserConfirmedValuesSerbia.h in Headers */,
+				18DA712E18C23E80000A3A5C /* PPHelpViewController.h in Headers */,
 				18AB526917F48D0D0046AB13 /* PPElementPosition.h in Headers */,
 				18AB526D17F497420046AB13 /* PPElementCandidateList.h in Headers */,
 				18AB528117F51B3F0046AB13 /* PPUserConfirmedValues.h in Headers */,
@@ -598,6 +637,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18DA713218C23E8B000A3A5C /* PPHelpViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,11 +669,13 @@
 				18181A2E181E65AC0062565F /* UIImage+PDF.m in Sources */,
 				1896336D17F8D1EB005B456C /* PPDateSortedDocumentsSectionCreator.m in Sources */,
 				1829748417E71C7900FAD137 /* PPDocumentsTableDataSource.m in Sources */,
+				18DA713618C23F67000A3A5C /* NSString+Size.m in Sources */,
 				18999BC117DC7A40009FA90A /* PPLocalDocument.m in Sources */,
 				18DA710C18C21378000A3A5C /* PPTableSectionCreator.m in Sources */,
 				18E04A721829354500C61E5C /* PPSplitTypeDocumentsSectionCreator.m in Sources */,
 				1832B62718AE50F600BF0777 /* PPScanResultSerbia.m in Sources */,
 				18BA04F917E1D4A200FF3CD3 /* PPUser.m in Sources */,
+				18DA712F18C23E80000A3A5C /* PPHelpViewController.m in Sources */,
 				1832B62118AE50D600BF0777 /* PPScanResultAustria.m in Sources */,
 				18DA711018C21378000A3A5C /* PPTableViewDataSource.m in Sources */,
 				18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */,
@@ -653,6 +695,7 @@
 				18BA051B17E1EC2900FF3CD3 /* PPRemoteDocument.m in Sources */,
 				18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */,
 				18DA70C318C0CB3A000A3A5C /* PPBaseDocumentsTableViewController.m in Sources */,
+				18FC662918C2A5CB00162198 /* PPStyledPageControl.m in Sources */,
 				1832B62B18AE50FE00BF0777 /* PPUserConfirmedValuesSerbia.m in Sources */,
 				18AB526217F48C990046AB13 /* PPScanResult.m in Sources */,
 				18DA715318C254D2000A3A5C /* PPLocalizer.m in Sources */,
@@ -664,6 +707,7 @@
 				C95612FD183CFA8400BA6969 /* NSData+DeviceToken.m in Sources */,
 				18AB528B17F51D380046AB13 /* PPScanResult+Serbia.m in Sources */,
 				18DA711418C21378000A3A5C /* PPLinearTableSectionCreator.m in Sources */,
+				18DA713118C23E80000A3A5C /* PPPagedContentViewController.m in Sources */,
 				18AB528F17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m in Sources */,
 				18DA715518C254D2000A3A5C /* PPLogger.m in Sources */,
 			);

@@ -125,7 +125,7 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    DDLogError(@"Failed to register for push notify. Using dummy token!");
+    DDLogWarn(@"Failed to register for push notify. Using dummy token!");
     [[PPPhotoPayCloudService sharedService] setDeviceToken:[@"dummyToken" dataUsingEncoding:NSUTF8StringEncoding]];
 }
 

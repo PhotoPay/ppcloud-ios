@@ -48,6 +48,9 @@
 #import "PPSplitTypeDocumentsSectionCreator.h"
 #import "PPBaseDocumentsTableViewController.h"
 
+/** Help view controller */
+#import "PPPagedContentViewController.h"
+
 /** Abstract table headers */
 #import "PPTableSection.h"
 #import "PPTableSectionCreator.h"
