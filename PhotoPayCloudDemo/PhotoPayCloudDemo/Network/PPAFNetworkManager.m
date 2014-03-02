@@ -195,7 +195,7 @@
     // 4. check for errors
     if (uploadRequestOperation == nil) {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
-        NSString *desc = _(@"PhotoPayErrorUploadCannotCreateRequest");
+        NSString *desc = PPLocalize(@"PhotoPayErrorUploadCannotCreateRequest");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
         NSError *error = [NSError errorWithDomain:domain
                                              code:2002
@@ -271,7 +271,7 @@
     // 7. execute as background task
     [uploadRequestOperation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^() {
         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
-        NSString *desc = _(@"PhotoPayErrorUploadOperationTooLong");
+        NSString *desc = PPLocalize(@"PhotoPayErrorUploadOperationTooLong");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : desc};
         NSError *error = [NSError errorWithDomain:domain
                                              code:2005
