@@ -210,6 +210,9 @@
     // 5. add upload progress block
     [uploadRequestOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         _uploadRequestOperation.progress = [[NSNumber alloc] initWithDouble:totalBytesWritten / (double)totalBytesExpectedToWrite];
+        _uploadRequestOperation.secondsRemaining = [NSNumber numberWithDouble:([[NSDate date] timeIntervalSince1970] - [_uploadRequestOperation.timestampStarted doubleValue])/totalBytesWritten*(totalBytesExpectedToWrite-totalBytesWritten)];
+
+        _uploadRequestOperation.progress = [NSNumber numberWithDouble:totalBytesWritten / (double)totalBytesExpectedToWrite];
         
         if ([_uploadRequestOperation.delegate respondsToSelector:@selector(localDocument:didUpdateProgressWithBytesWritten:totalBytesToWrite:)]) {
             [[_uploadRequestOperation delegate] localDocument:document

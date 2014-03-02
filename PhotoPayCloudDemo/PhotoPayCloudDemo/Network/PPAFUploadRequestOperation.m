@@ -18,8 +18,15 @@
     if (self) {
         delegate = nil;
         progress = @(0.0);
+        _secondsRemaining = @(0.0);
     }
     return self;
+}
+
+- (void)start {
+    [super start];
+    
+    self.timestampStarted = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
 }
 
 - (void)cancel {

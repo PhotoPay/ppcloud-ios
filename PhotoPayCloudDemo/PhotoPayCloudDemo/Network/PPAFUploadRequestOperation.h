@@ -22,6 +22,16 @@
 @property (nonatomic, strong) NSNumber* progress;
 
 /**
+ Estimated remaining upload time in seconds
+ */
+@property (nonatomic, strong) NSNumber* secondsRemaining;
+
+/**
+ Timestamp of the first progress update, used for estimated time calculation
+ */
+@property (nonatomic, strong) NSNumber* timestampStarted;
+
+/**
  Designated initializer
  */
 - (id)initWithRequest:(NSURLRequest *)urlRequest;
