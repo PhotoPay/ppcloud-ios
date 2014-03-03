@@ -44,9 +44,9 @@ NSString *uuid() {
         }
         
 #ifdef DEBUG
-        PPSetLogLevel(PPLoggerLevelDebug);
+        PPSetLogLevel(PPLogLevelDebug);
 #else
-        PPSetLogLevel(PPLoggerLevelWarn);
+        PPSetLogLevel(PPLogLevelWarn);
 #endif
         
     });

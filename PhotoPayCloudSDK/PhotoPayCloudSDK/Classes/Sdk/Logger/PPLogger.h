@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-#define PPLogCrit(frmt, ...)    PPLog(PPLoggerFlagCrit,     frmt, ##__VA_ARGS__)
-#define PPLogError(frmt, ...)   PPLog(PPLoggerFlagError,    frmt, ##__VA_ARGS__)
-#define PPLogWarn(frmt, ...)    PPLog(PPLoggerFlagWarn,     frmt, ##__VA_ARGS__)
-#define PPLogInfo(frmt, ...)    PPLog(PPLoggerFlagInfo,     frmt, ##__VA_ARGS__)
-#define PPLogDebug(frmt, ...)   PPLog(PPLoggerFlagDebug,    frmt, ##__VA_ARGS__)
-#define PPLogVerbose(frmt, ...) PPLog(PPLoggerFlagVerbose,  frmt, ##__VA_ARGS__)
+#define PPLogCrit(frmt, ...)    PPLog(PPLogFlagCrit,     frmt, ##__VA_ARGS__)
+#define PPLogError(frmt, ...)   PPLog(PPLogFlagError,    frmt, ##__VA_ARGS__)
+#define PPLogWarn(frmt, ...)    PPLog(PPLogFlagWarn,     frmt, ##__VA_ARGS__)
+#define PPLogInfo(frmt, ...)    PPLog(PPLogFlagInfo,     frmt, ##__VA_ARGS__)
+#define PPLogDebug(frmt, ...)   PPLog(PPLogFlagDebug,    frmt, ##__VA_ARGS__)
+#define PPLogVerbose(frmt, ...) PPLog(PPLogFlagVerbose,  frmt, ##__VA_ARGS__)
 
-#define PPSetLogLevel(level) ([[[PPSdk sharedSdk] logger] setLogLevel:level])
+#define PPSetLogLevel(level)    ([[[PPSdk sharedSdk] logger] setLogLevel:level])
 
 #define PPLog(flag, frmt, ...)                                  \
     [[[PPSdk sharedSdk] logger] logFlag:flag                    \
@@ -25,36 +25,36 @@
                                  format:(frmt), ##__VA_ARGS__]
 
 /** Defines the flag for each log type */
-typedef NS_ENUM(NSUInteger, PPLoggerFlag) {
-    PPLoggerFlagCrit    = (1 << 0),  // 0...000001
-    PPLoggerFlagError   = (1 << 1),  // 0...000010
-    PPLoggerFlagWarn    = (1 << 2),  // 0...000100
-    PPLoggerFlagInfo    = (1 << 3),  // 0...001000
-    PPLoggerFlagDebug   = (1 << 4),  // 0...010000
-    PPLoggerFlagVerbose = (1 << 5),  // 0...100000
+typedef NS_ENUM(NSUInteger, PPLogFlag) {
+    PPLogFlagCrit    = (1 << 0),  // 0...000001
+    PPLogFlagError   = (1 << 1),  // 0...000010
+    PPLogFlagWarn    = (1 << 2),  // 0...000100
+    PPLogFlagInfo    = (1 << 3),  // 0...001000
+    PPLogFlagDebug   = (1 << 4),  // 0...010000
+    PPLogFlagVerbose = (1 << 5),  // 0...100000
 };
 
 /** Defines the bitmask for enabled log types */
-typedef NS_ENUM(NSUInteger, PPLoggerLevel) {
-    PPLoggerLevelOff        = 0,                                            // 0...000000
+typedef NS_ENUM(NSUInteger, PPLogLevel) {
+    PPLogLevelOff        = 0,                                            // 0...000000
     
-    PPLoggerLevelCrit       = (PPLoggerFlagCrit),                           // 0...000001
+    PPLogLevelCrit       = (PPLogFlagCrit),                           // 0...000001
     
-    PPLoggerLevelError      = (PPLoggerFlagCrit | PPLoggerFlagError),       // 0...000011
+    PPLogLevelError      = (PPLogFlagCrit | PPLogFlagError),       // 0...000011
     
-    PPLoggerLevelWarn       = (PPLoggerFlagCrit | PPLoggerFlagError |
-                               PPLoggerFlagWarn),                           // 0...000111
+    PPLogLevelWarn       = (PPLogFlagCrit | PPLogFlagError |
+                               PPLogFlagWarn),                           // 0...000111
     
-    PPLoggerLevelInfo       = (PPLoggerFlagCrit | PPLoggerFlagError |
-                               PPLoggerFlagWarn | PPLoggerFlagInfo),        // 0...001111
+    PPLogLevelInfo       = (PPLogFlagCrit | PPLogFlagError |
+                               PPLogFlagWarn | PPLogFlagInfo),        // 0...001111
     
-    PPLoggerLevelDebug      = (PPLoggerFlagCrit | PPLoggerFlagError |
-                               PPLoggerFlagWarn | PPLoggerFlagInfo |
-                               PPLoggerFlagDebug),                          // 0...011111
+    PPLogLevelDebug      = (PPLogFlagCrit | PPLogFlagError |
+                               PPLogFlagWarn | PPLogFlagInfo |
+                               PPLogFlagDebug),                          // 0...011111
     
-    PPLoggerLevelVerbose    = (PPLoggerFlagCrit | PPLoggerFlagError |
-                               PPLoggerFlagWarn | PPLoggerFlagInfo |
-                               PPLoggerFlagDebug | PPLoggerFlagVerbose),    // 0...111111
+    PPLogLevelVerbose    = (PPLogFlagCrit | PPLogFlagError |
+                               PPLogFlagWarn | PPLogFlagInfo |
+                               PPLogFlagDebug | PPLogFlagVerbose),    // 0...111111
 };
 
 /**
@@ -69,14 +69,14 @@ typedef NS_ENUM(NSUInteger, PPLoggerLevel) {
  
  All log messages with log type higher than log level aren't logged 
  */
-@property (nonatomic, assign) PPLoggerLevel logLevel;
+@property (nonatomic, assign) PPLogLevel logLevel;
 
 /**
  Performs the actual logging
  
  This concrete class uses NSLog for logging. Subclasses may override
  */
-- (void)logFlag:(PPLoggerFlag)flag
+- (void)logFlag:(PPLogFlag)flag
            file:(const char *)file
        function:(const char *)function
            line:(int)line

@@ -10,7 +10,7 @@
 
 @implementation PPLumberjackLogger
 
-- (void)logFlag:(PPLoggerFlag)flag
+- (void)logFlag:(PPLogFlag)flag
            file:(const char *)file
        function:(const char *)function
            line:(int)line
@@ -20,24 +20,24 @@
     bool async = YES;
     
     switch (flag) {
-        case PPLoggerFlagCrit:
-        case PPLoggerFlagError:
+        case PPLogFlagCrit:
+        case PPLogFlagError:
             ddflag = LOG_FLAG_ERROR;
             async = LOG_ASYNC_ERROR;
             break;
-        case PPLoggerFlagWarn:
+        case PPLogFlagWarn:
             ddflag = LOG_FLAG_WARN;
             async = LOG_ASYNC_WARN;
             break;
-        case PPLoggerFlagVerbose:
+        case PPLogFlagVerbose:
             ddflag = LOG_FLAG_VERBOSE;
             async = LOG_ASYNC_WARN;
             break;
-        case PPLoggerFlagInfo:
+        case PPLogFlagInfo:
             ddflag = LOG_FLAG_INFO;
             async = LOG_ASYNC_INFO;
             break;
-        case PPLoggerFlagDebug:
+        case PPLogFlagDebug:
         default:
             ddflag = LOG_FLAG_INFO;
             async = LOG_ASYNC_INFO;

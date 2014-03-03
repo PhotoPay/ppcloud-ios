@@ -13,12 +13,12 @@
 - (id)init {
     self = [super init];
     if (self) {
-        _logLevel = PPLoggerLevelVerbose;
+        _logLevel = PPLogLevelVerbose;
     }
     return self;
 }
 
-- (void)logFlag:(PPLoggerFlag)flag
+- (void)logFlag:(PPLogFlag)flag
            file:(const char *)file
        function:(const char *)function
            line:(int)line
