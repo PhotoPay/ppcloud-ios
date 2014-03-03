@@ -13,10 +13,6 @@
 #import "NSString+Size.h"
 #import "PPSdk.h"
 
-// iOS Version checking macros
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define IS_IOS7_DEVICE (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-
 static NSString *nameKey    = @"nameKey";
 static NSString *imageKey   = @"imageKey";
 
@@ -77,6 +73,21 @@ static NSString *imageKey   = @"imageKey";
 
 #pragma mark - View lifecycle
 
+- (CGFloat)topOffset {
+    if (IS_IOS7_DEVICE) {
+        if (IS_IPHONE) {
+            return 20.0f;
+        } else {
+            if (self.modalPresentationStyle == UIModalPresentationFullScreen) {
+                return 20.0f;
+            }
+            return 0.0f;
+        }
+    } else {
+        return 0.0f;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -92,7 +103,7 @@ static NSString *imageKey   = @"imageKey";
     _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _backButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     
-    [_backButton setFrame:CGRectMake(helpBarButtonMargin, helpBarButtonMargin, helpBarButtonWidth, helpBarButtonHeight)];
+    [_backButton setFrame:CGRectMake(helpBarButtonMargin, helpBarButtonMargin + [self topOffset], helpBarButtonWidth, helpBarButtonHeight)];
     [self.view addSubview:_backButton];
     
     [self setupBackButtonForPage:0];
@@ -104,11 +115,11 @@ static NSString *imageKey   = @"imageKey";
     [_backImage setAlpha:0.0f];
     [self.view addSubview:_backImage];
     
-    
+    /** Setup forward button */
     _forwardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _forwardButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     
-    [_forwardButton setFrame:CGRectMake(self.view.frame.size.width-helpBarButtonMargin-helpBarButtonWidth, helpBarButtonMargin, helpBarButtonWidth, helpBarButtonHeight)];
+    [_forwardButton setFrame:CGRectMake(self.view.frame.size.width-helpBarButtonMargin-helpBarButtonWidth, helpBarButtonMargin + [self topOffset], helpBarButtonWidth, helpBarButtonHeight)];
     [self.view addSubview:_forwardButton];
     
     [self setupForwardButtonForPage:0];
@@ -147,7 +158,7 @@ static NSString *imageKey   = @"imageKey";
     [self setViewControllers:controllers];
     
     /** Scroll view init */
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightToolbar,
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightToolbar + [self topOffset],
                                                                  self.view.bounds.size.width,
                                                                  self.view.bounds.size.height - heightToolbar - pageIndicatorHeight)];
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -212,10 +223,6 @@ static NSString *imageKey   = @"imageKey";
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleDefault;
-}
-
-- (BOOL)prefersStatusBarHidden {
-    return (IS_IOS7_DEVICE);
 }
 
 #pragma mark - Autorotation
