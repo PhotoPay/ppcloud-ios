@@ -2,23 +2,6 @@
   Croatian Localization file
 */
 
-/* SIGN UP SCREEN */
-
-/* Title of the sign up screen */
-"PhotoPaySignUpTitle" = "Registracija";
-
-/* Title of the Done button */
-"PhotoPaySignUpButtonDone" = "Potvrdi";
-
-/* Description of the e-mail label */
-"PhotoPaySignUpDescriptionLabel" = "Unesite vašu e-mail adresu. Ona će nam služiti za identifikaciju vaših računa.";
-
-/* Error label e-mail invalid */
-"PhotoPaySignUpErrorInvalid" = "E-mail adresa nije ispravna.";
-
-/* Error label e-mail already taken */
-"PhotoPaySignUpErrorTaken" = "E-mail adresa se već koristi.";
-
 
 /* PENDING UPLOADS */
 
