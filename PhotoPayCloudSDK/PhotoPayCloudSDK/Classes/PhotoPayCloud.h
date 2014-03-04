@@ -48,6 +48,9 @@
 #import "PPSplitTypeDocumentsSectionCreator.h"
 #import "PPBaseDocumentsTableViewController.h"
 
+/** HomeViewController */
+#import "PPBaseHomeViewController.h"
+
 /** Help view controller */
 #import "PPPagedContentViewController.h"
 
@@ -67,5 +70,6 @@
 /** Utils */
 #import "UIImage+Processing.h"
 #import "UIApplication+Documents.h"
+#import "UIViewController+ContainerViewController.h"
 
 #endif /* _PHOTOPAY_CLOUD_ */
