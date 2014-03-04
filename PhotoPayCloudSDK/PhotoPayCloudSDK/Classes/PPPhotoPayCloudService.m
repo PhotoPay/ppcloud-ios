@@ -924,7 +924,15 @@
                                                                                          }
                                                                                          failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
                                                                                              NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
-                                                                                             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [response errorMessage]};                                                                                             NSError *detailedError = [[NSError alloc] initWithDomain:domain
+                                                                                             NSDictionary *userInfo = nil;
+                                                                                             
+                                                                                             if ([response errorMessage]) {
+                                                                                                 userInfo = @{NSLocalizedDescriptionKey : [response errorMessage]};
+                                                                                             } else {
+                                                                                                 userInfo = @{NSLocalizedDescriptionKey : [error localizedDescription]};
+                                                                                             }
+                                                                                             
+                                                                                             NSError *detailedError = [[NSError alloc] initWithDomain:domain
                                                                                                                                                  code:[response errorCode]
                                                                                                                                              userInfo:userInfo];
                                                                                              if (failure) {
@@ -955,18 +963,20 @@
                                                                                          }
                                                                                      }
                                                                                      failure:^(NSOperation *operation, PPBaseResponse *response, NSError *error) {
-                                                                                         if ([response errorMessage] != nil) {
-                                                                                             NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
-                                                                                             NSDictionary *userInfo = @{NSLocalizedDescriptionKey : [response errorMessage]};                                                                                             NSError *detailedError = [[NSError alloc] initWithDomain:domain
-                                                                                                                                                                                                                                                                                                                          code:[response errorCode]
-                                                                                                                                                                                                                                                                                                                      userInfo:userInfo];
-                                                                                             if (failure) {
-                                                                                                 failure(detailedError);
-                                                                                             }
+                                                                                         NSString *domain = @"net.photopay.cloud.sdk.ErrorDomain";
+                                                                                         NSDictionary *userInfo = nil;
+                                                                                         
+                                                                                         if ([response errorMessage]) {
+                                                                                             userInfo = @{NSLocalizedDescriptionKey : [response errorMessage]};
                                                                                          } else {
-                                                                                             if (failure) {
-                                                                                                 failure(error);
-                                                                                             }
+                                                                                             userInfo = @{NSLocalizedDescriptionKey : [error localizedDescription]};
+                                                                                         }
+                                                                                         
+                                                                                         NSError *detailedError = [[NSError alloc] initWithDomain:domain
+                                                                                                                                             code:[response errorCode]
+                                                                                                                                         userInfo:userInfo];
+                                                                                         if (failure) {
+                                                                                             failure(detailedError);
                                                                                          }
                                                                                      } canceled:^(NSOperation *operation) {
                                                                                          if (canceled) {
