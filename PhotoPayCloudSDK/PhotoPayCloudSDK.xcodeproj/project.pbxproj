@@ -103,13 +103,13 @@
 		18DA715318C254D2000A3A5C /* PPLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA714E18C254D2000A3A5C /* PPLocalizer.m */; };
 		18DA715418C254D2000A3A5C /* PPLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 18DA715018C254D2000A3A5C /* PPLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18DA715518C254D2000A3A5C /* PPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DA715118C254D2000A3A5C /* PPLogger.m */; };
-		18EDB31418C6329400998912 /* PPBaseDocumentsTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB30C18C6329400998912 /* PPBaseDocumentsTableViewController.h */; };
+		18EDB31418C6329400998912 /* PPBaseDocumentsTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB30C18C6329400998912 /* PPBaseDocumentsTableViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18EDB31518C6329400998912 /* PPBaseDocumentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDB30D18C6329400998912 /* PPBaseDocumentsTableViewController.m */; };
-		18EDB31618C6329400998912 /* PPDateSortedDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB30E18C6329400998912 /* PPDateSortedDocumentsSectionCreator.h */; };
+		18EDB31618C6329400998912 /* PPDateSortedDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB30E18C6329400998912 /* PPDateSortedDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18EDB31718C6329400998912 /* PPDateSortedDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDB30F18C6329400998912 /* PPDateSortedDocumentsSectionCreator.m */; };
-		18EDB31818C6329400998912 /* PPDocumentsTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB31018C6329400998912 /* PPDocumentsTableDataSource.h */; };
+		18EDB31818C6329400998912 /* PPDocumentsTableDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB31018C6329400998912 /* PPDocumentsTableDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18EDB31918C6329400998912 /* PPDocumentsTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDB31118C6329400998912 /* PPDocumentsTableDataSource.m */; };
-		18EDB31A18C6329400998912 /* PPSplitTypeDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB31218C6329400998912 /* PPSplitTypeDocumentsSectionCreator.h */; };
+		18EDB31A18C6329400998912 /* PPSplitTypeDocumentsSectionCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB31218C6329400998912 /* PPSplitTypeDocumentsSectionCreator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18EDB31B18C6329400998912 /* PPSplitTypeDocumentsSectionCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDB31318C6329400998912 /* PPSplitTypeDocumentsSectionCreator.m */; };
 		18EDB31E18C632AD00998912 /* PPBaseHomeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 18EDB31C18C632AD00998912 /* PPBaseHomeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18EDB31F18C632AD00998912 /* PPBaseHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDB31D18C632AD00998912 /* PPBaseHomeViewController.m */; };
