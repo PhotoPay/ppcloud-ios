@@ -86,6 +86,8 @@
 - (id)copyWithZone:(NSZone *)zone {
     PPLocalDocument *another = [super copyWithZone:zone];
     another->bytes_ = self->bytes_;
+    another->ownerIdHash = self->ownerIdHash;
+    another->uploadRequest = self->uploadRequest;
     return another;
 }
 
