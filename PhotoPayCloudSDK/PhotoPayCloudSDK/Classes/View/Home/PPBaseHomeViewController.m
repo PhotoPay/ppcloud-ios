@@ -79,6 +79,15 @@
     PPLogError(@"Opening document details view for document %@", document);
 }
 
+- (void)uploadImage:(UIImage*)image {
+    
+    // create a local document for this user
+    PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:image
+                                                             processingType:PPDocumentProcessingTypeSerbianPhotoInvoice];
+    
+    [self uploadDocument:document];
+}
+
 - (void)uploadDocument:(PPLocalDocument *)document {
     // send document to processing server
     [[PPPhotoPayCloudService sharedService] uploadDocument:document
@@ -95,15 +104,10 @@
     
     // Handle a still image capture
     if (CFStringCompare((CFStringRef) mediaType, kUTTypeImage, 0) == kCFCompareEqualTo) {
-        UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
-        
-        // create a local document for this user
-        PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:originalImage
-                                                                 processingType:PPDocumentProcessingTypeSerbianPhotoInvoice];
-        
-        [self uploadDocument:document];
-        
+        UIImage *originalImage = (UIImage *)[info objectForKey: UIImagePickerControllerOriginalImage];
+        [self uploadImage:originalImage];
     }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -11,6 +11,7 @@
 #import "PPBaseDocumentsTableViewController.h"
 #import "UIViewController+ContainerViewController.h"
 
+@class PPLocalDocument;
 @class PPBaseDocumentsTableViewController;
 
 @interface PPBaseHomeViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, PPDocumentsTableViewControllerDelegate, PPPagedContentViewControllerDelegate>
@@ -20,5 +21,9 @@
 - (void)openCamera;
 
 - (void)openHelp;
+
+- (void)uploadImage:(UIImage*)image;
+
+- (void)uploadDocument:(PPLocalDocument *)document;
 
 @end
