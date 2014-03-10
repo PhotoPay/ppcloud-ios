@@ -37,6 +37,13 @@
 - (BOOL)insert:(PPLocalDocument*)document;
 
 /**
+ Returns the index of local document in the upload queue.
+ 
+ If document is not in the queue, returns NSNotFound
+ */
+- (NSUInteger)indexOfDocument:(PPLocalDocument*)document;
+
+/**
  Retrieves the number of elements in queue
  */
 - (NSUInteger)count;

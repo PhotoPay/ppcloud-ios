@@ -40,6 +40,9 @@
                                    line:__LINE__                \
                                  format:(frmt), ##__VA_ARGS__]
 
+// Log Shortcut
+#define PPLogFun                PPLogInfo(@"%s", __FUNCTION__)
+
 #ifndef PPSetLanguage
 #define PPSetLanguage(l) ([[[PPSdk sharedSdk] localizer] setLanguage:l])
 #endif

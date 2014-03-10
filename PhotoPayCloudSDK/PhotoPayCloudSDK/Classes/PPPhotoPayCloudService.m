@@ -232,7 +232,7 @@
     }
     
     if (inNetworkManager == nil) {
-        PPLogError(@"Valid user network manager be specified for initialization. This one is nil. Returining immediately.");
+        PPLogError(@"Valid user network manager be specified for initialization. This one is nil. Returning immediately.");
         return;
     }
     
@@ -242,10 +242,10 @@
     
     _state = PPPhotoPayCloudServiceStateReady;
     
+    PPLogDebug(@"PhotoPayCloud Initialized for user\n%@", user);
+    
     [self checkExistingUploadQueue];
     
-    PPLogInfo(@"PhotoPayCloud initialized");
-
     [self registerPushNotification];
 }
 
@@ -260,7 +260,7 @@
     
     self.uploadDelegate = nil;
     
-    PPLogInfo(@"PhotoPayCloud uninitialized");
+    PPLogInfo(@"PhotoPayCloud uninitialized.");
 }
 
 - (BOOL)isServiceUnavailable {
@@ -286,8 +286,8 @@
         self.state = PPPhotoPayCloudServiceStateReady;
     } else {
         self.state = PPPhotoPayCloudServiceStatePaused;
+        PPLogInfo(@"In upload queue for user %@ there are currently %d documents.", userIdHash, [[[self documentUploadQueue] elements] count]);
     }
-   
 }
 
 - (void)setUploadDelegate:(id<PPDocumentUploadDelegate>)inUploadDelegate {
@@ -366,6 +366,7 @@
                                                           [self setState:PPPhotoPayCloudServiceStateReady];
                                                       }
                                                       
+                                                      PPLogInfo(@"Local document upload failed!");
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
                                                           if ([[[self dataSource] items] containsObject:localDocument]) {
                                                               [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
@@ -410,6 +411,8 @@
     dispatch_async(dispatch_get_main_queue(), ^() {
         [[self dataSource] insertItems:[[NSArray alloc] initWithObjects:localDocument, nil]];
     });
+    
+    PPLogInfo(@"Uploading stored document:\n%@", localDocument);
     
     // add it to the operation queue
     [[[self networkManager] uploadOperationQueue] addOperation:uploadRequest];
@@ -489,6 +492,7 @@
 }
 
 - (void)uploadPendingDocuments {
+    PPLogInfo(@"Uploading %u pending uploads", (unsigned int) [[[self documentUploadQueue] elements] count]);
     if ([self state] == PPPhotoPayCloudServiceStatePaused) {
         for (PPLocalDocument* document in [[self documentUploadQueue] elements]) {
             [self uploadDocument:document
@@ -504,6 +508,8 @@
     if ([self isServiceUnavailable]) {
         return;
     }
+    
+    PPLogInfo(@"Deleting %u pending uploads", (unsigned int) [[[self documentUploadQueue] elements] count]);
     
     for (int i = ((int)[[self documentUploadQueue] count]) - 1; i >= 0 ; i--) {
         PPLocalDocument *localDocument = [[[self documentUploadQueue] elements] objectAtIndex:i];

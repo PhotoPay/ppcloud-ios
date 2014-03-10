@@ -93,7 +93,10 @@
 
 - (NSString*)description {
     NSString* result = [super description];
-    result = [result stringByAppendingFormat:@"Owner ID HASH: %@\n", [self ownerIdHash]];
+    result = [result stringByAppendingFormat:@"\nOwner ID HASH: %@", [self ownerIdHash]];
+    if ([self uploadRequest]) {
+        result = [result stringByAppendingFormat:@"\nUpload request %p", [self uploadRequest]];
+    }
     return result;
 }
 

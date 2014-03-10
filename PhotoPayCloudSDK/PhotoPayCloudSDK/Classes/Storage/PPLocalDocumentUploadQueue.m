@@ -9,6 +9,7 @@
 #import "PPLocalDocumentUploadQueue.h"
 #import "UIApplication+Documents.h"
 #import "PPLocalDocument.h"
+#import "PPSdk.h"
 
 @implementation PPLocalDocumentUploadQueue
 
@@ -41,20 +42,40 @@
 }
 
 - (BOOL)remove:(PPLocalDocument*)document {
+    NSUInteger countBefore = [[self elements] count];
     [self.elements removeObject:document];
-    return [NSKeyedArchiver archiveRootObject:self
+    BOOL success = [NSKeyedArchiver archiveRootObject:self
                                        toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
+    if (success && (countBefore - 1 == [[self elements] count])) {
+        PPLogDebug(@"Removed document from upload queue, now count is %u", (unsigned int) self.elements.count);
+    } else {
+        PPLogError(@"Failed to remove document from upload queue!");
+    }
+    return success;
+}
+
+- (NSUInteger)indexOfDocument:(PPLocalDocument*)document {
+    return [self.elements indexOfObject:document];
 }
 
 - (BOOL)insert:(PPLocalDocument*)document {
-    NSInteger index = [self.elements indexOfObject:document];
+    NSInteger index = [self indexOfDocument:document];
+    
     if (index == NSNotFound) {
         [self.elements addObject:document];
+        index = self.elements.count;
     } else {
         [self.elements replaceObjectAtIndex:index withObject:document];
     }
-    return [NSKeyedArchiver archiveRootObject:self
-                                       toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
+    BOOL saved = [NSKeyedArchiver archiveRootObject:self
+                                             toFile:[PPLocalDocumentUploadQueue serializationPathForUserIdHash:[document ownerIdHash]]];
+    
+    if (saved) {
+        PPLogVerbose(@"Inserting document into upload queue, at position %d", (int)index);
+    } else {
+        PPLogError(@"Failed to insert document into upload queue!");
+    }
+    return saved;
 }
 
 - (NSUInteger)count {
@@ -62,6 +83,10 @@
 }
 
 + (NSString*)serializationPathForUserIdHash:(NSString*)userIdHash {
+    if (userIdHash == nil) {
+        PPLogError(@"User ID hash is nil. Cannot create document upload queue");
+        return nil;
+    }
     NSError * __autoreleasing error;
     NSString* basePath = [[UIApplication pp_applicationDocumentsDirectoryWithError:&error] path];
     

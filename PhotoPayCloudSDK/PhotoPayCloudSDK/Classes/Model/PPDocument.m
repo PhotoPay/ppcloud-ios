@@ -217,7 +217,7 @@
     result = [result stringByAppendingFormat:@"State: %@\n", [PPDocument objectForDocumentState:[self state]]];
     result = [result stringByAppendingFormat:@"Type: %@\n", [PPDocument objectForDocumentType:[self documentType]]];
     result = [result stringByAppendingFormat:@"Processing Type: %@\n", [PPDocument objectForDocumentProcessingType:[self processingType]]];
-    result = [result stringByAppendingFormat:@"Creation Date: %@\n", [[self creationDate] description]];
+    result = [result stringByAppendingFormat:@"Creation Date: %@", [[self creationDate] description]];
     return result;
 }
 

@@ -73,7 +73,7 @@
     ret = [ret stringByAppendingFormat:@"type: %@\n", [PPUser objectForUserType:[self userType]]];
     ret = [ret stringByAppendingFormat:@"email: %@\n", [self email]];
     ret = [ret stringByAppendingFormat:@"all emails: %@\n", [self allEmailAddresses]];
-    ret = [ret stringByAppendingFormat:@"ID hash: %@\n", [self userIdHash]];
+    ret = [ret stringByAppendingFormat:@"ID hash: %@", [self userIdHash]];
     return ret;
 }
 
