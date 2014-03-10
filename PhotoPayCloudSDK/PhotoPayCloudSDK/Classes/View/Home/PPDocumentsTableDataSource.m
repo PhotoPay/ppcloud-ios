@@ -65,7 +65,7 @@
                 BOOL changed = [document reloadWithDocument:newDocument];
                 
                 if (changed) {
-                    NSIndexPath* indexPath = [[self sectionCreator] reloadItem:object withItem:object];
+                    NSIndexPath* indexPath = [[self sectionCreator] reloadItem:object withItem:item];
                     if (indexPath != nil) {
                         [reloadedIndexPaths addObject:indexPath];
                     }
