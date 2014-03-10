@@ -41,6 +41,8 @@
 		18774F8E18CDB8F900D54D6C /* SrHelp2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F8018CDB8F900D54D6C /* SrHelp2@2x.jpg */; };
 		18774F8F18CDB8F900D54D6C /* SrHelp3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F8118CDB8F900D54D6C /* SrHelp3.jpg */; };
 		18774F9018CDB8F900D54D6C /* SrHelp3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F8218CDB8F900D54D6C /* SrHelp3@2x.jpg */; };
+		18774F9818CDC6E900D54D6C /* PPProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 18774F9218CDC6E900D54D6C /* PPProfile.m */; };
+		18774F9E18CDC86700D54D6C /* PPEBSProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 18774F9D18CDC86700D54D6C /* PPEBSProfile.m */; };
 		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
 		1881760D1802F3810077AC76 /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881760C1802F3810077AC76 /* NSDate+Formatting.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
@@ -123,6 +125,10 @@
 		18774F8018CDB8F900D54D6C /* SrHelp2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp2@2x.jpg"; sourceTree = "<group>"; };
 		18774F8118CDB8F900D54D6C /* SrHelp3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp3.jpg; sourceTree = "<group>"; };
 		18774F8218CDB8F900D54D6C /* SrHelp3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp3@2x.jpg"; sourceTree = "<group>"; };
+		18774F9118CDC6E900D54D6C /* PPProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPProfile.h; sourceTree = "<group>"; };
+		18774F9218CDC6E900D54D6C /* PPProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPProfile.m; sourceTree = "<group>"; };
+		18774F9C18CDC86700D54D6C /* PPEBSProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPEBSProfile.h; sourceTree = "<group>"; };
+		18774F9D18CDC86700D54D6C /* PPEBSProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPEBSProfile.m; sourceTree = "<group>"; };
 		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
 		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
 		1881760B1802F3810077AC76 /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
@@ -290,6 +296,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		18774F9B18CDC85F00D54D6C /* Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				18774F9C18CDC86700D54D6C /* PPEBSProfile.h */,
+				18774F9D18CDC86700D54D6C /* PPEBSProfile.m */,
+			);
+			path = Profiles;
+			sourceTree = "<group>";
+		};
 		188AAED617D876E9009531FA = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +346,9 @@
 				188AAF4E17D89F69009531FA /* PPApp.m */,
 				18181A3B181EC85E0062565F /* PPAutoUpdater.h */,
 				18181A3C181EC85E0062565F /* PPAutoUpdater.m */,
+				18774F9118CDC6E900D54D6C /* PPProfile.h */,
+				18774F9218CDC6E900D54D6C /* PPProfile.m */,
+				18774F9B18CDC85F00D54D6C /* Profiles */,
 				188AAF6817D8C0DD009531FA /* Utils */,
 				188AAF4717D89F0A009531FA /* View */,
 				18BA04EB17E0A5E300FF3CD3 /* Network */,
@@ -587,6 +605,8 @@
 				1819981517E9989C001B66B1 /* PPDocumentTableViewCell+Uploading.m in Sources */,
 				1819984017E9D6B6001B66B1 /* PPDocumentViewFactory.m in Sources */,
 				18BA04EE17E103CA00FF3CD3 /* PPAFNetworkManager.m in Sources */,
+				18774F9818CDC6E900D54D6C /* PPProfile.m in Sources */,
+				18774F9E18CDC86700D54D6C /* PPEBSProfile.m in Sources */,
 				1819981B17E99AB9001B66B1 /* PPDocumentTableViewCell+Local.m in Sources */,
 				18BA04F117E1058500FF3CD3 /* PPAFUploadRequestOperation.m in Sources */,
 				1819982017E9ACB2001B66B1 /* PPDocumentDetailsViewController.m in Sources */,

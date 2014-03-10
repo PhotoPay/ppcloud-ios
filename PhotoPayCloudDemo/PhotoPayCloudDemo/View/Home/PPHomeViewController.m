@@ -12,6 +12,7 @@
 #import "PPDocumentDetailsViewController.h"
 #import <DDLog.h>
 #import "PPDocumentsTableViewController.h"
+#import "PPProfile.h"
 
 @interface PPHomeViewController ()
 
@@ -53,6 +54,15 @@
 
 - (IBAction)cameraButtonPressed:(id)sender {
     [self openCamera];
+}
+
+- (void)uploadImage:(UIImage*)image {
+    
+    // create a local document for this user
+    PPLocalDocument *document = [[PPLocalImageDocument alloc] initWithImage:image
+                                                             processingType:[[PPProfile sharedProfile] photoProcessingType]];
+    
+    [self uploadDocument:document];
 }
 
 - (void)openDocumentDetailsView:(PPDocument*)document {

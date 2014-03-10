@@ -18,9 +18,7 @@
 #import <DDASLLogger.h>
 #import <DDTTYLogger.h>
 #import <DDLog.h>
-
-static NSString* appName = @"PhotoPayCloudDemo";
-static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/srb-erste-cloud/";
+#import "PPProfile.h"
 
 @interface PPAppDelegate ()
 
@@ -79,7 +77,8 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
-    [[PPAutoUpdater sharedInstance] scanUpdatesForAppName:appName distributionUrl:distributionUrl];
+    [[PPAutoUpdater sharedInstance] scanUpdatesForAppName:[[PPProfile sharedProfile] appName]
+                                          distributionUrl:[[PPProfile sharedProfile] distributionUrl]];
     
     return YES;
 }
@@ -89,7 +88,8 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
         if (!loggedIn) {
             [self photoPayCloudLogin];
         }
-        PPLocalDocument *localDocument = [[PPLocalPdfDocument alloc] initWithLocalUrl:url processingType:PPDocumentProcessingTypeSerbianPDFInvoice];
+        PPLocalDocument *localDocument = [[PPLocalPdfDocument alloc] initWithLocalUrl:url
+                                                                       processingType:[[PPProfile sharedProfile] pdfProcessingType]];
         
         // send document to processing server
         [[PPPhotoPayCloudService sharedService] uploadDocument:localDocument
@@ -105,7 +105,7 @@ static NSString* distributionUrl = @"http://demo.photopay.net/distribute/iphone/
 
 - (void)configureApp {
     [self configureLogger];
-    [[PPApp sharedApp] setLanguage:@"hr"];
+    [[PPApp sharedApp] setLanguage:[[PPProfile sharedProfile] language]];
 }
 
 - (void)configureLogger {
@@ -151,7 +151,8 @@ static bool loggedIn = false;
     [networkManager setMaxConcurrentUploadsCount:1];
     
     PPUser* user = [[PPUser alloc] initWithUserId:[[PPApp sharedApp] userId]
-                                   organizationId:@"EBS"];
+                                   organizationId:[[PPProfile sharedProfile] organizationName]
+                                         userType:PPUserTypePerson];
     
     [[PPPhotoPayCloudService sharedService] initializeForUser:user withNetworkManager:networkManager];
 }
@@ -187,7 +188,8 @@ static bool loggedIn = false;
     // that PhotoPayCloudService was deallocated in the meantime
     [self photoPayCloudLogin];
     
-    [[PPAutoUpdater sharedInstance] scanUpdatesForAppName:appName distributionUrl:distributionUrl];
+    [[PPAutoUpdater sharedInstance] scanUpdatesForAppName:[[PPProfile sharedProfile] appName]
+                                          distributionUrl:[[PPProfile sharedProfile] distributionUrl]];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -202,11 +204,7 @@ static bool loggedIn = false;
     
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
-#ifdef DEBUG
-        manager = [PPAFNetworkManager defaultOperationManagerForBaseURLString:@"http://cloudbeta.photopay.net/"];
-#else
-        manager = [PPAFNetworkManager defaultOperationManagerForBaseURLString:@"https://smartphonembankinguat.erstebank.rs:1027/"];
-#endif
+        manager = [PPAFNetworkManager defaultOperationManagerForBaseURLString:[[PPProfile sharedProfile] processingServer]];
     });
     
     return manager;
