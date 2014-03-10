@@ -27,21 +27,21 @@
 		1829748E17E78EA200FAD137 /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1829748C17E78EA200FAD137 /* redo@2x.png */; };
 		182C0A7F17F3AA8400DF1D78 /* PPDocumentPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */; };
 		182C0A8117F3C48A00DF1D78 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C0A8017F3C48A00DF1D78 /* QuickLook.framework */; };
-		183B7F6B1850BC5200B811B1 /* helpContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F631850BC5200B811B1 /* helpContent.plist */; };
-		183B7F761850BFB100B811B1 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F721850BFB100B811B1 /* left.png */; };
-		183B7F771850BFB100B811B1 /* left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F731850BFB100B811B1 /* left@2x.png */; };
-		183B7F781850BFB100B811B1 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F741850BFB100B811B1 /* right.png */; };
-		183B7F791850BFB100B811B1 /* right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F751850BFB100B811B1 /* right@2x.png */; };
-		183B7F861850D0E800B811B1 /* SrHelp1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F821850D0E800B811B1 /* SrHelp1.jpg */; };
-		183B7F871850D0E800B811B1 /* SrHelp1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F831850D0E800B811B1 /* SrHelp1@2x.jpg */; };
-		183B7F8E1850D7A600B811B1 /* SrHelp2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F8A1850D7A600B811B1 /* SrHelp2.jpg */; };
-		183B7F8F1850D7A600B811B1 /* SrHelp2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F8B1850D7A600B811B1 /* SrHelp2@2x.jpg */; };
-		183B7F961850DB3A00B811B1 /* SrHelp3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F921850DB3A00B811B1 /* SrHelp3.jpg */; };
-		183B7F971850DB3A00B811B1 /* SrHelp3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 183B7F931850DB3A00B811B1 /* SrHelp3@2x.jpg */; };
+		18774F8318CDB8F900D54D6C /* PhotoPayCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18774F7418CDB8F900D54D6C /* PhotoPayCloud.framework */; };
+		18774F8418CDB8F900D54D6C /* helpContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7618CDB8F900D54D6C /* helpContent.plist */; };
+		18774F8518CDB8F900D54D6C /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7718CDB8F900D54D6C /* left.png */; };
+		18774F8618CDB8F900D54D6C /* left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7818CDB8F900D54D6C /* left@2x.png */; };
+		18774F8718CDB8F900D54D6C /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7918CDB8F900D54D6C /* PhotoPayCloud.xcconfig */; };
+		18774F8818CDB8F900D54D6C /* PPHelpViewController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7A18CDB8F900D54D6C /* PPHelpViewController.nib */; };
+		18774F8918CDB8F900D54D6C /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7B18CDB8F900D54D6C /* right.png */; };
+		18774F8A18CDB8F900D54D6C /* right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7C18CDB8F900D54D6C /* right@2x.png */; };
+		18774F8B18CDB8F900D54D6C /* SrHelp1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7D18CDB8F900D54D6C /* SrHelp1.jpg */; };
+		18774F8C18CDB8F900D54D6C /* SrHelp1@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7E18CDB8F900D54D6C /* SrHelp1@2x.jpg */; };
+		18774F8D18CDB8F900D54D6C /* SrHelp2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7F18CDB8F900D54D6C /* SrHelp2.jpg */; };
+		18774F8E18CDB8F900D54D6C /* SrHelp2@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F8018CDB8F900D54D6C /* SrHelp2@2x.jpg */; };
+		18774F8F18CDB8F900D54D6C /* SrHelp3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F8118CDB8F900D54D6C /* SrHelp3.jpg */; };
+		18774F9018CDB8F900D54D6C /* SrHelp3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18774F8218CDB8F900D54D6C /* SrHelp3@2x.jpg */; };
 		18784BF417ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m in Sources */ = {isa = PBXBuildFile; fileRef = 18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */; };
-		187B36A418C6626B0049BCBE /* PhotoPayCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187B36A018C6626B0049BCBE /* PhotoPayCloud.framework */; };
-		187B36A518C6626C0049BCBE /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 187B36A218C6626B0049BCBE /* PhotoPayCloud.xcconfig */; };
-		187B36A618C6626C0049BCBE /* PPHelpViewController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 187B36A318C6626B0049BCBE /* PPHelpViewController.nib */; };
 		1881760D1802F3810077AC76 /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 1881760C1802F3810077AC76 /* NSDate+Formatting.m */; };
 		188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE217D876E9009531FA /* UIKit.framework */; };
 		188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AAEE417D876E9009531FA /* Foundation.framework */; };
@@ -61,7 +61,6 @@
 		18999B3F17DB4057009FA90A /* camera~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 18999B3717DB4057009FA90A /* camera~iphone.png */; };
 		18999B4117DB40D6009FA90A /* PPHomeViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18999B4017DB40D6009FA90A /* PPHomeViewController_iPad.xib */; };
 		18999B4B17DB4DC2009FA90A /* PPDocumentsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999B4A17DB4DC2009FA90A /* PPDocumentsDataSource.m */; };
-		18999B5A17DB866D009FA90A /* thumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18999B5917DB866D009FA90A /* thumb.jpg */; };
 		18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18999BA217DBCC24009FA90A /* MobileCoreServices.framework */; };
 		18A6316717F2655B00C14A51 /* PPDocumentProcessingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A6316617F2655B00C14A51 /* PPDocumentProcessingView.m */; };
 		18A6316917F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A6316817F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib */; };
@@ -110,22 +109,22 @@
 		182C0A7D17F3AA8400DF1D78 /* PPDocumentPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentPreview.h; sourceTree = "<group>"; };
 		182C0A7E17F3AA8400DF1D78 /* PPDocumentPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentPreview.m; sourceTree = "<group>"; };
 		182C0A8017F3C48A00DF1D78 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		183B7F631850BC5200B811B1 /* helpContent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = helpContent.plist; sourceTree = "<group>"; };
-		183B7F721850BFB100B811B1 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
-		183B7F731850BFB100B811B1 /* left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left@2x.png"; sourceTree = "<group>"; };
-		183B7F741850BFB100B811B1 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
-		183B7F751850BFB100B811B1 /* right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right@2x.png"; sourceTree = "<group>"; };
-		183B7F821850D0E800B811B1 /* SrHelp1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp1.jpg; sourceTree = "<group>"; };
-		183B7F831850D0E800B811B1 /* SrHelp1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp1@2x.jpg"; sourceTree = "<group>"; };
-		183B7F8A1850D7A600B811B1 /* SrHelp2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp2.jpg; sourceTree = "<group>"; };
-		183B7F8B1850D7A600B811B1 /* SrHelp2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp2@2x.jpg"; sourceTree = "<group>"; };
-		183B7F921850DB3A00B811B1 /* SrHelp3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp3.jpg; sourceTree = "<group>"; };
-		183B7F931850DB3A00B811B1 /* SrHelp3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp3@2x.jpg"; sourceTree = "<group>"; };
+		18774F7418CDB8F900D54D6C /* PhotoPayCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhotoPayCloud.framework; sourceTree = "<group>"; };
+		18774F7618CDB8F900D54D6C /* helpContent.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = helpContent.plist; sourceTree = "<group>"; };
+		18774F7718CDB8F900D54D6C /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
+		18774F7818CDB8F900D54D6C /* left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left@2x.png"; sourceTree = "<group>"; };
+		18774F7918CDB8F900D54D6C /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
+		18774F7A18CDB8F900D54D6C /* PPHelpViewController.nib */ = {isa = PBXFileReference; lastKnownFileType = file; path = PPHelpViewController.nib; sourceTree = "<group>"; };
+		18774F7B18CDB8F900D54D6C /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
+		18774F7C18CDB8F900D54D6C /* right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right@2x.png"; sourceTree = "<group>"; };
+		18774F7D18CDB8F900D54D6C /* SrHelp1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp1.jpg; sourceTree = "<group>"; };
+		18774F7E18CDB8F900D54D6C /* SrHelp1@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp1@2x.jpg"; sourceTree = "<group>"; };
+		18774F7F18CDB8F900D54D6C /* SrHelp2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp2.jpg; sourceTree = "<group>"; };
+		18774F8018CDB8F900D54D6C /* SrHelp2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp2@2x.jpg"; sourceTree = "<group>"; };
+		18774F8118CDB8F900D54D6C /* SrHelp3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SrHelp3.jpg; sourceTree = "<group>"; };
+		18774F8218CDB8F900D54D6C /* SrHelp3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SrHelp3@2x.jpg"; sourceTree = "<group>"; };
 		18784BF217ECE399003F4DCE /* PPDocumentTableViewCell+Processing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPDocumentTableViewCell+Processing.h"; sourceTree = "<group>"; };
 		18784BF317ECE399003F4DCE /* PPDocumentTableViewCell+Processing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPDocumentTableViewCell+Processing.m"; sourceTree = "<group>"; };
-		187B36A018C6626B0049BCBE /* PhotoPayCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhotoPayCloud.framework; sourceTree = "<group>"; };
-		187B36A218C6626B0049BCBE /* PhotoPayCloud.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PhotoPayCloud.xcconfig; sourceTree = "<group>"; };
-		187B36A318C6626B0049BCBE /* PPHelpViewController.nib */ = {isa = PBXFileReference; lastKnownFileType = file; path = PPHelpViewController.nib; sourceTree = "<group>"; };
 		1881760B1802F3810077AC76 /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
 		1881760C1802F3810077AC76 /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
 		188AAEDF17D876E9009531FA /* PhotoPayCloudDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoPayCloudDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,7 +152,6 @@
 		18999B4017DB40D6009FA90A /* PPHomeViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PPHomeViewController_iPad.xib; sourceTree = "<group>"; };
 		18999B4917DB4DC2009FA90A /* PPDocumentsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentsDataSource.h; sourceTree = "<group>"; };
 		18999B4A17DB4DC2009FA90A /* PPDocumentsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentsDataSource.m; sourceTree = "<group>"; };
-		18999B5917DB866D009FA90A /* thumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = thumb.jpg; sourceTree = "<group>"; };
 		18999BA217DBCC24009FA90A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		18A6316517F2655B00C14A51 /* PPDocumentProcessingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPDocumentProcessingView.h; sourceTree = "<group>"; };
 		18A6316617F2655B00C14A51 /* PPDocumentProcessingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPDocumentProcessingView.m; sourceTree = "<group>"; };
@@ -192,7 +190,7 @@
 				182C0A8117F3C48A00DF1D78 /* QuickLook.framework in Frameworks */,
 				18999BA417DBCC31009FA90A /* MobileCoreServices.framework in Frameworks */,
 				188AAEE317D876E9009531FA /* UIKit.framework in Frameworks */,
-				187B36A418C6626B0049BCBE /* PhotoPayCloud.framework in Frameworks */,
+				18774F8318CDB8F900D54D6C /* PhotoPayCloud.framework in Frameworks */,
 				188AAEE517D876E9009531FA /* Foundation.framework in Frameworks */,
 				188AAEE717D876E9009531FA /* CoreGraphics.framework in Frameworks */,
 				0FA954F2DE8A46DFA82D6F0D /* libPods.a in Frameworks */,
@@ -205,15 +203,12 @@
 		1811399C17D8CB690065AC3A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				183B7F631850BC5200B811B1 /* helpContent.plist */,
-				183B7F641850BC5200B811B1 /* Images */,
 				18999B3417DB4057009FA90A /* camera@2x~ipad.png */,
 				18999B3517DB4057009FA90A /* camera@2x~iphone.png */,
 				18999B3617DB4057009FA90A /* camera~ipad.png */,
 				18999B3717DB4057009FA90A /* camera~iphone.png */,
 				1829748B17E78EA200FAD137 /* redo.png */,
 				1829748C17E78EA200FAD137 /* redo@2x.png */,
-				18999B5917DB866D009FA90A /* thumb.jpg */,
 				18DEA44A17DA7B5C00DCEC17 /* hr.strings */,
 				18DEA44C17DA7B6700DCEC17 /* en.strings */,
 			);
@@ -265,38 +260,32 @@
 			path = Preview;
 			sourceTree = "<group>";
 		};
-		183B7F641850BC5200B811B1 /* Images */ = {
+		18774F7318CDB8F900D54D6C /* PhotoPayCloud.embeddedframework */ = {
 			isa = PBXGroup;
 			children = (
-				183B7F721850BFB100B811B1 /* left.png */,
-				183B7F731850BFB100B811B1 /* left@2x.png */,
-				183B7F741850BFB100B811B1 /* right.png */,
-				183B7F751850BFB100B811B1 /* right@2x.png */,
-				183B7F821850D0E800B811B1 /* SrHelp1.jpg */,
-				183B7F831850D0E800B811B1 /* SrHelp1@2x.jpg */,
-				183B7F8A1850D7A600B811B1 /* SrHelp2.jpg */,
-				183B7F8B1850D7A600B811B1 /* SrHelp2@2x.jpg */,
-				183B7F921850DB3A00B811B1 /* SrHelp3.jpg */,
-				183B7F931850DB3A00B811B1 /* SrHelp3@2x.jpg */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
-		187B369F18C6626B0049BCBE /* PhotoPayCloud.embeddedframework */ = {
-			isa = PBXGroup;
-			children = (
-				187B36A018C6626B0049BCBE /* PhotoPayCloud.framework */,
-				187B36A118C6626B0049BCBE /* Resources */,
+				18774F7418CDB8F900D54D6C /* PhotoPayCloud.framework */,
+				18774F7518CDB8F900D54D6C /* Resources */,
 			);
 			name = PhotoPayCloud.embeddedframework;
 			path = ../PhotoPayCloud.embeddedframework;
 			sourceTree = "<group>";
 		};
-		187B36A118C6626B0049BCBE /* Resources */ = {
+		18774F7518CDB8F900D54D6C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				187B36A218C6626B0049BCBE /* PhotoPayCloud.xcconfig */,
-				187B36A318C6626B0049BCBE /* PPHelpViewController.nib */,
+				18774F7618CDB8F900D54D6C /* helpContent.plist */,
+				18774F7718CDB8F900D54D6C /* left.png */,
+				18774F7818CDB8F900D54D6C /* left@2x.png */,
+				18774F7918CDB8F900D54D6C /* PhotoPayCloud.xcconfig */,
+				18774F7A18CDB8F900D54D6C /* PPHelpViewController.nib */,
+				18774F7B18CDB8F900D54D6C /* right.png */,
+				18774F7C18CDB8F900D54D6C /* right@2x.png */,
+				18774F7D18CDB8F900D54D6C /* SrHelp1.jpg */,
+				18774F7E18CDB8F900D54D6C /* SrHelp1@2x.jpg */,
+				18774F7F18CDB8F900D54D6C /* SrHelp2.jpg */,
+				18774F8018CDB8F900D54D6C /* SrHelp2@2x.jpg */,
+				18774F8118CDB8F900D54D6C /* SrHelp3.jpg */,
+				18774F8218CDB8F900D54D6C /* SrHelp3@2x.jpg */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -322,7 +311,7 @@
 		188AAEE117D876E9009531FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				187B369F18C6626B0049BCBE /* PhotoPayCloud.embeddedframework */,
+				18774F7318CDB8F900D54D6C /* PhotoPayCloud.embeddedframework */,
 				182C0A8017F3C48A00DF1D78 /* QuickLook.framework */,
 				18999BA217DBCC24009FA90A /* MobileCoreServices.framework */,
 				188AAEE217D876E9009531FA /* UIKit.framework */,
@@ -501,42 +490,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				18999B3D17DB4057009FA90A /* camera@2x~iphone.png in Resources */,
-				18999B5A17DB866D009FA90A /* thumb.jpg in Resources */,
+				18774F8518CDB8F900D54D6C /* left.png in Resources */,
+				18774F8C18CDB8F900D54D6C /* SrHelp1@2x.jpg in Resources */,
 				18DA70CD18C0D311000A3A5C /* PPDocumentsTableViewController.xib in Resources */,
-				183B7F6B1850BC5200B811B1 /* helpContent.plist in Resources */,
 				18181A30181EB22E0062565F /* Images.xcassets in Resources */,
+				18774F8618CDB8F900D54D6C /* left@2x.png in Resources */,
 				18999B3F17DB4057009FA90A /* camera~iphone.png in Resources */,
-				183B7F871850D0E800B811B1 /* SrHelp1@2x.jpg in Resources */,
 				1829748D17E78EA200FAD137 /* redo.png in Resources */,
+				18774F9018CDB8F900D54D6C /* SrHelp3@2x.jpg in Resources */,
 				1819980F17E8BC5F001B66B1 /* PPDocumentTableViewCell_iPhone.xib in Resources */,
+				18774F8918CDB8F900D54D6C /* right.png in Resources */,
 				188AAEED17D876E9009531FA /* InfoPlist.strings in Resources */,
-				183B7F861850D0E800B811B1 /* SrHelp1.jpg in Resources */,
 				1819983C17E9CAFE001B66B1 /* PPDocumentTableViewCell_iPad.xib in Resources */,
 				188AAEF517D876E9009531FA /* Default.png in Resources */,
-				183B7F781850BFB100B811B1 /* right.png in Resources */,
-				183B7F8F1850D7A600B811B1 /* SrHelp2@2x.jpg in Resources */,
+				18774F8D18CDB8F900D54D6C /* SrHelp2.jpg in Resources */,
 				188AAEF717D876E9009531FA /* Default@2x.png in Resources */,
+				18774F8A18CDB8F900D54D6C /* right@2x.png in Resources */,
 				18999B3E17DB4057009FA90A /* camera~ipad.png in Resources */,
-				183B7F961850DB3A00B811B1 /* SrHelp3.jpg in Resources */,
+				18774F8418CDB8F900D54D6C /* helpContent.plist in Resources */,
+				18774F8718CDB8F900D54D6C /* PhotoPayCloud.xcconfig in Resources */,
 				1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */,
-				187B36A518C6626C0049BCBE /* PhotoPayCloud.xcconfig in Resources */,
 				18A6316917F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib in Resources */,
 				1819984617EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib in Resources */,
-				183B7F791850BFB100B811B1 /* right@2x.png in Resources */,
 				188AAEF917D876E9009531FA /* Default-568h@2x.png in Resources */,
-				183B7F771850BFB100B811B1 /* left@2x.png in Resources */,
 				18999B4117DB40D6009FA90A /* PPHomeViewController_iPad.xib in Resources */,
 				18999B3C17DB4057009FA90A /* camera@2x~ipad.png in Resources */,
-				183B7F761850BFB100B811B1 /* left.png in Resources */,
 				18DEA44D17DA7B6700DCEC17 /* en.strings in Resources */,
 				18999B2E17DB178E009FA90A /* PPHomeViewController_iPhone.xib in Resources */,
 				1829748E17E78EA200FAD137 /* redo@2x.png in Resources */,
 				18DEA44B17DA7B5C00DCEC17 /* hr.strings in Resources */,
 				1819982D17E9C1FA001B66B1 /* PPDocumentDetailsViewController_iPhone.xib in Resources */,
+				18774F8F18CDB8F900D54D6C /* SrHelp3.jpg in Resources */,
+				18774F8E18CDB8F900D54D6C /* SrHelp2@2x.jpg in Resources */,
 				18AB527317F4D7BA0046AB13 /* PPProcessedDocumentView_iPhone.xib in Resources */,
-				183B7F8E1850D7A600B811B1 /* SrHelp2.jpg in Resources */,
-				183B7F971850DB3A00B811B1 /* SrHelp3@2x.jpg in Resources */,
-				187B36A618C6626C0049BCBE /* PPHelpViewController.nib in Resources */,
+				18774F8B18CDB8F900D54D6C /* SrHelp1.jpg in Resources */,
+				18774F8818CDB8F900D54D6C /* PPHelpViewController.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
