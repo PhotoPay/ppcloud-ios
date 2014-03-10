@@ -364,6 +364,9 @@
                                                       localDocument.state = PPDocumentStateUploadFailed;
                                                       if ([[self documentUploadQueue] count] == 0) {
                                                           [self setState:PPPhotoPayCloudServiceStateReady];
+                                                      if ([[self documentUploadQueue] indexOfDocument:localDocument] == NSNotFound) {
+                                                          PPLogWarn(@"Document was uploaded before it could be canceled!");
+                                                          return;
                                                       }
                                                       
                                                       PPLogInfo(@"Local document upload failed!");
