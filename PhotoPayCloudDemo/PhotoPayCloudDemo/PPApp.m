@@ -40,6 +40,7 @@ NSString *uuid() {
         sharedInstance = [[self alloc] init];
         if (sharedInstance.userId == nil) {
             sharedInstance.userId = uuid();
+            DDLogInfo(@"Generated User ID, %@", sharedInstance.userId);
             [sharedInstance setShouldDisplayHelp:YES];
         }
         
@@ -81,7 +82,7 @@ NSString *uuid() {
     
     NSString* userId = [defaults stringForKey:keyUserId];
     if (userId == nil || [userId length] == 0) {
-        DDLogInfo(@"User ID doesn't exist, please provide one");
+        DDLogWarn(@"User ID doesn't exist, please provide one");
         return nil;
     }
     
