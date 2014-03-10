@@ -160,7 +160,7 @@ static NSString *imageKey   = @"imageKey";
     /** Scroll view init */
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightToolbar + [self topOffset],
                                                                  self.view.bounds.size.width,
-                                                                 self.view.bounds.size.height - heightToolbar - pageIndicatorHeight)];
+                                                                 self.view.bounds.size.height - heightToolbar - pageIndicatorHeight - [self topOffset])];
     _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     // a page is the width of the scroll view
