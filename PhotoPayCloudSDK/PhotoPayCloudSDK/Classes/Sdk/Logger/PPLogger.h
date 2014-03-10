@@ -8,22 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define PPLogCrit(frmt, ...)    PPLog(PPLogFlagCrit,     frmt, ##__VA_ARGS__)
-#define PPLogError(frmt, ...)   PPLog(PPLogFlagError,    frmt, ##__VA_ARGS__)
-#define PPLogWarn(frmt, ...)    PPLog(PPLogFlagWarn,     frmt, ##__VA_ARGS__)
-#define PPLogInfo(frmt, ...)    PPLog(PPLogFlagInfo,     frmt, ##__VA_ARGS__)
-#define PPLogDebug(frmt, ...)   PPLog(PPLogFlagDebug,    frmt, ##__VA_ARGS__)
-#define PPLogVerbose(frmt, ...) PPLog(PPLogFlagVerbose,  frmt, ##__VA_ARGS__)
-
-#define PPSetLogLevel(level)    ([[[PPSdk sharedSdk] logger] setLogLevel:level])
-
-#define PPLog(flag, frmt, ...)                                  \
-    [[[PPSdk sharedSdk] logger] logFlag:flag                    \
-                                   file:__FILE__                \
-                               function:__PRETTY_FUNCTION__     \
-                                   line:__LINE__                \
-                                 format:(frmt), ##__VA_ARGS__]
-
 /** Defines the flag for each log type */
 typedef NS_ENUM(NSUInteger, PPLogFlag) {
     PPLogFlagCrit    = (1 << 0),  // 0...000001

@@ -8,18 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef PPSetLanguage
-#define PPSetLanguage(l) ([[[PPSdk sharedSdk] localizer] setLanguage:l])
-#endif
-
-#ifndef PPLocalize
-#define PPLocalize(s) ([[[PPSdk sharedSdk] localizer] localizeString:(s)])
-#endif
-
-#ifndef PPLocalizeFormat
-#define PPLocalizeFormat(frmt, ...) ([[[PPSdk sharedSdk] localizer] localizeFormat:(frmt), ##__VA_ARGS__])
-#endif
-
 /**
  Common superclass for all localizer implementations
  

@@ -24,6 +24,34 @@
 #define IS_IPHONE (!IS_IPAD)
 #define IS_RETINA ([UIScreen mainScreen].scale == 2.0)
 
+#define PPLogCrit(frmt, ...)    PPLog(PPLogFlagCrit,     frmt, ##__VA_ARGS__)
+#define PPLogError(frmt, ...)   PPLog(PPLogFlagError,    frmt, ##__VA_ARGS__)
+#define PPLogWarn(frmt, ...)    PPLog(PPLogFlagWarn,     frmt, ##__VA_ARGS__)
+#define PPLogInfo(frmt, ...)    PPLog(PPLogFlagInfo,     frmt, ##__VA_ARGS__)
+#define PPLogDebug(frmt, ...)   PPLog(PPLogFlagDebug,    frmt, ##__VA_ARGS__)
+#define PPLogVerbose(frmt, ...) PPLog(PPLogFlagVerbose,  frmt, ##__VA_ARGS__)
+
+#define PPSetLogLevel(level)    ([[[PPSdk sharedSdk] logger] setLogLevel:level])
+
+#define PPLog(flag, frmt, ...)                                  \
+    [[[PPSdk sharedSdk] logger] logFlag:flag                    \
+                                   file:__FILE__                \
+                               function:__PRETTY_FUNCTION__     \
+                                   line:__LINE__                \
+                                 format:(frmt), ##__VA_ARGS__]
+
+#ifndef PPSetLanguage
+#define PPSetLanguage(l) ([[[PPSdk sharedSdk] localizer] setLanguage:l])
+#endif
+
+#ifndef PPLocalize
+#define PPLocalize(s) ([[[PPSdk sharedSdk] localizer] localizeString:(s)])
+#endif
+
+#ifndef PPLocalizeFormat
+#define PPLocalizeFormat(frmt, ...) ([[[PPSdk sharedSdk] localizer] localizeFormat:(frmt), ##__VA_ARGS__])
+#endif
+
 /**
  Class with common setting for the entire SDK
  */
