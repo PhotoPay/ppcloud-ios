@@ -531,13 +531,12 @@
         return;
     }
     
-    [[self deletedDocumentsCache] addObject:document];
-    
     PPLocalDocument* localDocument = [document localDocument];
     if (localDocument != nil) {
         [[self documentManager] deleteDocument:localDocument error:error];
         [[self documentUploadQueue] remove:localDocument];
         dispatch_async(dispatch_get_main_queue(), ^() {
+            [[self deletedDocumentsCache] addObject:document];
             [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
         });
         [[localDocument uploadRequest] cancel];
@@ -546,6 +545,7 @@
         [self deleteRemoteDocument:remoteDocument
                         withSuccess:^{
                             dispatch_async(dispatch_get_main_queue(), ^() {
+                                [[self deletedDocumentsCache] addObject:document];
                                 [[self dataSource] removeItems:[[NSArray alloc] initWithObjects:document, nil]];
                             });
                         } failure:^(NSError *error) {
