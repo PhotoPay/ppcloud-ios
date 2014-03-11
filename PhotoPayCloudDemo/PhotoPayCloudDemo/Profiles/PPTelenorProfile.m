@@ -1,25 +1,21 @@
 //
-//  PPEBSProfile.m
+//  PPTelenorProfile.m
 //  PhotoPayCloudDemo
 //
-//  Created by Jura on 10/03/14.
+//  Created by Jura on 11/03/14.
 //  Copyright (c) 2014 PhotoPay. All rights reserved.
 //
 
-#import "PPEBSProfile.h"
+#import "PPTelenorProfile.h"
 
-@implementation PPEBSProfile
+@implementation PPTelenorProfile
 
 - (NSString*)language {
     return @"hr";
 }
 
-- (NSString*)processingServer {
-    return @"https://smartphonembankinguat.erstebank.rs:1027/";
-}
-
 - (NSString*)organizationName {
-    return @"EBS";
+    return @"Telenor";
 }
 
 - (NSString*)appName {
@@ -27,7 +23,7 @@
 }
 
 - (NSString*)distributionUrl {
-    return @"http://demo.photopay.net/distribute/iphone/srb-erste-cloud/";
+    return @"http://demo.photopay.net/distribute/iphone/cloud-srb-telenor/";
 }
 
 - (PPDocumentProcessingType)pdfProcessingType {

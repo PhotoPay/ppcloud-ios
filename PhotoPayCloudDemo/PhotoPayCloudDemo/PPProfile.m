@@ -7,7 +7,7 @@
 //
 
 #import "PPProfile.h"
-#import "PPEBSProfile.h"
+#import "PPTelenorProfile.h"
 
 @implementation PPProfile
 
@@ -16,7 +16,7 @@
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedProfile = [[PPEBSProfile alloc] init];
+        sharedProfile = [[PPTelenorProfile alloc] init];
     });
     
     return sharedProfile;

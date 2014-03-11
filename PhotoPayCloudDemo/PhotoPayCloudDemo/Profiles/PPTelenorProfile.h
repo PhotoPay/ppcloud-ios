@@ -1,13 +1,13 @@
 //
-//  PPEBSProfile.h
+//  PPTelenorProfile.h
 //  PhotoPayCloudDemo
 //
-//  Created by Jura on 10/03/14.
+//  Created by Jura on 11/03/14.
 //  Copyright (c) 2014 PhotoPay. All rights reserved.
 //
 
 #import "PPProfile.h"
 
-@interface PPEBSProfile : PPProfile
+@interface PPTelenorProfile : PPProfile
 
 @end
