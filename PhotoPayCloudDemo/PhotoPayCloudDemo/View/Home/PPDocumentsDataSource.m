@@ -41,20 +41,20 @@
     switch ([document state]) {
         case PPDocumentStateCreated:
         case PPDocumentStateStored: {
-            DDLogVerbose(@"Document at %d %d is waiting for upload %@", [indexPath section], [indexPath row], [PPDocument objectForDocumentState:[document state]]);
+            DDLogVerbose(@"Document at %d %d is waiting for upload %@", (int)[indexPath section], (int)[indexPath row], [PPDocument objectForDocumentState:[document state]]);
             cell = [PPDocumentsDataSource cellForDocumentStateLocal:[document localDocument]
                                                           tableView:tableView];
             cell.mediumLabel.text = _(@"PhotoPayHomeDocumentWaitingForUploadLabel");
             break;
         }
         case PPDocumentStateUploading: {
-            DDLogVerbose(@"Document at %d %d is uploading %@", [indexPath section], [indexPath row], [PPDocument objectForDocumentState:[document state]]);
+            DDLogVerbose(@"Document at %d %d is uploading %@", (int)[indexPath section], (int)[indexPath row], [PPDocument objectForDocumentState:[document state]]);
             cell = [PPDocumentsDataSource cellForDocumentStateUploading:[document localDocument]
                                                               tableView:tableView];
             break;
         }
         case PPDocumentStateUploadFailed: {
-            DDLogVerbose(@"Document at %d %d failed to upload %@", [indexPath section], [indexPath row], [PPDocument objectForDocumentState:[document state]]);
+            DDLogVerbose(@"Document at %d %d failed to upload %@", (int)[indexPath section], (int)[indexPath row], [PPDocument objectForDocumentState:[document state]]);
             cell = [PPDocumentsDataSource cellForDocumentStateLocal:[document localDocument]
                                                           tableView:tableView];
             cell.mediumLabel.text = _(@"PhotoPayHomeDocumentUploadFailedLabel");
@@ -62,13 +62,13 @@
         }
         case PPDocumentStatePaid:
         case PPDocumentStateProcessed: {
-            DDLogVerbose(@"Document at %d %d processed or paid %@", [indexPath section], [indexPath row], [PPDocument objectForDocumentState:[document state]]);
+            DDLogVerbose(@"Document at %d %d processed or paid %@", (int)[indexPath section], (int)[indexPath row], [PPDocument objectForDocumentState:[document state]]);
             cell = [PPDocumentsDataSource cellForDocumentStateProcessed:[document remoteDocument]
                                                               tableView:tableView];
             break;
         }
         default: {
-            DDLogVerbose(@"Document at %d %d default %@", [indexPath section], [indexPath row], [PPDocument objectForDocumentState:[document state]]);
+            DDLogVerbose(@"Document at %d %d default %@", (int)[indexPath section], (int)[indexPath row], [PPDocument objectForDocumentState:[document state]]);
             cell = [PPDocumentsDataSource cellForDocumentStateProcessing:[document remoteDocument]
                                                                tableView:tableView];
             break;
