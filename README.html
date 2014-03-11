@@ -27,9 +27,33 @@ html,body{color:black}*:not('#mkdbuttons'){margin:0;padding:0}#wrapper{font:13.3
 
 <p>This package contains client side SDK for accessing PhotoPayCloud web services on iOS.</p>
 
-<p>This README document gives an overview of steps for integration of PhotoPayCloud SDK inside your application.</p>
+<p>Structure of the README document is as follows</p>
 
-<h2 id="gettingstarted">Getting started</h2>
+<ul>
+<li><a href="#1">Getting Started</a> which explains a little more about the structure of this repository</li>
+<li><a href="#2">Setting up your Xcode workspace</a> which shows you how to connect the PhotoPayCloud SDK with your Xcode project</li>
+<li><a href="#3">Common operations</a> which explains the procedures you have to implement to get a working app</li>
+</ul>
+
+<p>Common operations include the following procedures:</p>
+
+<ol>
+<li><a href="#301">Initializing the PhotoPayCloud Service for a specific user</a></li>
+<li><a href="#302">Checking for unfinished and pending uploads</a></li>
+<li><a href="#303">Creating a View Controller which display a list of documents</a></li>
+<li><a href="#304">Uploading new documents and images to processing server</a></li>
+<li><a href="#305">Displaying user help</a></li>
+<li><a href="#306">Retrieving scanning results</a></li>
+<li><a href="#307">Opening details view</a></li>
+<li><a href="#308">Requesting all documents with specific document state</a></li>
+<li><a href="#309">Deleting a document</a></li>
+<li><a href="#310">Confirming user’s data when paying a document</a></li>
+<li><a href="#311">Retrieving a document thumbnail and preview images</a></li>
+<li><a href="#312">Retrieving the whole document</a></li>
+<li><a href="#313">Uninitializing PPPhotoPayCloudService object</a></li>
+</ol>
+
+<h2 id="aname1agettingstarted"><a name="1"></a> Getting started</h2>
 
 <p>Since this is a private git repository, the easiest way to stay up to date with the latest versions is to setup this repository as a git submodule inside your project&#8217;s repository.</p>
 
@@ -51,7 +75,7 @@ git submodule add https://github.com/PhotoPay/ppcloud-ios.git ppcloud-ios
 pod install
 </code></pre>
 
-<h2 id="settingupyourxcodeworkspace">Setting up your Xcode workspace</h2>
+<h2 id="aname2asettingupyourxcodeworkspace"><a name="2"></a> Setting up your Xcode workspace</h2>
 
 <p>The easiest way to use PhotoPayCloudSDK with your Xcode project is to add it into your Xcode workspace. Simply drag and drop PhotoPayCloudSDK.xcodeproj file to your workspace, below your project, on the same hierarchy level. </p>
 
@@ -79,9 +103,9 @@ pod install
 
 <p>Now you have everything set up to start the coding part. But first we can cover some of the basic PhotoPayCloudSDK architecture.</p>
 
-<h2 id="commonoperations">Common operations</h2>
+<h2 id="aname3acommonoperations"><a name="3"></a> Common operations</h2>
 
-<h3 id="initializingthephotopaycloudserviceforaspecificuser">1. Initializing the PhotoPayCloud Service for a specific user</h3>
+<h3 id="aname301a1.initializingthephotopaycloudserviceforaspecificuser"><a name="301"></a> 1. Initializing the PhotoPayCloud Service for a specific user</h3>
 
 <p>The initialization method like the following should be called whenever a user logs in to the application. The method should specify data about the current user, as well as an object reposnsible for making network requests (PPNetworkManager object). For example, if you use AFNetworking, you can use PPAFNetworkManager class provided in the PhotoPayCloudDemo application, but you have to provide your own AFHTTPRequestOperationManager object.</p>
 
@@ -127,7 +151,7 @@ pod install
 
 <p>It&#8217;s important to note that userId is never stored locally on the mobile device. The only user&#8217;s data which is stored on the user&#8217;s phone is MD5 hash of the userId, and it&#8217;s only used for identifying documents which need to be uploaded until upload finishes, or until user deletes the document.</p>
 
-<h3 id="checkingforunfinishedandpendinguploads">2. Checking for unfinished and pending uploads</h3>
+<h3 id="aname302a2.checkingforunfinishedandpendinguploads"><a name="302"></a> 2. Checking for unfinished and pending uploads</h3>
 
 <p>After the user logs in into the application, you should check if any pending uploads exist which didn&#8217;t successfully complete. If they exist, the user should have the opportunity to continue those uploads, or delete them permanently.</p>
 
@@ -153,7 +177,7 @@ pod install
 }
 </code></pre>
 
-<h3 id="creatingaviewcontrollerwhichdisplayalistofdocuments">3. Creating a View Controller which display a list of documents</h3>
+<h3 id="aname303a3.creatingaviewcontrollerwhichdisplayalistofdocuments"><a name="303"></a> 3. Creating a View Controller which display a list of documents</h3>
 
 <p>PhotoPay Cloud Home View is a view which contains a list of all user&#8217;s documents. This View also has a button which can start camera capture for taking a photo of a user&#8217;s bill. </p>
 
@@ -310,19 +334,19 @@ didUpdateProgressWithBytesWritten:(long long)totalBytesWritten
 }
 </code></pre>
 
-<h3 id="uploadingnewdocumentsandimagestoprocessingserver">4. Uploading new documents and images to processing server</h3>
+<h3 id="aname304a4.uploadingnewdocumentsandimagestoprocessingserver"><a name="304"></a> 4. Uploading new documents and images to processing server</h3>
 
 <p>You can use provided uploadImage: method in the PPBaseHomeViewController, but your requirements might be different. For example, you might want to specify some other PPDocumentProcessingType, instead of the default PPDocumentProcessingTypeSerbianPhotoInvoice.</p>
 
 <p>Look at the implementation of PPBaseHomeViewController in our open SDK project to see the details of document uploading methods. However, in most cases default implementation should be enough.</p>
 
-<h3 id="showingscanninginstructions">5. Showing scanning instructions</h3>
+<h3 id="aname305a5.displayinguserhelp"><a name="305"></a> 5. Displaying user help</h3>
 
 <p>PPBaseHomeViewController is able to display the default instructions page. Method openHelp is responsible for this. It instantiates PPPagedContentViewController object and displays it modally.</p>
 
 <p>You can override openHelp in your HomeViewController implementation, but in most cases default should be enough.</p>
 
-<h3 id="retrievingscanningresults">6. Retrieving scanning results</h3>
+<h3 id="aname306a6.retrievingscanningresults"><a name="306"></a> 6. Retrieving scanning results</h3>
 
 <p>Scanning results are easily obtained from PPRemoteDocument object by accessing it&#8217;s scanResult property. Scanning results are provided as a PPScanResult object. </p>
 
@@ -378,7 +402,7 @@ PPElementCandidate* accountCandidate = [[serbianResult mostProbableAccountNumber
 
 <p>PPElementCandidateList object contains an NSArray of candidates sorted by decreasing confidence level (meaning, the candidate with the highest confidence level is at the front of the array).</p>
 
-<h3 id="openingdetailsview">7. Opening details view</h3>
+<h3 id="aname307a7.openingdetailsview"><a name="307"></a> 7. Opening details view</h3>
 
 <p>When user taps a specific cell in a HomeViewController list, you should open a view which gives more details about the underlying document. That means you are responsible for developing a ViewController for this. Details View is opened on openDocumentDetailsView: event in your HomeViewController.</p>
 
@@ -436,7 +460,7 @@ PPElementCandidate* accountCandidate = [[serbianResult mostProbableAccountNumber
 </table>
 <p>For all states, provide a button for deleting a document.</p>
 
-<h3 id="requestingalldocumentswithspecificdocumentstate">8. Requesting all documents with specific document state</h3>
+<h3 id="aname308a8.requestingalldocumentswithspecificdocumentstate"><a name="308"></a> 8. Requesting all documents with specific document state</h3>
 
 <p>In HomeViewController, when you want to display documents, you are required to specify which document states you&#8217;re interested in. When you know the states, you can make a request for documents in the following way:</p>
 
@@ -449,14 +473,14 @@ self.tableViewController.documentStates = PDocumentStateLocal | PPDocumentStateR
 
 <p>If your tableViewController (see section about PPDocumentsTableViewController objects), has pollInterval property set to a NSNumber value other than nil, documents with specified states will be requested periodically, each pollInterval seconds. If pollInterval is nil, only one document request will be made.</p>
 
-<h3 id="deletingadocument">9. Deleting a document</h3>
+<h3 id="aname309a9.deletingadocument"><a name="309"></a> 9. Deleting a document</h3>
 
 <p>To delete a document, use the following code:</p>
 
 <pre><code>[[PPPhotoPayCloudService sharedService] deleteDocument:document error:&amp;error];
 </code></pre>
 
-<h3 id="confirmingusersdatawhenpayingadocument">10. Confirming user&#8217;s data when paying a document</h3>
+<h3 id="aname310a10.confirmingusersdatawhenpayingadocument"><a name="310"></a> 10. Confirming user&#8217;s data when paying a document</h3>
 
 <p>When the user actually makes the payment, it&#8217;s required that PhotoPayCloud Service is notified for the correct data used for the actual payment. To notify the Service about confirmed data perform the following steps:</p>
 
@@ -494,7 +518,7 @@ self.tableViewController.documentStates = PDocumentStateLocal | PPDocumentStateR
 </tr>
 </tbody>
 </table>
-<h3 id="retrievingadocumentthumbnailandpreviewimages">11. Retrieving a document thumbnail and preview images</h3>
+<h3 id="aname311a11.retrievingadocumentthumbnailandpreviewimages"><a name="311"></a> 11. Retrieving a document thumbnail and preview images</h3>
 
 <p>Any document object, no matter if it&#8217;s PPLocalDocument or PPRemoteDocument, has an instance method for obtaining thumbnails and preview images. Simply use:</p>
 
@@ -516,7 +540,7 @@ self.tableViewController.documentStates = PDocumentStateLocal | PPDocumentStateR
 
 <p>for accessing preview images.</p>
 
-<h3 id="retrievingthewholedocument">12. Retrieving the whole document</h3>
+<h3 id="aname312a12.retrievingthewholedocument"><a name="312"></a> 12. Retrieving the whole document</h3>
 
 <p>For retrieving the whole document, for example, PDF invoice, use the following instance method on PPDocument object</p>
 
@@ -529,7 +553,7 @@ self.tableViewController.documentStates = PDocumentStateLocal | PPDocumentStateR
 
 <p>See PPDocumentPreview and PPQLPreviewController classes in the Demo app for a quick demo on how to implement a working document preview View Controller.</p>
 
-<h3 id="uninitializingppphotopaycloudserviceobject">13. Uninitializing PPPhotoPayCloudService object</h3>
+<h3 id="aname313a13.uninitializingppphotopaycloudserviceobject"><a name="313"></a> 13. Uninitializing PPPhotoPayCloudService object</h3>
 
 <p>Inverse method to initialization should be performed every time the user logs out from the application. </p>
 
