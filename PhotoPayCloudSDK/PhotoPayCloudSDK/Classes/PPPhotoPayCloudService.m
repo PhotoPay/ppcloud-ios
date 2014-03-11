@@ -343,9 +343,7 @@
                                                       }
                                                   } failure:^(id<PPUploadRequestOperation> operation, PPBaseResponse *response, NSError *error) {
                                                       localDocument.state = PPDocumentStateUploadFailed;
-                                                      if ([[self documentUploadQueue] count] == 0) {
-                                                          [self setState:PPPhotoPayCloudServiceStateReady];
-                                                      }
+                                                      [[self documentUploadQueue] insert:localDocument];
                                                       
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
                                                           [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
@@ -361,15 +359,16 @@
                                                           [localDocument setUploadRequest:nil];
                                                       }
                                                   } canceled:^(id<PPUploadRequestOperation> operation) {
-                                                      localDocument.state = PPDocumentStateUploadFailed;
-                                                      if ([[self documentUploadQueue] count] == 0) {
-                                                          [self setState:PPPhotoPayCloudServiceStateReady];
                                                       if ([[self documentUploadQueue] indexOfDocument:localDocument] == NSNotFound) {
                                                           PPLogWarn(@"Document was uploaded before it could be canceled!");
                                                           return;
                                                       }
                                                       
                                                       PPLogInfo(@"Local document upload failed!");
+                                                      
+                                                      localDocument.state = PPDocumentStateUploadFailed;
+                                                      [[self documentUploadQueue] insert:localDocument];
+                                                      
                                                       dispatch_async(dispatch_get_main_queue(), ^() {
                                                           if ([[[self dataSource] items] containsObject:localDocument]) {
                                                               [[self dataSource] reloadItems:[[NSArray alloc] initWithObjects:localDocument, nil]
