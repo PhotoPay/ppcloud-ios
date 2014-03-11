@@ -31,7 +31,6 @@
 		18774F8418CDB8F900D54D6C /* helpContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7618CDB8F900D54D6C /* helpContent.plist */; };
 		18774F8518CDB8F900D54D6C /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7718CDB8F900D54D6C /* left.png */; };
 		18774F8618CDB8F900D54D6C /* left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7818CDB8F900D54D6C /* left@2x.png */; };
-		18774F8718CDB8F900D54D6C /* PhotoPayCloud.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7918CDB8F900D54D6C /* PhotoPayCloud.xcconfig */; };
 		18774F8818CDB8F900D54D6C /* PPHelpViewController.nib in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7A18CDB8F900D54D6C /* PPHelpViewController.nib */; };
 		18774F8918CDB8F900D54D6C /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7B18CDB8F900D54D6C /* right.png */; };
 		18774F8A18CDB8F900D54D6C /* right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18774F7C18CDB8F900D54D6C /* right@2x.png */; };
@@ -482,7 +481,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PP;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = PhotoPay;
 			};
 			buildConfigurationList = 188AAEDA17D876E9009531FA /* Build configuration list for PBXProject "PhotoPayCloudDemo" */;
@@ -526,7 +525,6 @@
 				18774F8A18CDB8F900D54D6C /* right@2x.png in Resources */,
 				18999B3E17DB4057009FA90A /* camera~ipad.png in Resources */,
 				18774F8418CDB8F900D54D6C /* helpContent.plist in Resources */,
-				18774F8718CDB8F900D54D6C /* PhotoPayCloud.xcconfig in Resources */,
 				1819983317E9C31D001B66B1 /* PPDocumentUploadingView_iPhone.xib in Resources */,
 				18A6316917F2657B00C14A51 /* PPDocumentProcessingView_iPhone.xib in Resources */,
 				1819984617EA1F00001B66B1 /* PPDocumentUploadFailedView_iPhone.xib in Resources */,
@@ -636,7 +634,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -682,7 +679,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -713,7 +709,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
