@@ -35,6 +35,9 @@
 /** Override of the state property. Inside of the class it's changeable */
 @property (nonatomic) PPPhotoPayCloudServiceState state;
 
+/** Cache for deleted documents */
+@property (nonatomic, strong) NSMutableArray* deletedDocumentsCache;
+
 /**
  Checks if any existing upload queues wait for continuation
  */
@@ -102,6 +105,8 @@
     self = [super init];
     if (self) {
         documentManager = [[PPDocumentManager alloc] init];
+        
+        _deletedDocumentsCache = [[NSMutableArray alloc] init];
         
         // create a default data source
         _dataSource = [[PPDocumentsTableDataSource alloc] init];
@@ -526,6 +531,8 @@
         return;
     }
     
+    [[self deletedDocumentsCache] addObject:document];
+    
     PPLocalDocument* localDocument = [document localDocument];
     if (localDocument != nil) {
         [[self documentManager] deleteDocument:localDocument error:error];
@@ -758,8 +765,17 @@
         // document states are not the same as last presented, so recheck all existing documents in the documentUploadQueue
         dispatch_async(dispatch_get_main_queue(), ^() {
             
+            NSMutableArray* documentsToInsert = [[NSMutableArray alloc] init];
+            [[[self documentUploadQueue] elements] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if (![[self deletedDocumentsCache] containsObject:obj]) {
+                    [documentsToInsert addObject:[obj copy]];
+                } else {
+                    PPLogWarn(@"Trying to insert document which was already deleted!");
+                }
+            }];
+            
             // add all documents currently in document upload queue which are in the state given by document states
-            [[self dataSource] insertItems:[[NSArray alloc] initWithArray:[[self documentUploadQueue] elements] copyItems:YES]];
+            [[self dataSource] insertItems:documentsToInsert];
         });
     }
     
@@ -780,10 +796,22 @@
                      success:^(NSArray *remoteDocuments) {
                          
         dispatch_async(dispatch_get_main_queue(), ^() {
+            
+            NSMutableArray* documentsToInsert = [[NSMutableArray alloc] init];
+            [remoteDocuments enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if (![[self deletedDocumentsCache] containsObject:obj]) {
+                    [documentsToInsert addObject:[obj copy]];
+                } else {
+                    PPLogWarn(@"Trying to insert document which was already deleted!");
+                }
+            }];
+            
             // insert/reload all documents
             if ([remoteDocuments count]) {
-                [[self dataSource] insertItems:remoteDocuments];
+                [[self dataSource] insertItems:documentsToInsert];
             }
+            
+            [[self deletedDocumentsCache] removeAllObjects];
             
             if (success) {
                 success([[self dataSource] items]);
