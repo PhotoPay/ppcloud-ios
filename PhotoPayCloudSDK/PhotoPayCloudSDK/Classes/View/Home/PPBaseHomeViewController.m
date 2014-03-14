@@ -13,6 +13,8 @@
 
 @interface PPBaseHomeViewController ()
 
+@property (nonatomic, assign, getter = isTableViewDisplayed) BOOL tableViewDisplayed;
+
 @end
 
 @implementation PPBaseHomeViewController
@@ -29,13 +31,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    [self setTableViewDisplayed:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     // Display it as a child view controller
-    [self pp_displayContentController:[self tableViewController]];
+    if (![self isTableViewDisplayed]) {
+        [self pp_displayContentController:[self tableViewController]];
+        [self setTableViewDisplayed:YES];
+    }
 }
 
 - (void)pp_displayContentController:(UIViewController *)content {
