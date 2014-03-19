@@ -267,6 +267,15 @@ typedef NS_ENUM(NSUInteger, PPPhotoPayCloudServiceState) {
             canceled:(void (^)(void))canceled;
 
 /**
+ Check if user is registered
+ */
+- (void)isUserRegistered:(PPUser*)user
+              registered:(void (^)(void))registered
+           notRegistered:(void (^)(void))notRegistered
+                 failure:(void (^)(NSError* error))failure
+                canceled:(void (^)(void))canceled;
+
+/**
  Update the user
  */
 - (void)updateUser:(PPUser*)updatedUser

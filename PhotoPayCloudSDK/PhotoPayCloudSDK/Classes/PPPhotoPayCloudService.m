@@ -982,6 +982,35 @@
     [registerUserRequestOperation start];
 }
 
+- (void)isUserRegistered:(PPUser*)checkedUser
+              registered:(void (^)(void))registered
+           notRegistered:(void (^)(void))notRegistered
+                 failure:(void (^)(NSError* error))failure
+                canceled:(void (^)(void))canceled {
+    if ([self isServiceUnavailable]) {
+        return;
+    }
+    
+    NSOperation* isUserRegisteredRequestOperation = [[self networkManager] createIsUserRegisteredRequest:checkedUser
+                                                                                                 success:^(NSOperation *operation, BOOL isRegistered) {
+                                                                                                     if (registered && isRegistered) {
+                                                                                                         registered();
+                                                                                                     } else if (notRegistered && !isRegistered) {
+                                                                                                         notRegistered();
+                                                                                                     }
+                                                                                                 } failure:^(NSOperation *operation, NSError *error) {
+                                                                                                     if (failure) {
+                                                                                                         failure(error);
+                                                                                                     }
+                                                                                                 } canceled:^(NSOperation *operation) {
+                                                                                                     if (canceled) {
+                                                                                                         canceled();
+                                                                                                     }
+                                                                                                 }];
+    
+    [isUserRegisteredRequestOperation start];
+}
+
 - (void)updateUser:(PPUser*)updatedUser
            success:(void (^)(void))success
            failure:(void (^)(NSError* error))failure

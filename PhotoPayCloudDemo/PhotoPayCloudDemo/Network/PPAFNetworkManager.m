@@ -770,6 +770,70 @@
 /**
  Abstract.
  
+ Factory method for creating requests for verifying is user registered
+ */
+- (NSOperation*)createIsUserRegisteredRequest:(PPUser *)user
+                                      success:(void (^)(NSOperation*, BOOL))success
+                                      failure:(void (^)(NSOperation*, NSError *))failure
+                                     canceled:(void (^)(NSOperation*))canceled {
+    
+    // 1. create parameters dictionary
+    NSError * __autoreleasing error = nil;
+    NSMutableDictionary* requestParams = [self requestParametersForUser:user error:&error];
+    if (error != nil) {
+        PPLogError(@"Error creating register user request %@", error);
+        return nil;
+    }
+    
+    NSString *urlString = [baseURLString stringByAppendingString:[PPNetworkManager apiPathIsUserRegistered:user]];
+    
+    NSMutableURLRequest *isUserRegisteredRequest = [[self requestSerializer] requestWithMethod:@"GET"
+                                                                                     URLString:urlString
+                                                                                    parameters:requestParams];
+    
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:isUserRegisteredRequest];
+    requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    requestOperation.securityPolicy = [[self requestOperationManager] securityPolicy];
+    
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        PPLogVerbose(@"Is user registered success with response %@", operation.responseString);
+        BOOL registered = [operation.response statusCode] == 200 || [operation.response statusCode] == 201;
+        if (success) {
+            success(operation, registered);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        PPLogError(@"Is user registered failed with response %@", operation.responseString);
+        
+        BOOL notRegistered = [operation.response statusCode] == 404;
+        if (success && notRegistered) {
+            success(operation, NO);
+            return;
+        }
+        
+       
+        
+        if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
+            PPLogInfo(@"Register user request canceled");
+            if (canceled) {
+                canceled(operation);
+            }
+            return;
+        }
+        
+        PPLogError(@"Error: %@", error);
+        PPLogError(@"Request object was: %@", operation.request);
+        if (failure != nil) {
+            failure(operation, error);
+        }
+    }];
+    
+    return requestOperation;
+}
+
+/**
+ Abstract.
+ 
  Factory method for creating requests for updating user
  */
 - (NSOperation*)createUpdateUserRequest:(PPUser *)user

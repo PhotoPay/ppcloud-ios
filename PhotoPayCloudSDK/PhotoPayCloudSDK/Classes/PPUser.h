@@ -26,13 +26,13 @@ typedef NS_ENUM(NSUInteger, PPUserType) {
 };
 
 /** Id of the user */
-@property (nonatomic, strong, readonly) NSString* userId;
+@property (nonatomic, strong) NSString* userId;
 
 /** Id of the organization the user belongs to */
-@property (nonatomic, strong, readonly) NSString* organizationId;
+@property (nonatomic, strong) NSString* organizationId;
 
 /** Type of the user */
-@property (nonatomic, readonly) PPUserType userType;
+@property (nonatomic) PPUserType userType;
 
 /** Main email address for the user */
 @property (nonatomic, strong) NSString* email;

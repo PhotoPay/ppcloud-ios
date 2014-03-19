@@ -177,6 +177,10 @@ NSString* const kPPParameterStatus = @"status";
     return @"cloud/customer/registration";
 }
 
++ (NSString*)apiPathIsUserRegistered:(PPUser*)user {
+    return @"cloud/customer/isRegistered";
+}
+
 + (NSString*)apiPathDeleteDocument:(PPDocument*)document {
     NSString *documentId = [PPNetworkUtils percentEscapedStringKeyFromString:[document documentId]
                                                                 withEncoding:NSUTF8StringEncoding];
@@ -290,6 +294,22 @@ NSString* const kPPParameterStatus = @"status";
                                   success:(void (^)(NSOperation*, PPBaseResponse*))success
                                   failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
                                  canceled:(void (^)(NSOperation*))canceled {
+    
+    // this method must be overriden by the application
+    @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                   reason:[NSString stringWithFormat:@"%s must be overridden in a subclass/category", __PRETTY_FUNCTION__]
+                                 userInfo:nil];
+}
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for verifying is user registered
+ */
+- (NSOperation*)createIsUserRegisteredRequest:(PPUser *)user
+                                      success:(void (^)(NSOperation*, BOOL))success
+                                      failure:(void (^)(NSOperation*, NSError *))failure
+                                     canceled:(void (^)(NSOperation*))canceled {
     
     // this method must be overriden by the application
     @throw [NSException exceptionWithName:NSInvalidArgumentException

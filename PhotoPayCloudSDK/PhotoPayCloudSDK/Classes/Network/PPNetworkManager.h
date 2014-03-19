@@ -225,6 +225,11 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
 + (NSString*)apiPathRegisterUser:(PPUser*)user;
 
 /**
+ API path for verifying is user registered
+ */
++ (NSString*)apiPathIsUserRegistered:(PPUser*)user;
+
+/**
  API path for updating user
  */
 + (NSString*)apiPathUpdateUser:(PPUser*)user;
@@ -338,6 +343,16 @@ typedef NS_ENUM(NSUInteger, PPImageFormat) {
                                   success:(void (^)(NSOperation*, PPBaseResponse*))success
                                   failure:(void (^)(NSOperation*, PPBaseResponse*, NSError *))failure
                                  canceled:(void (^)(NSOperation*))canceled;
+
+/**
+ Abstract.
+ 
+ Factory method for creating requests for verifying is user registered
+ */
+- (NSOperation*)createIsUserRegisteredRequest:(PPUser *)user
+                                      success:(void (^)(NSOperation*, BOOL))success
+                                      failure:(void (^)(NSOperation*, NSError *))failure
+                                     canceled:(void (^)(NSOperation*))canceled;
 
 /**
  Abstract.
