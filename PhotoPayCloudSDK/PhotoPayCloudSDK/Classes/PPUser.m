@@ -32,6 +32,8 @@
         _userId = inUserId;
         _organizationId = inOrganizationId;
         _userType = inUserType;
+        _email = nil;
+        _allEmailAddresses = [[NSMutableSet alloc] init];
         _firstName = [NSString pp_UUID];
         _lastName = [NSString pp_UUID];
     }

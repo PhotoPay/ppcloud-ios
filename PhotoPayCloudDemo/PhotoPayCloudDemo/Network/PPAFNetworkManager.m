@@ -683,12 +683,12 @@
 }
 
 - (NSString*)allEmailsStringForSet:(NSSet*)allEmails {
-    NSString* allEmailsString = @"";
+    NSString* __block allEmailsString = @"";
     [allEmails enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         if ([allEmailsString length] > 0) {
-            [allEmailsString stringByAppendingFormat:@",%@", obj];
+            allEmailsString = [allEmailsString stringByAppendingFormat:@",%@", obj];
         } else {
-            [allEmailsString stringByAppendingString:obj];
+            allEmailsString = [allEmailsString stringByAppendingString:obj];
         }
     }];
     return allEmailsString;

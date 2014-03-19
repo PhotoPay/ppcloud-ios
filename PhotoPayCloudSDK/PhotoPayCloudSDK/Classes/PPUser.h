@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, PPUserType) {
 @property (nonatomic, strong) NSString* email;
 
 /** All email adresses used by the user */
-@property (nonatomic, strong) NSSet* allEmailAddresses;
+@property (nonatomic, strong) NSMutableSet* allEmailAddresses;
 
 /** First name of the user */
 @property (nonatomic, strong) NSString* firstName;
