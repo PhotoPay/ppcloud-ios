@@ -803,15 +803,13 @@
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        PPLogError(@"Is user registered failed with response %@", operation.responseString);
-        
         BOOL notRegistered = [operation.response statusCode] == 404;
         if (success && notRegistered) {
             success(operation, NO);
             return;
         }
         
-       
+        PPLogError(@"Is user registered failed with response %@", operation.responseString);
         
         if (error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled) {
             PPLogInfo(@"Register user request canceled");
