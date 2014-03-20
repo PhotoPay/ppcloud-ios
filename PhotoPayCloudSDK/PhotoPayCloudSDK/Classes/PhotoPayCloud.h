@@ -69,6 +69,7 @@
 
 /** Utils */
 #import "UIImage+Processing.h"
+#import "NSString+Factory.h"
 #import "UIApplication+Documents.h"
 #import "UIViewController+ContainerViewController.h"
 
