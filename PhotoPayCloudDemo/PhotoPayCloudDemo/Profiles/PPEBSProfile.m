@@ -27,7 +27,7 @@
 }
 
 - (NSString*)distributionUrl {
-    return @"http://demo.photopay.net/distribute/iphone/srb-erste-cloud/";
+    return @"https://demo.photopay.net/distribute/iphone/srb-erste-cloud/";
 }
 
 - (PPDocumentProcessingType)pdfProcessingType {

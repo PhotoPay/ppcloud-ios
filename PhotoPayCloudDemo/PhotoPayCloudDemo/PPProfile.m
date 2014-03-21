@@ -39,7 +39,7 @@
 }
 
 - (NSString*)distributionUrl {
-    return @"http://demo.photopay.net/distribute/iphone/cloud/";
+    return @"https://demo.photopay.net/distribute/iphone/cloud/";
 }
 
 - (PPDocumentProcessingType)pdfProcessingType {
