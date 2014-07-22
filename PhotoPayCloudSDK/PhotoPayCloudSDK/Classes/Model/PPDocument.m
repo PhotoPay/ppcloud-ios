@@ -292,7 +292,9 @@
     return @{@(PPDocumentProcessingTypeAustrianPDFInvoice)      : @"RequestType_Austria",
              @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria",
              @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"RequestType_Serbia",
-             @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"RequestType_Serbia"};
+             @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"RequestType_Serbia",
+             @(PPDocumentProcessingTypeBosnianPDFInvoice)       : @"RequestType_BiH",
+             @(PPDocumentProcessingTypeBosnianPhotoInvoice)     : @"RequestType_BiH",};
 }
 
 + (id)objectForDocumentProcessingType:(PPDocumentProcessingType)type {
