@@ -19,8 +19,12 @@
     if ([dictionary isEqual:[NSNull null]]) {
         return self;
     }
+
+    if ([dictionary[@"elements"] isEqual:[NSNull null]]) {
+        return self;
+    }
     
-    self.values = [dictionary mutableCopy];
+    self.values = [dictionary[@"elements"] mutableCopy];
     
     return self;
 }

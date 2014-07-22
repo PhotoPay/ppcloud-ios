@@ -13,6 +13,10 @@
 #import "PPScanResult.h"
 #import "PPScanResultAustria.h"
 #import "PPScanResultSerbia.h"
+#import "PPScanResultBosnia.h"
+#import "PPUserConfirmedValuesAustria.h"
+#import "PPUserConfirmedValuesSerbia.h"
+#import "PPUserConfirmedValuesBosnia.h"
 
 @interface PPRemoteDocument ()
 
@@ -61,18 +65,28 @@
     }
     
     Class scanResultClass;
+    Class confirmedValuesClass;
     switch (processingType_) {
         case PPDocumentProcessingTypeAustrianPDFInvoice:
         case PPDocumentProcessingTypeAustrianPhotoInvoice:
             scanResultClass = [PPScanResultAustria class];
+            confirmedValuesClass = [PPUserConfirmedValuesAustria class];
+            break;
+        case PPDocumentProcessingTypeBosnianPhotoInvoice:
+        case PPDocumentProcessingTypeBosnianPDFInvoice:
+            scanResultClass = [PPScanResultBosnia class];
+            confirmedValuesClass = [PPUserConfirmedValuesBosnia class];
             break;
         case PPDocumentProcessingTypeSerbianPhotoInvoice:
         case PPDocumentProcessingTypeSerbianPDFInvoice:
         default:
             scanResultClass = [PPScanResultSerbia class];
+            confirmedValuesClass = [PPUserConfirmedValuesSerbia class];
             break;
     }
     self.scanResult = [[scanResultClass alloc] initWithDictionary:dictionary[@"candidateList"]];
+
+    self.userConfirmedValues = [[confirmedValuesClass alloc] initWithDictionary:dictionary[@"confirmedData"]];
     
     thumbnailImage_ = nil;
     previewImage_ = nil;
