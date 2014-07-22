@@ -34,12 +34,14 @@
 /** Scan results */
 #import "PPScanResult.h"
 #import "PPScanResultSerbia.h"
+#import "PPScanResultBosnia.h"
 #import "PPScanResultAustria.h"
 #import "PPElementCandidateList.h"
 #import "PPElementCandidate.h"
 #import "PPElementPosition.h"
 #import "PPUserConfirmedValues.h"
 #import "PPUserConfirmedValuesSerbia.h"
+#import "PPUserConfirmedValuesBosnia.h"
 #import "PPUserConfirmedValuesAustria.h"
 
 /** Documents table headers */

@@ -51,6 +51,10 @@
 		1883249417DEFD8A00EDE12B /* NSString+Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249217DEFD8A00EDE12B /* NSString+Factory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1883249517DEFD8A00EDE12B /* NSString+Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1883249317DEFD8A00EDE12B /* NSString+Factory.m */; };
 		1883249C17DF165100EDE12B /* PhotoPayCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 1883249B17DF162200EDE12B /* PhotoPayCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		188AA4D4197D42C0008A7526 /* PPScanResultBosnia.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AA4D0197D42C0008A7526 /* PPScanResultBosnia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		188AA4D5197D42C0008A7526 /* PPScanResultBosnia.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AA4D1197D42C0008A7526 /* PPScanResultBosnia.m */; };
+		188AA4D6197D42C0008A7526 /* PPUserConfirmedValuesBosnia.h in Headers */ = {isa = PBXBuildFile; fileRef = 188AA4D2197D42C0008A7526 /* PPUserConfirmedValuesBosnia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		188AA4D7197D42C0008A7526 /* PPUserConfirmedValuesBosnia.m in Sources */ = {isa = PBXBuildFile; fileRef = 188AA4D3197D42C0008A7526 /* PPUserConfirmedValuesBosnia.m */; };
 		18999BA717DC762F009FA90A /* PPPhotoPayCloudService.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BA517DC762F009FA90A /* PPPhotoPayCloudService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18999BA817DC762F009FA90A /* PPPhotoPayCloudService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18999BA617DC762F009FA90A /* PPPhotoPayCloudService.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		18999BBE17DC7A40009FA90A /* PPDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 18999BBA17DC7A40009FA90A /* PPDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -165,6 +169,10 @@
 		1883249217DEFD8A00EDE12B /* NSString+Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Factory.h"; sourceTree = "<group>"; };
 		1883249317DEFD8A00EDE12B /* NSString+Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Factory.m"; sourceTree = "<group>"; };
 		1883249B17DF162200EDE12B /* PhotoPayCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPayCloud.h; sourceTree = "<group>"; };
+		188AA4D0197D42C0008A7526 /* PPScanResultBosnia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPScanResultBosnia.h; sourceTree = "<group>"; };
+		188AA4D1197D42C0008A7526 /* PPScanResultBosnia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPScanResultBosnia.m; sourceTree = "<group>"; };
+		188AA4D2197D42C0008A7526 /* PPUserConfirmedValuesBosnia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUserConfirmedValuesBosnia.h; sourceTree = "<group>"; };
+		188AA4D3197D42C0008A7526 /* PPUserConfirmedValuesBosnia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUserConfirmedValuesBosnia.m; sourceTree = "<group>"; };
 		188AAEA017D75A65009531FA /* libPhotoPayCloudSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPhotoPayCloudSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		188AAEA317D75A65009531FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		188AAEB917D75ADB009531FA /* PhotoPayCloudResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoPayCloudResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -298,6 +306,17 @@
 				18774F6718CDB8DC00D54D6C /* SrHelp3@2x.jpg */,
 			);
 			path = Help;
+			sourceTree = "<group>";
+		};
+		188AA4CF197D4293008A7526 /* Bosnia */ = {
+			isa = PBXGroup;
+			children = (
+				188AA4D0197D42C0008A7526 /* PPScanResultBosnia.h */,
+				188AA4D1197D42C0008A7526 /* PPScanResultBosnia.m */,
+				188AA4D2197D42C0008A7526 /* PPUserConfirmedValuesBosnia.h */,
+				188AA4D3197D42C0008A7526 /* PPUserConfirmedValuesBosnia.m */,
+			);
+			path = Bosnia;
 			sourceTree = "<group>";
 		};
 		188AAE9717D75A65009531FA = {
@@ -462,6 +481,7 @@
 				18AB527F17F51B3D0046AB13 /* PPUserConfirmedValues.h */,
 				18AB528017F51B3E0046AB13 /* PPUserConfirmedValues.m */,
 				1832B61B18AE50D600BF0777 /* Austria */,
+				188AA4CF197D4293008A7526 /* Bosnia */,
 				18AB528717F51D1D0046AB13 /* Serbia */,
 			);
 			path = ScanResult;
@@ -590,6 +610,7 @@
 				18999BC017DC7A40009FA90A /* PPLocalDocument.h in Headers */,
 				18D935A2185A3D6000B82079 /* PPDocumentsFetchDelegate.h in Headers */,
 				18BA04F817E1D4A200FF3CD3 /* PPUser.h in Headers */,
+				188AA4D4197D42C0008A7526 /* PPScanResultBosnia.h in Headers */,
 				18BA04F417E1B36300FF3CD3 /* PPModelObject.h in Headers */,
 				18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */,
 				18DA715418C254D2000A3A5C /* PPLogger.h in Headers */,
@@ -597,6 +618,7 @@
 				18999BC417DC7B95009FA90A /* PPLocalImageDocument.h in Headers */,
 				18181A29181DC9B80062565F /* PPLocalPdfDocument.h in Headers */,
 				18AAF6E517E4682600204B06 /* PPLocalDocumentUploadQueue.h in Headers */,
+				188AA4D6197D42C0008A7526 /* PPUserConfirmedValuesBosnia.h in Headers */,
 				18DA711318C21378000A3A5C /* PPLinearTableSectionCreator.h in Headers */,
 				18EDB31418C6329400998912 /* PPBaseDocumentsTableViewController.h in Headers */,
 				18EDB31818C6329400998912 /* PPDocumentsTableDataSource.h in Headers */,
@@ -746,6 +768,7 @@
 				18999BC117DC7A40009FA90A /* PPLocalDocument.m in Sources */,
 				18DA710C18C21378000A3A5C /* PPTableSectionCreator.m in Sources */,
 				1832B62718AE50F600BF0777 /* PPScanResultSerbia.m in Sources */,
+				188AA4D7197D42C0008A7526 /* PPUserConfirmedValuesBosnia.m in Sources */,
 				18BA04F917E1D4A200FF3CD3 /* PPUser.m in Sources */,
 				18DA712F18C23E80000A3A5C /* PPHelpViewController.m in Sources */,
 				1832B62118AE50D600BF0777 /* PPScanResultAustria.m in Sources */,
@@ -775,6 +798,7 @@
 				18AB526217F48C990046AB13 /* PPScanResult.m in Sources */,
 				18DA715318C254D2000A3A5C /* PPLocalizer.m in Sources */,
 				18AB526617F48CC60046AB13 /* PPElementCandidate.m in Sources */,
+				188AA4D5197D42C0008A7526 /* PPScanResultBosnia.m in Sources */,
 				18DA711218C21378000A3A5C /* PPRandomTableSectionCreator.m in Sources */,
 				18EDB31B18C6329400998912 /* PPSplitTypeDocumentsSectionCreator.m in Sources */,
 				18AB526A17F48D0D0046AB13 /* PPElementPosition.m in Sources */,
