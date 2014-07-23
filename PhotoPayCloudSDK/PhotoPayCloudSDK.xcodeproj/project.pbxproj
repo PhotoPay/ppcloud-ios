@@ -79,10 +79,6 @@
 		18AB526E17F497420046AB13 /* PPElementCandidateList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB526C17F497420046AB13 /* PPElementCandidateList.m */; };
 		18AB528117F51B3F0046AB13 /* PPUserConfirmedValues.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AB527F17F51B3D0046AB13 /* PPUserConfirmedValues.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18AB528217F51B3F0046AB13 /* PPUserConfirmedValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB528017F51B3E0046AB13 /* PPUserConfirmedValues.m */; };
-		18AB528A17F51D380046AB13 /* PPScanResult+Serbia.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AB528817F51D380046AB13 /* PPScanResult+Serbia.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		18AB528B17F51D380046AB13 /* PPScanResult+Serbia.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB528917F51D380046AB13 /* PPScanResult+Serbia.m */; };
-		18AB528E17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.h in Headers */ = {isa = PBXBuildFile; fileRef = 18AB528C17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		18AB528F17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB528D17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m */; };
 		18BA04E617E081EE00FF3CD3 /* PPNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18BA04E717E081EE00FF3CD3 /* PPNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		18BA04E917E09A0300FF3CD3 /* PPUploadRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -202,10 +198,6 @@
 		18AB526C17F497420046AB13 /* PPElementCandidateList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPElementCandidateList.m; sourceTree = "<group>"; };
 		18AB527F17F51B3D0046AB13 /* PPUserConfirmedValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUserConfirmedValues.h; sourceTree = "<group>"; };
 		18AB528017F51B3E0046AB13 /* PPUserConfirmedValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUserConfirmedValues.m; sourceTree = "<group>"; };
-		18AB528817F51D380046AB13 /* PPScanResult+Serbia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPScanResult+Serbia.h"; sourceTree = "<group>"; };
-		18AB528917F51D380046AB13 /* PPScanResult+Serbia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPScanResult+Serbia.m"; sourceTree = "<group>"; };
-		18AB528C17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PPUserConfirmedValues+Serbia.h"; sourceTree = "<group>"; };
-		18AB528D17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PPUserConfirmedValues+Serbia.m"; sourceTree = "<group>"; };
 		18BA04E417E081EE00FF3CD3 /* PPNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPNetworkManager.h; sourceTree = "<group>"; };
 		18BA04E517E081EE00FF3CD3 /* PPNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPNetworkManager.m; sourceTree = "<group>"; };
 		18BA04E817E09A0300FF3CD3 /* PPUploadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUploadRequestOperation.h; sourceTree = "<group>"; };
@@ -492,12 +484,8 @@
 			children = (
 				1832B62418AE50F600BF0777 /* PPScanResultSerbia.h */,
 				1832B62518AE50F600BF0777 /* PPScanResultSerbia.m */,
-				18AB528817F51D380046AB13 /* PPScanResult+Serbia.h */,
-				18AB528917F51D380046AB13 /* PPScanResult+Serbia.m */,
 				1832B62818AE50FE00BF0777 /* PPUserConfirmedValuesSerbia.h */,
 				1832B62918AE50FE00BF0777 /* PPUserConfirmedValuesSerbia.m */,
-				18AB528C17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.h */,
-				18AB528D17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m */,
 			);
 			path = Serbia;
 			sourceTree = "<group>";
@@ -647,8 +635,6 @@
 				18AB526D17F497420046AB13 /* PPElementCandidateList.h in Headers */,
 				18AB528117F51B3F0046AB13 /* PPUserConfirmedValues.h in Headers */,
 				18EDB31E18C632AD00998912 /* PPBaseHomeViewController.h in Headers */,
-				18AB528A17F51D380046AB13 /* PPScanResult+Serbia.h in Headers */,
-				18AB528E17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,10 +791,8 @@
 				18AB526E17F497420046AB13 /* PPElementCandidateList.m in Sources */,
 				18AB528217F51B3F0046AB13 /* PPUserConfirmedValues.m in Sources */,
 				C95612FD183CFA8400BA6969 /* NSData+DeviceToken.m in Sources */,
-				18AB528B17F51D380046AB13 /* PPScanResult+Serbia.m in Sources */,
 				18DA711418C21378000A3A5C /* PPLinearTableSectionCreator.m in Sources */,
 				18DA713118C23E80000A3A5C /* PPPagedContentViewController.m in Sources */,
-				18AB528F17F51D4C0046AB13 /* PPUserConfirmedValues+Serbia.m in Sources */,
 				18DA715518C254D2000A3A5C /* PPLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
