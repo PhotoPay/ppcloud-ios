@@ -17,6 +17,7 @@
     // processing type must correspond with JPG image format of this document
     switch (inProcessingType) {
         case PPDocumentProcessingTypeAustrianPhotoInvoice:
+        case PPDocumentProcessingTypeBosnianPhotoInvoice:
         case PPDocumentProcessingTypeSerbianPhotoInvoice:
             [NSException raise:@"Invalid processing type"
                         format:@"Invalid processing type %@ for document type PDF", [PPDocument objectForDocumentProcessingType:inProcessingType]];
