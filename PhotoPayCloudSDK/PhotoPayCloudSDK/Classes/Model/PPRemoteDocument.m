@@ -14,9 +14,11 @@
 #import "PPScanResultAustria.h"
 #import "PPScanResultSerbia.h"
 #import "PPScanResultBosnia.h"
+#import "PPScanResultCroatia.h"
 #import "PPUserConfirmedValuesAustria.h"
 #import "PPUserConfirmedValuesSerbia.h"
 #import "PPUserConfirmedValuesBosnia.h"
+#import "PPUserConfirmedValuesCroatia.h"
 
 @interface PPRemoteDocument ()
 
@@ -45,10 +47,9 @@
                                       defaultEnum:PPDocumentTypeUnknown];
     
     self->cachedDocumentUrl_ = nil;
-
     
     self->processingType_ = [PPModelObject initEnum:dictionary[@"requestType"]
-                                        enumTable:[PPDocument documentProcessingTypeObjectTable]
+                                          enumTable:[PPDocument documentProcessingTypeObjectTable]
                                         defaultEnum:PPDocumentProcessingTypeSerbianPhotoInvoice];
     
     self.state = [PPModelObject initEnum:dictionary[@"status"]
@@ -76,6 +77,11 @@
         case PPDocumentProcessingTypeBosnianPDFInvoice:
             scanResultClass = [PPScanResultBosnia class];
             confirmedValuesClass = [PPUserConfirmedValuesBosnia class];
+            break;
+        case PPDocumentProcessingTypeCroatianPDFInvoice:
+        case PPDocumentProcessingTypeCroatianPhotoInvoice:
+            scanResultClass = [PPScanResultCroatia class];
+            confirmedValuesClass = [PPUserConfirmedValuesCroatia class];
             break;
         case PPDocumentProcessingTypeSerbianPhotoInvoice:
         case PPDocumentProcessingTypeSerbianPDFInvoice:

@@ -128,6 +128,10 @@
 		18EDB32318C633A600998912 /* UIViewController+ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EDB32118C633A600998912 /* UIViewController+ContainerViewController.m */; };
 		18FC662818C2A5CB00162198 /* PPStyledPageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FC662618C2A5CB00162198 /* PPStyledPageControl.h */; };
 		18FC662918C2A5CB00162198 /* PPStyledPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FC662718C2A5CB00162198 /* PPStyledPageControl.m */; };
+		18FE56891A25EDF200D54A32 /* PPScanResultCroatia.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE56871A25EDF200D54A32 /* PPScanResultCroatia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18FE568A1A25EDF200D54A32 /* PPScanResultCroatia.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE56881A25EDF200D54A32 /* PPScanResultCroatia.m */; };
+		18FE568D1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE568B1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18FE568E1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE568C1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.m */; };
 		18FE945017DE545E0083F148 /* UIApplication+Documents.h in Headers */ = {isa = PBXBuildFile; fileRef = 18FE944E17DE545E0083F148 /* UIApplication+Documents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18FE945117DE545E0083F148 /* UIApplication+Documents.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE944F17DE545E0083F148 /* UIApplication+Documents.m */; };
 		C95612FC183CFA8400BA6969 /* NSData+DeviceToken.h in Headers */ = {isa = PBXBuildFile; fileRef = C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */; };
@@ -247,6 +251,10 @@
 		18EDB32118C633A600998912 /* UIViewController+ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ContainerViewController.m"; sourceTree = "<group>"; };
 		18FC662618C2A5CB00162198 /* PPStyledPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStyledPageControl.h; sourceTree = "<group>"; };
 		18FC662718C2A5CB00162198 /* PPStyledPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStyledPageControl.m; sourceTree = "<group>"; };
+		18FE56871A25EDF200D54A32 /* PPScanResultCroatia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPScanResultCroatia.h; sourceTree = "<group>"; };
+		18FE56881A25EDF200D54A32 /* PPScanResultCroatia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPScanResultCroatia.m; sourceTree = "<group>"; };
+		18FE568B1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPUserConfirmedValuesCroatia.h; sourceTree = "<group>"; };
+		18FE568C1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPUserConfirmedValuesCroatia.m; sourceTree = "<group>"; };
 		18FE944E17DE545E0083F148 /* UIApplication+Documents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Documents.h"; sourceTree = "<group>"; };
 		18FE944F17DE545E0083F148 /* UIApplication+Documents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Documents.m"; sourceTree = "<group>"; };
 		C95612FA183CFA8400BA6969 /* NSData+DeviceToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DeviceToken.h"; sourceTree = "<group>"; };
@@ -475,6 +483,7 @@
 				1832B61B18AE50D600BF0777 /* Austria */,
 				188AA4CF197D4293008A7526 /* Bosnia */,
 				18AB528717F51D1D0046AB13 /* Serbia */,
+				18FE56861A25EDBA00D54A32 /* Croatia */,
 			);
 			path = ScanResult;
 			sourceTree = "<group>";
@@ -577,6 +586,17 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		18FE56861A25EDBA00D54A32 /* Croatia */ = {
+			isa = PBXGroup;
+			children = (
+				18FE56871A25EDF200D54A32 /* PPScanResultCroatia.h */,
+				18FE56881A25EDF200D54A32 /* PPScanResultCroatia.m */,
+				18FE568B1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.h */,
+				18FE568C1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.m */,
+			);
+			path = Croatia;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -609,7 +629,9 @@
 				188AA4D6197D42C0008A7526 /* PPUserConfirmedValuesBosnia.h in Headers */,
 				18DA711318C21378000A3A5C /* PPLinearTableSectionCreator.h in Headers */,
 				18EDB31418C6329400998912 /* PPBaseDocumentsTableViewController.h in Headers */,
+				18FE568D1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.h in Headers */,
 				18EDB31818C6329400998912 /* PPDocumentsTableDataSource.h in Headers */,
+				18FE56891A25EDF200D54A32 /* PPScanResultCroatia.h in Headers */,
 				18722A1317F082260070DE00 /* PPBaseResponse.h in Headers */,
 				18EDB31618C6329400998912 /* PPDateSortedDocumentsSectionCreator.h in Headers */,
 				18DA710918C21378000A3A5C /* PPTableSection.h in Headers */,
@@ -782,10 +804,12 @@
 				18FC662918C2A5CB00162198 /* PPStyledPageControl.m in Sources */,
 				1832B62B18AE50FE00BF0777 /* PPUserConfirmedValuesSerbia.m in Sources */,
 				18AB526217F48C990046AB13 /* PPScanResult.m in Sources */,
+				18FE568E1A25EE0200D54A32 /* PPUserConfirmedValuesCroatia.m in Sources */,
 				18DA715318C254D2000A3A5C /* PPLocalizer.m in Sources */,
 				18AB526617F48CC60046AB13 /* PPElementCandidate.m in Sources */,
 				188AA4D5197D42C0008A7526 /* PPScanResultBosnia.m in Sources */,
 				18DA711218C21378000A3A5C /* PPRandomTableSectionCreator.m in Sources */,
+				18FE568A1A25EDF200D54A32 /* PPScanResultCroatia.m in Sources */,
 				18EDB31B18C6329400998912 /* PPSplitTypeDocumentsSectionCreator.m in Sources */,
 				18AB526A17F48D0D0046AB13 /* PPElementPosition.m in Sources */,
 				18AB526E17F497420046AB13 /* PPElementCandidateList.m in Sources */,
