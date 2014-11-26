@@ -28,6 +28,7 @@ static NSUInteger finalResolution = 2000000U; // 2 Mpix
     switch (inProcessingType) {
         case PPDocumentProcessingTypeAustrianPDFInvoice:
         case PPDocumentProcessingTypeBosnianPDFInvoice:
+        case PPDocumentProcessingTypeCroatianPDFInvoice:
         case PPDocumentProcessingTypeSerbianPDFInvoice:
             [NSException raise:@"Invalid processing type"
                         format:@"Invalid processing type %@ for document type JPG", [PPDocument objectForDocumentProcessingType:inProcessingType]];

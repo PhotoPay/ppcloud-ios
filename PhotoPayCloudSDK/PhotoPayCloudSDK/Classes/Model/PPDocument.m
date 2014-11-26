@@ -293,6 +293,8 @@
              @(PPDocumentProcessingTypeAustrianPhotoInvoice)    : @"RequestType_Austria",
              @(PPDocumentProcessingTypeSerbianPDFInvoice)       : @"RequestType_Serbia",
              @(PPDocumentProcessingTypeSerbianPhotoInvoice)     : @"RequestType_Serbia",
+             @(PPDocumentProcessingTypeCroatianPDFInvoice)      : @"RequestType_HR",
+             @(PPDocumentProcessingTypeCroatianPhotoInvoice)    : @"RequestType_HR",
              @(PPDocumentProcessingTypeBosnianPDFInvoice)       : @"RequestType_BiH",
              @(PPDocumentProcessingTypeBosnianPhotoInvoice)     : @"RequestType_BiH",};
 }

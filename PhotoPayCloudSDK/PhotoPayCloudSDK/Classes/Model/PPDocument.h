@@ -111,7 +111,11 @@ typedef NS_ENUM(NSUInteger, PPDocumentProcessingType) {
     // requires processing for photos of Bosnian invoices
     PPDocumentProcessingTypeBosnianPhotoInvoice,
     // requires processing for Bosnian PDF invoices
-    PPDocumentProcessingTypeBosnianPDFInvoice
+    PPDocumentProcessingTypeBosnianPDFInvoice,
+    // requires processing for photos of Croatian invoices
+    PPDocumentProcessingTypeCroatianPhotoInvoice,
+    // requires processing for Croatian PDF invoices
+    PPDocumentProcessingTypeCroatianPDFInvoice
 };
 
 /**
