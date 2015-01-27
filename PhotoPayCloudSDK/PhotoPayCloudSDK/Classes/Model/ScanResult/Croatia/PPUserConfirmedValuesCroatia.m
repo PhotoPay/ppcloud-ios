@@ -14,9 +14,10 @@
 - (id)initWithAmount:(NSString*)amount
        accountNumber:(NSString*)accountNumber
      referenceNumber:(NSString*)referenceNumber
-      referenceModel:(NSString*)referenceModel
        recipientName:(NSString*)recipientName
-  paymentDescription:(NSString*)paymentDescription {
+  paymentDescription:(NSString*)paymentDescription
+         paymentDate:(NSString*)paymentDate
+          billNumber:(NSString*)billNumber {
 
     self = [super init];
     if (!self) {
@@ -27,9 +28,10 @@
     [self.values setValue:amount forKey:kPPCroatianAmountKey];
     [self.values setValue:accountNumber forKey:kPPCroatianAccountNumberKey];
     [self.values setValue:referenceNumber forKey:kPPCroatianReferenceNumberKey];
-    [self.values setValue:referenceModel forKey:kPPCroatianReferenceModelKey];
     [self.values setValue:recipientName forKey:kPPCroatianRecipientNameKey];
     [self.values setValue:paymentDescription forKey:kPPCroatianPaymentDescriptionKey];
+    [self.values setValue:paymentDate forKey:kPPCroatianPaymentDateKey];
+    [self.values setValue:billNumber forKey:kPPCroatianBillNumberKey];
 
     return self;
 }
