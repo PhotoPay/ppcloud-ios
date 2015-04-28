@@ -83,13 +83,7 @@
     
     CGSize constrainedSize = [text sizeWithFont:font constrainedToSize:CGSizeMake(imageSize.width * scale, imageSize.height * scale)];
     
-    // check if UIGraphicsBeginImageContextWithOptions is available (iOS is 4.0+)
-    if (UIGraphicsBeginImageContextWithOptions != NULL) {
-        UIGraphicsBeginImageContextWithOptions(constrainedSize, NO, 0.0);
-    } else {
-        // iOS is < 4.0
-        UIGraphicsBeginImageContext(constrainedSize);
-    }
+    UIGraphicsBeginImageContextWithOptions(constrainedSize, NO, 0.0);
     
     // optional: add a shadow, to avoid clipping the shadow you should make the context size bigger
     //
