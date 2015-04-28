@@ -11,10 +11,9 @@
 extern NSString* const kPPCroatianAmountKey;
 extern NSString* const kPPCroatianAccountNumberKey;
 extern NSString* const kPPCroatianReferenceNumberKey;
+extern NSString* const kPPCroatianReferenceModelKey;
 extern NSString* const kPPCroatianRecipientNameKey;
 extern NSString* const kPPCroatianPaymentDescriptionKey;
-extern NSString* const kPPCroatianPaymentDateKey;
-extern NSString* const kPPCroatianBillNumberKey;
 
 @interface PPScanResultCroatia : PPScanResult
 
@@ -33,6 +32,11 @@ extern NSString* const kPPCroatianBillNumberKey;
 
 - (PPElementCandidate*)mostProbableReferenceNumberCandidate;
 
+/** ReferenceModel */
+- (PPElementCandidateList*)referenceModelCandidateList;
+
+- (PPElementCandidate*)mostProbableReferenceModelCandidate;
+
 /** Recipient name */
 - (PPElementCandidateList*)recipientNameCandidateList;
 
@@ -42,15 +46,5 @@ extern NSString* const kPPCroatianBillNumberKey;
 - (PPElementCandidateList*)paymentDescriptionCandidateList;
 
 - (PPElementCandidate*)mostProbablePaymentDescriptionCandidate;
-
-/** PaymentDate */
-- (PPElementCandidateList*)paymentDateCandidateList;
-
-- (PPElementCandidate*)mostProbablePaymentDateCandidate;
-
-/** BillNumner */
-- (PPElementCandidateList*)billNumberCandidateList;
-
-- (PPElementCandidate*)mostProbableBillNumberCandidate;
 
 @end

@@ -13,9 +13,8 @@
 - (id)initWithAmount:(NSString*)amount
        accountNumber:(NSString*)accountNumber
      referenceNumber:(NSString*)referenceNumber
+      referenceModel:(NSString*)referenceModel
        recipientName:(NSString*)recipientName
-  paymentDescription:(NSString*)paymentDescription
-         paymentDate:(NSString*)paymentDate
-          billNumber:(NSString*)billNumber;
+  paymentDescription:(NSString*)paymentDescription;
 
 @end

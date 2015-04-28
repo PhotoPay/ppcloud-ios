@@ -9,12 +9,11 @@
 #import "PPScanResultCroatia.h"
 
 NSString* const kPPCroatianAmountKey = @"Amount";
-NSString* const kPPCroatianAccountNumberKey = @"IBAN";
+NSString* const kPPCroatianAccountNumberKey = @"Account";
 NSString* const kPPCroatianReferenceNumberKey = @"Reference";
+NSString* const kPPCroatianReferenceModelKey = @"ReferenceModel";
 NSString* const kPPCroatianRecipientNameKey = @"RecipientName";
 NSString* const kPPCroatianPaymentDescriptionKey = @"PaymentDescription";
-NSString* const kPPCroatianPaymentDateKey = @"PaymentDate";
-NSString* const kPPCroatianBillNumberKey = @"BillNumber";
 
 @implementation PPScanResultCroatia
 
@@ -58,20 +57,12 @@ NSString* const kPPCroatianBillNumberKey = @"BillNumber";
     return [self mostProbableCandidateForKey:kPPCroatianPaymentDescriptionKey];
 }
 
-- (PPElementCandidateList*)paymentDateCandidateList {
-    return [self candidateListForKey:kPPCroatianPaymentDateKey];
+- (PPElementCandidateList*)referenceModelCandidateList {
+    return [self candidateListForKey:kPPCroatianReferenceModelKey];
 }
 
-- (PPElementCandidate*)mostProbablePaymentDateCandidate {
-    return [self mostProbableCandidateForKey:kPPCroatianPaymentDateKey];
-}
-
-- (PPElementCandidateList*)billNumberCandidateList {
-    return [self candidateListForKey:kPPCroatianBillNumberKey];
-}
-
-- (PPElementCandidate*)mostProbableBillNumberCandidate {
-    return [self mostProbableCandidateForKey:kPPCroatianBillNumberKey];
+- (PPElementCandidate*)mostProbableReferenceModelCandidate {
+    return [self mostProbableCandidateForKey:kPPCroatianReferenceModelKey];
 }
 
 @end
